@@ -14,5 +14,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+// Second Method
+
+// Route::view('welcome','/welcome');
+
+// Third Method
+
+// Route::get('/post/{id?}', function(string $id = null){
+
+//     if($id){
+//         return "<h1>Post ID : ".$id."</h1>";
+//     }else{
+//         return "<h1>No ID Found</h1>";
+//     }
+// });
