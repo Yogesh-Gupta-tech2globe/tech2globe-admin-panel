@@ -1,858 +1,1053 @@
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard v2</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v2</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Info boxes -->
-        <div class="row">
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">CPU Traffic</span>
-                <span class="info-box-number">
-                  10
-                  <small>%</small>
-                </span>
+@extends('layout.layout')
+@section('content')
+<?php $base_url = 'http://localhost:8000'; ?>
+<!--  Main section start here -->
+<main>
+  <!-- Banner section start here -->
+  <!-- Slider main container start -->
+  <!-- <div class="swiper">
+              <div class="owl-carousel owl-theme">
+                  <div class="swiper-slide">Slide 1</div>
+                  <div class="swiper-slide">Slide 2</div>
+                  <div class="swiper-slide">Slide 3</div>
               </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-scrollbar"></div>
+          </div> -->
+  <!-- Slider main container end -->
+  <!-- Banner section end here -->
+
+  <!-- Banner section start here -->
+  <section class="home-banner">
+      <div class="container">
+          <div class="row">
+              <div class="bannerSlider">
+                  <div class="owl-carousel owl-theme" id="bannerContent">
+                      <div class="item">
+                          <div class="col-md-8">
+                              <div class="banner-content">
+                                  <h1>Tech2globe Your Strategic Consulting Ally In Achieving The Results That Matter Most To Your Business.</h1>
+                                  <!-- <a href="<?php echo $base_url . "/contact-us";  ?>" class="banner-btn mt-5">Contact Us</a> -->
+                              </div>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="col-md-8">
+                              <div class="banner-content">
+                                  <h1>Establish Your Business With IT Support, Expertise, And Innovation. Connect With Tech2globe, The Absolute Consulting Partner For Growth.</h1>
+                                  <!-- <a href="<?php echo $base_url . "/contact-us";  ?>" class="banner-btn mt-5">Contact Us</a> -->
+                              </div>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="col-md-8">
+                              <div class="banner-content">
+                                  <h1>Tech2globe Delivering 360 Degree Services And Solutions To Upscale The Modern Business Landscape.</h1>
+                                  <!-- <a href="<?php echo $base_url . "/contact-us";  ?>" class="banner-btn mt-5">Contact Us</a> -->
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <a href="<?php echo $base_url . "/contact-us";  ?>" class="banner-btn">Contact Us</a>
+              </div>
           </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+      </div>
+  </section>
+  <!-- Banner section end here -->
 
-              <div class="info-box-content">
-                <span class="info-box-text">Likes</span>
-                <span class="info-box-number">41,410</span>
+  <!-- Info section start here -->
+  <section class="beneath-banner">
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-lg-4 col-md-6">
+                  <div class="info-box" data-aos="fade-down">
+                      <img src="images/icons/growth.png" alt="">
+                      <div class="info-content ms-3">
+                          <h6>Digital Transformation</h6>
+                          <p>From planning online setup to reaching your target market.</p>
+                      </div>
+                  </div>
               </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
+              <div class="col-lg-4 col-md-6">
+                  <div class="info-box" data-aos="fade-down">
+                      <img src="images/icons/planning.png" alt="">
+                      <div class="info-content ms-3">
+                          <h6>Consulting Prowess </h6>
+                          <p>Aligning your costs with goals to target growth.</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                  <div class="info-box" data-aos="fade-down">
+                      <img src="images/icons/international.png" alt="">
+                      <div class="info-content ms-3">
+                          <h6>Global Data Support</h6>
+                          <p>Leveraging data capabilities for effective business operations.</p>
+                      </div>
+                  </div>
+              </div>
           </div>
-          <!-- /.col -->
+      </div>
+  </section>
+  <!-- Info section end here -->
 
-          <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Sales</span>
-                <span class="info-box-number">760</span>
+  <!-- About us section start here -->
+  <section class="home-about-section">
+      <div class="container">
+          <div class="row m-20">
+              <div class="col-md-12">
+                  <div class="center-heading d-block d-sm-none about-heading">
+                      <div class="sub-heading pb-3">About Us</div>
+                      <h2>About TECH2GLOBE Your IT Consulting Partner</h2>
+                  </div>
               </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
           </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">New Members</span>
-                <span class="info-box-number">2,000</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="card-title">Monthly Recap Report</h5>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                      <i class="fas fa-wrench"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu">
-                      <a href="#" class="dropdown-item">Action</a>
-                      <a href="#" class="dropdown-item">Another action</a>
-                      <a href="#" class="dropdown-item">Something else here</a>
-                      <a class="dropdown-divider"></a>
-                      <a href="#" class="dropdown-item">Separated link</a>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-8">
-                    <p class="text-center">
-                      <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
-                    </p>
-
-                    <div class="chart">
-                      <!-- Sales Chart Canvas -->
-                      <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
-                    </div>
-                    <!-- /.chart-responsive -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-md-4">
-                    <p class="text-center">
-                      <strong>Goal Completion</strong>
-                    </p>
-
-                    <div class="progress-group">
-                      Add Products to Cart
-                      <span class="float-right"><b>160</b>/200</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary" style="width: 80%"></div>
+          <div class="row">
+              <div class="col-lg-6">
+                  <div class="left-side" data-aos="fade-up">
+                      <div class="d-none d-sm-block">
+                          <div class="sub-heading">About Us</div>
+                          <h2>About TECH2GLOBE Your IT Consulting Partner</h2>
                       </div>
-                    </div>
-                    <!-- /.progress-group -->
-
-                    <div class="progress-group">
-                      Complete Purchase
-                      <span class="float-right"><b>310</b>/400</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger" style="width: 75%"></div>
+                      <p>Tech2Globe is an IT solutions and consultancy firm that assists visionaries in being industry changemakers and defining business future. We collaborate as one team with our clients with the common goal of achieving amazing achievements, outperforming the competition, and redefining industries. To offer better, faster, and more enduring results, we combine our specialized, integrated knowledge with our services. With over 14 years of experience in various industry verticals, we uncover new sources to add value to your business.</p>
+                      <div>
+                          <div class="progress-bar-section">
+                              <h6>Successful Projects</h6>
+                              <div class="d-flex align-items-center justify-content-between">
+                                  <div class="progress">
+                                      <div class="progress-bar" role="progressbar" aria-label="Basic example" style="width: 75%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                                  <h4 class="float-end">7K</h4>
+                              </div>
+                          </div>
+                          <div class="progress-bar-section">
+                              <h6>Our Strength</h6>
+                              <div class="d-flex align-items-center justify-content-between">
+                                  <div class="progress">
+                                      <div class="progress-bar" role="progressbar" aria-label="Basic example" style="width: 75%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                                  <h4 class="float-end">300+</h4>
+                              </div>
+                          </div>
+                          <div class="progress-bar-section">
+                              <h6>Customer Satisfaction Score</h6>
+                              <div class="d-flex align-items-center justify-content-between">
+                                  <div class="progress">
+                                      <div class="progress-bar" role="progressbar" aria-label="Basic example" style="width: 75%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                                  <h4 class="float-end">90%</h4>
+                              </div>
+                          </div>
+                          <div class="progress-bar-section">
+                              <h6>Customer Based Countries</h6>
+                              <div class="d-flex align-items-center justify-content-between">
+                                  <div class="progress">
+                                      <div class="progress-bar" role="progressbar" aria-label="Basic example" style="width: 75%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                                  <h4 class="float-end">25+</h4>
+                              </div>
+                          </div>
                       </div>
-                    </div>
-
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                      <span class="progress-text">Visit Premium Page</span>
-                      <span class="float-right"><b>480</b>/800</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width: 60%"></div>
-                      </div>
-                    </div>
-
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                      Send Inquiries
-                      <span class="float-right"><b>250</b>/500</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-warning" style="width: 50%"></div>
-                      </div>
-                    </div>
-                    <!-- /.progress-group -->
-                  </div>
-                  <!-- /.col -->
-                </div>
-                <!-- /.row -->
-              </div>
-              <!-- ./card-body -->
-              <div class="card-footer">
-                <div class="row">
-                  <div class="col-sm-3 col-6">
-                    <div class="description-block border-right">
-                      <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                      <h5 class="description-header">$35,210.43</h5>
-                      <span class="description-text">TOTAL REVENUE</span>
-                    </div>
-                    <!-- /.description-block -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-sm-3 col-6">
-                    <div class="description-block border-right">
-                      <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                      <h5 class="description-header">$10,390.90</h5>
-                      <span class="description-text">TOTAL COST</span>
-                    </div>
-                    <!-- /.description-block -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-sm-3 col-6">
-                    <div class="description-block border-right">
-                      <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                      <h5 class="description-header">$24,813.53</h5>
-                      <span class="description-text">TOTAL PROFIT</span>
-                    </div>
-                    <!-- /.description-block -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-sm-3 col-6">
-                    <div class="description-block">
-                      <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                      <h5 class="description-header">1200</h5>
-                      <span class="description-text">GOAL COMPLETIONS</span>
-                    </div>
-                    <!-- /.description-block -->
-                  </div>
-                </div>
-                <!-- /.row -->
-              </div>
-              <!-- /.card-footer -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-
-        <!-- Main row -->
-        <div class="row">
-          <!-- Left col -->
-          <div class="col-md-8">
-            <!-- MAP & BOX PANE -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">US-Visitors Report</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body p-0">
-                <div class="d-md-flex">
-                  <div class="p-1 flex-fill" style="overflow: hidden">
-                    <!-- Map will be created here -->
-                    <div id="world-map-markers" style="height: 325px; overflow: hidden">
-                      <div class="map"></div>
-                    </div>
-                  </div>
-                  <div class="card-pane-right bg-success pt-2 pb-2 pl-4 pr-4">
-                    <div class="description-block mb-4">
-                      <div class="sparkbar pad" data-color="#fff">90,70,90,70,75,80,70</div>
-                      <h5 class="description-header">8390</h5>
-                      <span class="description-text">Visits</span>
-                    </div>
-                    <!-- /.description-block -->
-                    <div class="description-block mb-4">
-                      <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
-                      <h5 class="description-header">30%</h5>
-                      <span class="description-text">Referrals</span>
-                    </div>
-                    <!-- /.description-block -->
-                    <div class="description-block">
-                      <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
-                      <h5 class="description-header">70%</h5>
-                      <span class="description-text">Organic</span>
-                    </div>
-                    <!-- /.description-block -->
-                  </div><!-- /.card-pane-right -->
-                </div><!-- /.d-md-flex -->
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-            <div class="row">
-              <div class="col-md-6">
-                <!-- DIRECT CHAT -->
-                <div class="card direct-chat direct-chat-warning">
-                  <div class="card-header">
-                    <h3 class="card-title">Direct Chat</h3>
-
-                    <div class="card-tools">
-                      <span title="3 New Messages" class="badge badge-warning">3</span>
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                        <i class="fas fa-comments"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages">
-                      <!-- Message. Default to the left -->
-                      <div class="direct-chat-msg">
-                        <div class="direct-chat-infos clearfix">
-                          <span class="direct-chat-name float-left">Alexander Pierce</span>
-                          <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                        </div>
-                        <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-                        <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                          Is this template really for free? That's unbelievable!
-                        </div>
-                        <!-- /.direct-chat-text -->
-                      </div>
-                      <!-- /.direct-chat-msg -->
-
-                      <!-- Message to the right -->
-                      <div class="direct-chat-msg right">
-                        <div class="direct-chat-infos clearfix">
-                          <span class="direct-chat-name float-right">Sarah Bullock</span>
-                          <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                        </div>
-                        <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                        <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                          You better believe it!
-                        </div>
-                        <!-- /.direct-chat-text -->
-                      </div>
-                      <!-- /.direct-chat-msg -->
-
-                      <!-- Message. Default to the left -->
-                      <div class="direct-chat-msg">
-                        <div class="direct-chat-infos clearfix">
-                          <span class="direct-chat-name float-left">Alexander Pierce</span>
-                          <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                        </div>
-                        <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-                        <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                          Working with AdminLTE on a great new app! Wanna join?
-                        </div>
-                        <!-- /.direct-chat-text -->
-                      </div>
-                      <!-- /.direct-chat-msg -->
-
-                      <!-- Message to the right -->
-                      <div class="direct-chat-msg right">
-                        <div class="direct-chat-infos clearfix">
-                          <span class="direct-chat-name float-right">Sarah Bullock</span>
-                          <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                        </div>
-                        <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                        <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                          I would love to.
-                        </div>
-                        <!-- /.direct-chat-text -->
-                      </div>
-                      <!-- /.direct-chat-msg -->
-
-                    </div>
-                    <!--/.direct-chat-messages-->
-
-                    <!-- Contacts are loaded here -->
-                    <div class="direct-chat-contacts">
-                      <ul class="contacts-list">
-                        <li>
-                          <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user1-128x128.jpg" alt="User Avatar">
-
-                            <div class="contacts-list-info">
-                              <span class="contacts-list-name">
-                                Count Dracula
-                                <small class="contacts-list-date float-right">2/28/2015</small>
-                              </span>
-                              <span class="contacts-list-msg">How have you been? I was...</span>
-                            </div>
-                            <!-- /.contacts-list-info -->
-                          </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                          <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user7-128x128.jpg" alt="User Avatar">
-
-                            <div class="contacts-list-info">
-                              <span class="contacts-list-name">
-                                Sarah Doe
-                                <small class="contacts-list-date float-right">2/23/2015</small>
-                              </span>
-                              <span class="contacts-list-msg">I will be waiting for...</span>
-                            </div>
-                            <!-- /.contacts-list-info -->
-                          </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                          <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user3-128x128.jpg" alt="User Avatar">
-
-                            <div class="contacts-list-info">
-                              <span class="contacts-list-name">
-                                Nadia Jolie
-                                <small class="contacts-list-date float-right">2/20/2015</small>
-                              </span>
-                              <span class="contacts-list-msg">I'll call you back at...</span>
-                            </div>
-                            <!-- /.contacts-list-info -->
-                          </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                          <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user5-128x128.jpg" alt="User Avatar">
-
-                            <div class="contacts-list-info">
-                              <span class="contacts-list-name">
-                                Nora S. Vans
-                                <small class="contacts-list-date float-right">2/10/2015</small>
-                              </span>
-                              <span class="contacts-list-msg">Where is your new...</span>
-                            </div>
-                            <!-- /.contacts-list-info -->
-                          </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                          <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user6-128x128.jpg" alt="User Avatar">
-
-                            <div class="contacts-list-info">
-                              <span class="contacts-list-name">
-                                John K.
-                                <small class="contacts-list-date float-right">1/27/2015</small>
-                              </span>
-                              <span class="contacts-list-msg">Can I take a look at...</span>
-                            </div>
-                            <!-- /.contacts-list-info -->
-                          </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                          <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user8-128x128.jpg" alt="User Avatar">
-
-                            <div class="contacts-list-info">
-                              <span class="contacts-list-name">
-                                Kenneth M.
-                                <small class="contacts-list-date float-right">1/4/2015</small>
-                              </span>
-                              <span class="contacts-list-msg">Never mind I found...</span>
-                            </div>
-                            <!-- /.contacts-list-info -->
-                          </a>
-                        </li>
-                        <!-- End Contact Item -->
-                      </ul>
-                      <!-- /.contacts-list -->
-                    </div>
-                    <!-- /.direct-chat-pane -->
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer">
-                    <form action="#" method="post">
-                      <div class="input-group">
-                        <input type="text" name="message" placeholder="Type Message ..." class="form-control">
-                        <span class="input-group-append">
-                          <button type="button" class="btn btn-warning">Send</button>
-                        </span>
-                      </div>
-                    </form>
-                  </div>
-                  <!-- /.card-footer-->
-                </div>
-                <!--/.direct-chat -->
-              </div>
-              <!-- /.col -->
-
-              <div class="col-md-6">
-                <!-- USERS LIST -->
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Latest Members</h3>
-
-                    <div class="card-tools">
-                      <span class="badge badge-danger">8 New Members</span>
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body p-0">
-                    <ul class="users-list clearfix">
-                      <li>
-                        <img src="dist/img/user1-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Alexander Pierce</a>
-                        <span class="users-list-date">Today</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user8-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Norman</a>
-                        <span class="users-list-date">Yesterday</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user7-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Jane</a>
-                        <span class="users-list-date">12 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user6-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">John</a>
-                        <span class="users-list-date">12 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user2-160x160.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Alexander</a>
-                        <span class="users-list-date">13 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user5-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Sarah</a>
-                        <span class="users-list-date">14 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user4-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Nora</a>
-                        <span class="users-list-date">15 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user3-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Nadia</a>
-                        <span class="users-list-date">15 Jan</span>
-                      </li>
-                    </ul>
-                    <!-- /.users-list -->
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer text-center">
-                    <a href="javascript:">View All Users</a>
-                  </div>
-                  <!-- /.card-footer -->
-                </div>
-                <!--/.card -->
-              </div>
-              <!-- /.col -->
-            </div>
-            <!-- /.row -->
-
-            <!-- TABLE: LATEST ORDERS -->
-            <div class="card">
-              <div class="card-header border-transparent">
-                <h3 class="card-title">Latest Orders</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                  <table class="table m-0">
-                    <thead>
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Item</th>
-                      <th>Status</th>
-                      <th>Popularity</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                      <td>Call of Duty IV</td>
-                      <td><span class="badge badge-success">Shipped</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                      <td>Samsung Smart TV</td>
-                      <td><span class="badge badge-warning">Pending</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                      <td>iPhone 6 Plus</td>
-                      <td><span class="badge badge-danger">Delivered</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                      <td>Samsung Smart TV</td>
-                      <td><span class="badge badge-info">Processing</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                      <td>Samsung Smart TV</td>
-                      <td><span class="badge badge-warning">Pending</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                      <td>iPhone 6 Plus</td>
-                      <td><span class="badge badge-danger">Delivered</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                      <td>Call of Duty IV</td>
-                      <td><span class="badge badge-success">Shipped</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.table-responsive -->
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
-              </div>
-              <!-- /.card-footer -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-
-          <div class="col-md-4">
-            <!-- Info Boxes Style 2 -->
-            <div class="info-box mb-3 bg-warning">
-              <span class="info-box-icon"><i class="fas fa-tag"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Inventory</span>
-                <span class="info-box-number">5,200</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-            <div class="info-box mb-3 bg-success">
-              <span class="info-box-icon"><i class="far fa-heart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Mentions</span>
-                <span class="info-box-number">92,050</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-            <div class="info-box mb-3 bg-danger">
-              <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Downloads</span>
-                <span class="info-box-number">114,381</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-            <div class="info-box mb-3 bg-info">
-              <span class="info-box-icon"><i class="far fa-comment"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Direct Messages</span>
-                <span class="info-box-number">163,921</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Browser Usage</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-8">
-                    <div class="chart-responsive">
-                      <canvas id="pieChart" height="150"></canvas>
-                    </div>
-                    <!-- ./chart-responsive -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-md-4">
-                    <ul class="chart-legend clearfix">
-                      <li><i class="far fa-circle text-danger"></i> Chrome</li>
-                      <li><i class="far fa-circle text-success"></i> IE</li>
-                      <li><i class="far fa-circle text-warning"></i> FireFox</li>
-                      <li><i class="far fa-circle text-info"></i> Safari</li>
-                      <li><i class="far fa-circle text-primary"></i> Opera</li>
-                      <li><i class="far fa-circle text-secondary"></i> Navigator</li>
-                    </ul>
-                  </div>
-                  <!-- /.col -->
-                </div>
-                <!-- /.row -->
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer p-0">
-                <ul class="nav nav-pills flex-column">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      United States of America
-                      <span class="float-right text-danger">
-                        <i class="fas fa-arrow-down text-sm"></i>
-                        12%</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      India
-                      <span class="float-right text-success">
-                        <i class="fas fa-arrow-up text-sm"></i> 4%
-                      </span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      China
-                      <span class="float-right text-warning">
-                        <i class="fas fa-arrow-left text-sm"></i> 0%
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <!-- /.footer -->
-            </div>
-            <!-- /.card -->
-
-            <!-- PRODUCT LIST -->
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Recently Added Products</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body p-0">
-                <ul class="products-list product-list-in-card pl-2 pr-2">
-                  <li class="item">
-                    <div class="product-img">
-                      <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                    </div>
-                    <div class="product-info">
-                      <a href="javascript:void(0)" class="product-title">Samsung TV
-                        <span class="badge badge-warning float-right">$1800</span></a>
-                      <span class="product-description">
-                        Samsung 32" 1080p 60Hz LED Smart HDTV.
-                      </span>
-                    </div>
-                  </li>
-                  <!-- /.item -->
-                  <li class="item">
-                    <div class="product-img">
-                      <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                    </div>
-                    <div class="product-info">
-                      <a href="javascript:void(0)" class="product-title">Bicycle
-                        <span class="badge badge-info float-right">$700</span></a>
-                      <span class="product-description">
-                        26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                      </span>
-                    </div>
-                  </li>
-                  <!-- /.item -->
-                  <li class="item">
-                    <div class="product-img">
-                      <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                    </div>
-                    <div class="product-info">
-                      <a href="javascript:void(0)" class="product-title">
-                        Xbox One <span class="badge badge-danger float-right">
-                        $350
-                      </span>
+                      <a href="javascript:void(0);">
+                          <div class="d-flex read-more-btn">
+                              <a href="https://newsite.tech2globe.co.in/landing_page/about-tech2globe" class="theme-btn"><i class="fa-solid fa-arrow-right-long text-white"></i></a>
+                              <a href="https://newsite.tech2globe.co.in/landing_page/about-tech2globe">
+                                  <h6>Read More</h6>
+                              </a>
+                              <!-- <a href="<?php echo $base_url . "/about-us";  ?>" class="theme-btn"><i class="fa-solid fa-arrow-right-long text-white"></i></a>
+                              <a href="<?php echo $base_url . "/about-us";  ?>"><h6>Read More</h6></a> -->
+                          </div>
                       </a>
-                      <span class="product-description">
-                        Xbox One Console Bundle with Halo Master Chief Collection.
-                      </span>
-                    </div>
-                  </li>
-                  <!-- /.item -->
-                  <li class="item">
-                    <div class="product-img">
-                      <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                    </div>
-                    <div class="product-info">
-                      <a href="javascript:void(0)" class="product-title">PlayStation 4
-                        <span class="badge badge-success float-right">$399</span></a>
-                      <span class="product-description">
-                        PlayStation 4 500GB Console (PS4)
-                      </span>
-                    </div>
-                  </li>
-                  <!-- /.item -->
-                </ul>
+                  </div>
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer text-center">
-                <a href="javascript:void(0)" class="uppercase">View All Products</a>
+              <div class="col-lg-6">
+                  <div class="right-side position-relative" data-aos="fade-up">
+                      <img src="images/about-1.jpg" class="img-fluid float-end" alt="">
+                      <div class="about-img">
+                          <img src="images/about-2.jpg" class="img-fluid float-end" alt="">
+                      </div>
+                      <div class="year">
+                          <h2 class="display-3">14+</h2>
+                          <h6>Years Of Experiences</h6>
+                      </div>
+                  </div>
               </div>
-              <!-- /.card-footer -->
-            </div>
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </div><!--/. container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+      </div>
+  </section>
+  <!-- About us section end here -->
+
+  <!-- Achievement section start here -->
+  <section class="achievement-banner d-none d-lg-block">
+      <div class="container">
+          <div class="row justify-content-between justify-custom">
+              <div class="col-lg-2 col-md-2 col-sm-6">
+                  <div class="achievement-box" data-aos="fade-up">
+                      <div class="d-flex img-bg-red">
+                          <img src="images/expertise.png" alt="">
+                      </div>
+                      <div class="mt-4 ">
+                          <h3>Expertise</h3>
+                          <p>Delivering the best of us every day</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-6">
+                  <div class="achievement-box" data-aos="fade-up">
+                      <div class="d-flex img-bg-red">
+                          <img src="images/team.png" alt="">
+                      </div>
+                      <div class="mt-4 ">
+                          <h3>Team</h3>
+                          <p>300+ working professionals </p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-6">
+                  <div class="achievement-box" data-aos="fade-up">
+                      <div class="d-flex img-bg-red">
+                          <img src="images/development.png" class="mt-2 width-90" alt="">
+                      </div>
+                      <div class="mt-4 ">
+                          <h3>Development </h3>
+                          <p>Deriving continuous growth for customers and ourselves</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-6">
+                  <div class="achievement-box" data-aos="fade-up">
+                      <div class="d-flex img-bg-red">
+                          <img class="mb-1" src="images/enthusiasm.png" alt="">
+                      </div>
+                      <div class="mt-4 ">
+                          <h3>Enthusiasm </h3>
+                          <p>Passion and Commitment in everything we do</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-6">
+                  <div class="achievement-box" data-aos="fade-up">
+                      <div class="d-flex img-bg-red">
+                          <img src="images/flexiblity.png" alt="">
+                      </div>
+                      <div class="mt-4 ">
+                          <h3>Flexiblity</h3>
+                          <p>Balancing time and resources to make the most of our effort </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Achievement section end here -->
+
+  <!-- Achievement section start here -->
+  <section class="phone-achievement-banner d-block d-lg-none">
+      <div class="container">
+          <div class="row">
+              <div class="portfolioSlider">
+                  <div class="owl-carousel owl-theme" id="achiveslider">
+                      <div class="item">
+                          <div class="achievement-box">
+                              <div class="d-flex img-bg-red">
+                                  <img src="images/expertise.png" alt="">
+                              </div>
+                              <div class="mt-4 ">
+                                  <h3 class="display-6">Expertise</h3>
+                                  <p>Delivering the best of us every day</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="achievement-box">
+                              <div class="d-flex img-bg-red">
+                                  <img src="images/team.png" alt="">
+                              </div>
+                              <div class="mt-4 ">
+                                  <h3 class="display-6">Team</h3>
+                                  <p>300+ working professionals </p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="achievement-box">
+                              <div class="d-flex img-bg-red">
+                                  <img src="images/development.png" class="mt-2 width-90" alt="">
+                              </div>
+                              <div class="mt-4 ">
+                                  <h3 class="display-6">Development</h3>
+                                  <p>Deriving continuous growth for customers and ourselves</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="achievement-box">
+                              <div class="d-flex img-bg-red">
+                                  <img src="images/enthusiasm.png" alt="">
+                              </div>
+                              <div class="mt-4 ">
+                                  <h3 class="display-6">Enthusiasm</h3>
+                                  <p>Passion and Commitment in everything we do</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="achievement-box">
+                              <div class="d-flex img-bg-red">
+                                  <img src="images/flexiblity.png" alt="">
+                              </div>
+                              <div class="mt-4 ">
+                                  <h3 class="display-6">Flexiblity</h3>
+                                  <p>Balancing time and resources to make the most of our effort </p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="owl-dots">
+                      <div class="owl-dot active"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Achievement section end here -->
+
+  <!-- Awards section start here -->
+  <section class="awards mb-5 mb-md-0">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="center-heading">
+                      <div class="sub-heading">Our Awards</div>
+                      <h2>Awards & Certification</h2>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 d-none d-lg-block">
+                  <img src="images/awards.png" alt="">
+              </div>
+              <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 col-sm-12">
+                  <div class="awards-logo">
+                      <div class="row">
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/iso.png" alt="">
+                              </div>
+                          </div>
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/flipkart.png" alt="">
+                              </div>
+                          </div>
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/amazon_spn_logo.png" alt="">
+                              </div>
+                          </div>
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/google.png" alt="">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="awards-logo">
+                      <div class="row">
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/OIP.jpg" alt="">
+                              </div>
+                          </div>
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/Payoneer-Log.png" alt="">
+                              </div>
+                          </div>
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/shopify.png" alt="">
+                              </div>
+                          </div>
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/certificate.png" alt="">
+                              </div>
+                          </div>
+                          <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 width-50 aos-init aos-animate" data-aos="fade-up">
+                              <div class="awards-logo-box">
+                                  <img src="images/award-and-certification/ebay.png" alt="">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="certificate">
+                      <div class="row">
+                          <div class="col-md-4 col-sm-12">
+                              <div class="d-flex certificate-resp"  data-aos=" fade-up">
+                                  <img src="images/circle-location.png" alt="" class="h-50">
+                                  <div class="certificate-box">
+                                      <p>4 Global Delivery<span class="small-heading"> Locations</span></p>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-12">
+                              <div class="d-flex certificate-resp"  data-aos=" fade-up">
+                                  <img src="images/svg/awards.svg" alt="">
+                                  <div class="certificate-box">
+                                      <p>Diversity <span class="small-heading">& Inclusion</span></p>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-4 col-sm-12">
+                              <div class="d-flex certificate-resp"  data-aos=" fade-up">
+                                  <img src="images/svg/members.svg" alt="">
+                                  <div class="certificate-box text-secondary">
+                                      <p>Process <span class="small-heading"> Excellence</span></p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Awards section end here -->
+
+  <!-- Leading Services section start here -->
+  <section class="services-logo">
+      <div class="container services">
+          <div class="row g-5">
+              <div class="col-lg-4 col-md-6 mb-5 mb-sm-0" data-aos="fade-up">
+                  <div class="mb-5">
+                      <h3>Leading Services</h3>
+                      <p>Quickly increase client engagement and propel business growth, with sound business solutions and strategies and developing creative business models.</p>
+                  </div>
+                  <!-- <a href="javascript:void(0);" class="services-btn mt-5">Explore All Services <i class="fa-solid fa-arrow-up-right-from-square ps-4"></i></a> -->
+              </div>
+              <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                  <div class="services-box">
+                      <img src="images/svg/ecommerce-development.svg" alt="">
+                      <div class="mt-5">
+                          <h4>Ecommerce Development</h4>
+                          <p>From ecommerce product data entry services to marketplace management, our team possesses specialized expertise to deliver comprehensive solutions.</p><br>
+                          <div class="service-link">
+                              <a href="<?php echo $base_url . "/shopify-development-company";  ?>">Shopify</a>
+                              <a href="<?php echo $base_url . "/magento-development-company";  ?>">Magento</a>
+                              <a href="<?php echo $base_url . "/WooCommerce-development-services";  ?>">WooCommerce</a>
+                              <a href="<?php echo $base_url . "/ebay-store-design-services";  ?>">Ebay store design</a>
+                              <a href="<?php echo $base_url . "/shopify-product-upload-services";  ?>">Shopify product upload</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                  <div class="services-box">
+                      <img src="images/svg/online-marketing.svg" alt="">
+                      <div class="mt-5">
+                          <h4>Online Marketing</h4>
+                          <p>Get access to all-encompassing online marketing services covering every crucial aspect of your business requirements.</p><br>
+                          <div class="service-link">
+                              <a href="<?php echo $base_url . "/ppc-services";  ?>">PPC</a>
+                              <a href="<?php echo $base_url . "/social-media-optimization";  ?>">Social media optimization</a>
+                              <a href="<?php echo $base_url . "/search-engine-optimization";  ?>">SEO</a>
+                              <a href="<?php echo $base_url . "/ecommerce-seo-services";  ?>">Ecommerce SEO</a>
+                              <a href="<?php echo $base_url . "/influencer-marketing-package";  ?>">Influencer marketing</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                  <div class="services-box">
+                      <img src="images/svg/amazon-icon.svg" alt="">
+                      <div class="mt-5">
+                          <h4>Amazon Services</h4>
+                          <p>Leverage the prowess of our Amazon consulting services and team of experts to guide you toward achieving sales, ROI, and loyal consumer base.</p>
+                          <div class="service-link">
+                              <a href="<?php echo $base_url . "/amazon-consulting-services";  ?>">Amazon Consulting</a>
+                              <a href="<?php echo $base_url . "/store-creation";  ?>">Store creating</a>
+                              <a href="<?php echo $base_url . "/enhanced-brand-content";  ?>">Enhanced brand content</a>
+                              <a href="<?php echo $base_url . "/vendor-account-management";  ?>">Vendor a/c management</a>
+                              <a href="<?php echo $base_url . "/amazon-dropshipping";  ?>">Amazon drop shipping</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                  <div class="services-box">
+                      <img src="images/svg/development.svg" alt="">
+                      <div class="mt-5">
+                          <h4>Software & App Development</h4>
+                          <p>Tech2Globe offers software development services that comprehensively address all your software development needs.</p><br>
+                          <div class="service-link">
+                              <a href="<?php echo $base_url . "/php-development-services";  ?>">Php development</a>
+                              <a href="<?php echo $base_url . "/java-development-services";  ?>">Java development</a>
+                              <a href="<?php echo $base_url . "/iphone-ipad-application-development-services";  ?>">IOS app</a>
+                              <a href="<?php echo $base_url . "/react-native-app-development";  ?>">React native app</a>
+                              <a href="<?php echo $base_url . "/android-application-development-services";  ?>">Android app</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                  <div class="services-box">
+                      <img src="images/svg/management.svg" alt="">
+                      <div class="mt-5">
+                          <h4>BPO-KPO/Data Management</h4>
+                          <p>Outsource your operational, data, and knowledge needs to the trusted IT and Back-office support partner, Tech2Globe Web Solutions. </p><br>
+                          <div class="service-link">
+                              <a href="<?php echo $base_url . "/data-management-services";  ?>">Data management</a>
+                              <a href="<?php echo $base_url . "/document-processing-services";  ?>">Document processing</a>
+                              <a href="<?php echo $base_url . "/magento-product-upload-services";  ?>">Magento product upload</a>
+                              <a href="<?php echo $base_url . "/data-entry-services";  ?>">Data entry</a>
+                              <a href="<?php echo $base_url . "/data-mining-services";  ?>">Data mining</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Leading Services section end here -->
+
+  <!-- Our client section start here -->
+  <section class="clients-in-worldwide">
+      <div class="container">
+          <div class="row m-20">
+              <div class="col-md-12">
+                  <div class="center-heading">
+                      <div class="sub-heading pb-3">Our Client</div>
+                      <h2>Partnered With Clients Worldwide</h2>
+                      <span class="d-block w-100 pb-1">Over the years, Tech2Globe has served these clients building the prominence of its services and trust.</span>
+                  </div>
+              </div>
+          </div>
+          <div class="row m-10 gy-4">
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/amazon-usa.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/aquatech.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/bluebird.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/cantabil.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/creative-arcades.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/deliveryhero.png" alt="">
+                  </div>
+              </div>
+          </div>
+          <div class="row m-10 gy-4">
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/ecommerce-guru.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/epos.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/follett.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/foodora.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/frontier.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/getkart.png" alt="">
+                  </div>
+              </div>
+          </div>
+          <div class="row m-10 gy-4">
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/hp.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/indiaSoft.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/instas.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/legend.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/nike.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/patanjali.png" alt="">
+                  </div>
+              </div>
+          </div>
+          <div class="row m-10 gy-4">
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/sales-warp.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/shikhar-group.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/snapdeal.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/sparsh-logo.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/sports.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/ss-medical.png" alt="">
+                  </div>
+              </div>
+          </div>
+          <div class="row m-10 gy-4">
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/swiggy.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/unacademy.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/wow.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/wellist.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/wooden-street.png" alt="">
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 width-50" data-aos="fade-up">
+                  <div class="client-box">
+                      <img src="images/logo/luiolui.png" alt="">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Our client section end here -->
+
+  <!-- Case Studies section start here -->
+  <section class="case-section">
+      <div class="case-border"></div>
+      <div class="container">
+          <div class="row m-20">
+              <div class="col-md-12">
+                  <div class="center-heading">
+                      <div class="sub-heading pb-3">Case Studies</div>
+                      <h2>Experiences of Our Global Clientele</h2>
+                      <span class="d-block w-100 pb-4">Here are our client’s success stories who joined hands with Tech2Globe and witnessed increased sales and growth with overall operational proficiency and minimized errors. </span>
+                  </div>
+              </div>
+          </div>
+          <div class="row case-gap g-4">
+              <ul class="d-flex">
+                  <li>
+                      <div class="case-main-box">
+                          <img src="images/restaurant-menu-data-entry.png" alt="">
+                          <div class="case-box">
+                              <h6>Restaurant Menu Data Entry</h6>
+                              <p>They wanted to outsource their restaurant menu data entry work for one....</p>
+                              <a href="<?php echo $base_url . "/pdf/restaurant-menu-data-entry.pdf";  ?>" class="case-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                          </div>
+                      </div>
+                  </li><!-- list item -->
+
+                  <li>
+                      <div class="case-main-box">
+                          <img src="images/mobile-app-development.png" alt="">
+                          <div class="case-box">
+                              <h6>Mobile APP Development</h6>
+                              <p>Our client required a mobile solution to complement its social design service....</p>
+                              <a href="<?php echo $base_url . "/pdf/mobile-app-development.pdf";  ?>" class="case-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                          </div>
+                      </div>
+                  </li><!-- list item -->
+
+                  <li>
+                      <div class="case-main-box">
+                          <img src="images/image-processing.png" alt="">
+                          <div class="case-box">
+                              <h6>Image Processing</h6>
+                              <p>The image processing case study features a customer based in US owning a couple of studios....</p>
+                              <a href="<?php echo $base_url . "/pdf/case-study-of-image-processing.pdf";  ?>" class="case-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                          </div>
+                      </div>
+                  </li><!-- list item -->
+
+                  <li>
+                      <div class="case-main-box">
+                          <img src="images/digital-merketing.png" alt="">
+                          <div class="case-box">
+                              <h6>Digital Marketing</h6>
+                              <p>The biggest challenge for us is – the business niche is complete new for us and first ....</p>
+                              <a href="<?php echo $base_url . "/pdf/digital-marketing-SEO.pdf";  ?>" class="case-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                          </div>
+                      </div>
+                  </li><!-- list item -->
+              </ul>
+          </div>
+          <div class="row">
+              <a href="<?php echo $base_url . "/case-studies/index";  ?>" class="case-lg-btn mt-md-5 mx-auto">Explore All Services <i class="fa-solid fa-arrow-up-right-from-square ps-4"></i></a>
+          </div>
+      </div>
+  </section>
+  <!-- Case Studies section end here -->
+
+  <!-- Testimonials section start here -->
+  <section class="testimonials py-5">
+      <div class="container">
+          <div class="row m-20">
+              <div class="col-md-12">
+                  <div class="center-heading">
+                      <div class="sub-heading">Testimonials</div>
+                      <h2>What People Say About Us</h2>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="portfolioSlider">
+                  <div class="owl-carousel owl-theme" id="testimonial">
+                      <div class="item">
+                          <div class="test-box">
+                              <img src="images/testimonial/user-3.png" alt="testimonial">
+                              <div class="semi-circle">
+                                  <img src="images/coma.png" alt="">
+                              </div>
+                              <h6>Megha Sarpal</h6>
+                              <h5>IT Consultant (based in USA)</h5>
+                              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                              <p>I m very much satisfied with Tech2Globe team they assigned me. All the team members are very knowledgeable about everything and their quality of work is very impressive.</p>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="test-box">
+                              <img src="images/testimonial/user-1.png" alt="testimonial">
+                              <div class="semi-circle">
+                                  <img src="images/coma.png" alt="">
+                              </div>
+                              <h6>David</h6>
+                              <h5>Director of Partner Management</h5>
+                              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                              <p>I was very happy with the services and quality of work. Their team was open to feedback and flexible in meeting needs.</p>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="test-box">
+                              <div class="semi-circle">
+                                  <img src="images/coma.png" alt="">
+                              </div>
+                              <img src="images/testimonial/user-3.png" alt="testimonial">
+                              <h6>Serkan Sukgen</h6>
+                              <h5>Sales & Marketing</h5>
+                              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                              <p>Thank you so much. Shivam is great to work with and I will continue to work with Tech2Globe</p>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="test-box">
+                              <div class="semi-circle">
+                                  <img src="images/coma.png" alt="">
+                              </div>
+                              <img src="images/testimonial/user-2.png" alt="testimonial">
+                              <h6>Abdul Butt</h6>
+                              <h5>Sales & Marketing</h5>
+                              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                              <p>Very Understanding team to work with. I like their service and would recommend them to others.</p>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="test-box">
+                              <div class="semi-circle">
+                                  <img src="images/coma.png" alt="">
+                              </div>
+                              <img src="images/testimonial/user-3.png" alt="testimonial">
+                              <h6>Rose</h6>
+                              <h5>Sales & Marketing</h5>
+                              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                              <p>The service pricing is moderate. there agents delivery time and support is excellent</p>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="test-box">
+                              <div class="semi-circle">
+                                  <img src="images/coma.png" alt="">
+                              </div>
+                              <img src="images/testimonial/user-2.png" alt="testimonial">
+                              <h6>Waqar Asif</h6>
+                              <h5>Sales & Marketing</h5>
+                              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                              <p>These guys are really professional and they know what they are doing. I loved their work and would hire them again. Wonderful experience overall.</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="owl-dots">
+                      <div class="owl-dot active"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Testimonials section end here -->
+
+  <!-- Portfolio section start here -->
+  <section class="portfolio section-bottom section-top">
+      <div class="container">
+          <div class="row m-20">
+              <div class="col-md-12">
+                  <div class="center-heading">
+                      <div class="sub-heading pb-3">Our Portfolio</div>
+                      <h2>Projects Success Highlighting The Efficiency Of Our Excellence</h2>
+                      <span class="d-block w-100 pb-4">Tech2Globe has been consistently delivering a multitude of cost-effective, top-tier software solutions since its inception. Furthermore, our expertise and experience goes across diverse industries and domains to support every business possible. Our unwavering commitment to excellence has yielded a rich history of high-quality accomplishments in business software development, e-commerce, retail, manufacturing, real estate, consulting services, and more.</span>
+                      <!-- <p class="pb-4">Tech2Globe has been consistently delivering a multitude of cost-effective, top-tier software solutions since its inception. Furthermore, our expertise and experience goes across diverse industries and domains to support every business possible. Our unwavering commitment to excellence has yielded a rich history of high-quality accomplishments in business software development, e-commerce, retail, manufacturing, real estate, consulting services, and more.</p> -->
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="portfolioSlider">
+                  <div class="owl-carousel owl-theme" id="portfolioSlider">
+                      <div class="item">
+                          <div class="portfolio-box">
+                              <div class="">
+                                  <h6>Luiolei</h6>
+                                  <a href="https://www.luiolei.com/" class="button portfolio-btn" type="submit">View Project</a>
+                              </div>
+                              <img src="images/luiolei.jpg" alt="">
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="portfolio-box">
+                              <div class="">
+                                  <h6>Windsor One</h6>
+                                  <a href="https://windsorone.com/" class="button portfolio-btn" type="submit">View Project</a>
+                              </div>
+                              <img src="images/windsorone.jpg" alt="">
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="portfolio-box">
+                              <div class="">
+                                  <h6>QUIQUP</h6>
+                                  <a href="https://www.quiqup.com/" class="button portfolio-btn" type="submit">View Project</a>
+                              </div>
+                              <img src="images/quiqup.jpg" alt="">
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="portfolio-box">
+                              <div class="">
+                                  <h6>Zphotoedit</h6>
+                                  <a href="http://zphotoedit.com/" class="button portfolio-btn" type="submit">View Project</a>
+                              </div>
+                              <img src="images/zphohedit.jpg" alt="">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="owl-dots">
+                      <div class="owl-dot active"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+  </section>
+  <!-- Portfolio section end here -->
+
+  <!-- Form section start here -->
+  <section class="form-section section-bottom">
+      <div class="container mobile">
+          <div class="row">
+              <div class="col-lg-5 d-flex justify-content-center">
+                  <form class="row g-3 needs-validation" id="home-form">
+                      <h3 class="text-capitalize pb-4">Get in touch with us!</h3>
+                      <div class="col-md-6">
+                          <input type="text" class="form-control" id="validationCustom01" required placeholder="Your Name">
+                      </div>
+                      <div class="col-md-6">
+                          <input type="text" class="form-control" id="validationCustom02" required placeholder="Your Email">
+                      </div>
+                      <div class="col-md-6">
+                          <select class="form-select" id="validationCustom3" required>
+                              <option selected disabled value="">Select Country</option>
+                              <option>America</option>
+                              <option>Canada</option>
+                              <option>India</option>
+                          </select>
+                      </div>
+                      <div class="col-md-6">
+                          <input type="text" class="form-control" id="validationCustom04" required placeholder="Your Phone No.">
+                      </div>
+                      <div class="col-md-12">
+                          <textarea class="form-control" id="validationCustom05" required placeholder="Enter your query"></textarea>
+                      </div>
+                      <div class="col-md-12">
+                          <label for="validationCustom06" class="form-label d-flex w-100"><strong>Captcha Please enter sum : </strong>
+                              <div class="ms-2">
+                                  <span class="num">9</span>
+                                  <strong> + </strong>
+                                  <span class="num">8</span>
+                              </div>
+                          </label>
+                          <input type="text" class="form-control" id="validationCustom06" required placeholder="Please Enter Sum">
+                      </div>
+                      <div class="col-12">
+                          <button class="large-btn button-red ms-0" type="submit">Submit</button>
+                      </div>
+                  </form>
+              </div>
+              <div class="col-lg-6 offset-lg-1 d-none d-lg-block">
+                  <div class="form-text">
+                      <p>We offer industry solutions that add value to your business.</p>
+                      <h2>Looking for IT solutions that can make a transformative difference?</h2>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Form section end here -->
+
+  <!-- Blog section start here -->
+  <section class="blog section-bottom">
+      <div class="container">
+          <div class="row m-20">
+              <div class="col-md-12">
+                  <div class="center-heading">
+                      <div class="sub-heading pb-3">Our Blogs</div>
+                      <h2>Latest Insights and Updates</h2>
+                      <span class="d-block w-100 pb-4">Never miss an update and catch up with Tech2Globe in the blog & news section, including latest industry trends, our guides, tips & tricks, more services, our featured articles, CEO anecdotes, and many more. </span>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="slider">
+                  <div class="owl-carousel owl-theme" id="blog">
+                      <div class="item">
+                          <div class="blog-box p-3">
+                              <img src="images/blog/blog-1.jpg" alt="blog">
+                              <div class="d-flex">
+                                  <h5><a href="https://blog.tech2globe.com/4-tips-on-what-to-know-before-applying-data-analytics/" class="btn-icon">4 Tips on What To Know Before Applying Data Analytics </a></h5>
+                                  <a href="https://blog.tech2globe.com/4-tips-on-what-to-know-before-applying-data-analytics/" class="btn-icon"><i class="fa-solid fa-location-arrow"></i></a>
+                              </div>
+                              <p>The world of data analytics is getting bigger day by day. Companies are investing billions of dollars in this field to get the best insights to make meaningful business decisions...</p>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="blog-box p-3">
+                              <img src="images/blog/blog-2.jpg" alt="blog">
+                              <div class="d-flex">
+                                  <h5><a href="https://blog.tech2globe.com/amazon-account-suspension-yes-you-can-overcome-this-nightmare/" class="btn-icon">Amazon Account Suspension: Yes! You Can Overcome This Nightmare </a></h5>
+                                  <a href="https://blog.tech2globe.com/amazon-account-suspension-yes-you-can-overcome-this-nightmare/" class="btn-icon"><i class="fa-solid fa-location-arrow"></i></a>
+                              </div>
+                              <p>An Amazon account suspension can be a nightmare for any seller’. You have worked hard to establish a successful business, and then suddenly, everything comes to a grinding halt...</p>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="blog-box p-3">
+                              <img src="images/blog/blog-4.jpg" alt="blog">
+                              <div class="d-flex">
+                                  <h5><a href="https://blog.tech2globe.com/tech2globe-web-solutions-records-100-five-star-rating-for-may/" class="btn-icon">Tech2Globe Web Solutions Records 100% Five-Star Rating for May on Clutch. </a></h5>
+                                  <a href="https://blog.tech2globe.com/tech2globe-web-solutions-records-100-five-star-rating-for-may/" class="btn-icon"><i class="fa-solid fa-location-arrow"></i></a>
+                              </div>
+                              <p>Tech2Globe Web Solutions Records 100% Five-Star Rating for May on Clutch Since we started our company back in 2014, our goals have always been to help companies make their digital products or services profitable.</p>
+                          </div>
+                      </div>
+                      <div class="item">
+                          <div class="blog-box p-3">
+                              <img src="images/blog/blog-3.jpg" alt="blog">
+                              <div class="d-flex">
+                                  <h5><a href="https://blog.tech2globe.com/store-creation-on-shopify-development-company-in-15-minutes/" class="btn-icon">Store Creation On Shopify Development Company In 15 Minutes </a></h5>
+                                  <a href="https://blog.tech2globe.com/store-creation-on-shopify-development-company-in-15-minutes/" class="btn-icon"><i class="fa-solid fa-location-arrow"></i></a>
+                              </div>
+                              <p>Starting an internet business can be exciting for anyone, yet not so easy. You’ll have to deal with a variety of issues, including how to avoid breaking down, how to optimize your landing pages, and what to call your company.</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="owl-dots">
+                      <div class="owl-dot active"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                      <div class="owl-dot"><span></span></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Blog section end here -->
+</main>
+<!--  Main section end here -->
+
+@endsection

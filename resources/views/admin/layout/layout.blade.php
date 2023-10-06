@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tech2globe | Dashboard</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>Tech2Globe | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -13,6 +14,9 @@
   <link rel="stylesheet" href="{{ url('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ url('admin/css/adminlte.min.css') }}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ url('admin/plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ url('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -26,7 +30,7 @@
 
   @include('admin.layout.sidebar')
 
-  @yield()
+  @yield('content')
 
  
   <!-- Control Sidebar -->
@@ -50,6 +54,9 @@
 <!-- AdminLTE App -->
 <script src="{{ url('admin/js/adminlte.js') }}"></script>
 
+{{-- Custom js --}}
+<script src="{{ url('admin/js/custom.js') }}"></script>
+
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->
 <script src="{{ url('admin/plugins/jquery-mousewheel/jquery.mousewheel.js') }}"></script>
@@ -63,5 +70,25 @@
 <script src="{{ url('admin/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ url('admin/js/pages/dashboard2.js') }}"></script>
+
+{{-- Datatable & Plugin --}}
+<script src="{{ url('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ url('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ url('admin/plugins/select2/js/select2.full.min.js') }}"></script>
+
+<script>
+  $(function () {
+    $("#portfolio").DataTable({  
+    });
+    $("#users").DataTable({  
+    });
+    
+    $('.select2').select2()
+  });
+</script>
+<!-- Sweet Alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
