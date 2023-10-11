@@ -47,7 +47,9 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Portfolio</h3>
+                  @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                   <a style="max-width: 150px; float: right; display: inline-block;" href="{{ url('admin/add-edit-portfolio') }}" class="btn btn-block btn-primary">Add Portfolio</a>
+                  @endif
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -69,15 +71,21 @@
                       <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                       <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                       <td>
-                        @if ($row['status']==1)
-                           <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
-                        @else
-                          <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                        @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                          @if ($row['status']==1)
+                            <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
+                          @else
+                            <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                          @endif
+                          &nbsp;&nbsp;
                         @endif
-                        &nbsp;&nbsp;
-                        <a href="{{ url('admin/add-edit-portfolio/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
-                        &nbsp;&nbsp;
-                        <a class="confirmDelete" name="Portfolio" title="Delete Portfolio" href="javascript:void(0)" record="portfolio" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
+                        @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                          <a href="{{ url('admin/add-edit-portfolio/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
+                          &nbsp;&nbsp;
+                        @endif
+                        @if ($pagesModule['full_access']==1)
+                          <a class="confirmDelete" name="Portfolio" title="Delete Portfolio" href="javascript:void(0)" record="portfolio" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
+                        @endif
                       </td>
                     </tr>
                         @endforeach

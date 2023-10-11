@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\portfolio;
 use App\Models\portfolio_category;
+use App\Models\AdminsRole;
 use Illuminate\Http\Request;
 use Session;
 use Validator;
 use Image;
 use Storage;
 use Illuminate\Support\Facades\File;
+use Auth;
 
 class PortfolioController extends Controller
 {
@@ -24,7 +26,22 @@ class PortfolioController extends Controller
         $portfolio = Portfolio::get()->toArray();
         // dd($portfolio);
 
-        return view('admin.portfolio.portfolio')->with(compact('portfolio'));
+        //Set Admin/Subadmins Permissions for Portfolio Module
+        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($portfolioModuleCount==0){
+            $message = "This feature is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
+        }
+
+        return view('admin.portfolio.portfolio')->with(compact('portfolio','pagesModule'));
     }
 
     /**

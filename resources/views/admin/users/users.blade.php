@@ -46,7 +46,9 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Users</h3>
-                <a style="max-width: 150px; float: right; display: inline-block;" href="{{ url('admin/add-edit-portfolio') }}" class="btn btn-block btn-primary">Add User</a>
+                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                <a style="max-width: 150px; float: right; display: inline-block;" href="{{ url('admin/add-edit-users') }}" class="btn btn-block btn-primary">Add User</a>
+                @endif
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -55,7 +57,7 @@
                   <tr>
                     <th>S.No</th>
                     <th>Name</th>
-                    <th>Type</th>
+                    <th>Role</th>
                     <th>Email</th>
                     <th>Created on</th>
                     <th>Action</th>
@@ -66,19 +68,29 @@
                   <tr>
                     <td>{{ $row['id'] }}</td>
                     <td>{{ $row['name'] }}</td>
-                    <td>{{ $row['type'] }}</td>
+                    <td>{{ $row['role'] }}</td>
                     <td>{{ $row['email'] }}</td>
                     <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                     <td>
-                      @if ($row['status']==1)
-                         <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
-                      @else
-                        <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                      @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                        @if ($row['status']==1)
+                          <a class="updateUserStatus" id="user-{{ $row['id'] }}" user_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
+                        @else
+                          <a class="updateUserStatus" id="user-{{ $row['id'] }}" user_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                        @endif
+                        &nbsp;&nbsp;
                       @endif
-                      &nbsp;&nbsp;
-                      <a href="{{ url('admin/add-edit-portfolio/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
-                      &nbsp;&nbsp;
-                      <a class="confirmDelete" name="Portfolio" title="Delete Portfolio" href="javascript:void(0)" record="portfolio" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
+                      @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                        <a href="{{ url('admin/add-edit-users/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
+                        &nbsp;&nbsp;
+                      @endif
+                      @if ($pagesModule['full_access']==1)
+                        <a class="confirmDelete" name="Users" title="Delete User" href="javascript:void(0)" record="users" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
+                        &nbsp;&nbsp;
+                      @endif
+                      @if ($pagesModule['full_access']==1)
+                        <a href="{{ url('admin/update-role/'.$row['id']) }}"><i class="fas fa-unlock"></i></a>
+                      @endif
                     </td>
                   </tr>
                       @endforeach

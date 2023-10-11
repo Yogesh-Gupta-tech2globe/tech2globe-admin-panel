@@ -51,6 +51,33 @@ $(document).ready(function(){
         });
     });
 
+    //Update Users status
+
+    $(document).on("click",".updateUserStatus", function(){
+        var status = $(this).children("i").attr("status");
+        var user_id = $(this).attr("user_id");
+        
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-users-status",
+            data: {status:status,user_id:user_id},
+            success:function (resp) {
+                if(resp['status']==0){
+                    $("#user-"+user_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                }
+                else if(resp['status']==1){
+                    $("#user-"+user_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                }
+            },
+            error:function(){
+                alert("Error");
+            }
+        });
+    });
+
     //Confirm delete of Portfolio 
     // $(document).on("click",".confirmDelete",function(){
     //     var name = $(this).attr('name');
@@ -60,6 +87,7 @@ $(document).ready(function(){
     //     return false;
     // })
 
+    //Confirm delete with sweetalert for all modules
     $(document).on("click",".confirmDelete",function(){
         
         var record = $(this).attr('record');
@@ -84,4 +112,105 @@ $(document).ready(function(){
             }
           })
     })
+
+    // Use jQuery to select elements and attach event handlers
+    $(document).ready(function() {
+        $('#menu1').on('input', updateOutput);
+        $('#menu2').on('input', updateOutput);
+        $('#menu3').on('input', updateOutput);
+        $('#menu4').on('input', updateOutput);
+        $('#title2').on('input', updateOutput);
+        $('#sub_title2').on('input', updateOutput);
+        $('#button1').on('input', updateOutput);
+        $('#button2').on('input', updateOutput);
+
+        //Section 1 Images
+        const imageUploadInput = $('#logo');
+        const outputImage = $('#output-logo');
+
+        imageUploadInput.on('change', function () {
+        const file = imageUploadInput[0].files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        outputImage.attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // Handle the case where no file is selected
+                    outputImage.attr('src', '');
+                }
+        });
+
+        //Section 2 Images
+
+        const banner_image2 = $('#banner_image2');
+        const outputBanner_image2 = $('#outputBanner_image2');
+
+        banner_image2.on('change', function () {
+        const file = banner_image2[0].files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        outputBanner_image2.attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // Handle the case where no file is selected
+                    outputBanner_image2.attr('src', '');
+                }
+        });
+
+        const background_image2 = $('#background_image2');
+        const outputBackground_image2 = $('#outputBackground_image2');
+
+        background_image2.on('change', function () {
+        const file = background_image2[0].files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        outputBackground_image2.attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // Handle the case where no file is selected
+                    outputBackground_image2.attr('src', '');
+                }
+        });
+
+        function updateOutput() {
+            const menu1 = $('#menu1').val();
+            const menu2 = $('#menu2').val();
+            const menu3 = $('#menu3').val();
+            const menu4 = $('#menu4').val();
+            const title2 = $('#title2').val();
+            const sub_title2 = $('#sub_title2').val();
+            const button1 = $('#button1').val();
+            const button2 = $('#button2').val();
+
+            $('#outputMenu1').text(menu1);
+            $('#outputMenu2').text(menu2);
+            $('#outputMenu3').text(menu3);
+            $('#outputMenu4').text(menu4);
+            $('#outputTitle2').text(title2);
+            $('#outputSub_title2').text(sub_title2);
+            $('#outputButton1').text(button1);
+            $('#outputButton2').text(button2);
+
+        }
+    });
+
+
+
 });
+
+    

@@ -17,6 +17,8 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ url('admin/plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ url('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url('landing_page/css/style.css') }}">
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">

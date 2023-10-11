@@ -59,12 +59,20 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
         //Display Users
         Route::get('users','UsersController@index');
+        Route::post('update-users-status','UsersController@update');
+        Route::match(['get','post'],'add-edit-users/{id?}','UsersController@edit');
+        Route::get('delete-users/{id?}','UsersController@destroy');
+        Route::match(['get','post'],'update-role/{id?}','UsersController@updateRole');
 
         //Display Portfolio
         Route::get('portfolio','PortfolioController@index');
         Route::post('update-portfolio-status','PortfolioController@update');
         Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit');
         Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
+
+        //Display Landing Pages
+        Route::match(['get','post'],'landing-pages','LandingPageController@index');
+        Route::match(['get','post'],'create-landing-pages','LandingPageController@create');
 
     });
 });

@@ -19,7 +19,7 @@
       </div>
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      {{-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -28,7 +28,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> --}}
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -48,57 +48,59 @@
               </p>
             </a>
           </li>
-          @if(Session::get('page')=="update_password" || Session::get('page')=="update_details")
-            @php $active="active" @endphp
-          @else
-            @php $active="" @endphp
+          @if(Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="update_password" || Session::get('page')=="update_details")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="#" class="nav-link {{ $active}}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Setting
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                @if(Session::get('page')=="update_password")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/update-password" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Update Admin Password</p>
+                  </a>
+                </li>
+                @if(Session::get('page')=="update_details")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/update-details" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Update Admin Details</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            @if(Session::get('page')=="users")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="/admin/users" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Users
+                </p>
+              </a>
+            </li>
           @endif
-          <li class="nav-item">
-            <a href="#" class="nav-link {{ $active}}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Setting
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              @if(Session::get('page')=="update_password")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/update-password" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Update Admin Password</p>
-                </a>
-              </li>
-              @if(Session::get('page')=="update_details")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/update-details" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Update Admin Details</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          @if(Session::get('page')=="users")
-            @php $active="active" @endphp
-          @else
-            @php $active="" @endphp
-          @endif
-          <li class="nav-item">
-            <a href="/admin/users" class="nav-link {{ $active }}">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Users
-              </p>
-            </a>
-          </li>
           @if(Session::get('page')=="portfolio")
             @php $active="active" @endphp
           @else
@@ -109,6 +111,19 @@
               <i class="nav-icon fas fa-book-open"></i>
               <p>
                 Portfolio
+              </p>
+            </a>
+          </li>
+          @if(Session::get('page')=="landing_pages")
+            @php $active="active" @endphp
+          @else
+            @php $active="" @endphp
+          @endif
+          <li class="nav-item">
+            <a href="/admin/landing-pages" class="nav-link {{ $active }}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Layout
               </p>
             </a>
           </li>
