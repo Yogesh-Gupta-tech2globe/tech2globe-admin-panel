@@ -23,6 +23,11 @@ Route::get('/about-us', function () {
     return view('about-us');
 });
 
+Route::get('/react-web-application', function () {
+    
+    return view('react-web-appliction');
+});
+
 
 // Route::get('/','HomeController@home');
 
@@ -70,9 +75,29 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit');
         Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
 
+        //Display Layout
+        Route::match(['get','post'],'layout','LayoutController@index');
+        Route::match(['get','post'],'all-layout','LayoutController@show');
+
         //Display Landing Pages
         Route::match(['get','post'],'landing-pages','LandingPageController@index');
-        Route::match(['get','post'],'create-landing-pages','LandingPageController@create');
+        Route::match(['get','post'],'create-landing-pages/{id}','LandingPageController@create');
+        Route::match(['get','post'],'check-page-url','LandingPageController@checkPageUrl');
 
     });
 });
+
+            //Landing Pages Routes
+            Route::get('/react-web-appliction', function () {
+                return view('landing-page/react-web-appliction');
+            });Route::get('/yogesh-logistic-services', function () {
+                return view('landing-page/yogesh-logistic-services');
+            });Route::get('/digital-marketing-services', function () {
+                return view('landing-page/digital-marketing-services');
+            });Route::get('/amazon-services', function () {
+                return view('landing-page/amazon-services');
+            });Route::get('/tech2globe-services', function () {
+                return view('landing-page/tech2globe-services');
+            });Route::get('/hello-world-yogesh', function () {
+                return view('landing-page/hello-world-yogesh');
+            });

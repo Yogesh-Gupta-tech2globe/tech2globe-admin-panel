@@ -2,7 +2,7 @@
  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/admin/dashboard" class="brand-link">
-      <img src="{{ url('admin/img/tech2globe-logo.jpg') }}" alt="Tech2globe Logo" class="brand-image elevation-3" style="">
+      <img src="{{ url('admin/img/tech2globe-logo.png') }}" alt="Tech2globe Logo" class="brand-image" width="100%" style="">
       <span class="brand-text font-weight-light"></span>
     </a>
 
@@ -114,18 +114,45 @@
               </p>
             </a>
           </li>
-          @if(Session::get('page')=="landing_pages")
+
+
+          @if(Session::get('page')=="layout" || Session::get('page')=="all_layout")
             @php $active="active" @endphp
           @else
             @php $active="" @endphp
           @endif
           <li class="nav-item">
-            <a href="/admin/landing-pages" class="nav-link {{ $active }}">
+            <a href="/admin/layout" class="nav-link {{ $active }}">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Layout
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              @if(Session::get('page')=="layout")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/layout" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Layout</p>
+                </a>
+              </li>
+              @if(Session::get('page')=="all_layout")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/all-layout" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Layouts</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>

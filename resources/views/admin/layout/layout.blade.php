@@ -86,7 +86,9 @@
     });
     $("#users").DataTable({  
     });
-    
+    $("#layout").DataTable({  
+      "order": [[ 0, "desc" ]]
+    });
     $('.select2').select2()
   });
 </script>

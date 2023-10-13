@@ -64,9 +64,10 @@
                   </tr>
                   </thead>
                   <tbody>
+                    <?php $i=1;?>
                       @foreach($users as $row)
                   <tr>
-                    <td>{{ $row['id'] }}</td>
+                    <td>{{ $i++; }}</td>
                     <td>{{ $row['name'] }}</td>
                     <td>{{ $row['role'] }}</td>
                     <td>{{ $row['email'] }}</td>

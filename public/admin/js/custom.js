@@ -113,8 +113,30 @@ $(document).ready(function(){
           })
     })
 
-    // Use jQuery to select elements and attach event handlers
+    // Use jQuery to select elements and attach event handlers for Landing Page theme
     $(document).ready(function() {
+
+        //Basic Details Page
+        $('#page_name').on('input', slugify);
+
+        function slugify() {
+
+            var pageName = $('#page_name').val();
+            var pageUrl = urlgen(pageName);
+            
+            function urlgen(text) {
+            
+                return text
+                    .toLowerCase()
+                    .replace(/ /g, '-')     // Replace spaces with hyphens
+                    .replace(/[^\w-]+/g, ''); // Remove non-word characters except hyphens
+            }
+
+            $('#page_url').val(pageUrl);
+        }
+
+
+
         $('#menu1').on('input', updateOutput);
         $('#menu2').on('input', updateOutput);
         $('#menu3').on('input', updateOutput);
@@ -123,6 +145,11 @@ $(document).ready(function(){
         $('#sub_title2').on('input', updateOutput);
         $('#button1').on('input', updateOutput);
         $('#button2').on('input', updateOutput);
+
+
+            
+
+        
 
         //Section 1 Images
         const imageUploadInput = $('#logo');
@@ -207,6 +234,31 @@ $(document).ready(function(){
             $('#outputButton2').text(button2);
 
         }
+    });
+
+    //Check Admin password is correct or not
+    $("#page_url").keyup(function () { 
+        var pageUrl = $("#page_url").val();
+        
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/check-page-url",
+            data: {pageUrl:pageUrl},
+            success:function (resp) {
+                if(resp == false){
+                    $("#urlVerify").html("Current Page URL is already exist");
+                }
+                else if(resp == true){
+                    $("#urlVerify").html("Current Page URL is correct");
+                }
+            },
+            error:function(){
+                alert("Error");
+            }
+        });
     });
 
 

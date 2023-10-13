@@ -14,12 +14,12 @@ class AdminsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $password1 = Hash::make('hr@123');
+        $password1 = Hash::make('admin@123');
         $password2 = Hash::make('seo@123');
 
         $adminRecords = [
-            ['id'=>2,'name'=>'Megha Anand','type'=>'hr','email'=>'hr@tech2globe.com','password'=>$password1,'image'=>'','status'=>1],
-            ['id'=>3,'name'=>'SEO','type'=>'seo','email'=>'seo@tech2globe.com','password'=>$password2,'image'=>'','status'=>1],
+            ['id'=>1,'name'=>'Yogesh','type'=>'admin','role'=>'Admin','email'=>'admin@tech2globe.in','password'=>$password1,'image'=>'','status'=>1],
+            ['id'=>2,'name'=>'SEO','type'=>'subadmin','role'=>'Manager','email'=>'seo@tech2globe.in','password'=>$password2,'image'=>'','status'=>1],
         ];
         Admin::insert($adminRecords);
     }
