@@ -1,0 +1,5 @@
+<?php
+
+use Illuminate\Support\Facades\Log;
+
+Log::info('This is a test log message.');

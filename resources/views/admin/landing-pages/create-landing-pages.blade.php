@@ -9,9 +9,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Create Landing Pages
-               @foreach($layout as $row)
-                <a class="btn btn-primary" href="{{ $row['page_url'] }}" target="blank">Visit Page</a>
-               @endforeach
+                <a class="btn btn-primary" href="http://localhost:8000/{{ $layout['page_url'] }}" target="_blank">Visit Page</a>
             </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
@@ -31,6 +29,14 @@
         @if(Session::has('success_message'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
           <strong>Success:</strong>{{ Session::get('success_message') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        @endif
+        @if(Session::has('error_message'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Error:</strong>{{ Session::get('error_message') }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -91,28 +97,28 @@
                            <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
                              <div class="card-body">
                                <div class="form-group">
-                                 <label for="menu1">Menu 1</label>
-                                 <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                 <label for="menu1old">Menu 1</label>
+                                 <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
                                </div>
                                <div class="form-group">
-                                 <label for="menu2">Menu 2</label>
-                                 <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                 <label for="menu2old">Menu 2</label>
+                                 <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
                                </div>
                                <div class="form-group">
-                                   <label for="menu3">Menu 3</label>
-                                   <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                                   <label for="menu3old">Menu 3</label>
+                                   <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
                                </div>
                                <div class="form-group">
-                                   <label for="menu4">Menu 4</label>
-                                   <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
+                                   <label for="menu4old">Menu 4</label>
+                                   <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
                                </div> 
                                <div class="form-group">
-                                   <label for="favicon_icon">Favicon Icon</label>
-                                   <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
+                                   <label for="favicon_icon_old">Favicon Icon</label>
+                                   <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
                                </div>
                                <div class="form-group">
-                                   <label for="logo">Logo</label>
-                                   <input type="file" class="form-control" name="logo" id="logo">
+                                   <label for="logo_old">logo_old</label>
+                                   <input type="file" class="form-control" name="logo_old" id="logo_old">
                                </div>                
                              </div>
                              <!-- /.card-body -->
@@ -128,7 +134,7 @@
                        <!--/.col (left) -->
                    </div>
                    <!-- /.row -->
-                 </div>
+                  </div>
                   <div class="tab-pane fade show active" id="custom-tabs-section1" role="tabpanel" aria-labelledby="custom-tabs-section1-tab">
                      <h3>Section 1</h3>
                    
@@ -137,7 +143,7 @@
                           <p>Preview</p>
                                 <nav class="navbar navbar-expand-lg" style="background-color: #FFFFFF;">
                                     <div class="container">
-                                        <a class="navbar-brand w-25" href="#"><img class="w-75" id="output-logo" src="{{ url('admin/img/tech2globe-logo-1.jpg') }}" alt=""></a>
+                                        <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" id="output-logo" src="{{ url('images/logo/'.$layout['logo'].'') }}" alt=""></a>
                                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                             <span class="navbar-toggler-icon"></span>
                                         </button>
@@ -172,37 +178,37 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                            <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
                               <div class="card-body">
                                 <div class="form-group">
                                   <label for="menu1">Menu 1</label>
-                                  <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                  <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" @if(!empty($landingPage['menu1'])) value="{{$landingPage['menu1']}}" @else value="What We Do" @endif>
                                 </div>
                                 <div class="form-group">
                                   <label for="menu2">Menu 2</label>
-                                  <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                  <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" @if(!empty($landingPage['menu2'])) value="{{$landingPage['menu2']}}" @else value="Why Choose Tech2globe" @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="menu3">Menu 3</label>
-                                    <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                                    <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" @if(!empty($landingPage['menu3'])) value="{{$landingPage['menu3']}}" @else value="Our Customers" @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="menu4">Menu 4</label>
-                                    <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
+                                    <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" @if(!empty($landingPage['menu4'])) value="{{$landingPage['menu4']}}" @else value="Contact Us" @endif>
                                 </div> 
                                 <div class="form-group">
                                     <label for="favicon_icon">Favicon Icon</label>
                                     <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
                                 </div>
                                 <div class="form-group">
-                                    <label for="logo">Logo</label>
+                                    <label for="logo">logo</label>
                                     <input type="file" class="form-control" name="logo" id="logo">
                                 </div>                
                               </div>
                               <!-- /.card-body -->
               
                               <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary" name="section1">Submit</button>
                               </div>
                             </form>
                           </div>
@@ -221,7 +227,7 @@
                         <p>Preview</p>
                         <section class="section-a" style="height: 420px;">
                             <div class="background-feature-image position-relative">
-                              <img src="{{ url('landing_page/images/banner-1.jpg') }}" id="outputBackground_image2" alt="" style="background-size: cover; width: 100%; position: absolute; height: 100%;" />
+                              <img @if(!empty($landingPage['background_image2'])) src="{{ url('images/background/'.$landingPage['background_image2'].'') }}" @else src="{{ url('landing_page/images/banner-1.jpg') }}" @endif id="outputBackground_image2" alt="" style="background-size: cover; width: 100%; position: absolute; height: 100%;" />
                                 <div class="container">
                                     <div class="row sub-section-a d-flex justify-content-between align-items-center">
                                         <div class="col-md-7 col-lg-7 col-xl-7 col-xxl-7 col-sm-12 col-xs-12">
@@ -234,7 +240,7 @@
                                         </div>
                                         <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
                                             <figure class="w-100">
-                                                <img class="w-100" style="border-radius: 20px;" id="outputBanner_image2" src="{{ url('landing_page/images/businesswomen.jpg') }}" alt="">
+                                                <img class="w-100" height="250px" style="border-radius: 20px;" id="outputBanner_image2" @if(!empty($landingPage['banner_image2'])) src="{{ url('images/banner/'.$landingPage['banner_image2'].'') }}" @else src="{{ url('landing_page/images/businesswomen.jpg') }}" @endif  alt="">
                                             </figure>
                                         </div>
                                     </div>
@@ -255,23 +261,23 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{ url('admin/create-landing-pages') }}" method="post">@csrf
+                            <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
                               <div class="card-body">
                                 <div class="form-group">
                                   <label for="title2">Title</label>
-                                  <input type="text" class="form-control" id="title2" name="title2" placeholder="Enter Title" value="Virtual Assistants Are the Solution For Your Business">
+                                  <input type="text" class="form-control" id="title2" name="title2" placeholder="Enter Title" @if(!empty($landingPage['title2'])) value="{{$landingPage['title2']}}" @else value="Virtual Assistants Are the Solution For Your Business" @endif>
                                 </div>
                                 <div class="form-group">
                                   <label for="sub_title2">Sub Title</label>
-                                  <input type="text" class="form-control" name="sub_title2" id="sub_title2" placeholder="Enter Subtitle" value="Get In Touch With Us Today">
+                                  <input type="text" class="form-control" name="sub_title2" id="sub_title2" placeholder="Enter Subtitle" @if(!empty($landingPage['sub_title2'])) value="{{$landingPage['sub_title2']}}" @else value="Get In Touch With Us Today" @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="button1">Button 1</label>
-                                    <input type="text" class="form-control" name="button1" id="button1" placeholder="Enter Button Content" value="GET STARTED">
+                                    <input type="text" class="form-control" name="button1" id="button1" placeholder="Enter Button Content" @if(!empty($landingPage['button1'])) value="{{$landingPage['button1']}}" @else value="GET STARTED" @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="button2">Button 2</label>
-                                    <input type="text" class="form-control" name="button2" id="button2" placeholder="Enter Button Content" value="CALL US">
+                                    <input type="text" class="form-control" name="button2" id="button2" placeholder="Enter Button Content" @if(!empty($landingPage['button2'])) value="{{$landingPage['button2']}}" @else value="CALL US" @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="background_image2">Banner Background Image</label>
@@ -285,7 +291,7 @@
                               <!-- /.card-body -->
               
                               <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" name="section2" class="btn btn-primary">Submit</button>
                               </div>
                             </form>
                           </div>
@@ -296,182 +302,54 @@
                     </div>
                     <!-- /.row -->
                   </div>
+
                   <div class="tab-pane fade show" id="custom-tabs-section3" role="tabpanel" aria-labelledby="custom-tabs-section3-tab">
                     <h3>Section 3</h3>
+
+                    <style>
+                      span#outputTitle3 {
+                        position: relative;
+                    }
+                    span#outputTitle3::before {
+                        position: absolute;
+                        content: '';
+                        width: 195px;
+                        height: 2px;
+                        background-color: #f26e4f;
+                        bottom: 0;
+                        left: 50%;
+                        margin-left: -100px;
+                    }
+                      </style>
 
                     <div class="row p-3" style="border: #FFFFFF solid 2px;">
                       <div class="col-md-12">
                         <p>Preview</p>
                         <!-- service section start -->
-                        <section class="section-b" id="our-services">
+                        <section class="section-b" id="our-services" style="background-color: #FFFFFF; color: #000000;">
                           <div class="container padding-block-container">
-                              <div class="row d-flex justify-content-center">
-                                  <h3 class="text-center heading-3">Virtual Assistant Services We Offer</h3>
-                                  <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 20%;"></span>
-                                  <p class="text-center pt-2 pb-2">Curb the struggle of managing extensive administration tasks, and scale your business growth with contemporary solutions. Hire virtual assistants from the global service provider Tech2Globe Web Solutions. We utilize the latest tools, techniques, and processes to provide world-class and 100% accurate services. Furthermore, we allocate you tech-savvy and proactive VAs that have aptitude in various fields to run admin errands for you and support challenges that you may be facing. Our comprehensive solutions include, but are not limited to</p>
+                              <div class="row d-flex justify-content-center" id="outputServices">
+                                  <h3 class="heading-3" style="align-text: center;"><span id="outputTitle3"></span></h3><br>
+                                  <p class="text-center pt-2 pb-2"><span id="outputDescription3"></span></p>
 
                                   <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
+                                      <div class="card" style="background-color: #FFFFFF; color: #000000;">
                                           <div class="heading-container">
                                               <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/data-entry-service.png" alt="">
+                                                  <img class="w-100" src="{{ url('landing_page/images/data-entry-service.png') }}" alt="">
                                               </figure>
                                               <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Data Entry Services</h4>
+                                                  <h4 class="text-dark text-center"><span id="outputServiceName1" style="color: #000000;"></span></h4>
                                               </div>
                                           </div>
                                           <div class="content-container text-center">
-                                              <p class="text-dark">We have been in the data entry business for over 12 years, and our services are backed by this solid experience in handling diverse requirements.</p>
-                                              <a href="https://tech2globe.com/data-entry-services" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
-
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/data-processing.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Data Processing Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">Data processing is critical to get the most out of your data. We make data processing easy so you can focus on higher-value tasks.</p>
-                                              <a href="https://tech2globe.com/data-processing-services" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/data-conversion.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Data Conversion Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">Our team of data experts have been handling data conversion requirements for a diverse clientele from across the world.</p>
-                                              <a href="https://tech2globe.com/data-conversion-services" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/data-extraction.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Data Extraction Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">Extracting data from huge databases can take time and effort. Our team leverages the power of scripts to browse through massive databases.</p>
-                                              <a href="https://tech2globe.com/data-extraction-services" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/data-scraping.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Data Scraping Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">Online data extraction is a tedious, time-consuming process that requires multiple expensive software, servers, and resources.</p>
-                                              <a href="https://tech2globe.com/web-scraping-services" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/customer-support-service.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Customer Support Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">We prioritise customer satisfaction and provide prompt support to address any concerns or inquiries. </p>
-                                              <a href="https://tech2globe.com/customer-support-services" class="sub-button">Read More</a>
+                                              <p class="text-dark"><span id="outputServiceDescription1" style="color: #000000;"></span></p>
+                                              <a href="" class="sub-button">Read More</a>
                                           </div>
                                       </div>
                                   </div>
 
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/business-process-outsourcing.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Call Center Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">Experience the tailored call center service to meet the diverse needs of your customers and ensure they receive top-notch assistance every time.</p>
-                                              <a href="https://tech2globe.com/call-center-consulting" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/backend-support-services.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Backend Support Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">Tailored solutions to cater your unique demands. With Tech2Globe’s comprehensive database management keep your systems updated, secure, and optimized.</p>
-                                              <a href="https://tech2globe.com/sales-support-services" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/knowledge-process-outsourcing.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Data Support Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">Harness the power of your company’s data for crucial and informed decision-making. Our Data Support professionals have the knowledge to help you leverage your data effectively.</p>
-                                              <a href="https://tech2globe.com/data-management-services" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" src="/hire-virtual-assistant/images/chat-support-services.png" alt="">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center">Chat Support Services</h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark">Upgrade customer engagement and support with professional Chat Support Services. Our agents are trained to provide prompt responses and 24/7 assistant.</p>
-                                              <a href="https://www.tech2globe.com/chat-support-services" class="sub-button">Read More</a>
-                                          </div>
-                                      </div>
-                                  </div>
+                                  
                               </div>
                           </div>
                         </section>
@@ -484,41 +362,37 @@
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Create Section 1</h3>
+                            <h3 class="card-title">Create Section 3</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="title3">Title</label>
+                                <input type="text" class="form-control" id="title3" name="title3" placeholder="Enter Title" @if(!empty($landingPage['title3'])) value="{{$landingPage['title3']}}" @else value="Virtual Assistant Services We Offer" @endif>
                               </div>
                               <div class="form-group">
-                                <label for="menu2">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                <label for="description3">Description</label>
+                                <input type="text" class="form-control" name="description3" id="description3" placeholder="Enter Description" @if(!empty($landingPage['description3'])) value="{{$landingPage['description3']}}" @else value="Curb the struggle of managing extensive administration tasks, and scale your business growth with contemporary solutions. Hire virtual assistants from the global service provider Tech2Globe Web Solutions. We utilize the latest tools, techniques, and processes to provide world-class and 100% accurate services. Furthermore, we allocate you tech-savvy and proactive VAs that have aptitude in various fields to run admin errands for you and support challenges that you may be facing. Our comprehensive solutions include, but are not limited to" @endif>
                               </div>
                               <div class="form-group">
-                                  <label for="menu3">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                                  <label for="serviceName1">Service Name 1</label>
+                                  <input type="text" class="form-control" name="serviceName1" id="serviceName1" placeholder="Enter Service Name" value="Data Entry Services">
                               </div>
                               <div class="form-group">
-                                  <label for="menu4">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
-                              </div> 
-                              <div class="form-group">
-                                  <label for="favicon_icon">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
+                                  <label for="serviceDescription1">Service small description 1</label>
+                                  <input type="text" class="form-control" name="serviceDescription1" id="serviceDescription1" placeholder="Enter Service Description" value="We have been in the data entry business for over 12 years, and our services are backed by this solid experience in handling diverse requirements.">
                               </div>
-                              <div class="form-group">
-                                  <label for="logo">Logo</label>
-                                  <input type="file" class="form-control" name="logo" id="logo">
-                              </div>                
+                              <div id="section3Form">
+
+                              </div>
+                              <input type="button" class="btn btn-info" id="serviceAddButton" value="+ Click to add Service">               
                             </div>
                             <!-- /.card-body -->
             
                             <div class="card-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" name="section3" class="btn btn-primary">Submit</button>
                             </div>
                           </form>
                         </div>
@@ -537,45 +411,45 @@
                         <p>Preview</p>
                         <!-- why should you hire start -->
                         <section class="section-c padding-block-container" id="why-choose">
-                          <h3 class="text-center heading-3">Why Should You Hire Virtual Assistants From Tech2gobe?</h3>
+                          <h3 class="text-center heading-3" style="color: #000000;" id="outputTitle4">Why Should You Hire Virtual Assistants From Tech2gobe?</h3>
                           <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px" style="width: 40%;"></span>
 
                           <div class="container">
                               <div id="counter" class="row">
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="40"></span><span class="symbol">%</span>
-                                          <p class="text">Cost Reduction</p>
+                                          <span class="count" data-number="40" id="outputBox1heading">40%</span>
+                                          <p class="text" style="color: #000000;" id="outputBox1content">Cost Reduction</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="24"></span>
-                                          <p class="text">Hrs Turnaround</p>
+                                          <span class="count" data-number="24" id="outputBox2heading">24</span>
+                                          <p class="text" style="color: #000000;" id="outputBox2content">Hrs Turnaround</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="500"></span><span class="symbol">+</span>
-                                          <p class="text">Satisfied Client</p>
+                                          <span class="count" data-number="500" id="outputBox3heading">500+</span>
+                                          <p class="text" style="color: #000000;" id="outputBox3content">Satisfied Client</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="250"></span><span class="symbol">+</span>
-                                          <p class="text">Skilled Agents</p>
+                                          <span class="count" data-number="250" id="outputBox4heading">250+</span>
+                                          <p class="text" style="color: #000000;" id="outputBox4content">Skilled Agents</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="100"></span><span class="symbol">%</span>
-                                          <p class="text">Accuracy</p>
+                                          <span class="count" data-number="100" id="outputBox5heading">100%</span>
+                                          <p class="text" style="color: #000000;" id="outputBox5content">Accuracy</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="12"></span>
-                                          <p class="text">Years Experience </p>
+                                          <span class="count" data-number="12" id="outputBox6heading">12</span>
+                                          <p class="text" style="color: #000000;" id="outputBox6content">Years Experience </p>
                                       </div>
                                   </div>
                               </div>
@@ -591,41 +465,105 @@
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Create Section 1</h3>
+                            <h3 class="card-title">Create Section 4</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="title4">Title</label>
+                                <input type="text" class="form-control" id="title4" name="title4" placeholder="Enter Title" @if(!empty($landingPage['title4'])) value="{{$landingPage['title4']}}" @else value="Why Should You Hire Virtual Assistants From Tech2gobe?" @endif>
                               </div>
-                              <div class="form-group">
-                                <label for="menu2">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box1heading">Box 1 Heading</label>
+                                    <input type="text" class="form-control" name="box1heading" id="box1heading" placeholder="Enter Box Heading"  @if(!empty($landingPage['box1heading'])) value="{{$landingPage['box1heading']}}" @else value="40%" @endif>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box1content">Box 1 Content</label>
+                                    <input type="text" class="form-control" name="box1content" id="box1content" placeholder="Enter Box Content"  @if(!empty($landingPage['box1content'])) value="{{$landingPage['box1content']}}" @else value="Cost Reduction" @endif>
+                                  </div>
+                                </div>
                               </div>
-                              <div class="form-group">
-                                  <label for="menu3">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box2heading">Box 2 Heading</label>
+                                    <input type="text" class="form-control" name="box2heading" id="box2heading" placeholder="Enter Box Heading" @if(!empty($landingPage['box2heading'])) value="{{$landingPage['box2heading']}}" @else value="24" @endif>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box1content">Box 2 Content</label>
+                                    <input type="text" class="form-control" name="box2content" id="box2content" placeholder="Enter Box Content" @if(!empty($landingPage['box2content'])) value="{{$landingPage['box2content']}}" @else value="Hrs Turnaround" @endif>
+                                  </div>
+                                </div>
                               </div>
-                              <div class="form-group">
-                                  <label for="menu4">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
-                              </div> 
-                              <div class="form-group">
-                                  <label for="favicon_icon">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box3heading">Box 3 Heading</label>
+                                    <input type="text" class="form-control" name="box3heading" id="box3heading" placeholder="Enter Box Heading" @if(!empty($landingPage['box3heading'])) value="{{$landingPage['box3heading']}}" @else value="500+" @endif>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box3content">Box 3 Content</label>
+                                    <input type="text" class="form-control" name="box3content" id="box3content" placeholder="Enter Box Content" @if(!empty($landingPage['box3content'])) value="{{$landingPage['box3content']}}" @else value="Satisfied Client" @endif>
+                                  </div>
+                                </div>
                               </div>
-                              <div class="form-group">
-                                  <label for="logo">Logo</label>
-                                  <input type="file" class="form-control" name="logo" id="logo">
-                              </div>                
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box4heading">Box 4 Heading</label>
+                                    <input type="text" class="form-control" name="box4heading" id="box4heading" placeholder="Enter Box Heading" @if(!empty($landingPage['box4heading'])) value="{{$landingPage['box4heading']}}" @else value="250+" @endif>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box4content">Box 4 Content</label>
+                                    <input type="text" class="form-control" name="box4content" id="box4content" placeholder="Enter Box Content" @if(!empty($landingPage['box4content'])) value="{{$landingPage['box4content']}}" @else value="Skilled Agents" @endif>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box5heading">Box 5 Heading</label>
+                                    <input type="text" class="form-control" name="box5heading" id="box5heading" placeholder="Enter Box Heading" @if(!empty($landingPage['box5heading'])) value="{{$landingPage['box5heading']}}" @else value="100%" @endif>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box5content">Box 5 Content</label>
+                                    <input type="text" class="form-control" name="box5content" id="box5content" placeholder="Enter Box Content" @if(!empty($landingPage['box5content'])) value="{{$landingPage['box5content']}}" @else value="Accuracy" @endif>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box6heading">Box 6 Heading</label>
+                                    <input type="text" class="form-control" name="box6heading" id="box6heading" placeholder="Enter Box Heading" @if(!empty($landingPage['box6heading'])) value="{{$landingPage['box6heading']}}" @else value="12" @endif>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="box6content">Box 6 Content</label>
+                                    <input type="text" class="form-control" name="box6content" id="box6content" placeholder="Enter Box Content" @if(!empty($landingPage['box6content'])) value="{{$landingPage['box6content']}}" @else value="Years Experience" @endif>
+                                  </div>
+                                </div>
+                              </div>        
                             </div>
                             <!-- /.card-body -->
             
                             <div class="card-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" name="section4" class="btn btn-primary">Submit</button>
                             </div>
                           </form>
                         </div>
@@ -644,60 +582,60 @@
                         <p>Preview</p>
                              
                         <!-- valued customer start -->
-                        <section class="section-d padding-block-container" id="our-customers">
+                        <section class="section-d padding-block-container" id="our-customers" style="background-color: #FFFFFF; color: #000000;">
                           <h3 class="text-center heading-3">Our Valued Customers</h3>
                           <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
                           <div class="container mt-2">
                               <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4">
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/aonHewit.png" alt="">
+                                          <img src="{{ url('landing_page/images/aonHewit.png') }}" alt="">
                                       </figure>
                                   </div>
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/follett.png" alt="">
+                                          <img src="{{ url('landing_page/images/follett.png') }}" alt="">
                                       </figure>
                                   </div>
 
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/foodora-1.png" alt="">
+                                          <img src="{{ url('landing_page/images/foodora-1.png') }}" alt="">
                                       </figure>
                                   </div>
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/go-mechanic.png" alt="">
+                                          <img src="{{ url('landing_page/images/go-mechanic.png') }}" alt="">
                                       </figure>
                                   </div>
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/hp.png" alt="">
+                                          <img src="{{ url('landing_page/images/hp.png') }}" alt="">
                                       </figure>
                                   </div>
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/nike.png" alt="">
+                                          <img src="{{ url('landing_page/images/nike.png') }}" alt="">
                                       </figure>
                                   </div>
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/sales-warp.png" alt="">
+                                          <img src="{{ url('landing_page/images/sales-warp.png') }}" alt="">
                                       </figure>
                                   </div>
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/SmartSense_Logo_Color.jpg" alt="">
+                                          <img src="{{ url('landing_page/images/SmartSense_Logo_Color.jpg') }}" alt="">
                                       </figure>
                                   </div>
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/wellist.png" alt="">
+                                          <img src="{{ url('landing_page/images/wellist.png') }}" alt="">
                                       </figure>
                                   </div>
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="/hire-virtual-assistant/images/zebit-logo-rgb.png" alt="">
+                                          <img src="{{ url('landing_page/images/zebit-logo-rgb.png') }}" alt="">
                                       </figure>
                                   </div>
                               </div>
@@ -720,28 +658,28 @@
                           <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="menu1old">Menu 1</label>
+                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
                               </div>
                               <div class="form-group">
-                                <label for="menu2">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                <label for="menu2old">Menu 2</label>
+                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
                               </div>
                               <div class="form-group">
-                                  <label for="menu3">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                                  <label for="menu3old">Menu 3</label>
+                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
                               </div>
                               <div class="form-group">
-                                  <label for="menu4">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
+                                  <label for="menu4old">Menu 4</label>
+                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
                               </div> 
                               <div class="form-group">
-                                  <label for="favicon_icon">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
+                                  <label for="favicon_icon_old">Favicon Icon</label>
+                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
                               </div>
                               <div class="form-group">
-                                  <label for="logo">Logo</label>
-                                  <input type="file" class="form-control" name="logo" id="logo">
+                                  <label for="logo_old">logo_old</label>
+                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
                               </div>                
                             </div>
                             <!-- /.card-body -->
@@ -862,28 +800,28 @@
                           <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="menu1old">Menu 1</label>
+                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
                               </div>
                               <div class="form-group">
-                                <label for="menu2">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                <label for="menu2old">Menu 2</label>
+                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
                               </div>
                               <div class="form-group">
-                                  <label for="menu3">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                                  <label for="menu3old">Menu 3</label>
+                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
                               </div>
                               <div class="form-group">
-                                  <label for="menu4">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
+                                  <label for="menu4old">Menu 4</label>
+                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
                               </div> 
                               <div class="form-group">
-                                  <label for="favicon_icon">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
+                                  <label for="favicon_icon_old">Favicon Icon</label>
+                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
                               </div>
                               <div class="form-group">
-                                  <label for="logo">Logo</label>
-                                  <input type="file" class="form-control" name="logo" id="logo">
+                                  <label for="logo_old">logo_old</label>
+                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
                               </div>                
                             </div>
                             <!-- /.card-body -->
@@ -979,28 +917,28 @@
                           <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="menu1old">Menu 1</label>
+                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
                               </div>
                               <div class="form-group">
-                                <label for="menu2">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                <label for="menu2old">Menu 2</label>
+                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
                               </div>
                               <div class="form-group">
-                                  <label for="menu3">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                                  <label for="menu3old">Menu 3</label>
+                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
                               </div>
                               <div class="form-group">
-                                  <label for="menu4">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
+                                  <label for="menu4old">Menu 4</label>
+                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
                               </div> 
                               <div class="form-group">
-                                  <label for="favicon_icon">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
+                                  <label for="favicon_icon_old">Favicon Icon</label>
+                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
                               </div>
                               <div class="form-group">
-                                  <label for="logo">Logo</label>
-                                  <input type="file" class="form-control" name="logo" id="logo">
+                                  <label for="logo_old">logo_old</label>
+                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
                               </div>                
                             </div>
                             <!-- /.card-body -->
@@ -1062,28 +1000,28 @@
                           <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="menu1old">Menu 1</label>
+                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
                               </div>
                               <div class="form-group">
-                                <label for="menu2">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                <label for="menu2old">Menu 2</label>
+                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
                               </div>
                               <div class="form-group">
-                                  <label for="menu3">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                                  <label for="menu3old">Menu 3</label>
+                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
                               </div>
                               <div class="form-group">
-                                  <label for="menu4">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
+                                  <label for="menu4old">Menu 4</label>
+                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
                               </div> 
                               <div class="form-group">
-                                  <label for="favicon_icon">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
+                                  <label for="favicon_icon_old">Favicon Icon</label>
+                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
                               </div>
                               <div class="form-group">
-                                  <label for="logo">Logo</label>
-                                  <input type="file" class="form-control" name="logo" id="logo">
+                                  <label for="logo_old">logo_old</label>
+                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
                               </div>                
                             </div>
                             <!-- /.card-body -->
@@ -1131,28 +1069,28 @@
                           <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="menu1old">Menu 1</label>
+                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
                               </div>
                               <div class="form-group">
-                                <label for="menu2">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                <label for="menu2old">Menu 2</label>
+                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
                               </div>
                               <div class="form-group">
-                                  <label for="menu3">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" value="Our Customers">
+                                  <label for="menu3old">Menu 3</label>
+                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
                               </div>
                               <div class="form-group">
-                                  <label for="menu4">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" value="Contact Us">
+                                  <label for="menu4old">Menu 4</label>
+                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
                               </div> 
                               <div class="form-group">
-                                  <label for="favicon_icon">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
+                                  <label for="favicon_icon_old">Favicon Icon</label>
+                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
                               </div>
                               <div class="form-group">
-                                  <label for="logo">Logo</label>
-                                  <input type="file" class="form-control" name="logo" id="logo">
+                                  <label for="logo_old">logo_old</label>
+                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
                               </div>                
                             </div>
                             <!-- /.card-body -->

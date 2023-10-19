@@ -145,9 +145,23 @@ $(document).ready(function(){
         $('#sub_title2').on('input', updateOutput);
         $('#button1').on('input', updateOutput);
         $('#button2').on('input', updateOutput);
-
-
-            
+        $('#title3').on('input', updateOutput);
+        $('#description3').on('input', updateOutput);
+        $('#serviceName1').on('input', updateOutput);
+        $('#serviceDescription1').on('input', updateOutput);
+        $('#title4').on('input', updateOutput);
+        $('#box1heading').on('input', updateOutput);
+        $('#box1content').on('input', updateOutput);
+        $('#box2heading').on('input', updateOutput);
+        $('#box2content').on('input', updateOutput);
+        $('#box3heading').on('input', updateOutput);
+        $('#box3content').on('input', updateOutput);
+        $('#box4heading').on('input', updateOutput);
+        $('#box4content').on('input', updateOutput);
+        $('#box5heading').on('input', updateOutput);
+        $('#box5content').on('input', updateOutput);
+        $('#box6heading').on('input', updateOutput);
+        $('#box6content').on('input', updateOutput);
 
         
 
@@ -223,6 +237,25 @@ $(document).ready(function(){
             const sub_title2 = $('#sub_title2').val();
             const button1 = $('#button1').val();
             const button2 = $('#button2').val();
+            const title3 = $('#title3').val();
+            const description3 = $('#description3').val();
+            const serviceName1 = $('#serviceName1').val();
+            const serviceDescription1 = $('#serviceDescription1').val();
+            const title4 = $('#title4').val();
+            const box1heading = $('#box1heading').val();
+            const box1content = $('#box1content').val();
+            const box2heading = $('#box2heading').val();
+            const box2content = $('#box2content').val();
+            const box3heading = $('#box3heading').val();
+            const box3content = $('#box3content').val();
+            const box4heading = $('#box4heading').val();
+            const box4content = $('#box4content').val();
+            const box5heading = $('#box5heading').val();
+            const box5content = $('#box5content').val();
+            const box6heading = $('#box6heading').val();
+            const box6content = $('#box6content').val();
+
+
 
             $('#outputMenu1').text(menu1);
             $('#outputMenu2').text(menu2);
@@ -232,6 +265,23 @@ $(document).ready(function(){
             $('#outputSub_title2').text(sub_title2);
             $('#outputButton1').text(button1);
             $('#outputButton2').text(button2);
+            $('#outputTitle3').text(title3);
+            $('#outputDescription3').text(description3);
+            $('#outputServiceName1').text(serviceName1);
+            $('#outputServiceDescription1').text(serviceDescription1);
+            $('#outputTitle4').text(title4);
+            $('#outputBox1heading').text(box1heading);
+            $('#outputBox1content').text(box1content);
+            $('#outputBox2heading').text(box2heading);
+            $('#outputBox2content').text(box2content);
+            $('#outputBox3heading').text(box3heading);
+            $('#outputBox3content').text(box3content);
+            $('#outputBox4heading').text(box4heading);
+            $('#outputBox4content').text(box4content);
+            $('#outputBox5heading').text(box5heading);
+            $('#outputBox5content').text(box5content);
+            $('#outputBox6heading').text(box6heading);
+            $('#outputBox6content').text(box6content);
 
         }
     });
@@ -261,6 +311,27 @@ $(document).ready(function(){
         });
     });
 
+    var clickCount = 1;
+    $("#serviceAddButton").click(function() {
+        clickCount++;
+        var group = '<div class="form-group"><label for="serviceName' + clickCount + '">Service Name ' + clickCount + '</label><input type="text" class="form-control dynamic-input" name="serviceName' + clickCount + '" id="serviceName' + clickCount + '" placeholder="Enter Service Name" value=""></div><div class="form-group"><label for="serviceDescription' + clickCount + '">Service ' + clickCount + ' small description</label><input type="text" class="form-control" name="serviceDescription' + clickCount + '" id="serviceDescription' + clickCount + '" placeholder="Enter Service Description" value=""></div>';
+        var content = ' <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b"><div class="card" style="background-color: #FFFFFF; color: #000000;"><div class="heading-container"><figure class="icon w-25"><img class="w-100" src="{{ url("landing_page/images/data-entry-service.png") }}" alt=""></figure><div class="heading-4"><h4 class="text-dark text-center"><span id="outputServiceName' + clickCount + '" style="color: #000000;"></span></h4></div></div><div class="content-container text-center"><p class="text-dark"><span id="outputServiceDescription' + clickCount + '" style="color: #000000;"></span></p><a href="" class="sub-button">Read More</a></div></div></div>';
+
+        $("#section3Form").append(group);
+        $("#outputServices").append(content);
+
+        // Event listener for each input field
+        $('#serviceName' + clickCount).on('input', function() {
+            var text = $(this).val();
+            $('#outputServiceName' + clickCount).text(text);
+        });
+
+         // Event listener for each input field
+         $('#serviceDescription' + clickCount).on('input', function() {
+            var data = $(this).val();
+            $('#outputServiceDescription' + clickCount).text(data);
+        });
+    });
 
 
 });

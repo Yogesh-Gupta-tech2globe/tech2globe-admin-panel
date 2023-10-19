@@ -88,16 +88,6 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 });
 
             //Landing Pages Routes
-            Route::get('/react-web-appliction', function () {
-                return view('landing-page/react-web-appliction');
-            });Route::get('/yogesh-logistic-services', function () {
-                return view('landing-page/yogesh-logistic-services');
-            });Route::get('/digital-marketing-services', function () {
-                return view('landing-page/digital-marketing-services');
-            });Route::get('/amazon-services', function () {
+            Route::get('/amazon-services', function () {
                 return view('landing-page/amazon-services');
-            });Route::get('/tech2globe-services', function () {
-                return view('landing-page/tech2globe-services');
-            });Route::get('/hello-world-yogesh', function () {
-                return view('landing-page/hello-world-yogesh');
             });
