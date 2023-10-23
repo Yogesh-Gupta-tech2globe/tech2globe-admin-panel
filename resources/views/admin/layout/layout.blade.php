@@ -25,7 +25,7 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__wobble" src="{{ url('admin/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__wobble" src="{{ url('admin/img/tech2globe-logo.png') }}" alt="AdminLTELogo" width="50%" height="100">
   </div>
 
   @include('admin.layout.header')

@@ -312,17 +312,17 @@ body {
 
 /* section-f start */
 
-#our-contact {
+/* #our-contact {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center bottom;
     background-color: rgba(0, 0, 0, 0.50) !important;
-    background-image: url("/hire-virtual-assistant/images/contact-parallax.jpg");
+    background-image: url('/landing_page/images/contact-parallax.jpg');
     background-blend-mode: multiply;
     width: 100%;
     height: auto;
     display: inline-block;
-}
+} */
 
 .section-f .form-a .row div input,
 .section-f .form-a .row div select,
@@ -363,17 +363,17 @@ body {
 /* section-f end */
 
 /* section-g start */
-.have-query-section {
+/* .have-query-section {
     width: 100%;
     height: auto;
     background-color: rgba(36, 106, 178, .75);
-    background-image: url('/hire-virtual-assistant/images/footer-abstract.jpg');
+    background-image: url('/landing_page/images/footer-abstract.jpg');
     background-blend-mode: multiply;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
     padding-block: 100px;
-}
+} */
 
 .have-query-section small {
     font-size: 16px;

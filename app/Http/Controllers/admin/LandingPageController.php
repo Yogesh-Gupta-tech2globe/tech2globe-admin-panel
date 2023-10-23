@@ -504,71 +504,39 @@ class LandingPageController extends Controller
 
                 $message = "Section 3 updated Successfully!";
 
-                
-                //Updating Banner Upper Image
-                // if(!empty($data['banner_image2'])){
+                // echo "<pre>"; print_r($data); die;
 
-                //     // Removing Previous Banner Upper Image   
-                //     if(!empty($landingPage['banner_image2'])){
-                //         $bannerimagePath = public_path('images/banner/'.$landingPage['banner_image2']);
-    
-                //         if(file_exists($bannerimagePath)){
-                //             if(unlink($bannerimagePath)){
+                $serviceName = [];
+                $serviceDescription = [];
+                $serviceIcon = [];
 
-                //             }else{
-                //                 return redirect()->back()->with('error_message','There is some error on deleting Banner Upper Image!');
-                //             }
-                //         }else{
-                //             return redirect()->back()->with('error_message','Banner Upper Image not found! Please contact Admin');
-                //         }
-                //     }
+                foreach($data as $content => $value){
 
-                //     if($request->hasFile('banner_image2')){
-                //         $image_tmp = $request->file('banner_image2');
-                //         if($image_tmp->isValid()){
-                //             //Get Image Extension
-                //             $extension = $image_tmp->getClientOriginalExtension();
-                //             //Generate New Image Name
-                //             $bannerImage = rand(111,98999).'.'.$extension;
-                //             $image_path = 'images/banner/'.$bannerImage;
-                //             Image::make($image_tmp)->save($image_path);
-                //         }
-                //     } 
-                // }else{
-                //     $bannerImage = $landingPage['banner_image2'];
-                // }
+                    if(str_contains($content,'serviceName')){
+                        array_push($serviceName,$value);
+                    }else if(str_contains($content,'serviceDescription')){
+                        array_push($serviceDescription,$value);
+                    }else if(str_contains($content,'serviceIcon')){
+                        
+                        if($request->hasFile($content)){
+                            $image_tmp = $request->file($content);
+                            if($image_tmp->isValid()){
+                                //Get Image Extension
+                                $extension = $image_tmp->getClientOriginalExtension();
+                                //Generate New Image Name
+                                $serviceImage = rand(111,98999).'.'.$extension;
+                                $image_path = 'images/icons/'.$serviceImage;
+                                Image::make($image_tmp)->save($image_path);
+                            }
+                        }
+                        array_push($serviceIcon,$serviceImage);
+                    }
+                }
 
-                
-                //File old section Content
-                // $oldSectionContent = '
-                // <!-- hero section start -->
-                // <style>
-                //     .section-a {
-                //         background: url("images/background/'.$landingPage['background_image2'].'");
-                //         background-size: cover;
-                //         width: 100%;
-                //     }
-                // </style>
-                // <section class="section-a">
-                //         <div class="container">
-                //             <div class="row sub-section-a d-flex justify-content-between align-items-center">
-                //                 <div class="col-md-7 col-lg-7 col-xl-7 col-xxl-7 col-sm-12 col-xs-12">
-                //                     <h1 class="text-dark main-heading">'.$landingPage['title2'].'</h1>
-                //                     <p class="" style="color: #f26e4f;">'.$landingPage['sub_title2'].'</p>
-                //                     <div class="button-container">
-                //                         <a href="#our-contact" class="main-button">'.$landingPage['button1'].'</a>
-                //                         <a href="tel:+1-250-206-8787" class="main-button call-us-btn">'.$landingPage['button2'].'</a>
-                //                     </div>
-                //                 </div>
-                //                 <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
-                //                     <figure class="w-100">
-                //                         <img class="w-100" style="border-radius: 20px; height: 300px;" src="{{ url("images/banner/'.$landingPage["banner_image2"].'") }}" alt="">
-                //                     </figure>
-                //                 </div>
-                //             </div>
-                //         </div>
-                // </section>
-                // <!-- hero section end -->';
+                $implodeServiceName = implode("+++",$serviceName);
+                $implodeServiceDescription = implode("+++",$serviceDescription);
+                $implodeServiceIcon = implode(",",$serviceIcon);
+
 
                 //File new section Content
                 $newSectionContent = '
@@ -578,26 +546,29 @@ class LandingPageController extends Controller
                             <div class="row d-flex justify-content-center">
                                 <h3 class="text-center heading-3">'.$data['title3'].'</h3>
                                 <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 20%;"></span>
-                                <p class="text-center pt-2 pb-2">'.$data['description3'].'</p>
-
-                                <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                <p class="text-center pt-2 pb-2">'.$data['description3'].'</p>';
+                               
+                                for($i=0; $i<count($serviceName); $i++){
+                                $newSectionContent .= '<div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
                                     <div class="card">
                                         <div class="heading-container">
                                             <figure class="icon w-25">
-                                                <img class="w-100" src="{{ url("landing_page/images/data-entry-service.png") }}" alt="">
+                                                <img class="w-100" src="{{ url("images/icons/'.$serviceIcon[$i].'") }}" alt="">
                                             </figure>
                                             <div class="heading-4">
-                                                <h4 class="text-dark text-center">Data Entry Services</h4>
+                                                <h4 class="text-dark text-center">'.$serviceName[$i].'</h4>
                                             </div>
                                         </div>
                                         <div class="content-container text-center">
-                                            <p class="text-dark">We have been in the data entry business for over 12 years, and our services are backed by this solid experience in handling diverse requirements.</p>
-                                            <a href="" class="sub-button">Read More</a>
+                                            <p class="text-dark">'.$serviceDescription[$i].'</p>
+                                            <a href="'.Str::slug($serviceName[$i]).'" class="sub-button">Read More</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div>';
+                                }
+                               
 
-                            </div>
+                            $newSectionContent .= '</div>
                         </div>
                     </section>
                 <!-- service section end -->';
@@ -613,8 +584,6 @@ class LandingPageController extends Controller
 
                 // Construct the new content with the updated section
                 //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
-
-                // echo $newContent; die;
             
                 // // Write the updated content back to the file
                 if(!empty($landingPage['section3_id'])){
@@ -624,27 +593,14 @@ class LandingPageController extends Controller
                     file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
                 }
 
-                $serviceName = [];
-                $serviceDescription = [];
-
-                foreach($data as $content => $value){
-
-                    if(str_contains($content,'serviceName')){
-                        array_push($serviceName,$value);
-                    }else if(str_contains($content,'serviceDescription')){
-                        array_push($serviceDescription,$value);
-                    }
-                }
-
-                $implodeServiceName = implode("+++",$serviceName);
-                $implodeServiceDescription = implode("+++",$serviceDescription);
-
+                
                 $landingPage->layout_id = $id;
                 $landingPage->section3_id = 3;
                 $landingPage->title3 = $data['title3'];
                 $landingPage->description3 = $data['description3'];
                 $landingPage->service_name3 = $implodeServiceName;
                 $landingPage->service_description3 = $implodeServiceDescription;
+                $landingPage->service_icon3 = $implodeServiceIcon;
                 $landingPage->save();
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
@@ -773,6 +729,386 @@ class LandingPageController extends Controller
                 $landingPage->box5content = $data['box5content'];
                 $landingPage->box6heading = $data['box6heading'];
                 $landingPage->box6content = $data['box6content'];
+                $landingPage->save();
+                return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
+            }
+
+            if(array_key_exists('section5', $data)){
+
+                $message = "Section 5 updated Successfully!";
+
+                
+
+                $customerImages = [];
+
+                foreach($data as $content => $value){
+
+                    if(str_contains($content,'image')){
+                        
+                        if($request->hasFile($content)){
+                            $image_tmp = $request->file($content);
+                            if($image_tmp->isValid()){
+                                //Get Image Extension
+                                $extension = $image_tmp->getClientOriginalExtension();
+                                //Generate New Image Name
+                                $customerImage = rand(111,98999).'.'.$extension;
+                                $image_path = 'images/customers/'.$customerImage;
+                                Image::make($image_tmp)->save($image_path);
+                            }
+                        }
+                        array_push($customerImages,$customerImage);
+                    }
+                }
+
+                $implodeCustomerImages = implode(",",$customerImages);
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- valued customer start -->
+                    <section class="section-d padding-block-container" id="our-customers">
+                        <h3 class="text-center heading-3">' . $data['title5'] . '</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="container mt-2">
+                            <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4">';
+                                foreach ($customerImages as $row) {
+                                    $newSectionContent .= '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                        <figure>
+                                            <img src="{{ url("images/customers/' . $row . '") }}" alt="" height="80" width="auto">
+                                        </figure>
+                                    </div>';
+                                }
+                                $newSectionContent .= '
+                            </div>
+                        </div>
+                    </section>
+                <!-- valued customer end -->';
+
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                //Creating the file
+                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
+
+                // Read the entire file
+                //$currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+
+                // echo $newContent; die;
+            
+                // // Write the updated content back to the file
+                if(!empty($landingPage['section5_id'])){
+                    //file_put_contents($filePath, $newContent, LOCK_EX);
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }else{
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }
+
+
+                $landingPage->layout_id = $id;
+                $landingPage->section5_id = 5;
+                $landingPage->title5 = $data['title5'];
+                $landingPage->customers_images5 = $implodeCustomerImages;
+                $landingPage->save();
+                return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
+            }
+
+            if(array_key_exists('section7', $data)){
+
+                $message = "Section 7 updated Successfully!";
+
+                $background_image7 = $data['background_image7'];
+    
+                if (!empty($background_image7)) {
+                    if ($request->hasFile('background_image7')) {
+                        $image_tmp = $request->file('background_image7');
+                        if ($image_tmp->isValid()) {
+                            // Get Image Extension
+                            $extension = $image_tmp->getClientOriginalExtension();
+                            // Generate New Image Name
+                            $backgroundImage7 = rand(111, 98999) . '.' . $extension;
+                            $image_path = 'images/background/' . $backgroundImage7;
+                            Image::make($image_tmp)->save($image_path);
+                        }
+                    }
+                }
+                
+
+
+                //File new section Content
+                $newSectionContent = '
+                        <style>
+                          #our-contact {
+                              background-repeat: no-repeat;
+                              background-size: cover;
+                              background-position: center bottom;
+                              background-color: rgba(0, 0, 0, 0.50) !important;
+                              background-image: url("/images/background/'.$backgroundImage7.'");
+                              background-blend-mode: multiply;
+                              width: 100%;
+                              height: auto;
+                              display: inline-block;
+                          }
+                        </style>
+                <!-- contact us section-f start -->
+                <section class="section-f padding-block-container" id="our-contact">
+                    <div class="container">
+                        <h3 class="text-center text-white heading-3">'.$data['title7'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
+            
+                        <div class="row">
+                            <div class="col-md-8 col-lg-7 col-sm-12 col-xs-12 m-auto">
+                                <?php $actual_link = str_replace(".php", "", "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["PHP_SELF"]); ?>
+                                <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="" method="post">
+                                    <input name="pagelinks" value="<?php echo $actual_link; ?>" type="hidden" />
+                                    <div class="row w-100 mb-3">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$data['inputField1'].'" name="fname" required>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$data['inputField2'].'" name="lname">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="email" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$data['inputField3'].'" name="email" required>
+                                        </div>
+                                        <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
+                                            <div class="select-box">
+                                                <div class="selected-option">
+                                                    <div>
+                                                        <span class="iconify" data-icon="flag:us-4x3"></span>
+                                                        <strong>+1</strong>
+                                                    </div>
+                                                    <input type="tel" name="tel" placeholder="'.$data['inputField4'].'" minlength="10" required id="phoneInput">
+                                                </div>
+                                                <div class="options">
+                                                    <input type="text" class="search-box" placeholder="Search Country Name">
+                                                    <ol>
+            
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Website* -- Ex: http://www.example.com" name="website" required>
+                                        </div> -->
+            
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" placeholder="'.$data['inputField5'].'" name="message" required></textarea>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="main-button rounded-0" name="contact_form_submit">'.$data['inputField6'].'</button>
+                                        </div>
+                                    </div>
+            
+            
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script src="{{ url("landing_page/script.js") }}"></script>
+
+                <script>
+                    // Get a reference to the input field
+                    const phoneInput = document.getElementById("phoneInput");
+            
+                    // Add an event listener to the input field
+                    phoneInput.addEventListener("input", function() {
+                        // Remove any non-numeric characters from the input
+                        this.value = this.value.replace(/[^0-9+]/g, "");
+            
+                        // Optionally, you can set a maximum length for the phone number
+                        const maxLength = 15; // Change this to your desired maximum length
+                        if (this.value.length > maxLength) {
+                            this.value = this.value.slice(0, maxLength);
+                        }
+                    });
+                </script>
+                <!-- contact us section-f end -->';
+
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                //Creating the file
+                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
+
+                // Read the entire file
+                //$currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // // Write the updated content back to the file
+                if(!empty($landingPage['section9_id'])){
+                    //file_put_contents($filePath, $newContent, LOCK_EX);
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }else{
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }
+
+
+                $landingPage->layout_id = $id;
+                $landingPage->section7_id = 7;
+                $landingPage->title7 = $data['title7'];
+                $landingPage->inputfield1 = $data['inputField1'];
+                $landingPage->inputfield2 = $data['inputField2'];
+                $landingPage->inputfield3 = $data['inputField3'];
+                $landingPage->inputfield4 = $data['inputField4'];
+                $landingPage->inputfield5 = $data['inputField5'];
+                $landingPage->inputfield6 = $data['inputField6'];
+                $landingPage->background_image7 = $backgroundImage7;
+                $landingPage->save();
+                return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
+            }
+
+            if(array_key_exists('section8', $data)){
+
+                $message = "Section 8 updated Successfully!";
+
+                $background_image8 = $data['background_image8'];
+    
+                if (!empty($background_image8)) {
+                    if ($request->hasFile('background_image8')) {
+                        $image_tmp = $request->file('background_image8');
+                        if ($image_tmp->isValid()) {
+                            // Get Image Extension
+                            $extension = $image_tmp->getClientOriginalExtension();
+                            // Generate New Image Name
+                            $backgroundImage8 = rand(111, 98999) . '.' . $extension;
+                            $image_path = 'images/background/' . $backgroundImage8;
+                            Image::make($image_tmp)->save($image_path);
+                        }
+                    }
+                }
+                
+
+
+                //File new section Content
+                $newSectionContent = '
+                        <style>
+                       .have-query-section {
+                            width: 100%;
+                            height: auto;
+                            background-color: rgba(36, 106, 178, .75);
+                            background-image: url("/images/background/'.$backgroundImage8.'");
+                            background-blend-mode: multiply;
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            padding-block: 100px;
+                        }
+                        </style>
+                        <!-- section-g start -->
+                        <section class="section-g">
+                          <div class="have-query-section">
+                              <div class="container-fluid" id="have_queries">
+                                  <div class="row">
+                                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                          <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading">'.$data['title8'].'</h3>
+                                          <small class="text-white text-center w-100 d-block pb-5">'.$data['subtitle8'].'</small>
+
+                                          <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2 col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-12">
+                                              <form action="">
+                                                  <input type="text" placeholder="'.$data['field1'].'" required>
+                                                  <input type="tel" placeholder="'.$data['field2'].'" required>
+                                                  <input type="submit" value="'.$data['field3'].'">
+                                              </form>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </section>
+                        <!-- section-g start -->';
+
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                //Creating the file
+                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
+
+                // Read the entire file
+                //$currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // // Write the updated content back to the file
+                if(!empty($landingPage['section9_id'])){
+                    //file_put_contents($filePath, $newContent, LOCK_EX);
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }else{
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }
+
+
+                $landingPage->layout_id = $id;
+                $landingPage->section8_id = 8;
+                $landingPage->title8 = $data['title8'];
+                $landingPage->sub_title8 = $data['subtitle8'];
+                $landingPage->field1 = $data['field1'];
+                $landingPage->field2= $data['field2'];
+                $landingPage->field3 = $data['field3'];
+                $landingPage->background_image8 = $backgroundImage8;
+                $landingPage->save();
+                return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
+            }
+
+            if(array_key_exists('section9', $data)){
+
+                $message = "Section 9 updated Successfully!";
+
+
+                //File new section Content
+                $newSectionContent = '
+                <div class="copyright-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                <p>&copy; '.$data['content9'].'</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                
+                
+                </body>
+                
+                </html>';
+
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                //Creating the file
+                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
+
+                // Read the entire file
+                //$currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // // Write the updated content back to the file
+                if(!empty($landingPage['section9_id'])){
+                    //file_put_contents($filePath, $newContent, LOCK_EX);
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }else{
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }
+
+
+                $landingPage->layout_id = $id;
+                $landingPage->section9_id = 9;
+                $landingPage->content9 = $data['content9'];
                 $landingPage->save();
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }

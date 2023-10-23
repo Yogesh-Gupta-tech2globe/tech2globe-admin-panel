@@ -329,14 +329,14 @@
                         <section class="section-b" id="our-services" style="background-color: #FFFFFF; color: #000000;">
                           <div class="container padding-block-container">
                               <div class="row d-flex justify-content-center" id="outputServices">
-                                  <h3 class="heading-3" style="align-text: center;"><span id="outputTitle3"></span></h3><br>
-                                  <p class="text-center pt-2 pb-2"><span id="outputDescription3"></span></p>
+                                  <h3 class="heading-3" style="align-text: center;"><span id="outputTitle3">@if(!empty($landingPage['title3'])) {{$landingPage['title3']}} @else Virtual Assistant Services We Offer @endif</span></h3><br>
+                                  <p class="text-center pt-2 pb-2"><span id="outputDescription3">@if(!empty($landingPage['description3'])) {{$landingPage['description3']}} @else Curb the struggle of managing extensive administration tasks, and scale your business growth with contemporary solutions. Hire virtual assistants from the global service provider Tech2Globe Web Solutions. We utilize the latest tools, techniques, and processes to provide world-class and 100% accurate services. Furthermore, we allocate you tech-savvy and proactive VAs that have aptitude in various fields to run admin errands for you and support challenges that you may be facing. Our comprehensive solutions include, but are not limited to @endif</span></p>
 
                                   <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
                                       <div class="card" style="background-color: #FFFFFF; color: #000000;">
                                           <div class="heading-container">
                                               <figure class="icon w-25">
-                                                  <img class="w-100" src="{{ url('landing_page/images/data-entry-service.png') }}" alt="">
+                                                  <img class="w-100" id="outputServiceIcon1" src="{{ url('landing_page/images/data-entry-service.png') }}" alt="" width="auto" height="50px">
                                               </figure>
                                               <div class="heading-4">
                                                   <h4 class="text-dark text-center"><span id="outputServiceName1" style="color: #000000;"></span></h4>
@@ -376,16 +376,32 @@
                                 <label for="description3">Description</label>
                                 <input type="text" class="form-control" name="description3" id="description3" placeholder="Enter Description" @if(!empty($landingPage['description3'])) value="{{$landingPage['description3']}}" @else value="Curb the struggle of managing extensive administration tasks, and scale your business growth with contemporary solutions. Hire virtual assistants from the global service provider Tech2Globe Web Solutions. We utilize the latest tools, techniques, and processes to provide world-class and 100% accurate services. Furthermore, we allocate you tech-savvy and proactive VAs that have aptitude in various fields to run admin errands for you and support challenges that you may be facing. Our comprehensive solutions include, but are not limited to" @endif>
                               </div>
-                              <div class="form-group">
-                                  <label for="serviceName1">Service Name 1</label>
-                                  <input type="text" class="form-control" name="serviceName1" id="serviceName1" placeholder="Enter Service Name" value="Data Entry Services">
-                              </div>
-                              <div class="form-group">
-                                  <label for="serviceDescription1">Service small description 1</label>
-                                  <input type="text" class="form-control" name="serviceDescription1" id="serviceDescription1" placeholder="Enter Service Description" value="We have been in the data entry business for over 12 years, and our services are backed by this solid experience in handling diverse requirements.">
-                              </div>
-                              <div id="section3Form">
-
+                              <div id="accordion">
+                                <div class="card card-info card-outline">
+                                  <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
+                                      <div class="card-header">
+                                          <h4 class="card-title w-100">
+                                              Service 1
+                                          </h4>
+                                      </div>
+                                  </a>
+                                  <div id="collapse1" class="collapse show" data-parent="#accordion">
+                                        <div class="card-body">
+                                          <div class="form-group">
+                                            <label for="serviceName1">Service Name 1</label>
+                                            <input type="text" class="form-control" name="serviceName1" id="serviceName1" placeholder="Enter Service Name" value="Data Entry Services">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="serviceDescription1">Service small description 1</label>
+                                            <input type="text" class="form-control" name="serviceDescription1" id="serviceDescription1" placeholder="Enter Service Description" value="We have been in the data entry business for over 12 years, and our services are backed by this solid experience in handling diverse requirements.">
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="serviceIcon1">Service Icon 1</label>
+                                          <input type="file" class="form-control" name="serviceIcon1" id="serviceIcon1" placeholder="Enter Service Icon">
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
                               </div>
                               <input type="button" class="btn btn-info" id="serviceAddButton" value="+ Click to add Service">               
                             </div>
@@ -583,63 +599,27 @@
                              
                         <!-- valued customer start -->
                         <section class="section-d padding-block-container" id="our-customers" style="background-color: #FFFFFF; color: #000000;">
-                          <h3 class="text-center heading-3">Our Valued Customers</h3>
+                          <h3 class="text-center heading-3" id="outputTitle5">@if(!empty($landingPage['title5'])) {{$landingPage['title5']}} @else Our Valued Customers @endif</h3>
                           <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
                           <div class="container mt-2">
-                              <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4">
+                              <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4" id="outputImages">
+                                @if(!empty($landingPage['customers_images5']))
+                                  <?php $customerImages = explode(",",$landingPage['customers_images5']); $i = 0; ?>
+                                  @foreach ($customerImages as $item)
+                                    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                        <figure>
+                                            <img src="{{ url("images/customers/$item") }}" alt="" id="outputImage{{$i++}}" height="80" width="auto">
+                                        </figure>
+                                    </div>
+                                  @endforeach
+                                @else 
                                   <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                       <figure>
-                                          <img src="{{ url('landing_page/images/aonHewit.png') }}" alt="">
+                                          <img src="{{ url('landing_page/images/aonHewit.png') }}" id="outputImage1" alt="" height="80px" width="auto">
                                       </figure>
                                   </div>
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/follett.png') }}" alt="">
-                                      </figure>
-                                  </div>
-
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/foodora-1.png') }}" alt="">
-                                      </figure>
-                                  </div>
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/go-mechanic.png') }}" alt="">
-                                      </figure>
-                                  </div>
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/hp.png') }}" alt="">
-                                      </figure>
-                                  </div>
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/nike.png') }}" alt="">
-                                      </figure>
-                                  </div>
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/sales-warp.png') }}" alt="">
-                                      </figure>
-                                  </div>
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/SmartSense_Logo_Color.jpg') }}" alt="">
-                                      </figure>
-                                  </div>
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/wellist.png') }}" alt="">
-                                      </figure>
-                                  </div>
-                                  <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                      <figure>
-                                          <img src="{{ url('landing_page/images/zebit-logo-rgb.png') }}" alt="">
-                                      </figure>
-                                  </div>
+                                @endif
                               </div>
-
                           </div>
                         </section>
                         <!-- valued customer end -->
@@ -651,41 +631,29 @@
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Create Section 1</h3>
+                            <h3 class="card-title">Create Section 5</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1old">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="title5">Title</label>
+                                <input type="text" class="form-control" id="title5" name="title5" placeholder="Enter Title" @if(!empty($landingPage['title5'])) value="{{$landingPage['title5']}}" @else value="Our Valued Customers" @endif>
                               </div>
                               <div class="form-group">
-                                <label for="menu2old">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                  <label for="image1">Image1</label>
+                                  <input type="file" class="form-control" name="image1" id="image1">
+                              </div>   
+                              <div id="section5Form">
+
                               </div>
-                              <div class="form-group">
-                                  <label for="menu3old">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
-                              </div>
-                              <div class="form-group">
-                                  <label for="menu4old">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
-                              </div> 
-                              <div class="form-group">
-                                  <label for="favicon_icon_old">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
-                              </div>
-                              <div class="form-group">
-                                  <label for="logo_old">logo_old</label>
-                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
-                              </div>                
+                              <input type="button" class="btn btn-info" id="imageAddButton" value="+ Click to add Image">             
                             </div>
                             <!-- /.card-body -->
             
                             <div class="card-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" name="section5" class="btn btn-primary">Submit</button>
                             </div>
                           </form>
                         </div>
@@ -707,76 +675,20 @@
                         <section class="section-e">
 
                           <div class="container padding-block-container">
-                              <h3 class="text-center heading-3">Testimonials</h3>
+                              <h3 class="text-center heading-3" style="color: #000000;" id="outputTitle6">Testimonials</h3>
                               <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
-                              <div class="row responsive">
+                              <div class="row responsive" id="outputTestimonial">
                                   <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                                      <div class="details">
-                                          <p>Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.
+                                      <div class="details h-auto">
+                                          <p style="color: #000000;" id="outputClientMessage1">Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.
                                           </p>
                                       </div>
                                       <div class="description">
                                           <div class="name">
-                                              <strong>- Eva Smith</strong>
+                                              <strong style="color: #000000;" id="outputClientName1">- Eva Smith</strong>
                                           </div>
                                           <div class="designation my-2">
-                                              <p>Relations Manager</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                                      <div class="details">
-                                          <p>We've been working with Tech2Globe Web Solutions for over a year now, and their virtual assistants have become an integral part of our daily operations. Their dedication, attention to detail, and ability to adapt to our unique requirements have exceeded our expectations. Tech2Globe is our trusted partner for all our virtual assistant needs.
-                                          </p>
-                                      </div>
-                                      <div class="description">
-                                          <div class="name">
-                                              <strong>- James Baker</strong>
-                                          </div>
-                                          <div class="designation my-2">
-                                              <p>MD</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                                      <div class="details">
-                                          <p>Tech2Globe's virtual assistants have truly been a game-changer for our small business. Their professionalism and commitment to delivering high-quality work have allowed us to focus on our core activities while they handle tasks such as customer support, data entry, and research. We couldn't be happier with their services.
-                                          </p>
-                                      </div>
-                                      <div class="description">
-                                          <div class="name">
-                                              <strong>- Raechel Bennette</strong>
-                                          </div>
-                                          <div class="designation my-2">
-                                              <p>Co-Owner</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                                      <div class="details">
-                                          <p>As a busy entrepreneur, I was looking for a reliable virtual assistant service provider, and I found exactly what I needed with Tech2Globe. Their team is not only skilled but also efficient, ensuring that tasks are completed promptly and accurately. Tech2Globe has become an indispensable part of my business.
-                                          </p>
-                                      </div>
-                                      <div class="description">
-                                          <div class="name">
-                                              <strong>- Louis Davis</strong>
-                                          </div>
-                                          <div class="designation my-2">
-                                              <p>Operations Manager</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                                      <div class="details">
-                                          <p>Tech2Globe Web Solutions has been instrumental in helping us scale our business operations. Their virtual assistants are not just assistants; they are a valuable extension of our team. Their professionalism and expertise in various tasks have consistently exceeded our expectations. Highly recommended!
-                                          </p>
-                                      </div>
-                                      <div class="description">
-                                          <div class="name">
-                                              <strong>- Howard Roberts</strong>
-                                          </div>
-                                          <div class="designation my-2">
-                                              <p>Department Manager</p>
+                                              <p id="outputClientPost1">Relations Manager</p>
                                           </div>
                                       </div>
                                   </div>
@@ -793,43 +705,57 @@
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Create Section 1</h3>
+                            <h3 class="card-title">Create Section 6</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1old">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="title6">Title</label>
+                                <input type="text" class="form-control" id="title6" name="title6" placeholder="Enter Title" @if(!empty($landingPage['title6'])) value="{{$landingPage['title6']}}" @else value="Testimonials" @endif>
                               </div>
-                              <div class="form-group">
-                                <label for="menu2old">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                              <div id="accordion">
+                                <div class="card card-info card-outline">
+                                  <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
+                                      <div class="card-header">
+                                          <h4 class="card-title w-100">
+                                              Testimonial 1
+                                          </h4>
+                                      </div>
+                                  </a>
+                                  <div id="collapse1" class="collapse show" data-parent="#accordion">
+                                        <div class="card-body">
+                                          <div class="form-group">
+                                              <label for="clientMessage1">Client Message 1</label>
+                                              <input type="text" class="form-control" name="clientMessage1" id="clientMessage1" placeholder="Enter Client Message" value="Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.">
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label for="clientName1">Client Name 1</label>
+                                                <input type="text" class="form-control" name="clientName1" id="clientName1" placeholder="Enter Client Name" value="Eva Smith">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label for="clientPost1">Client Post 1</label>
+                                                <input type="text" class="form-control" name="clientPost1" id="clientPost1" placeholder="Enter Client Post" value="Relations Manager">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <input type="button" class="btn btn-info" id="testimonialAddButton" value="+ Click to add Testimonial">               
                               </div>
-                              <div class="form-group">
-                                  <label for="menu3old">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
+                              <!-- /.card-body -->
+              
+                              <div class="card-footer">
+                                <button type="submit" name="section6" class="btn btn-primary">Submit</button>
                               </div>
-                              <div class="form-group">
-                                  <label for="menu4old">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
-                              </div> 
-                              <div class="form-group">
-                                  <label for="favicon_icon_old">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
-                              </div>
-                              <div class="form-group">
-                                  <label for="logo_old">logo_old</label>
-                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
-                              </div>                
-                            </div>
-                            <!-- /.card-body -->
-            
-                            <div class="card-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                          </form>
+                            </form>
                         </div>
                         <!-- /.card -->
             
@@ -844,60 +770,67 @@
                     <div class="row p-3" style="border: #FFFFFF solid 2px;">
                       <div class="col-md-12">
                         <p>Preview</p>
-                            <!-- contact us section-f start -->
-                          <section class="section-f padding-block-container" id="our-contact">
-                            <div class="container">
-                                <h3 class="text-center text-white heading-3">Get Started with Remote Professionals Today</h3>
-                                <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
 
-                                <div class="row">
-                                    <div class="col-md-8 col-lg-7 col-sm-12 col-xs-12 m-auto">
-                                        <?php $actual_link = str_replace('.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']); ?>
-                                        <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="" method="post">
-                                            <input name="pagelinks" value="<?php echo $actual_link; ?>" type="hidden" />
-                                            <div class="row w-100 mb-3">
-                                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                                    <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First Name" name="fname" required>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                                    <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last Name" name="lname">
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                                    <input type="email" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Official Email" name="email" required>
-                                                </div>
-                                                <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
-                                                    <div class="select-box">
-                                                        <div class="selected-option">
-                                                            <div>
-                                                                <span class="iconify" data-icon="flag:us-4x3"></span>
-                                                                <strong>+1</strong>
-                                                            </div>
-                                                            <input type="tel" name="tel" placeholder="1111-000-1234" minlength="10" required id="phoneInput">
-                                                        </div>
-                                                        <div class="options">
-                                                            <input type="text" class="search-box" placeholder="Search Country Name">
-                                                            <ol>
+                        <style>
+                          #our-contact {
+                              background-repeat: no-repeat;
+                              background-size: cover;
+                              background-position: center bottom;
+                              background-color: rgba(0, 0, 0, 0.50) !important;
+                              background-image: url('/landing_page/images/contact-parallax.jpg');
+                              background-blend-mode: multiply;
+                              width: 100%;
+                              height: auto;
+                              display: inline-block;
+                          }
+                        </style>
+                        
+                          <section class="section-f">
+                            <div id="our-contact" class="padding-block-container">
+                              <div class="container">
+                                  <h3 class="text-center text-white heading-3" id="outputTitle7">Get Started with Remote Professionals Today</h3>
+                                  <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
 
-                                                            </ol>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                    <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Website* -- Ex: http://www.example.com" name="website" required>
-                                                </div> -->
+                                  <div class="row">
+                                      <div class="col-md-8 col-lg-7 col-sm-12 col-xs-12 m-auto">
+                                          <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="">
+                                              <div class="row w-100 mb-3">
+                                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                                      <input type="text" class="form-control rounded-0" id="outputInputField1" aria-describedby="emailHelp" placeholder="First Name" name="fname" required>
+                                                  </div>
+                                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                                      <input type="text" class="form-control rounded-0" id="outputInputField2" aria-describedby="emailHelp" placeholder="Last Name" name="lname">
+                                                  </div>
+                                                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                                      <input type="email" class="form-control rounded-0" id="outputInputField3" aria-describedby="emailHelp" placeholder="Official Email" name="email" required>
+                                                  </div>
+                                                  <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
+                                          
+                                                          <div class="selected-option">
+                                                              <div>
+                                                                  <span class="iconify" data-icon="flag:us-4x3"></span>
+                                                                  <strong>+1</strong>
+                                                              </div>
+                                                              <input type="tel" name="tel" placeholder="1111-000-1234" minlength="10" required id="outputInputField4">
+                                                          </div>
+                                                  </div>
+                                                  <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                      <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Website* -- Ex: http://www.example.com" name="website" required>
+                                                  </div> -->
 
-                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                    <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" placeholder="Message" name="message" required></textarea>
-                                                </div>
-                                                <div class="col-xs-12">
-                                                    <button type="submit" class="main-button rounded-0" name="contact_form_submit">Submit</button>
-                                                </div>
-                                            </div>
+                                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                      <textarea class="form-control rounded-0" id="outputInputField5" rows="3" placeholder="Message" name="message" required></textarea>
+                                                  </div>
+                                                  <div class="col-xs-12">
+                                                      <button type="text" class="main-button rounded-0" id="outputInputField6" name="contact_form_submit">Submit</button>
+                                                  </div>
+                                              </div>
 
 
-                                        </form>
-                                    </div>
-                                </div>
+                                          </form>
+                                      </div>
+                                  </div>
+                              </div>
                             </div>
                           </section>
                           <!-- contact us section-f end -->
@@ -910,41 +843,49 @@
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Create Section 1</h3>
+                            <h3 class="card-title">Create Section 7</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1old">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="title7">Title</label>
+                                <input type="text" class="form-control" id="title7" name="title7" placeholder="Enter Title" @if(!empty($landingPage['title7'])) value="{{$landingPage['title7']}}" @else value="Get Started with Remote Professionals Today" @endif>
                               </div>
                               <div class="form-group">
-                                <label for="menu2old">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                <label for="imputField1">Input Field 1</label>
+                                <input type="text" class="form-control" name="inputField1" id="inputField1" placeholder="Enter Input Field 1"  @if(!empty($landingPage['inputfield1'])) value="{{$landingPage['inputfield1']}}" @else value="First Name" @endif>
                               </div>
                               <div class="form-group">
-                                  <label for="menu3old">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
+                                <label for="imputField2">Input Field 2</label>
+                                <input type="text" class="form-control" name="inputField2" id="inputField2" placeholder="Enter Input Field 2"  @if(!empty($landingPage['inputfield2'])) value="{{$landingPage['inputfield2']}}" @else value="Last Name" @endif>
                               </div>
                               <div class="form-group">
-                                  <label for="menu4old">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
+                                <label for="imputField3">Input Field 3</label>
+                                <input type="text" class="form-control" name="inputField3" id="inputField3" placeholder="Enter Input Field 3"  @if(!empty($landingPage['inputfield3'])) value="{{$landingPage['inputfield3']}}" @else value="Official Email" @endif>
                               </div> 
                               <div class="form-group">
-                                  <label for="favicon_icon_old">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
+                                <label for="imputField4">Input Field 4</label>
+                                <input type="text" class="form-control" name="inputField4" id="inputField4" placeholder="Enter Input Field 4"  @if(!empty($landingPage['inputfield4'])) value="{{$landingPage['inputfield4']}}" @else value="1111-000-1234" @endif>
                               </div>
                               <div class="form-group">
-                                  <label for="logo_old">logo_old</label>
-                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
+                                <label for="imputField5">Input Field 5</label>
+                                <input type="text" class="form-control" name="inputField5" id="inputField5" placeholder="Enter Input Field 5"  @if(!empty($landingPage['inputfield5'])) value="{{$landingPage['inputfield5']}}" @else value="Message" @endif>
+                              </div>
+                              <div class="form-group">
+                                <label for="imputField6">Input Field 6</label>
+                                <input type="text" class="form-control" name="inputField6" id="inputField6" placeholder="Enter Input Field 6"  @if(!empty($landingPage['inputfield6'])) value="{{$landingPage['inputfield6']}}" @else value="Submit" @endif>
+                              </div>
+                              <div class="form-group">
+                                  <label for="background_image7">Background Image</label>
+                                  <input type="file" class="form-control" name="background_image7" id="background_image7">
                               </div>                
                             </div>
                             <!-- /.card-body -->
             
                             <div class="card-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" name="section7" class="btn btn-primary">Submit</button>
                             </div>
                           </form>
                         </div>
@@ -961,21 +902,33 @@
                     <div class="row p-3" style="border: #FFFFFF solid 2px;">
                       <div class="col-md-12">
                         <p>Preview</p>
+                        <style>
+                       .have-query-section {
+                            width: 100%;
+                            height: auto;
+                            background-color: rgba(36, 106, 178, .75);
+                            background-image: url('/landing_page/images/footer-abstract.jpg');
+                            background-blend-mode: multiply;
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            padding-block: 100px;
+                        }
+                        </style>
                            <!-- section-g start -->
                         <section class="section-g">
                           <div class="have-query-section">
                               <div class="container-fluid" id="have_queries">
                                   <div class="row">
                                       <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
-                                          <h3 class="text-capitalize text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading">have queries?</h3>
-                                          <small class="text-white text-center w-100 d-block pb-5 text-capitalize">get a call back today!</small>
+                                          <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading" id="outputTitle8">Have Queries?</h3>
+                                          <small class="text-white text-center w-100 d-block pb-5" id="outputSubTitle8">Gey A Call Back Today!</small>
 
                                           <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2 col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-12">
-                                              <form action="" method="post">
-                                                  <input name="pagelinks" value="<?php echo $actual_link; ?>" type="hidden" />
-                                                  <input type="text" placeholder="Name" name="name" required>
-                                                  <input type="tel" placeholder="Phone Number" name="phone" required maxlength="15">
-                                                  <input type="submit" value="submit" name="query_form">
+                                              <form action="">
+                                                  <input type="text" id="outputField1" placeholder="Name" required>
+                                                  <input type="tel" id="outputField2" placeholder="Phone Number" required>
+                                                  <input type="submit" id="outputField3" value="submit">
                                               </form>
                                           </div>
                                       </div>
@@ -993,41 +946,41 @@
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Create Section 1</h3>
+                            <h3 class="card-title">Create Section 8</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1old">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
+                                <label for="title8">Title</label>
+                                <input type="text" class="form-control" id="title8" name="title8" placeholder="Enter Title" @if(!empty($landingPage['title8'])) value="{{$landingPage['title8']}}" @else value="Have Queries?" @endif required>
                               </div>
                               <div class="form-group">
-                                <label for="menu2old">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
+                                <label for="subtitle8">Sub Title</label>
+                                <input type="text" class="form-control" name="subtitle8" id="subtitle8" placeholder="Enter Sub Title" @if(!empty($landingPage['sub-title8'])) value="{{$landingPage['sub-title8']}}" @else value="Get A Call Back Today!" @endif>
                               </div>
                               <div class="form-group">
-                                  <label for="menu3old">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
+                                  <label for="field1">Form Field 1</label>
+                                  <input type="text" class="form-control" name="field1" id="field1" placeholder="Enter Form Field 1" @if(!empty($landingPage['field1'])) value="{{$landingPage['field1']}}" @else value="Name" @endif>
                               </div>
                               <div class="form-group">
-                                  <label for="menu4old">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
+                                  <label for="field2">Form Field 2</label>
+                                  <input type="text" class="form-control" name="field2" id="field2" placeholder="Enter Form Field 2" @if(!empty($landingPage['field2'])) value="{{$landingPage['field2']}}" @else value="Phone Number" @endif>
                               </div> 
                               <div class="form-group">
-                                  <label for="favicon_icon_old">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
+                                  <label for="field3">Form Field 3 (Submit Button)</label>
+                                  <input type="text" class="form-control" name="field3" id="field3" placeholder="Enter Form Field 3" @if(!empty($landingPage['field3'])) value="{{$landingPage['field3']}}" @else value="Submit" @endif>
                               </div>
                               <div class="form-group">
-                                  <label for="logo_old">logo_old</label>
-                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
+                                  <label for="background_image8">Background Image</label>
+                                  <input type="file" class="form-control" name="background_image8" id="background_image8">
                               </div>                
                             </div>
                             <!-- /.card-body -->
             
                             <div class="card-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" name="section8" class="btn btn-primary">Submit</button>
                             </div>
                           </form>
                         </div>
@@ -1048,7 +1001,7 @@
                           <div class="container">
                               <div class="row">
                                   <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
-                                      <p>&copy; Copyright 2023 Tech2globe All rights reserved.</p>
+                                      <p>&copy;<span id="outputContent9"> @if(!empty($landingPage['content9'])) {{$landingPage['content9']}} @else Copyright 2023 Tech2globe All rights reserved. @endif</span></p>
                                   </div>
                               </div>
                           </div>
@@ -1062,41 +1015,21 @@
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Create Section 1</h3>
+                            <h3 class="card-title">Create Section 9</h3>
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1old">Menu 1</label>
-                                <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
-                              </div>
-                              <div class="form-group">
-                                <label for="menu2old">Menu 2</label>
-                                <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
-                              </div>
-                              <div class="form-group">
-                                  <label for="menu3old">Menu 3</label>
-                                  <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
-                              </div>
-                              <div class="form-group">
-                                  <label for="menu4old">Menu 4</label>
-                                  <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
-                              </div> 
-                              <div class="form-group">
-                                  <label for="favicon_icon_old">Favicon Icon</label>
-                                  <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
-                              </div>
-                              <div class="form-group">
-                                  <label for="logo_old">logo_old</label>
-                                  <input type="file" class="form-control" name="logo_old" id="logo_old">
-                              </div>                
+                                <label for="content9">Copyright Content</label>
+                                <input type="text" class="form-control" id="content9" name="content9" placeholder="Enter Copyright Content" @if(!empty($landingPage['content9'])) value="{{$landingPage['content9']}}" @else value="Copyright 2023 Tech2globe All rights reserved." @endif>
+                              </div>               
                             </div>
                             <!-- /.card-body -->
             
                             <div class="card-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" name="section9" class="btn btn-primary">Submit</button>
                             </div>
                           </form>
                         </div>

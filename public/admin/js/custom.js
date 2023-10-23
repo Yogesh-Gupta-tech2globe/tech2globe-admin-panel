@@ -162,6 +162,24 @@ $(document).ready(function(){
         $('#box5content').on('input', updateOutput);
         $('#box6heading').on('input', updateOutput);
         $('#box6content').on('input', updateOutput);
+        $('#title5').on('input', updateOutput);
+        $('#title6').on('input', updateOutput);
+        $('#clientMessage1').on('input', updateOutput);
+        $('#clientName1').on('input', updateOutput);
+        $('#clientPost1').on('input', updateOutput);
+        $('#title8').on('input', updateOutput);
+        $('#subtitle8').on('input', updateOutput);
+        $('#field1').on('input', updateOutput);
+        $('#field2').on('input', updateOutput);
+        $('#field3').on('input', updateOutput);
+        $('#title7').on('input', updateOutput);
+        $('#inputField1').on('input', updateOutput);
+        $('#inputField2').on('input', updateOutput);
+        $('#inputField3').on('input', updateOutput);
+        $('#inputField4').on('input', updateOutput);
+        $('#inputField5').on('input', updateOutput);
+        $('#inputField6').on('input', updateOutput);
+        $('#content9').on('input', updateOutput);
 
         
 
@@ -228,6 +246,93 @@ $(document).ready(function(){
                 }
         });
 
+        //Section 3
+        const serviceIcon1 = $('#serviceIcon1');
+        const outputServiceIcon1 = $('#outputServiceIcon1');
+
+        serviceIcon1.on('change', function () {
+        const file = serviceIcon1[0].files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        outputServiceIcon1.attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // Handle the case where no file is selected
+                    outputServiceIcon1.attr('src', '');
+                }
+        });
+
+        //Section 5
+
+        const image1 = $('#image1');
+        const outputImage1 = $('#outputImage1');
+
+        image1.on('change', function () {
+        const file = image1[0].files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        outputImage1.attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // Handle the case where no file is selected
+                    outputImage1.attr('src', '');
+                }
+        });
+
+        //Section 7
+
+        const backgroundImage7 = $('#background_image7');
+        const outputBackgroundImage7 = $('#our-contact');
+
+        backgroundImage7.on('change', function () {
+        const file = backgroundImage7[0].files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        outputBackgroundImage7.css('background-image', 'url(' + e.target.result + ')');
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // Handle the case where no file is selected
+                    outputBackgroundImage7.css('background-image', '');
+                }
+        });
+
+        //Section 8
+
+        const backgroundImage8 = $('#background_image8');
+        const outputBackgroundImage8 = $('.have-query-section');
+
+        backgroundImage8.on('change', function () {
+        const file = backgroundImage8[0].files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        outputBackgroundImage8.css('background-image', 'url(' + e.target.result + ')');
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // Handle the case where no file is selected
+                    outputBackgroundImage8.css('background-image', '');
+                }
+        });
+
         function updateOutput() {
             const menu1 = $('#menu1').val();
             const menu2 = $('#menu2').val();
@@ -254,6 +359,24 @@ $(document).ready(function(){
             const box5content = $('#box5content').val();
             const box6heading = $('#box6heading').val();
             const box6content = $('#box6content').val();
+            const title5 = $('#title5').val();
+            const title6 = $('#title6').val();
+            const clientMessage1 = $('#clientMessage1').val();
+            const clientName1 = $('#clientName1').val();
+            const clientPost1 = $('#clientPost1').val();
+            const title8 = $('#title8').val();
+            const subtitle8 = $('#subtitle8').val();
+            const field1 = $('#field1').val();
+            const field2 = $('#field2').val();
+            const field3 = $('#field3').val();
+            const title7 = $('#title7').val();
+            const inputField1 = $('#inputField1').val();
+            const inputField2 = $('#inputField2').val();
+            const inputField3 = $('#inputField3').val();
+            const inputField4 = $('#inputField4').val();
+            const inputField5 = $('#inputField5').val();
+            const inputField6 = $('#inputField6').val();
+            const content9 = $('#content9').val();
 
 
 
@@ -282,6 +405,24 @@ $(document).ready(function(){
             $('#outputBox5content').text(box5content);
             $('#outputBox6heading').text(box6heading);
             $('#outputBox6content').text(box6content);
+            $('#outputTitle5').text(title5);
+            $('#outputTitle6').text(title6);
+            $('#outputClientMessage1').text(clientMessage1);
+            $('#outputClientName1').text(clientName1);
+            $('#outputClientPost1').text(clientPost1);
+            $('#outputTitle8').text(title8);
+            $('#outputSubTitle8').text(subtitle8);
+            $('#outputField1').attr("placeholder", field1);
+            $('#outputField2').attr("placeholder", field2);
+            $('#outputField3').attr("value", field3);
+            $('#outputTitle7').text(title7);
+            $('#outputInputField1').attr("placeholder", inputField1);
+            $('#outputInputField2').attr("placeholder", inputField2);
+            $('#outputInputField3').attr("placeholder", inputField3);
+            $('#outputInputField4').attr("placeholder", inputField4);
+            $('#outputInputField5').attr("placeholder", inputField5);
+            $('#outputInputField6').text(inputField6);
+            $('#outputContent9').text(content9);
 
         }
     });
@@ -311,13 +452,15 @@ $(document).ready(function(){
         });
     });
 
+    //Dynamically Adding Services (Section 3)
+
     var clickCount = 1;
     $("#serviceAddButton").click(function() {
         clickCount++;
-        var group = '<div class="form-group"><label for="serviceName' + clickCount + '">Service Name ' + clickCount + '</label><input type="text" class="form-control dynamic-input" name="serviceName' + clickCount + '" id="serviceName' + clickCount + '" placeholder="Enter Service Name" value=""></div><div class="form-group"><label for="serviceDescription' + clickCount + '">Service ' + clickCount + ' small description</label><input type="text" class="form-control" name="serviceDescription' + clickCount + '" id="serviceDescription' + clickCount + '" placeholder="Enter Service Description" value=""></div>';
-        var content = ' <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b"><div class="card" style="background-color: #FFFFFF; color: #000000;"><div class="heading-container"><figure class="icon w-25"><img class="w-100" src="{{ url("landing_page/images/data-entry-service.png") }}" alt=""></figure><div class="heading-4"><h4 class="text-dark text-center"><span id="outputServiceName' + clickCount + '" style="color: #000000;"></span></h4></div></div><div class="content-container text-center"><p class="text-dark"><span id="outputServiceDescription' + clickCount + '" style="color: #000000;"></span></p><a href="" class="sub-button">Read More</a></div></div></div>';
+        var group = '<div class="card card-info card-outline"><a class="d-block w-100" data-toggle="collapse" href="#collapse' + clickCount + '"><div class="card-header"><h4 class="card-title w-100">Service ' + clickCount + '</h4></div></a><div id="collapse' + clickCount + '" class="collapse" data-parent="#accordion"><div class="card-body"><div class="form-group"><label for="serviceName' + clickCount + '">Service Name ' + clickCount + '</label><input type="text" class="form-control" name="serviceName' + clickCount + '" id="serviceName' + clickCount + '" placeholder="Enter Service Name"></div><div class="form-group"><label for="serviceDescription' + clickCount + '">Service small description ' + clickCount + '</label><input type="text" class="form-control" name="serviceDescription' + clickCount + '" id="serviceDescription' + clickCount + '" placeholder="Enter Service Description"></div><div class="form-group"><label for="serviceIcon' + clickCount + '">Service Icon ' + clickCount + '</label><input type="file" class="form-control" name="serviceIcon' + clickCount + '" id="serviceIcon' + clickCount + '" placeholder="Enter Service Icon"></div></div></div></div>';
+        var content = ' <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b"><div class="card" style="background-color: #FFFFFF; color: #000000;"><div class="heading-container"><figure class="icon w-25"><img class="w-100" src="" id="outputServiceIcon' + clickCount + '" alt=""></figure><div class="heading-4"><h4 class="text-dark text-center"><span id="outputServiceName' + clickCount + '" style="color: #000000;"></span></h4></div></div><div class="content-container text-center"><p class="text-dark"><span id="outputServiceDescription' + clickCount + '" style="color: #000000;"></span></p><a href="" class="sub-button">Read More</a></div></div></div>';
 
-        $("#section3Form").append(group);
+        $("#accordion").append(group);
         $("#outputServices").append(content);
 
         // Event listener for each input field
@@ -331,6 +474,84 @@ $(document).ready(function(){
             var data = $(this).val();
             $('#outputServiceDescription' + clickCount).text(data);
         });
+
+        var newServiceIcon = $('#serviceIcon' + clickCount);
+        var newOutputServiceIcon = $('#outputServiceIcon' + clickCount);
+
+        // Event listener for each image input field
+        newServiceIcon.on('change', function() {
+            var file = newServiceIcon[0].files[0];
+
+            if(file){
+                var reader = new FileReader();
+
+                reader.onload = function (e){
+                    newOutputServiceIcon.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            }else{
+                newOutputServiceIcon.attr('src', '');
+            }
+            
+        });
+    });
+
+    //Dynamically Adding Images (Section 5)
+    var clickId = 1;
+    $("#imageAddButton").click(function() {
+        clickId++;
+        var imagesInput = '<div class="form-group"><label for="image1">Image' + clickId + '</label><input type="file" class="form-control" name="image' + clickId + '" id="image' + clickId + '"></div> ';
+        var imagesOutput = ' <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6"><figure><img src="{{ url(`landing_page/images/aonHewit.png`) }}" alt="" height="80" width="auto" id="outputImage' + clickId + '"></figure></div>';
+
+        $("#section5Form").append(imagesInput);
+        $("#outputImages").append(imagesOutput);
+
+        var newInputImage = $('#image' + clickId);
+        var newOutputImage = $('#outputImage' + clickId);
+
+        // Event listener for each image input field
+        newInputImage.on('change', function() {
+            var file = newInputImage[0].files[0];
+
+            if(file){
+                var reader = new FileReader();
+
+                reader.onload = function (e){
+                    newOutputImage.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            }else{
+                newOutputImage.attr('src', '');
+            }
+            
+        });
+    });
+
+    //Dynamically Adding Testimonials (Section 6)
+
+    var clickCount = 1;
+    $("#testimonialAddButton").click(function() {
+        clickCount++;
+        var inputTestimonial = '<div class="card card-info card-outline"><a class="d-block w-100" data-toggle="collapse" href="#collapse1"><div class="card-header"><h4 class="card-title w-100">Testimonial 1</h4></div></a><div id="collapse1" class="collapse show" data-parent="#accordion"><div class="card-body"><div class="form-group"><label for="clientMessage1">Client Message 1</label><input type="text" class="form-control" name="clientMessage1" id="clientMessage1" placeholder="Enter Client Message" value="Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services."></div><div class="row"><div class="col-md-6"><div class="form-group"><label for="clientName1">Client Name 1</label><input type="text" class="form-control" name="clientName1" id="clientName1" placeholder="Enter Client Name" value="Eva Smith"></div></div><div class="col-md-6"><div class="form-group"><label for="clientPost1">Client Post 1</label><input type="text" class="form-control" name="clientPost1" id="clientPost1" placeholder="Enter Client Post" value="Relations Manager"></div></div></div></div></div></div></div>';
+        var outputTestimonial = '<div class="col-lg-4 col-md-6 col-sm-12 col-12"><div class="details h-auto"><p style="color: #000000;" id="outputClientMessage1">Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.</p></div><div class="description"><div class="name"><strong style="color: #000000;" id="outputClientName1">- Eva Smith</strong></div><div class="designation my-2"><p id="outputClientPost1">Relations Manager</p></div></div></div>';
+
+        $("#accordion").append(inputTestimonial);
+        $("#outputTestimonial").append(outputTestimonial);
+
+        // Event listener for each input field
+        $('#serviceName' + clickCount).on('input', function() {
+            var text = $(this).val();
+            $('#outputServiceName' + clickCount).text(text);
+        });
+
+         // Event listener for each input field
+         $('#serviceDescription' + clickCount).on('input', function() {
+            var data = $(this).val();
+            $('#outputServiceDescription' + clickCount).text(data);
+        });
+
     });
 
 
