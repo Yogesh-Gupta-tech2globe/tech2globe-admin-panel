@@ -531,25 +531,31 @@ $(document).ready(function(){
 
     //Dynamically Adding Testimonials (Section 6)
 
-    var clickCount = 1;
+    var clickOut = 1;
     $("#testimonialAddButton").click(function() {
-        clickCount++;
-        var inputTestimonial = '<div class="card card-info card-outline"><a class="d-block w-100" data-toggle="collapse" href="#collapse1"><div class="card-header"><h4 class="card-title w-100">Testimonial 1</h4></div></a><div id="collapse1" class="collapse show" data-parent="#accordion"><div class="card-body"><div class="form-group"><label for="clientMessage1">Client Message 1</label><input type="text" class="form-control" name="clientMessage1" id="clientMessage1" placeholder="Enter Client Message" value="Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services."></div><div class="row"><div class="col-md-6"><div class="form-group"><label for="clientName1">Client Name 1</label><input type="text" class="form-control" name="clientName1" id="clientName1" placeholder="Enter Client Name" value="Eva Smith"></div></div><div class="col-md-6"><div class="form-group"><label for="clientPost1">Client Post 1</label><input type="text" class="form-control" name="clientPost1" id="clientPost1" placeholder="Enter Client Post" value="Relations Manager"></div></div></div></div></div></div></div>';
-        var outputTestimonial = '<div class="col-lg-4 col-md-6 col-sm-12 col-12"><div class="details h-auto"><p style="color: #000000;" id="outputClientMessage1">Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.</p></div><div class="description"><div class="name"><strong style="color: #000000;" id="outputClientName1">- Eva Smith</strong></div><div class="designation my-2"><p id="outputClientPost1">Relations Manager</p></div></div></div>';
+        clickOut++;
+        var inputTestimonial = '<div class="card card-info card-outline"><a class="d-block w-100" data-toggle="collapse" href="#collapse' + clickOut + '"><div class="card-header"><h4 class="card-title w-100">Testimonial ' + clickOut + '</h4></div></a><div id="collapse' + clickOut + '" class="collapse" data-parent="#testimonial"><div class="card-body"><div class="form-group"><label for="clientMessage' + clickOut + '">Client Message ' + clickOut + '</label><input type="text" class="form-control" name="clientMessage' + clickOut + '" id="clientMessage' + clickOut + '" placeholder="Enter Client Message"></div><div class="row"><div class="col-md-6"><div class="form-group"><label for="clientName' + clickOut + '">Client Name ' + clickOut + '</label><input type="text" class="form-control" name="clientName' + clickOut + '" id="clientName' + clickOut + '" placeholder="Enter Client Name"></div></div><div class="col-md-6"><div class="form-group"><label for="clientPost' + clickOut + '">Client Post ' + clickOut + '</label><input type="text" class="form-control" name="clientPost' + clickOut + '" id="clientPost' + clickOut + '" placeholder="Enter Client Post"></div></div></div></div></div></div></div>';
+        var outputTestimonial = '<div class="col-lg-4 col-md-6 col-sm-12 col-12"><div class="details h-auto"><p style="color: #000000;" id="outputClientMessage' + clickOut + '">Client Message ....</p></div><div class="description"><div class="name"><strong style="color: #000000;" id="outputClientName' + clickOut + '">- Client Name ...</strong></div><div class="designation my-2"><p id="outputClientPost' + clickOut + '">Clirnt Post ....</p></div></div></div>';
 
-        $("#accordion").append(inputTestimonial);
+        $("#testimonial").append(inputTestimonial);
         $("#outputTestimonial").append(outputTestimonial);
 
         // Event listener for each input field
-        $('#serviceName' + clickCount).on('input', function() {
+        $('#clientMessage' + clickOut).on('input', function() {
             var text = $(this).val();
-            $('#outputServiceName' + clickCount).text(text);
+            $('#outputClientMessage' + clickOut).text(text);
         });
 
          // Event listener for each input field
-         $('#serviceDescription' + clickCount).on('input', function() {
+         $('#clientName' + clickOut).on('input', function() {
             var data = $(this).val();
-            $('#outputServiceDescription' + clickCount).text(data);
+            $('#outputClientName' + clickOut).text(data);
+        });
+
+         // Event listener for each input field
+         $('#clientPost' + clickOut).on('input', function() {
+            var data2 = $(this).val();
+            $('#outputClientPost' + clickOut).text(data2);
         });
 
     });

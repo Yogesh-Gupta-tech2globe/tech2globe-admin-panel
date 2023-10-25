@@ -689,6 +689,27 @@ class LandingPageController extends Controller
                             </div>
                         </div>
                     </section>
+                    <!-- <script>
+                    let count = document.querySelectorAll(".count")
+                    let arr = Array.from(count)
+                    arr.map(function(item) {
+                        let startnumber = 0
+            
+                        function counterup() {
+                            startnumber++
+                            item.innerHTML = startnumber
+            
+                            if (startnumber == item.dataset.number) {
+                                clearInterval(stop)
+                            }
+                        }
+            
+                        let stop = setInterval(function() {
+                            counterup()
+                        }, 50)
+            
+                    })
+                </script> -->
                     <!-- why should you hire end -->';
                 
 
@@ -815,13 +836,229 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
+            if(array_key_exists('section6', $data)){
+
+                $message = "Section 6 updated Successfully!";
+
+                // echo "<pre>"; print_r($data); die;
+
+                $clientMessage = [];
+                $clientName = [];
+                $clientPost = [];
+
+                foreach($data as $content => $value){
+
+                    if(str_contains($content,'clientMessage')){
+                        array_push($clientMessage,$value);
+                    }else if(str_contains($content,'clientName')){
+                        array_push($clientName,$value);
+                    }else if(str_contains($content,'clientPost')){
+                        array_push($clientPost,$value);
+                    }
+                }
+
+                $implodeClientMessage = implode("+++",$clientMessage);
+                $implodeClientName = implode("+++",$clientName);
+                $implodeClientPost = implode("+++",$clientPost);
+
+                $explodeClientMessage = explode("+++",$landingPage['clientMessage6']);
+                $explodeClientName = explode("+++",$landingPage['clientName6']);
+                $explodeClientPost = explode("+++",$landingPage['clientPost6']);
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- testimonial start -->
+
+                <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">'.$landingPage['title6'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive">';
+
+                            for($i=0; $i<count($explodeClientMessage); $i++){
+                                $oldSectionContent .= '<div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>'.$explodeClientMessage[$i].'
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>'.$explodeClientName[$i].'</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>'.$explodeClientPost[$i].'</p>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                        $oldSectionContent .= '</div>
+                    </div>
+                </section>
+                <!-- slick min -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+                <script>
+                    $(".responsive").slick({
+                        dots: true,
+                        infinite: false,
+                        speed: 300,
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        responsive: [{
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                            // You can unslick at a given breakpoint now by adding:
+                            // settings: "unslick"
+                            // instead of a settings object
+                        ]
+                    });
+                </script>
+                <!-- testimonial end -->';
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- testimonial start -->
+
+                <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">'.$data['title6'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive">';
+
+                            for($i=0; $i<count($clientMessage); $i++){
+                                $newSectionContent .= '<div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>'.$clientMessage[$i].'
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>'.$clientName[$i].'</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>'.$clientPost[$i].'</p>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                        $newSectionContent .= '</div>
+                    </div>
+                </section>
+                <!-- slick min -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+                <script>
+                    $(".responsive").slick({
+                        dots: true,
+                        infinite: false,
+                        speed: 300,
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        responsive: [{
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                            // You can unslick at a given breakpoint now by adding:
+                            // settings: "unslick"
+                            // instead of a settings object
+                        ]
+                    });
+                </script>
+                <!-- testimonial end -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');   
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                if(!empty($landingPage['section6_id'])){
+                    file_put_contents($filePath, $newContent, LOCK_EX);
+                }else{
+                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                }
+
+                
+                $landingPage->layout_id = $id;
+                $landingPage->section6_id = 6;
+                $landingPage->title6 = $data['title6'];
+                $landingPage->clientMessage6 = $implodeClientMessage;
+                $landingPage->clientName6 = $implodeClientName;
+                $landingPage->clientPost6 = $implodeClientPost;
+                $landingPage->save();
+                return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
+            }
+
             if(array_key_exists('section7', $data)){
 
                 $message = "Section 7 updated Successfully!";
-
-                $background_image7 = $data['background_image7'];
     
-                if (!empty($background_image7)) {
+                if (!empty($data['background_image7'])) {
+
+                    //Removing Previous Banner Background Image
+                    if(!empty($landingPage['background_image7'])){
+                        
+                        $backgroundimagePath = public_path('images/background/'.$landingPage['background_image7']);
+    
+                        if(file_exists($backgroundimagePath)){
+                            if(unlink($backgroundimagePath)){
+
+                            }else{
+                                return redirect()->back()->with('error_message','There is some error on deleting Banner Background Image!');
+                            }
+                        }else{
+                            return redirect()->back()->with('error_message','Banner Background Image not found! Please contact Admin');
+                        }
+                    }
+
+
                     if ($request->hasFile('background_image7')) {
                         $image_tmp = $request->file('background_image7');
                         if ($image_tmp->isValid()) {
@@ -833,7 +1070,102 @@ class LandingPageController extends Controller
                             Image::make($image_tmp)->save($image_path);
                         }
                     }
+                }else{
+                    $backgroundImage7 = $landingPage['background_image7'];
                 }
+
+
+                //File old section Content
+                $oldSectionContent = '
+                        <style>
+                          #our-contact {
+                              background-repeat: no-repeat;
+                              background-size: cover;
+                              background-position: center bottom;
+                              background-color: rgba(0, 0, 0, 0.50) !important;
+                              background-image: url("/images/background/'.$landingPage['background_image7'].'");
+                              background-blend-mode: multiply;
+                              width: 100%;
+                              height: auto;
+                              display: inline-block;
+                          }
+                        </style>
+                <!-- contact us section-f start -->
+                <section class="section-f padding-block-container" id="our-contact">
+                    <div class="container">
+                        <h3 class="text-center text-white heading-3">'.$landingPage['title7'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
+            
+                        <div class="row">
+                            <div class="col-md-8 col-lg-7 col-sm-12 col-xs-12 m-auto">
+                                <?php $actual_link = str_replace(".php", "", "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["PHP_SELF"]); ?>
+                                <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="" method="post">
+                                    <input name="pagelinks" value="<?php echo $actual_link; ?>" type="hidden" />
+                                    <div class="row w-100 mb-3">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield1'].'" name="fname" required>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield2'].'" name="lname">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="email" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield3'].'" name="email" required>
+                                        </div>
+                                        <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
+                                            <div class="select-box">
+                                                <div class="selected-option">
+                                                    <div>
+                                                        <span class="iconify" data-icon="flag:us-4x3"></span>
+                                                        <strong>+1</strong>
+                                                    </div>
+                                                    <input type="tel" name="tel" placeholder="'.$landingPage['inputfield4'].'" minlength="10" required id="phoneInput">
+                                                </div>
+                                                <div class="options">
+                                                    <input type="text" class="search-box" placeholder="Search Country Name">
+                                                    <ol>
+            
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Website* -- Ex: http://www.example.com" name="website" required>
+                                        </div> -->
+            
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" placeholder="'.$landingPage['inputfield5'].'" name="message" required></textarea>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="main-button rounded-0" name="contact_form_submit">'.$landingPage['inputfield6'].'</button>
+                                        </div>
+                                    </div>
+            
+            
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script src="{{ url("landing_page/script.js") }}"></script>
+
+                <script>
+                    // Get a reference to the input field
+                    const phoneInput = document.getElementById("phoneInput");
+            
+                    // Add an event listener to the input field
+                    phoneInput.addEventListener("input", function() {
+                        // Remove any non-numeric characters from the input
+                        this.value = this.value.replace(/[^0-9+]/g, "");
+            
+                        // Optionally, you can set a maximum length for the phone number
+                        const maxLength = 15; // Change this to your desired maximum length
+                        if (this.value.length > maxLength) {
+                            this.value = this.value.slice(0, maxLength);
+                        }
+                    });
+                </script>
+                <!-- contact us section-f end -->';
                 
 
 
@@ -933,19 +1265,15 @@ class LandingPageController extends Controller
 
                 $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
 
-                //Creating the file
-                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
-
                 // Read the entire file
-                //$currentContent = file_get_contents($filePath);
+                $currentContent = file_get_contents($filePath);
 
                 // Construct the new content with the updated section
-                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
             
                 // // Write the updated content back to the file
-                if(!empty($landingPage['section9_id'])){
-                    //file_put_contents($filePath, $newContent, LOCK_EX);
-                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                if(!empty($landingPage['section7_id'])){
+                    file_put_contents($filePath, $newContent, LOCK_EX);
                 }else{
                     file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
                 }
@@ -968,10 +1296,25 @@ class LandingPageController extends Controller
             if(array_key_exists('section8', $data)){
 
                 $message = "Section 8 updated Successfully!";
-
-                $background_image8 = $data['background_image8'];
     
-                if (!empty($background_image8)) {
+                if (!empty($data['background_image8'])) {
+
+                     //Removing Previous Banner Background Image
+                     if(!empty($landingPage['background_image8'])){
+                        
+                        $backgroundimagePath = public_path('images/background/'.$landingPage['background_image8']);
+    
+                        if(file_exists($backgroundimagePath)){
+                            if(unlink($backgroundimagePath)){
+
+                            }else{
+                                return redirect()->back()->with('error_message','There is some error on deleting Banner Background Image!');
+                            }
+                        }else{
+                            return redirect()->back()->with('error_message','Banner Background Image not found! Please contact Admin');
+                        }
+                    }
+
                     if ($request->hasFile('background_image8')) {
                         $image_tmp = $request->file('background_image8');
                         if ($image_tmp->isValid()) {
@@ -983,7 +1326,49 @@ class LandingPageController extends Controller
                             Image::make($image_tmp)->save($image_path);
                         }
                     }
+                }else{
+                    $backgroundImage8 = $landingPage['background_image8'];
                 }
+
+                $previousImage = $landingPage['background_image8'];
+
+                //File old section Content
+                $oldSectionContent = '
+                        <style>
+                       .have-query-section {
+                            width: 100%;
+                            height: auto;
+                            background-color: rgba(36, 106, 178, .75);
+                            background-image: url("/images/background/'.$previousImage.'");
+                            background-blend-mode: multiply;
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            padding-block: 100px;
+                        }
+                        </style>
+                        <!-- section-g start -->
+                        <section class="section-g">
+                          <div class="have-query-section">
+                              <div class="container-fluid" id="have_queries">
+                                  <div class="row">
+                                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                          <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading">'.$landingPage['title8'].'</h3>
+                                          <small class="text-white text-center w-100 d-block pb-5">'.$landingPage['sub_title8'].'</small>
+
+                                          <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2 col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-12">
+                                              <form action="">
+                                                  <input type="text" placeholder="'.$landingPage['field1'].'" required>
+                                                  <input type="tel" placeholder="'.$landingPage['field2'].'" required>
+                                                  <input type="submit" value="'.$landingPage['field3'].'">
+                                              </form>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </section>
+                        <!-- section-g start -->';
                 
 
 
@@ -1024,24 +1409,19 @@ class LandingPageController extends Controller
                           </div>
                         </section>
                         <!-- section-g start -->';
-
                 
 
                 $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
 
-                //Creating the file
-                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
-
                 // Read the entire file
-                //$currentContent = file_get_contents($filePath);
+                $currentContent = file_get_contents($filePath);
 
                 // Construct the new content with the updated section
-                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
             
-                // // Write the updated content back to the file
-                if(!empty($landingPage['section9_id'])){
-                    //file_put_contents($filePath, $newContent, LOCK_EX);
-                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                // Write the updated content back to the file
+                if(!empty($landingPage['section8_id'])){
+                    file_put_contents($filePath, $newContent, LOCK_EX);
                 }else{
                     file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
                 }
@@ -1062,6 +1442,26 @@ class LandingPageController extends Controller
             if(array_key_exists('section9', $data)){
 
                 $message = "Section 9 updated Successfully!";
+
+                //File old section Content
+                $oldSectionContent = '
+                <div class="copyright-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                <p>&copy; '.$landingPage['content9'].'</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                
+                
+                </body>
+                
+                </html>';
 
 
                 //File new section Content
@@ -1086,21 +1486,17 @@ class LandingPageController extends Controller
 
                 
 
-                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
-
-                //Creating the file
-                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php'); 
 
                 // Read the entire file
-                //$currentContent = file_get_contents($filePath);
+                $currentContent = file_get_contents($filePath);
 
                 // Construct the new content with the updated section
-                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
             
-                // // Write the updated content back to the file
+                //Write the updated content back to the file
                 if(!empty($landingPage['section9_id'])){
-                    //file_put_contents($filePath, $newContent, LOCK_EX);
-                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                    file_put_contents($filePath, $newContent, LOCK_EX);
                 }else{
                     file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
                 }

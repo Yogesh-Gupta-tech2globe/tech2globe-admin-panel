@@ -419,3 +419,254 @@
                     });
                 </script>
                 <!-- contact us section-f end -->
+                <!-- testimonial start -->
+
+                <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">Testimonials</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive"><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details">
+                                        <p>Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>Eva Smith</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>Relations Manager</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details">
+                                        <p>egerfrew
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>reewew</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>ertere</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details">
+                                        <p>ererree
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>erreew</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>erreww</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details">
+                                        <p>
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong></strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div></div>
+                    </div>
+                </section>
+                <!-- testimonial end -->
+                <!-- testimonial start -->
+
+                <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">Testimonials</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive"><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details">
+                                        <p>Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>Eva Smith</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>Relations Manager</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details">
+                                        <p>egerfrew
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>reewew</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>ertere</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details">
+                                        <p>ererree
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>erreew</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>erreww</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details">
+                                        <p>
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong></strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div></div>
+                    </div>
+                </section>
+                <!-- testimonial end -->
+                <!-- testimonial start -->
+
+                <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">Testimonials We Have</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive"><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>Eva Smith</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>Relations Manager</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>efgergegerrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>Yogesh</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>MD</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>jnbfonejnjnejonfjonfewnononowie
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>Lokesh</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>Manager</p>
+                                        </div>
+                                    </div>
+                                </div><div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>jibierkjbfewhuiowebhiohioeruo
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>Rahul</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>Designer</p>
+                                        </div>
+                                    </div>
+                                </div></div>
+                    </div>
+                </section>
+
+                <script>
+                    let count = document.querySelectorAll(".count")
+                    let arr = Array.from(count)
+                    arr.map(function(item) {
+                        let startnumber = 0
+            
+                        function counterup() {
+                            startnumber++
+                            item.innerHTML = startnumber
+            
+                            if (startnumber == item.dataset.number) {
+                                clearInterval(stop)
+                            }
+                        }
+            
+                        let stop = setInterval(function() {
+                            counterup()
+                        }, 50)
+            
+                    })
+                </script>
+                <!-- slick min -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+                <script>
+                    $(".responsive").slick({
+                        dots: true,
+                        infinite: false,
+                        speed: 300,
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        responsive: [{
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                            // You can unslick at a given breakpoint now by adding:
+                            // settings: "unslick"
+                            // instead of a settings object
+                        ]
+                    });
+                </script>
+                <!-- testimonial end -->

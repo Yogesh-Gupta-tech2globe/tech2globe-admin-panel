@@ -90,4 +90,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
             //Landing Pages Routes
             Route::get('/amazon-services', function () {
                 return view('landing-page/amazon-services');
+            });Route::get('/yogesh-website', function () {
+                return view('landing-page/yogesh-website');
+            });Route::get('/testing-page', function () {
+                return view('landing-page/testing-page');
             });

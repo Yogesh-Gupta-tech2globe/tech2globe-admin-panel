@@ -150,16 +150,16 @@
                                         <div class="collapse navbar-collapse" id="navbarNav">
                                             <ul class="navbar-nav ms-auto">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" aria-current="page" href="#our-services"><span id="outputMenu1"></span></a>
+                                                    <a class="nav-link active" aria-current="page" href=""><span id="outputMenu1">@if(!empty($landingPage['menu1'])) {{$landingPage['menu1']}} @else What We Do @endif</span></a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="#why-choose"><span id="outputMenu2"></span></a>
+                                                    <a class="nav-link" href=""><span id="outputMenu2">@if(!empty($landingPage['menu2'])) {{$landingPage['menu2']}} @else Why Choose Tech2Globe @endif</span></a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="#our-customers"><span id="outputMenu3"></span></a>
+                                                    <a class="nav-link" href=""><span id="outputMenu3">@if(!empty($landingPage['menu3'])) {{$landingPage['menu3']}} @else Our Customers @endif</span></a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="#our-contact"><span id="outputMenu4"></span></a>
+                                                    <a class="nav-link" href=""><span id="outputMenu4">@if(!empty($landingPage['menu4'])) {{$landingPage['menu4']}} @else Contact Us @endif</span></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -667,7 +667,7 @@
                  <div class="tab-pane fade show" id="custom-tabs-section6" role="tabpanel" aria-labelledby="custom-tabs-section6-tab">
                     <h3>Section 6</h3>
 
-                    <div class="row p-3" style="border: #FFFFFF solid 2px;">
+                  <div class="row p-3" style="border: #FFFFFF solid 2px;">
                       <div class="col-md-12">
                         <p>Preview</p>
                              <!-- testimonial start -->
@@ -675,10 +675,34 @@
                         <section class="section-e">
 
                           <div class="container padding-block-container">
-                              <h3 class="text-center heading-3" style="color: #000000;" id="outputTitle6">Testimonials</h3>
+                              <h3 class="text-center heading-3" style="color: #000000;" id="outputTitle6">@if(!empty($landingPage['title6'])) {{$landingPage['title6']}} @else Testimonials @endif</h3>
                               <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
                               <div class="row responsive" id="outputTestimonial">
-                                  <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                @if(!empty($landingPage['clientMessage6']))
+
+                                    <?php
+                                        $explodeClientMessage = explode("+++",$landingPage['clientMessage6']);
+                                        $explodeClientName = explode("+++",$landingPage['clientName6']);
+                                        $explodeClientPost = explode("+++",$landingPage['clientPost6']);
+                                    ?>
+                                    @for($i=0; $i<count($explodeClientMessage); $i++)
+                                        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                          <div class="details h-auto">
+                                              <p style="color: #000000;" id="outputClientMessage{{$i+1}}">{{ $explodeClientMessage[$i] }}
+                                              </p>
+                                          </div>
+                                          <div class="description">
+                                              <div class="name">
+                                                  <strong style="color: #000000;" id="outputClientName{{$i+1}}">- {{ $explodeClientName[$i] }}</strong>
+                                              </div>
+                                              <div class="designation my-2">
+                                                  <p id="outputClientPost{{$i+1}}">{{ $explodeClientPost[$i] }}</p>
+                                              </div>
+                                          </div>
+                                        </div>
+                                    @endfor
+                                @else
+                                    <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                                       <div class="details h-auto">
                                           <p style="color: #000000;" id="outputClientMessage1">Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.
                                           </p>
@@ -691,15 +715,16 @@
                                               <p id="outputClientPost1">Relations Manager</p>
                                           </div>
                                       </div>
-                                  </div>
+                                    </div>
+                                @endif
                               </div>
                           </div>
                         </section>
                         <!-- testimonial end -->
                           
                       </div>
-                   </div>
-                   <div class="row">
+                  </div>
+                  {{-- <div class="row">
                       <!-- left column -->
                       <div class="col-md-12">
                         <!-- general form elements -->
@@ -715,39 +740,77 @@
                                 <label for="title6">Title</label>
                                 <input type="text" class="form-control" id="title6" name="title6" placeholder="Enter Title" @if(!empty($landingPage['title6'])) value="{{$landingPage['title6']}}" @else value="Testimonials" @endif>
                               </div>
-                              <div id="accordion">
-                                <div class="card card-info card-outline">
-                                  <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
-                                      <div class="card-header">
-                                          <h4 class="card-title w-100">
-                                              Testimonial 1
-                                          </h4>
-                                      </div>
-                                  </a>
-                                  <div id="collapse1" class="collapse show" data-parent="#accordion">
-                                        <div class="card-body">
-                                          <div class="form-group">
-                                              <label for="clientMessage1">Client Message 1</label>
-                                              <input type="text" class="form-control" name="clientMessage1" id="clientMessage1" placeholder="Enter Client Message" value="Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.">
+                              <div id="testimonial">
+                                @if(!empty($landingPage['clientMessage6']))
+                                
+                                  @for($i=0; $i<count($explodeClientMessage); $i++)
+                                    <div class="card card-info card-outline">
+                                      <a class="d-block w-100" data-toggle="collapse" href="#collapse{{$i+1}}">
+                                          <div class="card-header">
+                                              <h4 class="card-title w-100">
+                                                  Testimonial {{$i+1}}
+                                              </h4>
                                           </div>
-                                          <div class="row">
-                                            <div class="col-md-6">
+                                      </a>
+                                      <div id="collapse{{$i+1}}" class="collapse show" data-parent="#testimonial">
+                                            <div class="card-body">
                                               <div class="form-group">
-                                                <label for="clientName1">Client Name 1</label>
-                                                <input type="text" class="form-control" name="clientName1" id="clientName1" placeholder="Enter Client Name" value="Eva Smith">
+                                                  <label for="clientMessage{{$i+1}}">Client Message {{$i+1}}</label>
+                                                  <input type="text" class="form-control" name="clientMessage{{$i+1}}" id="clientMessage{{$i+1}}" placeholder="Enter Client Message" value="{{ $explodeClientMessage[$i] }}">
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label for="clientName{{$i+1}}">Client Name {{$i+1}}</label>
+                                                    <input type="text" class="form-control" name="clientName{{$i+1}}" id="clientName{{$i+1}}" placeholder="Enter Client Name" value="{{ $explodeClientName[$i] }}">
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                  <div class="form-group">
+                                                    <label for="clientPost{{$i+1}}">Client Post {{$i+1}}</label>
+                                                    <input type="text" class="form-control" name="clientPost{{$i+1}}" id="clientPost{{$i+1}}" placeholder="Enter Client Post" value="{{ $explodeClientPost[$i] }}">
+                                                  </div>
+                                                </div>
                                               </div>
                                             </div>
-                                            <div class="col-md-6">
-                                              <div class="form-group">
-                                                <label for="clientPost1">Client Post 1</label>
-                                                <input type="text" class="form-control" name="clientPost1" id="clientPost1" placeholder="Enter Client Post" value="Relations Manager">
-                                              </div>
-                                            </div>
-                                          </div>
                                         </div>
+                                      </div>
+                                    </div>
+                                  @endfor
+                                @else
+                                  <div class="card card-info card-outline">
+                                    <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
+                                        <div class="card-header">
+                                            <h4 class="card-title w-100">
+                                                Testimonial 1
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <div id="collapse1" class="collapse show" data-parent="#testimonial">
+                                          <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="clientMessage1">Client Message 1</label>
+                                                <input type="text" class="form-control" name="clientMessage1" id="clientMessage1" placeholder="Enter Client Message" value="Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.">
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label for="clientName1">Client Name 1</label>
+                                                  <input type="text" class="form-control" name="clientName1" id="clientName1" placeholder="Enter Client Name" value="Eva Smith">
+                                                </div>
+                                              </div>
+                                              <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label for="clientPost1">Client Post 1</label>
+                                                  <input type="text" class="form-control" name="clientPost1" id="clientPost1" placeholder="Enter Client Post" value="Relations Manager">
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
+                                @endif
                                 <input type="button" class="btn btn-info" id="testimonialAddButton" value="+ Click to add Testimonial">               
                               </div>
                               <!-- /.card-body -->
@@ -755,13 +818,13 @@
                               <div class="card-footer">
                                 <button type="submit" name="section6" class="btn btn-primary">Submit</button>
                               </div>
-                            </form>
+                          </form>
                         </div>
                         <!-- /.card -->
             
                       </div>
                       <!--/.col (left) -->
-                  </div>
+                  </div> --}}
                   <!-- /.row -->
                  </div>
                  <div class="tab-pane fade show" id="custom-tabs-section7" role="tabpanel" aria-labelledby="custom-tabs-section7-tab">
@@ -777,7 +840,11 @@
                               background-size: cover;
                               background-position: center bottom;
                               background-color: rgba(0, 0, 0, 0.50) !important;
-                              background-image: url('/landing_page/images/contact-parallax.jpg');
+                              @if(!empty($landingPage['background_image7']))
+                                background-image: url('/images/background/{{$landingPage['background_image7']}}');
+                              @else
+                                background-image: url('/landing_page/images/contact-parallax.jpg');
+                              @endif
                               background-blend-mode: multiply;
                               width: 100%;
                               height: auto;
@@ -788,7 +855,7 @@
                           <section class="section-f">
                             <div id="our-contact" class="padding-block-container">
                               <div class="container">
-                                  <h3 class="text-center text-white heading-3" id="outputTitle7">Get Started with Remote Professionals Today</h3>
+                                  <h3 class="text-center text-white heading-3" id="outputTitle7">@if(!empty($landingPage['title7'])) {{$landingPage['title7']}} @else Get Started with Remote Professionals Today @endif</h3>
                                   <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
 
                                   <div class="row">
@@ -796,13 +863,13 @@
                                           <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="">
                                               <div class="row w-100 mb-3">
                                                   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                                      <input type="text" class="form-control rounded-0" id="outputInputField1" aria-describedby="emailHelp" placeholder="First Name" name="fname" required>
+                                                      <input type="text" class="form-control rounded-0" id="outputInputField1" aria-describedby="emailHelp" @if(!empty($landingPage['inputfield1'])) placeholder="{{$landingPage['inputfield1']}}" @else placeholder="First Name" @endif name="fname" required>
                                                   </div>
                                                   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                                      <input type="text" class="form-control rounded-0" id="outputInputField2" aria-describedby="emailHelp" placeholder="Last Name" name="lname">
+                                                      <input type="text" class="form-control rounded-0" id="outputInputField2" aria-describedby="emailHelp" @if(!empty($landingPage['inputfield2'])) placeholder="{{$landingPage['inputfield2']}}" @else placeholder="Last Name" @endif name="lname">
                                                   </div>
                                                   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                                      <input type="email" class="form-control rounded-0" id="outputInputField3" aria-describedby="emailHelp" placeholder="Official Email" name="email" required>
+                                                      <input type="email" class="form-control rounded-0" id="outputInputField3" aria-describedby="emailHelp" @if(!empty($landingPage['inputfield3'])) placeholder="{{$landingPage['inputfield3']}}" @else placeholder="Official Email" @endif name="email" required>
                                                   </div>
                                                   <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
                                           
@@ -811,7 +878,7 @@
                                                                   <span class="iconify" data-icon="flag:us-4x3"></span>
                                                                   <strong>+1</strong>
                                                               </div>
-                                                              <input type="tel" name="tel" placeholder="1111-000-1234" minlength="10" required id="outputInputField4">
+                                                              <input type="tel" name="tel" @if(!empty($landingPage['inputfield4'])) placeholder="{{$landingPage['inputfield4']}}" @else placeholder="1111-000-1234" @endif minlength="10" required id="outputInputField4">
                                                           </div>
                                                   </div>
                                                   <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -819,10 +886,10 @@
                                                   </div> -->
 
                                                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                      <textarea class="form-control rounded-0" id="outputInputField5" rows="3" placeholder="Message" name="message" required></textarea>
+                                                      <textarea class="form-control rounded-0" id="outputInputField5" rows="3" @if(!empty($landingPage['inputfield5'])) placeholder="{{$landingPage['inputfield5']}}" @else placeholder="Message" @endif name="message" required></textarea>
                                                   </div>
                                                   <div class="col-xs-12">
-                                                      <button type="text" class="main-button rounded-0" id="outputInputField6" name="contact_form_submit">Submit</button>
+                                                      <button type="text" class="main-button rounded-0" id="outputInputField6" name="contact_form_submit">@if(!empty($landingPage['inputfield6'])) {{$landingPage['inputfield6']}} @else Submit @endif</button>
                                                   </div>
                                               </div>
 
@@ -895,7 +962,7 @@
                       <!--/.col (left) -->
                   </div>
                   <!-- /.row -->
-                 </div>
+                 </div> 
                  <div class="tab-pane fade show" id="custom-tabs-section8" role="tabpanel" aria-labelledby="custom-tabs-section8-tab">
                     <h3>Section 8</h3>
 
@@ -907,7 +974,11 @@
                             width: 100%;
                             height: auto;
                             background-color: rgba(36, 106, 178, .75);
-                            background-image: url('/landing_page/images/footer-abstract.jpg');
+                            @if(!empty($landingPage['background_image8']))
+                              background-image: url('/images/background/{{$landingPage['background_image8']}}');
+                            @else
+                              background-image: url('/landing_page/images/footer-abstract.jpg');
+                            @endif
                             background-blend-mode: multiply;
                             background-position: center center;
                             background-size: cover;
@@ -921,14 +992,14 @@
                               <div class="container-fluid" id="have_queries">
                                   <div class="row">
                                       <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
-                                          <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading" id="outputTitle8">Have Queries?</h3>
-                                          <small class="text-white text-center w-100 d-block pb-5" id="outputSubTitle8">Gey A Call Back Today!</small>
+                                          <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading" id="outputTitle8">@if(!empty($landingPage['title8'])) {{$landingPage['title8']}} @else Have Queries? @endif</h3>
+                                          <small class="text-white text-center w-100 d-block pb-5" id="outputSubTitle8">@if(!empty($landingPage['sub_title8'])) {{$landingPage['sub_title8']}} @else Get A Call Back Today! @endif</small>
 
                                           <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2 col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-12">
                                               <form action="">
-                                                  <input type="text" id="outputField1" placeholder="Name" required>
-                                                  <input type="tel" id="outputField2" placeholder="Phone Number" required>
-                                                  <input type="submit" id="outputField3" value="submit">
+                                                  <input type="text" id="outputField1" @if(!empty($landingPage['field1'])) placeholder="{{$landingPage['field1']}}" @else placeholder="Name" @endif required>
+                                                  <input type="tel" id="outputField2" @if(!empty($landingPage['field2'])) placeholder="{{$landingPage['field2']}}" @else placeholder="Phone Number" @endif required>
+                                                  <input type="submit" id="outputField3" @if(!empty($landingPage['field3'])) value="{{$landingPage['field3']}}" @else value="submit" @endif>
                                               </form>
                                           </div>
                                       </div>
@@ -958,7 +1029,7 @@
                               </div>
                               <div class="form-group">
                                 <label for="subtitle8">Sub Title</label>
-                                <input type="text" class="form-control" name="subtitle8" id="subtitle8" placeholder="Enter Sub Title" @if(!empty($landingPage['sub-title8'])) value="{{$landingPage['sub-title8']}}" @else value="Get A Call Back Today!" @endif>
+                                <input type="text" class="form-control" name="subtitle8" id="subtitle8" placeholder="Enter Sub Title" @if(!empty($landingPage['sub_title8'])) value="{{$landingPage['sub_title8']}}" @else value="Get A Call Back Today!" @endif>
                               </div>
                               <div class="form-group">
                                   <label for="field1">Form Field 1</label>
@@ -990,7 +1061,7 @@
                       <!--/.col (left) -->
                   </div>
                   <!-- /.row -->
-                 </div>
+                 </div> 
                  <div class="tab-pane fade show" id="custom-tabs-section9" role="tabpanel" aria-labelledby="custom-tabs-section9-tab">
                     <h3>Section 9</h3>
 
@@ -1039,7 +1110,7 @@
                       <!--/.col (left) -->
                   </div>
                   <!-- /.row -->
-                 </div>
+                 </div> 
                 </div>
               </div>
               <!-- /.card -->
