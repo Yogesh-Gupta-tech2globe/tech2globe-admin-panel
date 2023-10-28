@@ -62,14 +62,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                      <?php $i=1;?>
+                      <?php $i=1; $j=0; ?>
                         @foreach($layout as $row)
                     <tr>
                       <td>{{ $i++; }}</td>
                       <td>{{ $row['page_name'] }}</td>
                       <td><a target="blank" href="http://localhost:8000/{{ $row['page_url'] }}">View Page</a></td>
                       <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
-                      <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
+                      <td>{{ date('d-m-Y', strtotime($landingPage[$j++]['updated_at'])) }}</td>
                       <td>
                         {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                           @if ($row['status']==1)

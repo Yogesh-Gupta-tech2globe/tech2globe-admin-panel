@@ -83,6 +83,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'landing-pages','LandingPageController@index');
         Route::match(['get','post'],'create-landing-pages/{id}','LandingPageController@create');
         Route::match(['get','post'],'check-page-url','LandingPageController@checkPageUrl');
+        Route::match(['get','post'],'update-landingPage-section-status','LandingPageController@update');
 
     });
 });
@@ -94,4 +95,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
                 return view('landing-page/yogesh-website');
             });Route::get('/testing-page', function () {
                 return view('landing-page/testing-page');
+            });Route::get('/demo-page', function () {
+                return view('landing-page/demo-page');
+            });Route::get('/update-section-complete', function () {
+                return view('landing-page/update-section-complete');
+            });Route::get('/hello-world', function () {
+                return view('landing-page/hello-world');
             });

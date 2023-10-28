@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\layout;
+use App\Models\landing_pages;
 use App\Models\AdminsRole;
 use Illuminate\Http\Request;
 use Session;
@@ -61,7 +62,8 @@ class LayoutController extends Controller
         Session::put('page','all_layout');
 
         $layout = Layout::get()->toArray();
-
+        $landingPage = landing_pages::get()->toArray();
+    
         //Set Admin/Subadmins Permissions for Layout Module
         $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
         $pagesModule = array();
@@ -77,7 +79,7 @@ class LayoutController extends Controller
             $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
         }
 
-        return view('admin.cmslayout.all-layout')->with(compact('layout','pagesModule'));
+        return view('admin.cmslayout.all-layout')->with(compact('layout','pagesModule','landingPage'));
     }
 
     /**

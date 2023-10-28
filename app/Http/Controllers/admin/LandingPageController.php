@@ -24,6 +24,7 @@ class LandingPageController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
             $layout = new layout;
+            $landingPage = new landing_pages;
             $message = "Good! Your Page is Live Now. Please Create Remaining Sections.";
 
             $rules = [
@@ -108,37 +109,34 @@ class LandingPageController extends Controller
                             </head>
                             
                             <body>
-                                <header class="main-header bg-white position-fixed w-100 start-0 top-0">
-                                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                                        <div class="container">
-                                            <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/'.$logoName.'") }}" alt=""></a>
-                                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                                <span class="navbar-toggler-icon"></span>
-                                            </button>
-                                            <div class="collapse navbar-collapse" id="navbarNav">
-                                                <ul class="navbar-nav ms-auto">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link active" aria-current="page" href="#our-services">What We Do</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#why-choose">Why Choose Tech2Globe</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#our-customers">Our Customers</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="#our-contact">Contact Us</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </nav>
-                                </header>
-                            
-                            
-                            </body>
-                            
-                            </html>';
+
+                <header class="main-header bg-white position-fixed w-100 start-0 top-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/'.$logoName.'") }}" alt=""></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#our-services">What We Do</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#why-choose">Why Choose Tech2Globe</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#our-customers">Our Customers</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#our-contact">Contact Us</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header>';
+
             $filePath = resource_path('views/landing-page/'.$slug.'.blade.php');
 
             //Creating the file
@@ -161,6 +159,18 @@ class LandingPageController extends Controller
             $layout->favicon_icon = $faviconName;
             $layout->logo = $logoName;
             $layout->save();
+
+            $landingPage->layout_id = layout::latest()->first()->id;
+            $landingPage->section1_id = 1;
+            $landingPage->menu1 = "What We Do";
+            $landingPage->menu1_link = "our-services";
+            $landingPage->menu2 = "Why Choose Tech2Globe";
+            $landingPage->menu2_link = "why-choose";
+            $landingPage->menu3 = "Our Customers";
+            $landingPage->menu3_link = "our-customers";
+            $landingPage->menu4 = "Contact Us";
+            $landingPage->menu4_link = "our-contact";
+            $landingPage->save();
             return redirect('admin/all-layout')->with('success_message',$message);
         }
 
@@ -177,15 +187,13 @@ class LandingPageController extends Controller
 
         if(landing_pages::where('layout_id', $id)->exists()){
             $landingPage = landing_pages::where('layout_id',$id)->first();
-        }else{
-            $landingPage = new landing_pages;
         }
 
 
         if($request->isMethod('post')){
             $data = $request->all();
 
-            if(array_key_exists('section1', $data)){
+            if(array_key_exists('section1', $data) && $landingPage['status1']==1){
 
                 $message = "Section 1 updated Successfully!";
 
@@ -208,9 +216,6 @@ class LandingPageController extends Controller
                                     $image_path = 'images/logo/'.$logoName;
                                     Image::make($image_tmp)->save($image_path);
                                 }
-
-                                $layout->logo = $logoName;
-                                $layout->save();
                             } 
                         }else{
                             return redirect()->back()->with('error_message','There is some error on deleting Logo Image!');
@@ -218,105 +223,118 @@ class LandingPageController extends Controller
                     }else{
                         return redirect()->back()->with('error_message','Logo Image not found! Please contact Admin');
                     }
+                }else{
+                    $logoName = $layout['logo'];
                 }
 
                 //Updating Favicon Icon Image
-                if(!empty($layout['favicon_icon']) && !empty($data['favicon_icon'])){
+                // if(!empty($layout['favicon_icon']) && !empty($data['favicon_icon'])){
 
                        
-                    $faviconimagePath = public_path('images/favicon-icon/'.$layout['favicon_icon']);
+                //     $faviconimagePath = public_path('images/favicon-icon/'.$layout['favicon_icon']);
     
-                    if(file_exists($faviconimagePath)){
-                        if(unlink($faviconimagePath)){
+                //     if(file_exists($faviconimagePath)){
+                //         if(unlink($faviconimagePath)){
 
-                            if($request->hasFile('favicon_icon')){
-                                $image_tmp = $request->file('favicon_icon');
-                                if($image_tmp->isValid()){
-                                    //Get Image Extension
-                                    $extension = $image_tmp->getClientOriginalExtension();
-                                    //Generate New Image Name
-                                    $faviconName = rand(111,98999).'.'.$extension;
-                                    $image_path = 'images/favicon-icon/'.$faviconName;
-                                    Image::make($image_tmp)->save($image_path);
-                                }
+                //             if($request->hasFile('favicon_icon')){
+                //                 $image_tmp = $request->file('favicon_icon');
+                //                 if($image_tmp->isValid()){
+                //                     //Get Image Extension
+                //                     $extension = $image_tmp->getClientOriginalExtension();
+                //                     //Generate New Image Name
+                //                     $faviconName = rand(111,98999).'.'.$extension;
+                //                     $image_path = 'images/favicon-icon/'.$faviconName;
+                //                     Image::make($image_tmp)->save($image_path);
+                //                 }
 
-                                $layout->favicon_icon = $faviconName;
-                                $layout->save();
-                            } 
-                        }else{
-                            return redirect()->back()->with('error_message','There is some error on deleting Logo Image!');
-                        }
-                    }else{
-                        return redirect()->back()->with('error_message','Logo Image not found! Please contact Admin');
-                    }
-                }
+                //                 $layout->favicon_icon = $faviconName;
+                //                 $layout->save();
+                //             } 
+                //         }else{
+                //             return redirect()->back()->with('error_message','There is some error on deleting Logo Image!');
+                //         }
+                //     }else{
+                //         return redirect()->back()->with('error_message','Logo Image not found! Please contact Admin');
+                //     }
+                // }
 
-                //File Content
-                $fileContent = '<!DOCTYPE html>
-                                <html lang="en">
-                                
-                                <head>
-                                    <meta charset="UTF-8">
-                                    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-                                
-                                    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                                    <meta property="title" content="'.$layout['meta_title'].'">
-                                    <meta name="description" content="'.$layout['meta_description'].'" />
-                                    <meta name="keywords" content="'.$layout['meta_keywords'].'">
-                                    <meta name="author" content="tech2globe">
-                                    <link rel="icon" type="image/png" sizes="32x32" href="{{ url("images/favicon-icon/'.$layout['favicon_icon'].'") }}">
-                                    <title>'.$layout['page_name'].'</title>
-                                    <link rel="stylesheet" href="{{ url("landing_page/css/style.css") }}">
-                                    <!-- bootstrap5 cdn -->
-                                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-                                
-                                
-                                    <!-- slick cdn css -->
-                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-                                
-                                    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-                                
-                                    
-                                </head>
-                                
-                                <body>
-                                    <header class="main-header bg-white position-fixed w-100 start-0 top-0">
-                                        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                                            <div class="container">
-                                                <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/'.$layout['logo'].'") }}" alt=""></a>
-                                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                                    <span class="navbar-toggler-icon"></span>
-                                                </button>
-                                                <div class="collapse navbar-collapse" id="navbarNav">
-                                                    <ul class="navbar-nav ms-auto">
-                                                        <li class="nav-item">
-                                                            <a class="nav-link active" aria-current="page" href="#'.Str::slug($data['menu1']).'">'.$data['menu1'].'</a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link" href="#'.Str::slug($data['menu2']).'">'.$data['menu2'].'</a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link" href="#'.Str::slug($data['menu3']).'">'.$data['menu3'].'</a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link" href="#'.Str::slug($data['menu4']).'">'.$data['menu4'].'</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </nav>
-                                    </header>
-                                
-                                
-                                </body>
-                                
-                                </html>';
-                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+                //File old section Content
+               
+                $oldSectionContent =
+                '<header class="main-header bg-white position-fixed w-100 start-0 top-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/' . $layout['logo'] . '") }}" alt=""></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#' . $landingPage['menu1_link'] . '">' . $landingPage['menu1'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu2_link'] . '">' . $landingPage['menu2'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu3_link'] . '">' . $landingPage['menu3'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu4_link'] . '">' . $landingPage['menu4'] . '</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header>';
 
-                //Creating the file
-                file_put_contents($filePath, $fileContent);   
+                //File new section Content
+                $newSectionContent =
+                '<header class="main-header bg-white position-fixed w-100 start-0 top-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/' . $logoName . '") }}" alt=""></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#' . Str::slug($data['menu1']) . '">' . $data['menu1'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . Str::slug($data['menu2']) . '">' . $data['menu2'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . Str::slug($data['menu3']) . '">' . $data['menu3'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . Str::slug($data['menu4']) . '">' . $data['menu4'] . '</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header>';
+
+                // echo $oldSectionContent;
+                //echo $newSectionContent; die;
+
+                $filePath = resource_path('views/landing-page/' . $layout['page_url'] . '.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                    
+                //Write the updated content back to the file
+                if (!empty($landingPage['section1_id'])) {
+                    file_put_contents($filePath, $newContent, LOCK_EX);
+                } 
                 
+                $layout->logo = $logoName;
+                $layout->save();
 
                 $landingPage->layout_id = $id;
                 $landingPage->section1_id = 1;
@@ -332,7 +350,7 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
-            if(array_key_exists('section2', $data)){
+            if(array_key_exists('section2', $data) && $landingPage['status2']==1){
 
                 $message = "Section 2 updated Successfully!";
 
@@ -420,13 +438,13 @@ class LandingPageController extends Controller
                                     <h1 class="text-dark main-heading">'.$landingPage['title2'].'</h1>
                                     <p class="" style="color: #f26e4f;">'.$landingPage['sub_title2'].'</p>
                                     <div class="button-container">
-                                        <a href="#our-contact" class="main-button">'.$landingPage['button1'].'</a>
+                                        <a href="#'.$landingPage['menu4_link'].'" class="main-button">'.$landingPage['button1'].'</a>
                                         <a href="tel:+1-250-206-8787" class="main-button call-us-btn">'.$landingPage['button2'].'</a>
                                     </div>
                                 </div>
                                 <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
                                     <figure class="w-100">
-                                        <img class="w-100" style="border-radius: 20px; height: 300px;" src="{{ url("images/banner/'.$landingPage["banner_image2"].'") }}" alt="">
+                                        <img class="w-100" style="border-radius: 20px; height: 300px;" src="{{ url("images/banner/'.$landingPage['banner_image2'].'") }}" alt="">
                                     </figure>
                                 </div>
                             </div>
@@ -451,7 +469,7 @@ class LandingPageController extends Controller
                                     <h1 class="text-dark main-heading">'.$data['title2'].'</h1>
                                     <p class="" style="color: #f26e4f;">'.$data['sub_title2'].'</p>
                                     <div class="button-container">
-                                        <a href="#our-contact" class="main-button">'.$data['button1'].'</a>
+                                        <a href="#'.$landingPage['menu4_link'].'" class="main-button">'.$data['button1'].'</a>
                                         <a href="tel:+1-250-206-8787" class="main-button call-us-btn">'.$data['button2'].'</a>
                                     </div>
                                 </div>
@@ -468,9 +486,6 @@ class LandingPageController extends Controller
 
                 $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
 
-                //Creating the file
-                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
-
                 // Read the entire file
                 $currentContent = file_get_contents($filePath);
 
@@ -479,7 +494,7 @@ class LandingPageController extends Controller
 
                 // echo $newContent; die;
             
-                // // Write the updated content back to the file
+                // Write the updated content back to the file
                 if(!empty($landingPage['section2_id'])){
                     file_put_contents($filePath, $newContent, LOCK_EX);
                 }else{
@@ -500,7 +515,7 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
-            if(array_key_exists('section3', $data)){
+            if(array_key_exists('section3', $data) && $landingPage['status3']==1){
 
                 $message = "Section 3 updated Successfully!";
 
@@ -536,6 +551,45 @@ class LandingPageController extends Controller
                 $implodeServiceName = implode("+++",$serviceName);
                 $implodeServiceDescription = implode("+++",$serviceDescription);
                 $implodeServiceIcon = implode(",",$serviceIcon);
+
+                $explodeServiceName = explode("+++",$landingPage['service_name3']);
+                $explodeServiceDescription = explode("+++",$landingPage['service_description3']);
+                $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- service section start -->
+                    <section class="section-b" id="our-services">
+                        <div class="container padding-block-container">
+                            <div class="row d-flex justify-content-center">
+                                <h3 class="text-center heading-3">'.$landingPage['title3'].'</h3>
+                                <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 20%;"></span>
+                                <p class="text-center pt-2 pb-2">'.$landingPage['description3'].'</p>';
+                               
+                                for($i=0; $i<count($explodeServiceName); $i++){
+                                $oldSectionContent .= '<div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                    <div class="card">
+                                        <div class="heading-container">
+                                            <figure class="icon w-25">
+                                                <img class="w-100" src="{{ url("images/icons/'.$explodeServiceIcon[$i].'") }}" alt="">
+                                            </figure>
+                                            <div class="heading-4">
+                                                <h4 class="text-dark text-center">'.$explodeServiceName[$i].'</h4>
+                                            </div>
+                                        </div>
+                                        <div class="content-container text-center">
+                                            <p class="text-dark">'.$explodeServiceDescription[$i].'</p>
+                                            <a href="'.Str::slug($explodeServiceName[$i]).'" class="sub-button">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>';
+                                }
+                               
+
+                            $oldSectionContent .= '</div>
+                        </div>
+                    </section>
+                <!-- service section end -->';
 
 
                 //File new section Content
@@ -576,19 +630,15 @@ class LandingPageController extends Controller
 
                 $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
 
-                //Creating the file
-                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
-
                 // Read the entire file
-                //$currentContent = file_get_contents($filePath);
+                $currentContent = file_get_contents($filePath);
 
                 // Construct the new content with the updated section
-                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
             
-                // // Write the updated content back to the file
+                // Write the updated content back to the file
                 if(!empty($landingPage['section3_id'])){
-                    //file_put_contents($filePath, $newContent, LOCK_EX);
-                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                    file_put_contents($filePath, $newContent, LOCK_EX);
                 }else{
                     file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
                 }
@@ -605,41 +655,80 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
-            if(array_key_exists('section4', $data)){
+            if(array_key_exists('section4', $data) && $landingPage['status4']==1){
 
                 $message = "Section 4 updated Successfully!";
 
-                
                 //File old section Content
-                // $oldSectionContent = '
-                // <!-- hero section start -->
-                // <style>
-                //     .section-a {
-                //         background: url("images/background/'.$landingPage['background_image2'].'");
-                //         background-size: cover;
-                //         width: 100%;
-                //     }
-                // </style>
-                // <section class="section-a">
-                //         <div class="container">
-                //             <div class="row sub-section-a d-flex justify-content-between align-items-center">
-                //                 <div class="col-md-7 col-lg-7 col-xl-7 col-xxl-7 col-sm-12 col-xs-12">
-                //                     <h1 class="text-dark main-heading">'.$landingPage['title2'].'</h1>
-                //                     <p class="" style="color: #f26e4f;">'.$landingPage['sub_title2'].'</p>
-                //                     <div class="button-container">
-                //                         <a href="#our-contact" class="main-button">'.$landingPage['button1'].'</a>
-                //                         <a href="tel:+1-250-206-8787" class="main-button call-us-btn">'.$landingPage['button2'].'</a>
-                //                     </div>
-                //                 </div>
-                //                 <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
-                //                     <figure class="w-100">
-                //                         <img class="w-100" style="border-radius: 20px; height: 300px;" src="{{ url("images/banner/'.$landingPage["banner_image2"].'") }}" alt="">
-                //                     </figure>
-                //                 </div>
-                //             </div>
-                //         </div>
-                // </section>
-                // <!-- hero section end -->';
+                $oldSectionContent = '
+                <!-- why should you hire start -->
+                    <section class="section-c padding-block-container" id="why-choose">
+                        <h3 class="text-center heading-3">'.$landingPage['title4'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px" style="width: 40%;"></span>
+
+                        <div class="container">
+                            <div id="counter" class="row">
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box1heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box2heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box3heading'].'</span>
+                                        <p class="text">'.$landingPage['box3content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box4heading'].'</span>
+                                        <p class="text">'.$landingPage['box4content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box5heading'].'</span>
+                                        <p class="text">'.$landingPage['box5content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box6heading'].'</span>
+                                        <p class="text">'.$landingPage['box6content'].'</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- <script>
+                    let count = document.querySelectorAll(".count")
+                    let arr = Array.from(count)
+                    arr.map(function(item) {
+                        let startnumber = 0
+            
+                        function counterup() {
+                            startnumber++
+                            item.innerHTML = startnumber
+            
+                            if (startnumber == item.dataset.number) {
+                                clearInterval(stop)
+                            }
+                        }
+            
+                        let stop = setInterval(function() {
+                            counterup()
+                        }, 50)
+            
+                    })
+                </script> -->
+                    <!-- why should you hire end -->';
 
                 //File new section Content
                 $newSectionContent = '
@@ -715,21 +804,15 @@ class LandingPageController extends Controller
 
                 $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
 
-                //Creating the file
-                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
-
                 // Read the entire file
-                //$currentContent = file_get_contents($filePath);
+                $currentContent = file_get_contents($filePath);
 
                 // Construct the new content with the updated section
-                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
-
-                // echo $newContent; die;
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
             
                 // // Write the updated content back to the file
                 if(!empty($landingPage['section4_id'])){
-                    //file_put_contents($filePath, $newContent, LOCK_EX);
-                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                    file_put_contents($filePath, $newContent, LOCK_EX);
                 }else{
                     file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
                 }
@@ -754,7 +837,7 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
-            if(array_key_exists('section5', $data)){
+            if(array_key_exists('section5', $data) && $landingPage['status5']==1){
 
                 $message = "Section 5 updated Successfully!";
 
@@ -783,6 +866,30 @@ class LandingPageController extends Controller
 
                 $implodeCustomerImages = implode(",",$customerImages);
 
+                $explodeCustomerImages = explode(",",$landingPage['customers_images5']);
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- valued customer start -->
+                    <section class="section-d padding-block-container" id="our-customers">
+                        <h3 class="text-center heading-3">' . $landingPage['title5'] . '</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="container mt-2">
+                            <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4">';
+                                foreach ($explodeCustomerImages as $row) {
+                                    $oldSectionContent .= '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                        <figure>
+                                            <img src="{{ url("images/customers/' . $row . '") }}" alt="" height="80" width="auto">
+                                        </figure>
+                                    </div>';
+                                }
+                                $oldSectionContent .= '
+                            </div>
+                        </div>
+                    </section>
+                <!-- valued customer end -->';
+
+
                 //File new section Content
                 $newSectionContent = '
                 <!-- valued customer start -->
@@ -806,23 +913,17 @@ class LandingPageController extends Controller
 
                 
 
-                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
-
-                //Creating the file
-                // file_put_contents($filePath, $fileContent,FILE_APPEND | LOCK_EX);   
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php'); 
 
                 // Read the entire file
-                //$currentContent = file_get_contents($filePath);
+                $currentContent = file_get_contents($filePath);
 
                 // Construct the new content with the updated section
-                //$newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
-
-                // echo $newContent; die;
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
             
-                // // Write the updated content back to the file
+                // Write the updated content back to the file
                 if(!empty($landingPage['section5_id'])){
-                    //file_put_contents($filePath, $newContent, LOCK_EX);
-                    file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
+                    file_put_contents($filePath, $newContent, LOCK_EX);
                 }else{
                     file_put_contents($filePath, $newSectionContent,FILE_APPEND | LOCK_EX);
                 }
@@ -836,7 +937,7 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
-            if(array_key_exists('section6', $data)){
+            if(array_key_exists('section6', $data) && $landingPage['status6']==1){
 
                 $message = "Section 6 updated Successfully!";
 
@@ -1036,7 +1137,7 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
-            if(array_key_exists('section7', $data)){
+            if(array_key_exists('section7', $data) && $landingPage['status7']==1){
 
                 $message = "Section 7 updated Successfully!";
     
@@ -1293,7 +1394,7 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
-            if(array_key_exists('section8', $data)){
+            if(array_key_exists('section8', $data) && $landingPage['status8']==1){
 
                 $message = "Section 8 updated Successfully!";
     
@@ -1439,7 +1540,7 @@ class LandingPageController extends Controller
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
 
-            if(array_key_exists('section9', $data)){
+            if(array_key_exists('section9', $data) && $landingPage['status9']==1){
 
                 $message = "Section 9 updated Successfully!";
 
@@ -1508,6 +1609,8 @@ class LandingPageController extends Controller
                 $landingPage->save();
                 return redirect('admin/create-landing-pages/'.$id.'')->with('success_message',$message);
             }
+
+            return redirect()->back()->with('error_message','This Section is Inactive! Please Active the Section for Edit.');
         }
 
         return view('admin.landing-pages.create-landing-pages')->with(compact('layout','landingPage'));
@@ -1540,9 +1643,1965 @@ class LandingPageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, landing_pages $landing_pages)
+    public function update(Request $request)
     {
-        //
+        if($request->ajax()){
+            $data = $request->all();
+            $layout = layout::find($data['layout_id']);
+            $landingPage = landing_pages::where('layout_id',$data['layout_id'])->first();
+
+            if($data['status']=="Active"){
+                $status = 0;
+
+            if($data['section_id']==1){
+
+                //File old section Content
+               
+                $oldSectionContent =
+                '<header class="main-header bg-white position-fixed w-100 start-0 top-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/' . $layout['logo'] . '") }}" alt=""></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#' . $landingPage['menu1_link'] . '">' . $landingPage['menu1'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu2_link'] . '">' . $landingPage['menu2'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu3_link'] . '">' . $landingPage['menu3'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu4_link'] . '">' . $landingPage['menu4'] . '</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header>';
+
+                //File new section Content
+                $newSectionContent =
+                '<!-- <header class="main-header bg-white position-fixed w-100 start-0 top-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/' . $layout['logo'] . '") }}" alt=""></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#' . $landingPage['menu1_link'] . '">' . $landingPage['menu1'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu2_link'] . '">' . $landingPage['menu2'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu3_link'] . '">' . $landingPage['menu3'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu4_link'] . '">' . $landingPage['menu4'] . '</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header> -->';
+
+                $filePath = resource_path('views/landing-page/' . $layout['page_url'] . '.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                    
+                //Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==2){
+                
+                //File old section Content
+                $oldSectionContent = '
+                <!-- hero section start -->
+                <style>
+                    .section-a {
+                        background: url("images/background/'.$landingPage['background_image2'].'");
+                        background-size: cover;
+                        width: 100%;
+                    }
+                </style>
+                <section class="section-a">
+                        <div class="container">
+                            <div class="row sub-section-a d-flex justify-content-between align-items-center">
+                                <div class="col-md-7 col-lg-7 col-xl-7 col-xxl-7 col-sm-12 col-xs-12">
+                                    <h1 class="text-dark main-heading">'.$landingPage['title2'].'</h1>
+                                    <p class="" style="color: #f26e4f;">'.$landingPage['sub_title2'].'</p>
+                                    <div class="button-container">
+                                        <a href="#'.$landingPage['menu4_link'].'" class="main-button">'.$landingPage['button1'].'</a>
+                                        <a href="tel:+1-250-206-8787" class="main-button call-us-btn">'.$landingPage['button2'].'</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
+                                    <figure class="w-100">
+                                        <img class="w-100" style="border-radius: 20px; height: 300px;" src="{{ url("images/banner/'.$landingPage['banner_image2'].'") }}" alt="">
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                </section>
+                <!-- hero section end -->';
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- hero section start -->
+                <!-- <style>
+                    .section-a {
+                        background: url("images/background/'.$landingPage['background_image2'].'");
+                        background-size: cover;
+                        width: 100%;
+                    }
+                </style>
+                <section class="section-a">
+                        <div class="container">
+                            <div class="row sub-section-a d-flex justify-content-between align-items-center">
+                                <div class="col-md-7 col-lg-7 col-xl-7 col-xxl-7 col-sm-12 col-xs-12">
+                                    <h1 class="text-dark main-heading">'.$landingPage['title2'].'</h1>
+                                    <p class="" style="color: #f26e4f;">'.$landingPage['sub_title2'].'</p>
+                                    <div class="button-container">
+                                        <a href="#'.$landingPage['menu4_link'].'" class="main-button">'.$landingPage['button1'].'</a>
+                                        <a href="tel:+1-250-206-8787" class="main-button call-us-btn">'.$landingPage['button2'].'</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
+                                    <figure class="w-100">
+                                        <img class="w-100" style="border-radius: 20px; height: 300px;" src="{{ url("images/banner/'.$landingPage['banner_image2'].'") }}" alt="">
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                </section> -->
+                <!-- hero section end -->';
+                    
+
+                    $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                    // Read the entire file
+                    $currentContent = file_get_contents($filePath);
+
+                    // Construct the new content with the updated section
+                    $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                
+                    // Write the updated content back to the file
+                    file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==3){
+
+                $explodeServiceName = explode("+++",$landingPage['service_name3']);
+                $explodeServiceDescription = explode("+++",$landingPage['service_description3']);
+                $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- service section start -->
+                    <section class="section-b" id="our-services">
+                        <div class="container padding-block-container">
+                            <div class="row d-flex justify-content-center">
+                                <h3 class="text-center heading-3">'.$landingPage['title3'].'</h3>
+                                <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 20%;"></span>
+                                <p class="text-center pt-2 pb-2">'.$landingPage['description3'].'</p>';
+                               
+                                for($i=0; $i<count($explodeServiceName); $i++){
+                                $oldSectionContent .= '<div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                    <div class="card">
+                                        <div class="heading-container">
+                                            <figure class="icon w-25">
+                                                <img class="w-100" src="{{ url("images/icons/'.$explodeServiceIcon[$i].'") }}" alt="">
+                                            </figure>
+                                            <div class="heading-4">
+                                                <h4 class="text-dark text-center">'.$explodeServiceName[$i].'</h4>
+                                            </div>
+                                        </div>
+                                        <div class="content-container text-center">
+                                            <p class="text-dark">'.$explodeServiceDescription[$i].'</p>
+                                            <a href="'.Str::slug($explodeServiceName[$i]).'" class="sub-button">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>';
+                                }
+                               
+
+                            $oldSectionContent .= '</div>
+                        </div>
+                    </section>
+                <!-- service section end -->';
+
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- service section start -->
+                    <!-- <section class="section-b" id="our-services">
+                        <div class="container padding-block-container">
+                            <div class="row d-flex justify-content-center">
+                                <h3 class="text-center heading-3">'.$landingPage['title3'].'</h3>
+                                <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 20%;"></span>
+                                <p class="text-center pt-2 pb-2">'.$landingPage['description3'].'</p>';
+                               
+                                for($i=0; $i<count($explodeServiceName); $i++){
+                                $newSectionContent .= '<div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                    <div class="card">
+                                        <div class="heading-container">
+                                            <figure class="icon w-25">
+                                                <img class="w-100" src="{{ url("images/icons/'.$explodeServiceIcon[$i].'") }}" alt="">
+                                            </figure>
+                                            <div class="heading-4">
+                                                <h4 class="text-dark text-center">'.$explodeServiceName[$i].'</h4>
+                                            </div>
+                                        </div>
+                                        <div class="content-container text-center">
+                                            <p class="text-dark">'.$explodeServiceDescription[$i].'</p>
+                                            <a href="'.Str::slug($explodeServiceName[$i]).'" class="sub-button">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>';
+                                }
+                               
+
+                            $newSectionContent .= '</div>
+                        </div>
+                    </section> -->
+                <!-- service section end -->';
+                
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==4){
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- why should you hire start -->
+                    <section class="section-c padding-block-container" id="why-choose">
+                        <h3 class="text-center heading-3">'.$landingPage['title4'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px" style="width: 40%;"></span>
+
+                        <div class="container">
+                            <div id="counter" class="row">
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box1heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box2heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box3heading'].'</span>
+                                        <p class="text">'.$landingPage['box3content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box4heading'].'</span>
+                                        <p class="text">'.$landingPage['box4content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box5heading'].'</span>
+                                        <p class="text">'.$landingPage['box5content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box6heading'].'</span>
+                                        <p class="text">'.$landingPage['box6content'].'</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- <script>
+                    let count = document.querySelectorAll(".count")
+                    let arr = Array.from(count)
+                    arr.map(function(item) {
+                        let startnumber = 0
+            
+                        function counterup() {
+                            startnumber++
+                            item.innerHTML = startnumber
+            
+                            if (startnumber == item.dataset.number) {
+                                clearInterval(stop)
+                            }
+                        }
+            
+                        let stop = setInterval(function() {
+                            counterup()
+                        }, 50)
+            
+                    })
+                </script> -->
+                    <!-- why should you hire end -->';
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- why should you hire start -->
+                    <!-- <section class="section-c padding-block-container" id="why-choose">
+                        <h3 class="text-center heading-3">'.$landingPage['title4'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px" style="width: 40%;"></span>
+
+                        <div class="container">
+                            <div id="counter" class="row">
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box1heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box2heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box3heading'].'</span>
+                                        <p class="text">'.$landingPage['box3content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box4heading'].'</span>
+                                        <p class="text">'.$landingPage['box4content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box5heading'].'</span>
+                                        <p class="text">'.$landingPage['box5content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box6heading'].'</span>
+                                        <p class="text">'.$landingPage['box6content'].'</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section> -->
+                    <!-- <script>
+                    let count = document.querySelectorAll(".count")
+                    let arr = Array.from(count)
+                    arr.map(function(item) {
+                        let startnumber = 0
+            
+                        function counterup() {
+                            startnumber++
+                            item.innerHTML = startnumber
+            
+                            if (startnumber == item.dataset.number) {
+                                clearInterval(stop)
+                            }
+                        }
+            
+                        let stop = setInterval(function() {
+                            counterup()
+                        }, 50)
+            
+                    })
+                </script> -->
+                    <!-- why should you hire end -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==5){
+                $explodeCustomerImages = explode(",",$landingPage['customers_images5']);
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- valued customer start -->
+                    <section class="section-d padding-block-container" id="our-customers">
+                        <h3 class="text-center heading-3">' . $landingPage['title5'] . '</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="container mt-2">
+                            <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4">';
+                                foreach ($explodeCustomerImages as $row) {
+                                    $oldSectionContent .= '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                        <figure>
+                                            <img src="{{ url("images/customers/' . $row . '") }}" alt="" height="80" width="auto">
+                                        </figure>
+                                    </div>';
+                                }
+                                $oldSectionContent .= '
+                            </div>
+                        </div>
+                    </section>
+                <!-- valued customer end -->';
+
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- valued customer start -->
+                    <!-- <section class="section-d padding-block-container" id="our-customers">
+                        <h3 class="text-center heading-3">' . $landingPage['title5'] . '</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="container mt-2">
+                            <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4">';
+                                foreach ($explodeCustomerImages as $row) {
+                                    $newSectionContent .= '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                        <figure>
+                                            <img src="{{ url("images/customers/' . $row . '") }}" alt="" height="80" width="auto">
+                                        </figure>
+                                    </div>';
+                                }
+                                $newSectionContent .= '
+                            </div>
+                        </div>
+                    </section> -->
+                <!-- valued customer end -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php'); 
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==6){
+
+                $explodeClientMessage = explode("+++",$landingPage['clientMessage6']);
+                $explodeClientName = explode("+++",$landingPage['clientName6']);
+                $explodeClientPost = explode("+++",$landingPage['clientPost6']);
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- testimonial start -->
+
+                <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">'.$landingPage['title6'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive">';
+
+                            for($i=0; $i<count($explodeClientMessage); $i++){
+                                $oldSectionContent .= '<div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>'.$explodeClientMessage[$i].'
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>'.$explodeClientName[$i].'</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>'.$explodeClientPost[$i].'</p>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                        $oldSectionContent .= '</div>
+                    </div>
+                </section>
+                <!-- slick min -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+                <script>
+                    $(".responsive").slick({
+                        dots: true,
+                        infinite: false,
+                        speed: 300,
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        responsive: [{
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                            // You can unslick at a given breakpoint now by adding:
+                            // settings: "unslick"
+                            // instead of a settings object
+                        ]
+                    });
+                </script>
+                <!-- testimonial end -->';
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- testimonial start -->
+
+                <!-- <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">'.$landingPage['title6'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive">';
+
+                            for($i=0; $i<count($explodeClientMessage); $i++){
+                                $newSectionContent .= '<div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>'.$explodeClientMessage[$i].'
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>'.$explodeClientName[$i].'</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>'.$explodeClientPost[$i].'</p>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                        $newSectionContent .= '</div>
+                    </div>
+                </section>
+                <!-- slick min -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+                <script>
+                    $(".responsive").slick({
+                        dots: true,
+                        infinite: false,
+                        speed: 300,
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        responsive: [{
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                            // You can unslick at a given breakpoint now by adding:
+                            // settings: "unslick"
+                            // instead of a settings object
+                        ]
+                    });
+                </script> -->
+                <!-- testimonial end -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');   
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==7){
+
+                //File old section Content
+                $oldSectionContent = '
+                        <style>
+                          #our-contact {
+                              background-repeat: no-repeat;
+                              background-size: cover;
+                              background-position: center bottom;
+                              background-color: rgba(0, 0, 0, 0.50) !important;
+                              background-image: url("/images/background/'.$landingPage['background_image7'].'");
+                              background-blend-mode: multiply;
+                              width: 100%;
+                              height: auto;
+                              display: inline-block;
+                          }
+                        </style>
+                <!-- contact us section-f start -->
+                <section class="section-f padding-block-container" id="our-contact">
+                    <div class="container">
+                        <h3 class="text-center text-white heading-3">'.$landingPage['title7'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
+            
+                        <div class="row">
+                            <div class="col-md-8 col-lg-7 col-sm-12 col-xs-12 m-auto">
+                                <?php $actual_link = str_replace(".php", "", "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["PHP_SELF"]); ?>
+                                <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="" method="post">
+                                    <input name="pagelinks" value="<?php echo $actual_link; ?>" type="hidden" />
+                                    <div class="row w-100 mb-3">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield1'].'" name="fname" required>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield2'].'" name="lname">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="email" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield3'].'" name="email" required>
+                                        </div>
+                                        <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
+                                            <div class="select-box">
+                                                <div class="selected-option">
+                                                    <div>
+                                                        <span class="iconify" data-icon="flag:us-4x3"></span>
+                                                        <strong>+1</strong>
+                                                    </div>
+                                                    <input type="tel" name="tel" placeholder="'.$landingPage['inputfield4'].'" minlength="10" required id="phoneInput">
+                                                </div>
+                                                <div class="options">
+                                                    <input type="text" class="search-box" placeholder="Search Country Name">
+                                                    <ol>
+            
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Website* -- Ex: http://www.example.com" name="website" required>
+                                        </div> -->
+            
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" placeholder="'.$landingPage['inputfield5'].'" name="message" required></textarea>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="main-button rounded-0" name="contact_form_submit">'.$landingPage['inputfield6'].'</button>
+                                        </div>
+                                    </div>
+            
+            
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script src="{{ url("landing_page/script.js") }}"></script>
+
+                <script>
+                    // Get a reference to the input field
+                    const phoneInput = document.getElementById("phoneInput");
+            
+                    // Add an event listener to the input field
+                    phoneInput.addEventListener("input", function() {
+                        // Remove any non-numeric characters from the input
+                        this.value = this.value.replace(/[^0-9+]/g, "");
+            
+                        // Optionally, you can set a maximum length for the phone number
+                        const maxLength = 15; // Change this to your desired maximum length
+                        if (this.value.length > maxLength) {
+                            this.value = this.value.slice(0, maxLength);
+                        }
+                    });
+                </script>
+                <!-- contact us section-f end -->';
+                
+
+
+                //File new section Content
+                $newSectionContent = '
+                        <!-- <style>
+                          #our-contact {
+                              background-repeat: no-repeat;
+                              background-size: cover;
+                              background-position: center bottom;
+                              background-color: rgba(0, 0, 0, 0.50) !important;
+                              background-image: url("/images/background/'.$landingPage['background_image7'].'");
+                              background-blend-mode: multiply;
+                              width: 100%;
+                              height: auto;
+                              display: inline-block;
+                          }
+                        </style> -->
+                <!-- contact us section-f start -->
+                <!-- <section class="section-f padding-block-container" id="our-contact">
+                    <div class="container">
+                        <h3 class="text-center text-white heading-3">'.$landingPage['title7'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
+            
+                        <div class="row">
+                            <div class="col-md-8 col-lg-7 col-sm-12 col-xs-12 m-auto">
+                                <?php $actual_link = str_replace(".php", "", "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["PHP_SELF"]); ?>
+                                <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="" method="post">
+                                    <input name="pagelinks" value="<?php echo $actual_link; ?>" type="hidden" />
+                                    <div class="row w-100 mb-3">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield1'].'" name="fname" required>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield2'].'" name="lname">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="email" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield3'].'" name="email" required>
+                                        </div>
+                                        <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
+                                            <div class="select-box">
+                                                <div class="selected-option">
+                                                    <div>
+                                                        <span class="iconify" data-icon="flag:us-4x3"></span>
+                                                        <strong>+1</strong>
+                                                    </div>
+                                                    <input type="tel" name="tel" placeholder="'.$landingPage['inputfield4'].'" minlength="10" required id="phoneInput">
+                                                </div>
+                                                <div class="options">
+                                                    <input type="text" class="search-box" placeholder="Search Country Name">
+                                                    <ol>
+            
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Website* -- Ex: http://www.example.com" name="website" required>
+                                        </div> -->
+            
+                                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" placeholder="'.$landingPage['inputfield5'].'" name="message" required></textarea>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="main-button rounded-0" name="contact_form_submit">'.$landingPage['inputfield6'].'</button>
+                                        </div>
+                                    </div>
+            
+            
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script src="{{ url("landing_page/script.js") }}"></script>
+
+                <script>
+                    // Get a reference to the input field
+                    const phoneInput = document.getElementById("phoneInput");
+            
+                    // Add an event listener to the input field
+                    phoneInput.addEventListener("input", function() {
+                        // Remove any non-numeric characters from the input
+                        this.value = this.value.replace(/[^0-9+]/g, "");
+            
+                        // Optionally, you can set a maximum length for the phone number
+                        const maxLength = 15; // Change this to your desired maximum length
+                        if (this.value.length > maxLength) {
+                            this.value = this.value.slice(0, maxLength);
+                        }
+                    });
+                </script> -->
+                <!-- contact us section-f end -->';
+   
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==8){
+
+                $previousImage = $landingPage['background_image8'];
+
+                //File old section Content
+                $oldSectionContent = '
+                        <style>
+                       .have-query-section {
+                            width: 100%;
+                            height: auto;
+                            background-color: rgba(36, 106, 178, .75);
+                            background-image: url("/images/background/'.$previousImage.'");
+                            background-blend-mode: multiply;
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            padding-block: 100px;
+                        }
+                        </style>
+                        <!-- section-g start -->
+                        <section class="section-g">
+                          <div class="have-query-section">
+                              <div class="container-fluid" id="have_queries">
+                                  <div class="row">
+                                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                          <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading">'.$landingPage['title8'].'</h3>
+                                          <small class="text-white text-center w-100 d-block pb-5">'.$landingPage['sub_title8'].'</small>
+
+                                          <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2 col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-12">
+                                              <form action="">
+                                                  <input type="text" placeholder="'.$landingPage['field1'].'" required>
+                                                  <input type="tel" placeholder="'.$landingPage['field2'].'" required>
+                                                  <input type="submit" value="'.$landingPage['field3'].'">
+                                              </form>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </section>
+                        <!-- section-g start -->';
+                
+
+
+                //File new section Content
+                $newSectionContent = '
+                        <!-- <style>
+                        .have-query-section {
+                            width: 100%;
+                            height: auto;
+                            background-color: rgba(36, 106, 178, .75);
+                            background-image: url("/images/background/'.$previousImage.'");
+                            background-blend-mode: multiply;
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            padding-block: 100px;
+                        }
+                        </style> -->
+                        <!-- section-g start -->
+                        <!-- <section class="section-g">
+                        <div class="have-query-section">
+                            <div class="container-fluid" id="have_queries">
+                                <div class="row">
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                        <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading">'.$landingPage['title8'].'</h3>
+                                        <small class="text-white text-center w-100 d-block pb-5">'.$landingPage['sub_title8'].'</small>
+
+                                        <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2 col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-12">
+                                            <form action="">
+                                                <input type="text" placeholder="'.$landingPage['field1'].'" required>
+                                                <input type="tel" placeholder="'.$landingPage['field2'].'" required>
+                                                <input type="submit" value="'.$landingPage['field3'].'">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </section> -->
+                        <!-- section-g start -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==9){
+
+                //File old section Content
+                $oldSectionContent = '
+                <div class="copyright-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                <p>&copy; '.$landingPage['content9'].'</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                
+                
+                </body>
+                
+                </html>';
+
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- <div class="copyright-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                <p>&copy; '.$landingPage['content9'].'</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+                
+                
+                </body>
+                
+                </html>';
+
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php'); 
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                //Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            }else{
+                $status = 1;
+
+            if($data['section_id']==1){
+
+                //File new section Content
+                
+                $newSectionContent =
+                '<header class="main-header bg-white position-fixed w-100 start-0 top-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/' . $layout['logo'] . '") }}" alt=""></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#' . $landingPage['menu1_link'] . '">' . $landingPage['menu1'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu2_link'] . '">' . $landingPage['menu2'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu3_link'] . '">' . $landingPage['menu3'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu4_link'] . '">' . $landingPage['menu4'] . '</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header>';
+
+                //File old section Content
+                $oldSectionContent =
+                '<!-- <header class="main-header bg-white position-fixed w-100 start-0 top-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a class="navbar-brand w-25" href="#"><img width="auto" height="50px" src="{{ url("images/logo/' . $layout['logo'] . '") }}" alt=""></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#' . $landingPage['menu1_link'] . '">' . $landingPage['menu1'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu2_link'] . '">' . $landingPage['menu2'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu3_link'] . '">' . $landingPage['menu3'] . '</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#' . $landingPage['menu4_link'] . '">' . $landingPage['menu4'] . '</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header> -->';
+
+                $filePath = resource_path('views/landing-page/' . $layout['page_url'] . '.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                    
+                //Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==2){
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- hero section start -->
+                <style>
+                    .section-a {
+                        background: url("images/background/'.$landingPage['background_image2'].'");
+                        background-size: cover;
+                        width: 100%;
+                    }
+                </style>
+                <section class="section-a">
+                        <div class="container">
+                            <div class="row sub-section-a d-flex justify-content-between align-items-center">
+                                <div class="col-md-7 col-lg-7 col-xl-7 col-xxl-7 col-sm-12 col-xs-12">
+                                    <h1 class="text-dark main-heading">'.$landingPage['title2'].'</h1>
+                                    <p class="" style="color: #f26e4f;">'.$landingPage['sub_title2'].'</p>
+                                    <div class="button-container">
+                                        <a href="#'.$landingPage['menu4_link'].'" class="main-button">'.$landingPage['button1'].'</a>
+                                        <a href="tel:+1-250-206-8787" class="main-button call-us-btn">'.$landingPage['button2'].'</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
+                                    <figure class="w-100">
+                                        <img class="w-100" style="border-radius: 20px; height: 300px;" src="{{ url("images/banner/'.$landingPage['banner_image2'].'") }}" alt="">
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                </section>
+                <!-- hero section end -->';
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- hero section start -->
+                <!-- <style>
+                    .section-a {
+                        background: url("images/background/'.$landingPage['background_image2'].'");
+                        background-size: cover;
+                        width: 100%;
+                    }
+                </style>
+                <section class="section-a">
+                        <div class="container">
+                            <div class="row sub-section-a d-flex justify-content-between align-items-center">
+                                <div class="col-md-7 col-lg-7 col-xl-7 col-xxl-7 col-sm-12 col-xs-12">
+                                    <h1 class="text-dark main-heading">'.$landingPage['title2'].'</h1>
+                                    <p class="" style="color: #f26e4f;">'.$landingPage['sub_title2'].'</p>
+                                    <div class="button-container">
+                                        <a href="#'.$landingPage['menu4_link'].'" class="main-button">'.$landingPage['button1'].'</a>
+                                        <a href="tel:+1-250-206-8787" class="main-button call-us-btn">'.$landingPage['button2'].'</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
+                                    <figure class="w-100">
+                                        <img class="w-100" style="border-radius: 20px; height: 300px;" src="{{ url("images/banner/'.$landingPage['banner_image2'].'") }}" alt="">
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                </section> -->
+                <!-- hero section end -->';
+                    
+
+                    $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                    // Read the entire file
+                    $currentContent = file_get_contents($filePath);
+
+                    // Construct the new content with the updated section
+                    $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+                
+                    // Write the updated content back to the file
+                    file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==3){
+
+                $explodeServiceName = explode("+++",$landingPage['service_name3']);
+                $explodeServiceDescription = explode("+++",$landingPage['service_description3']);
+                $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- service section start -->
+                    <section class="section-b" id="our-services">
+                        <div class="container padding-block-container">
+                            <div class="row d-flex justify-content-center">
+                                <h3 class="text-center heading-3">'.$landingPage['title3'].'</h3>
+                                <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 20%;"></span>
+                                <p class="text-center pt-2 pb-2">'.$landingPage['description3'].'</p>';
+                               
+                                for($i=0; $i<count($explodeServiceName); $i++){
+                                $newSectionContent .= '<div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                    <div class="card">
+                                        <div class="heading-container">
+                                            <figure class="icon w-25">
+                                                <img class="w-100" src="{{ url("images/icons/'.$explodeServiceIcon[$i].'") }}" alt="">
+                                            </figure>
+                                            <div class="heading-4">
+                                                <h4 class="text-dark text-center">'.$explodeServiceName[$i].'</h4>
+                                            </div>
+                                        </div>
+                                        <div class="content-container text-center">
+                                            <p class="text-dark">'.$explodeServiceDescription[$i].'</p>
+                                            <a href="'.Str::slug($explodeServiceName[$i]).'" class="sub-button">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>';
+                                }
+                               
+
+                            $newSectionContent .= '</div>
+                        </div>
+                    </section>
+                <!-- service section end -->';
+
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- service section start -->
+                    <!-- <section class="section-b" id="our-services">
+                        <div class="container padding-block-container">
+                            <div class="row d-flex justify-content-center">
+                                <h3 class="text-center heading-3">'.$landingPage['title3'].'</h3>
+                                <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 20%;"></span>
+                                <p class="text-center pt-2 pb-2">'.$landingPage['description3'].'</p>';
+                               
+                                for($i=0; $i<count($explodeServiceName); $i++){
+                                $oldSectionContent .= '<div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                    <div class="card">
+                                        <div class="heading-container">
+                                            <figure class="icon w-25">
+                                                <img class="w-100" src="{{ url("images/icons/'.$explodeServiceIcon[$i].'") }}" alt="">
+                                            </figure>
+                                            <div class="heading-4">
+                                                <h4 class="text-dark text-center">'.$explodeServiceName[$i].'</h4>
+                                            </div>
+                                        </div>
+                                        <div class="content-container text-center">
+                                            <p class="text-dark">'.$explodeServiceDescription[$i].'</p>
+                                            <a href="'.Str::slug($explodeServiceName[$i]).'" class="sub-button">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>';
+                                }
+                               
+
+                            $oldSectionContent .= '</div>
+                        </div>
+                    </section> -->
+                <!-- service section end -->';
+                
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==4){
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- why should you hire start -->
+                    <section class="section-c padding-block-container" id="why-choose">
+                        <h3 class="text-center heading-3">'.$landingPage['title4'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px" style="width: 40%;"></span>
+
+                        <div class="container">
+                            <div id="counter" class="row">
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box1heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box2heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box3heading'].'</span>
+                                        <p class="text">'.$landingPage['box3content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box4heading'].'</span>
+                                        <p class="text">'.$landingPage['box4content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box5heading'].'</span>
+                                        <p class="text">'.$landingPage['box5content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box6heading'].'</span>
+                                        <p class="text">'.$landingPage['box6content'].'</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- <script>
+                    let count = document.querySelectorAll(".count")
+                    let arr = Array.from(count)
+                    arr.map(function(item) {
+                        let startnumber = 0
+            
+                        function counterup() {
+                            startnumber++
+                            item.innerHTML = startnumber
+            
+                            if (startnumber == item.dataset.number) {
+                                clearInterval(stop)
+                            }
+                        }
+            
+                        let stop = setInterval(function() {
+                            counterup()
+                        }, 50)
+            
+                    })
+                </script> -->
+                    <!-- why should you hire end -->';
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- why should you hire start -->
+                    <!-- <section class="section-c padding-block-container" id="why-choose">
+                        <h3 class="text-center heading-3">'.$landingPage['title4'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px" style="width: 40%;"></span>
+
+                        <div class="container">
+                            <div id="counter" class="row">
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box1heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box2heading'].'</span>
+                                        <p class="text">'.$landingPage['box1content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box3heading'].'</span>
+                                        <p class="text">'.$landingPage['box3content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box4heading'].'</span>
+                                        <p class="text">'.$landingPage['box4content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box5heading'].'</span>
+                                        <p class="text">'.$landingPage['box5content'].'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="item">
+                                        <span class="count">'.$landingPage['box6heading'].'</span>
+                                        <p class="text">'.$landingPage['box6content'].'</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section> -->
+                    <!-- <script>
+                    let count = document.querySelectorAll(".count")
+                    let arr = Array.from(count)
+                    arr.map(function(item) {
+                        let startnumber = 0
+            
+                        function counterup() {
+                            startnumber++
+                            item.innerHTML = startnumber
+            
+                            if (startnumber == item.dataset.number) {
+                                clearInterval(stop)
+                            }
+                        }
+            
+                        let stop = setInterval(function() {
+                            counterup()
+                        }, 50)
+            
+                    })
+                </script> -->
+                    <!-- why should you hire end -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==5){
+                $explodeCustomerImages = explode(",",$landingPage['customers_images5']);
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- valued customer start -->
+                    <section class="section-d padding-block-container" id="our-customers">
+                        <h3 class="text-center heading-3">' . $landingPage['title5'] . '</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="container mt-2">
+                            <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4">';
+                                foreach ($explodeCustomerImages as $row) {
+                                    $newSectionContent .= '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                        <figure>
+                                            <img src="{{ url("images/customers/' . $row . '") }}" alt="" height="80" width="auto">
+                                        </figure>
+                                    </div>';
+                                }
+                                $newSectionContent .= '
+                            </div>
+                        </div>
+                    </section>
+                <!-- valued customer end -->';
+
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- valued customer start -->
+                    <!-- <section class="section-d padding-block-container" id="our-customers">
+                        <h3 class="text-center heading-3">' . $landingPage['title5'] . '</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="container mt-2">
+                            <div class="row my-5 text-center d-flex justify-content-between align-items-center our-valued-customer gap-4">';
+                                foreach ($explodeCustomerImages as $row) {
+                                    $oldSectionContent .= '<div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                        <figure>
+                                            <img src="{{ url("images/customers/' . $row . '") }}" alt="" height="80" width="auto">
+                                        </figure>
+                                    </div>';
+                                }
+                                $oldSectionContent .= '
+                            </div>
+                        </div>
+                    </section> -->
+                <!-- valued customer end -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php'); 
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==6){
+
+                $explodeClientMessage = explode("+++",$landingPage['clientMessage6']);
+                $explodeClientName = explode("+++",$landingPage['clientName6']);
+                $explodeClientPost = explode("+++",$landingPage['clientPost6']);
+
+                //File new section Content
+                $newSectionContent = '
+                <!-- testimonial start -->
+
+                <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">'.$landingPage['title6'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive">';
+
+                            for($i=0; $i<count($explodeClientMessage); $i++){
+                                $newSectionContent .= '<div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>'.$explodeClientMessage[$i].'
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>'.$explodeClientName[$i].'</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>'.$explodeClientPost[$i].'</p>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                        $newSectionContent .= '</div>
+                    </div>
+                </section>
+                <!-- slick min -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+                <script>
+                    $(".responsive").slick({
+                        dots: true,
+                        infinite: false,
+                        speed: 300,
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        responsive: [{
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                            // You can unslick at a given breakpoint now by adding:
+                            // settings: "unslick"
+                            // instead of a settings object
+                        ]
+                    });
+                </script>
+                <!-- testimonial end -->';
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- testimonial start -->
+
+                <!-- <section class="section-e">
+            
+                    <div class="container padding-block-container">
+                        <h3 class="text-center heading-3">'.$landingPage['title6'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-100px" style="width: 10%;"></span>
+                        <div class="row responsive">';
+
+                            for($i=0; $i<count($explodeClientMessage); $i++){
+                                $oldSectionContent .= '<div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="details h-auto">
+                                        <p>'.$explodeClientMessage[$i].'
+                                        </p>
+                                    </div>
+                                    <div class="description">
+                                        <div class="name">
+                                            <strong>'.$explodeClientName[$i].'</strong>
+                                        </div>
+                                        <div class="designation my-2">
+                                            <p>'.$explodeClientPost[$i].'</p>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                        $oldSectionContent .= '</div>
+                    </div>
+                </section>
+                <!-- slick min -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+                <script>
+                    $(".responsive").slick({
+                        dots: true,
+                        infinite: false,
+                        speed: 300,
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        responsive: [{
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                            // You can unslick at a given breakpoint now by adding:
+                            // settings: "unslick"
+                            // instead of a settings object
+                        ]
+                    });
+                </script> -->
+                <!-- testimonial end -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');   
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==7){
+
+                //File new section Content
+                $newSectionContent = '
+                        <style>
+                          #our-contact {
+                              background-repeat: no-repeat;
+                              background-size: cover;
+                              background-position: center bottom;
+                              background-color: rgba(0, 0, 0, 0.50) !important;
+                              background-image: url("/images/background/'.$landingPage['background_image7'].'");
+                              background-blend-mode: multiply;
+                              width: 100%;
+                              height: auto;
+                              display: inline-block;
+                          }
+                        </style>
+                <!-- contact us section-f start -->
+                <section class="section-f padding-block-container" id="our-contact">
+                    <div class="container">
+                        <h3 class="text-center text-white heading-3">'.$landingPage['title7'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
+            
+                        <div class="row">
+                            <div class="col-md-8 col-lg-7 col-sm-12 col-xs-12 m-auto">
+                                <?php $actual_link = str_replace(".php", "", "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["PHP_SELF"]); ?>
+                                <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="" method="post">
+                                    <input name="pagelinks" value="<?php echo $actual_link; ?>" type="hidden" />
+                                    <div class="row w-100 mb-3">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield1'].'" name="fname" required>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield2'].'" name="lname">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="email" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield3'].'" name="email" required>
+                                        </div>
+                                        <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
+                                            <div class="select-box">
+                                                <div class="selected-option">
+                                                    <div>
+                                                        <span class="iconify" data-icon="flag:us-4x3"></span>
+                                                        <strong>+1</strong>
+                                                    </div>
+                                                    <input type="tel" name="tel" placeholder="'.$landingPage['inputfield4'].'" minlength="10" required id="phoneInput">
+                                                </div>
+                                                <div class="options">
+                                                    <input type="text" class="search-box" placeholder="Search Country Name">
+                                                    <ol>
+            
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Website* -- Ex: http://www.example.com" name="website" required>
+                                        </div> -->
+            
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" placeholder="'.$landingPage['inputfield5'].'" name="message" required></textarea>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="main-button rounded-0" name="contact_form_submit">'.$landingPage['inputfield6'].'</button>
+                                        </div>
+                                    </div>
+            
+            
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script src="{{ url("landing_page/script.js") }}"></script>
+
+                <script>
+                    // Get a reference to the input field
+                    const phoneInput = document.getElementById("phoneInput");
+            
+                    // Add an event listener to the input field
+                    phoneInput.addEventListener("input", function() {
+                        // Remove any non-numeric characters from the input
+                        this.value = this.value.replace(/[^0-9+]/g, "");
+            
+                        // Optionally, you can set a maximum length for the phone number
+                        const maxLength = 15; // Change this to your desired maximum length
+                        if (this.value.length > maxLength) {
+                            this.value = this.value.slice(0, maxLength);
+                        }
+                    });
+                </script>
+                <!-- contact us section-f end -->';
+                
+
+
+                //File old section Content
+                $oldSectionContent = '
+                        <!-- <style>
+                          #our-contact {
+                              background-repeat: no-repeat;
+                              background-size: cover;
+                              background-position: center bottom;
+                              background-color: rgba(0, 0, 0, 0.50) !important;
+                              background-image: url("/images/background/'.$landingPage['background_image7'].'");
+                              background-blend-mode: multiply;
+                              width: 100%;
+                              height: auto;
+                              display: inline-block;
+                          }
+                        </style> -->
+                <!-- contact us section-f start -->
+                <!-- <section class="section-f padding-block-container" id="our-contact">
+                    <div class="container">
+                        <h3 class="text-center text-white heading-3">'.$landingPage['title7'].'</h3>
+                        <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px"></span>
+            
+                        <div class="row">
+                            <div class="col-md-8 col-lg-7 col-sm-12 col-xs-12 m-auto">
+                                <?php $actual_link = str_replace(".php", "", "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["PHP_SELF"]); ?>
+                                <form class="shadow-sm p-4 d-flex justify-content-center align-items-center flex-column bg-white form-a" action="" method="post">
+                                    <input name="pagelinks" value="<?php echo $actual_link; ?>" type="hidden" />
+                                    <div class="row w-100 mb-3">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield1'].'" name="fname" required>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield2'].'" name="lname">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <input type="email" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="'.$landingPage['inputfield3'].'" name="email" required>
+                                        </div>
+                                        <div id="flag-container-hire-virtual-assistant" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 position-relative flag-ca">
+                                            <div class="select-box">
+                                                <div class="selected-option">
+                                                    <div>
+                                                        <span class="iconify" data-icon="flag:us-4x3"></span>
+                                                        <strong>+1</strong>
+                                                    </div>
+                                                    <input type="tel" name="tel" placeholder="'.$landingPage['inputfield4'].'" minlength="10" required id="phoneInput">
+                                                </div>
+                                                <div class="options">
+                                                    <input type="text" class="search-box" placeholder="Search Country Name">
+                                                    <ol>
+            
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Website* -- Ex: http://www.example.com" name="website" required>
+                                        </div> -->
+            
+                                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3" placeholder="'.$landingPage['inputfield5'].'" name="message" required></textarea>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="main-button rounded-0" name="contact_form_submit">'.$landingPage['inputfield6'].'</button>
+                                        </div>
+                                    </div>
+            
+            
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script src="{{ url("landing_page/script.js") }}"></script>
+
+                <script>
+                    // Get a reference to the input field
+                    const phoneInput = document.getElementById("phoneInput");
+            
+                    // Add an event listener to the input field
+                    phoneInput.addEventListener("input", function() {
+                        // Remove any non-numeric characters from the input
+                        this.value = this.value.replace(/[^0-9+]/g, "");
+            
+                        // Optionally, you can set a maximum length for the phone number
+                        const maxLength = 15; // Change this to your desired maximum length
+                        if (this.value.length > maxLength) {
+                            this.value = this.value.slice(0, maxLength);
+                        }
+                    });
+                </script> -->
+                <!-- contact us section-f end -->';
+   
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==8){
+
+                $previousImage = $landingPage['background_image8'];
+
+                //File new section Content
+                $newSectionContent = '
+                        <style>
+                       .have-query-section {
+                            width: 100%;
+                            height: auto;
+                            background-color: rgba(36, 106, 178, .75);
+                            background-image: url("/images/background/'.$previousImage.'");
+                            background-blend-mode: multiply;
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            padding-block: 100px;
+                        }
+                        </style>
+                        <!-- section-g start -->
+                        <section class="section-g">
+                          <div class="have-query-section">
+                              <div class="container-fluid" id="have_queries">
+                                  <div class="row">
+                                      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                          <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading">'.$landingPage['title8'].'</h3>
+                                          <small class="text-white text-center w-100 d-block pb-5">'.$landingPage['sub_title8'].'</small>
+
+                                          <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2 col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-12">
+                                              <form action="">
+                                                  <input type="text" placeholder="'.$landingPage['field1'].'" required>
+                                                  <input type="tel" placeholder="'.$landingPage['field2'].'" required>
+                                                  <input type="submit" value="'.$landingPage['field3'].'">
+                                              </form>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </section>
+                        <!-- section-g start -->';
+                
+
+
+                //File old section Content
+                $oldSectionContent = '
+                        <!-- <style>
+                        .have-query-section {
+                            width: 100%;
+                            height: auto;
+                            background-color: rgba(36, 106, 178, .75);
+                            background-image: url("/images/background/'.$previousImage.'");
+                            background-blend-mode: multiply;
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            padding-block: 100px;
+                        }
+                        </style> -->
+                        <!-- section-g start -->
+                        <!-- <section class="section-g">
+                        <div class="have-query-section">
+                            <div class="container-fluid" id="have_queries">
+                                <div class="row">
+                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                        <h3 class="text-extra-dark-gray mb-3 font-weight-700 md-w-100 d-block text-center text-white main-heading">'.$landingPage['title8'].'</h3>
+                                        <small class="text-white text-center w-100 d-block pb-5">'.$landingPage['sub_title8'].'</small>
+
+                                        <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2 col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-12">
+                                            <form action="">
+                                                <input type="text" placeholder="'.$landingPage['field1'].'" required>
+                                                <input type="tel" placeholder="'.$landingPage['field2'].'" required>
+                                                <input type="submit" value="'.$landingPage['field3'].'">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </section> -->
+                        <!-- section-g start -->';
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php');
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                // Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+
+            if($data['section_id']==9){
+
+                //File new section Content
+                $newSectionContent = '
+                <div class="copyright-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                <p>&copy; '.$landingPage['content9'].'</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                
+                
+                </body>
+                
+                </html>';
+
+
+                //File old section Content
+                $oldSectionContent = '
+                <!-- <div class="copyright-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                <p>&copy; '.$landingPage['content9'].'</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+                
+                
+                </body>
+                
+                </html>';
+
+                
+
+                $filePath = resource_path('views/landing-page/'.$layout['page_url'].'.blade.php'); 
+
+                // Read the entire file
+                $currentContent = file_get_contents($filePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldSectionContent, $newSectionContent, $currentContent);
+            
+                //Write the updated content back to the file
+                file_put_contents($filePath, $newContent, LOCK_EX);
+            }
+            }
+
+            landing_pages::where('layout_id',$data['layout_id'])->update(['status'.$data['section_id'] => $status]);
+            return response()->json(['status'=>$status, 'section_id'=>$data['section_id']]);
+        }
     }
 
     /**

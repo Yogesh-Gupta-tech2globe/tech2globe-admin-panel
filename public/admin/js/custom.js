@@ -561,6 +561,35 @@ $(document).ready(function(){
     });
 
 
+    //Update Landing Page Theme Section status
+
+    $(document).on("click",".updateLandingPageSectionStatus", function(){
+        var status = $(this).children("i").attr("status");
+        var layout_id = $(this).attr("layout_id");
+        var section_id = $(this).attr("section_id");
+        
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-landingPage-section-status",
+            data: {status:status,section_id:section_id,layout_id:layout_id},
+            success:function (resp) {
+                if(resp['status']==0){
+                    $("#landingPage-section-"+section_id).html("<i class='fas fa-toggle-off fa-lg' style='color: yellow' status='Inactive'>&nbsp;&nbsp;<span style='font-size: 16px;'>Section is Inactive</span></i>");
+                }
+                else if(resp['status']==1){
+                    $("#landingPage-section-"+section_id).html("<i class='fas fa-toggle-on fa-lg' style='color: #FFFFFF' status='Active'>&nbsp;&nbsp;<span style='font-size: 16px;'>Section is Active</span></i>");
+                }
+            },
+            error:function(){
+                alert("Error");
+            }
+        });
+    });
+
+
 });
 
     

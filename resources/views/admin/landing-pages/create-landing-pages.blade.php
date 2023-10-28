@@ -81,59 +81,232 @@
               </div>
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-four-tabContent">
+
                   <div class="tab-pane fade show" id="custom-tabs-seo" role="tabpanel" aria-labelledby="custom-tabs-seo-tab">
-                    <h3>SEO Section</h3>
-                  
-                    <div class="row">
-                       <!-- left column -->
-                       <div class="col-md-12">
-                         <!-- general form elements -->
-                         <div class="card card-primary mt-5">
-                           <div class="card-header">
-                             <h3 class="card-title">Create Section 1</h3>
-                           </div>
-                           <!-- /.card-header -->
-                           <!-- form start -->
-                           <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
-                             <div class="card-body">
-                               <div class="form-group">
-                                 <label for="menu1old">Menu 1</label>
-                                 <input type="text" class="form-control" id="menu1old" name="menu1old" placeholder="Enter Menu 1" value="What We Do">
+
+                    <div class="card card-info card-outline card-outline-tabs">
+                      <div class="card-header p-0 border-bottom-0">
+                        <ul class="nav nav-tabs" id="seo-section-tab" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active" id="seo-section1-tab" data-toggle="pill" href="#seo-section1-tab-content" role="tab" aria-controls="seo-section-tab" aria-selected="true">SEO Section 1</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="seo-section2-tab" data-toggle="pill" href="#seo-section2-tab-content" role="tab" aria-controls="seo-section-tab" aria-selected="true">SEO Section 2</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="seo-section3-tab" data-toggle="pill" href="#seo-section3-tab-content" role="tab" aria-controls="seo-section-tab" aria-selected="true">SEO Section 3</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="card-body">
+                        <div class="tab-content" id="seo-section-tabContent">
+                          <div class="tab-pane fade show active" id="seo-section1-tab-content" role="tabpanel" aria-labelledby="seo-section-tabContent">
+                          
+                            <div class="row">
+                               <!-- left column -->
+                               <div class="col-md-12">
+                                 <!-- general form elements -->
+                                 <div class="card card-info mt-2">
+                                   <div class="card-header">
+                                     <h3 class="card-title">Create SEO Section 1</h3>
+                                   </div>
+                                   <!-- /.card-header -->
+                                   <!-- form start -->
+                                   <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                                    <div class="card-body">
+                                     <div class="row">
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="meta-title">Meta Title</label>
+                                           <input type="text" class="form-control" name="meta-title" id="meta-title" placeholder="Enter Meta Title">
+                                         </div> 
+                                       </div>
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="meta-description">Meta Description</label>
+                                           <input type="text" class="form-control" name="meta-description" id="meta-description" placeholder="Enter Meta Description">
+                                         </div>
+                                       </div>
+                                     </div>
+                                     <div class="row">
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="meta-tags">Meta Tags</label>
+                                           <input type="text" class="form-control" name="meta-tags" id="meta-tags" placeholder="Enter Meta Tags">
+                                         </div>
+                                       </div>
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="meta-keyword">Meta Keyword</label>
+                                           <input type="text" class="form-control" name="meta-keyword" id="meta-keyword" placeholder="Enter Meta Keyword">
+                                         </div>
+                                       </div>
+                                     </div>  
+                                     <div class="row">
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="og-title">OG Title</label>
+                                           <input type="text" class="form-control" name="og-title" id="og-title" placeholder="Enter OG Title">
+                                         </div>
+                                       </div>
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="og-title">OG Description</label>
+                                           <input type="text" class="form-control" id="og-title" name="og-title" placeholder="Enter OG Description">
+                                         </div>
+                                       </div>
+                                     </div>
+                                     <div class="row">
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="twitter-title">Twitter Title</label>
+                                           <input type="text" class="form-control" name="twitter-title" id="twitter-title" placeholder="Enter Twitter Title">
+                                         </div>
+                                       </div>
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="twitter-title">Twitter Description</label>
+                                           <input type="text" class="form-control" id="twitter-title" name="twitter-title" placeholder="Enter Twitter Description">
+                                         </div>
+                                       </div>
+                                     </div>
+                                     <div class="row">
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="og-tags">OG Tags</label>
+                                           <input type="text" class="form-control" name="og-tags" id="og-tags" placeholder="Enter OG Tags">
+                                         </div>
+                                       </div>
+                                       <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                         <div class="form-group">
+                                           <label for="cononical-tags">Canonical Tags</label>
+                                           <input type="text" class="form-control" id="cononical-tags" name="cononical-tags" placeholder="Enter Canonical Tags">
+                                         </div>
+                                       </div>
+                                     </div>  
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer">
+                                      <button type="submit" class="btn btn-info">Submit</button>
+                                    </div>
+                                  </form>
+                                 </div>
+                                 <!-- /.card -->
+                     
                                </div>
-                               <div class="form-group">
-                                 <label for="menu2old">Menu 2</label>
-                                 <input type="text" class="form-control" name="menu2old" id="menu2old" placeholder="Enter Menu 2" value="Why Choose Tech2globe">
-                               </div>
-                               <div class="form-group">
-                                   <label for="menu3old">Menu 3</label>
-                                   <input type="text" class="form-control" name="menu3old" id="menu3old" placeholder="Enter Menu 3" value="Our Customers">
-                               </div>
-                               <div class="form-group">
-                                   <label for="menu4old">Menu 4</label>
-                                   <input type="text" class="form-control" name="menu4old" id="menu4old" placeholder="Enter Menu 4" value="Contact Us">
-                               </div> 
-                               <div class="form-group">
-                                   <label for="favicon_icon_old">Favicon Icon</label>
-                                   <input type="file" class="form-control" name="favicon_icon_old" id="favicon_icon_old">
-                               </div>
-                               <div class="form-group">
-                                   <label for="logo_old">logo_old</label>
-                                   <input type="file" class="form-control" name="logo_old" id="logo_old">
-                               </div>                
-                             </div>
-                             <!-- /.card-body -->
-             
-                             <div class="card-footer">
-                               <button type="submit" class="btn btn-primary">Submit</button>
-                             </div>
-                           </form>
+                               <!--/.col (left) -->
+                            </div>
+                           
                          </div>
-                         <!-- /.card -->
-             
-                       </div>
-                       <!--/.col (left) -->
-                   </div>
-                   <!-- /.row -->
+                         <div class="tab-pane fade show" id="seo-section2-tab-content" role="tabpanel" aria-labelledby="seo-section-tabContent">
+                          
+                          <div class="row">
+                             <!-- left column -->
+                             <div class="col-md-12">
+                               <!-- general form elements -->
+                               <div class="card card-info mt-2">
+                                 <div class="card-header">
+                                   <h3 class="card-title">Create SEO Section 2</h3>
+                                 </div>
+                                 <!-- /.card-header -->
+                                 <!-- form start -->
+                                 <form action="{{ url('admin/create-landing-pages') }}" method="post" enctype="multipart/form-data">@csrf
+                                  <div class="card-body">
+                                   <div class="row">
+                                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                       <div class="form-group">
+                                         <label for="fav-icon">Fav Icon</label>
+                                         <input type="text" class="form-control" name="fav-icon" id="fav-icon" placeholder="Enter Fav Icon">
+                                       </div>
+                                     </div>
+                                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                       <div class="form-group">
+                                         <label for="cononical-tags">Canonical Tags</label>
+                                         <input type="text" class="form-control" id="cononical-tags" name="cononical-tags" placeholder="Enter Canonical Tags">
+                                       </div>
+                                     </div>
+                                   </div>
+                                   <div class="row">
+                                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                       <div class="form-group">
+                                         <label for="google-analytics">Google Analytics Code</label>
+                                         <textarea name="google-analytics" class="form-control" id="google-analytics" cols="30" rows="10" placeholder="Enter Google Analytics Code"></textarea>
+                                       </div>
+                                     </div>
+                                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-6">
+                                       <div class="form-group">
+                                         <label for="google-search-console">Google Search Console Verification Code</label>
+                                         <textarea name="google-search-console" class="form-control" id="google-search-console" cols="30" rows="10" placeholder="Enter Google Search Console Verification Code"></textarea>
+                                       </div>
+                                     </div>
+                                   </div>       
+                                  </div>
+                                  <!-- /.card-body -->
+                                  <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </form>
+                               </div>
+                               <!-- /.card -->
+                   
+                             </div>
+                             <!--/.col (left) -->
+                          </div>
+                         
+                         </div>
+                         <div class="tab-pane fade show" id="seo-section3-tab-content" role="tabpanel" aria-labelledby="seo-section-tabContent">
+                          
+                          <div class="row">
+                             <!-- left column -->
+                             <div class="col-md-12">
+                               <!-- general form elements -->
+                               <div class="card card-info mt-2">
+                                 <div class="card-header">
+                                   <h3 class="card-title">Create SEO Section 3</h3>
+                                 </div>
+                                 <!-- /.card-header -->
+                                 <!-- form start -->
+                                 <form action="{{ url('admin/create-landing-pages/'.$layout['id'].'') }}" method="post" enctype="multipart/form-data">@csrf
+                                   <div class="card-body">
+                                     <div class="form-group">
+                                       <label for="menu1">Menu 1</label>
+                                       <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" @if(!empty($landingPage['menu1'])) value="{{$landingPage['menu1']}}" @else value="What We Do" @endif>
+                                     </div>
+                                     <div class="form-group">
+                                       <label for="menu2">Menu 2</label>
+                                       <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" @if(!empty($landingPage['menu2'])) value="{{$landingPage['menu2']}}" @else value="Why Choose Tech2globe" @endif>
+                                     </div>
+                                     <div class="form-group">
+                                         <label for="menu3">Menu 3</label>
+                                         <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" @if(!empty($landingPage['menu3'])) value="{{$landingPage['menu3']}}" @else value="Our Customers" @endif>
+                                     </div>
+                                     <div class="form-group">
+                                         <label for="menu4">Menu 4</label>
+                                         <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" @if(!empty($landingPage['menu4'])) value="{{$landingPage['menu4']}}" @else value="Contact Us" @endif>
+                                     </div> 
+                                     <div class="form-group">
+                                         <label for="logo">logo</label>
+                                         <input type="file" class="form-control" name="logo" id="logo">
+                                     </div>                
+                                   </div>
+                                   <!-- /.card-body -->
+                   
+                                   <div class="card-footer">
+                                     <button type="submit" class="btn btn-info" name="section1">Submit</button>
+                                   </div>
+                                 </form>
+                               </div>
+                               <!-- /.card -->
+                   
+                             </div>
+                             <!--/.col (left) -->
+                          </div>
+                         
+                          </div>
+                         </div>
+                      </div>
+                    </div>
+                    
                   </div>
                   <div class="tab-pane fade show active" id="custom-tabs-section1" role="tabpanel" aria-labelledby="custom-tabs-section1-tab">
                      <h3>Section 1</h3>
@@ -175,6 +348,14 @@
                           <div class="card card-primary mt-5">
                             <div class="card-header">
                               <h3 class="card-title">Create Section 1</h3>
+                              @if($landingPage['section1_id']!="")
+                                @if ($landingPage['status1']==1)
+                                  <a class="updateLandingPageSectionStatus" id="landingPage-section-1" layout_id="{{$layout['id']}}" section_id="1" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                                @else
+                                  <a class="updateLandingPageSectionStatus" id="landingPage-section-1" layout_id="{{$layout['id']}}" section_id="1" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                                @endif
+                              @endif
+
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
@@ -196,10 +377,6 @@
                                     <label for="menu4">Menu 4</label>
                                     <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" @if(!empty($landingPage['menu4'])) value="{{$landingPage['menu4']}}" @else value="Contact Us" @endif>
                                 </div> 
-                                <div class="form-group">
-                                    <label for="favicon_icon">Favicon Icon</label>
-                                    <input type="file" class="form-control" name="favicon_icon" id="favicon_icon">
-                                </div>
                                 <div class="form-group">
                                     <label for="logo">logo</label>
                                     <input type="file" class="form-control" name="logo" id="logo">
@@ -231,11 +408,11 @@
                                 <div class="container">
                                     <div class="row sub-section-a d-flex justify-content-between align-items-center">
                                         <div class="col-md-7 col-lg-7 col-xl-7 col-xxl-7 col-sm-12 col-xs-12">
-                                            <h1 class="text-dark main-heading" style="color: #000000;"><span id="outputTitle2"></span></h1>
-                                            <p class="" style="color: #f26e4f;"><span id="outputSub_title2"></span></p>
+                                            <h1 class="text-dark main-heading" style="color: #000000;"><span id="outputTitle2">@if(!empty($landingPage['title2'])) {{$landingPage['title2']}} @else Virtual Assistants Are the Solution For Your Business @endif</span></h1>
+                                            <p class="" style="color: #f26e4f;"><span id="outputSub_title2"> @if(!empty($landingPage['sub_title2'])) {{$landingPage['sub_title2']}} @else Get In Touch With Us Today @endif</span></p>
                                             <div class="button-container">
-                                                <a href="#our-contact" class="main-button"><span id="outputButton1"></span></a>
-                                                <a href="tel:+1-250-206-8787" class="main-button call-us-btn"><span id="outputButton2"></span></a>
+                                                <a href="#our-contact" class="main-button"><span id="outputButton1">@if(!empty($landingPage['button1'])) {{$landingPage['button1']}} @else GET STARTED @endif</span></a>
+                                                <a href="tel:+1-250-206-8787" class="main-button call-us-btn"><span id="outputButton2">@if(!empty($landingPage['button2'])) {{$landingPage['button2']}} @else CALL US @endif</span></a>
                                             </div>
                                         </div>
                                         <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-12 col-xs-12">
@@ -257,7 +434,14 @@
                           <!-- general form elements -->
                           <div class="card card-primary mt-5">
                             <div class="card-header">
-                              <h3 class="card-title">Create Section 2</h3>
+                              <h3 class="card-title">Create Section 2 </h3>
+                              @if($landingPage['section2_id']!="")
+                                @if ($landingPage['status2']==1)
+                                  <a class="updateLandingPageSectionStatus" id="landingPage-section-2" layout_id="{{$layout['id']}}" section_id="2" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                                @else
+                                  <a class="updateLandingPageSectionStatus" id="landingPage-section-2" layout_id="{{$layout['id']}}" section_id="2" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                                @endif
+                              @endif
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
@@ -332,23 +516,51 @@
                                   <h3 class="heading-3" style="align-text: center;"><span id="outputTitle3">@if(!empty($landingPage['title3'])) {{$landingPage['title3']}} @else Virtual Assistant Services We Offer @endif</span></h3><br>
                                   <p class="text-center pt-2 pb-2"><span id="outputDescription3">@if(!empty($landingPage['description3'])) {{$landingPage['description3']}} @else Curb the struggle of managing extensive administration tasks, and scale your business growth with contemporary solutions. Hire virtual assistants from the global service provider Tech2Globe Web Solutions. We utilize the latest tools, techniques, and processes to provide world-class and 100% accurate services. Furthermore, we allocate you tech-savvy and proactive VAs that have aptitude in various fields to run admin errands for you and support challenges that you may be facing. Our comprehensive solutions include, but are not limited to @endif</span></p>
 
-                                  <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                      <div class="card" style="background-color: #FFFFFF; color: #000000;">
-                                          <div class="heading-container">
-                                              <figure class="icon w-25">
-                                                  <img class="w-100" id="outputServiceIcon1" src="{{ url('landing_page/images/data-entry-service.png') }}" alt="" width="auto" height="50px">
-                                              </figure>
-                                              <div class="heading-4">
-                                                  <h4 class="text-dark text-center"><span id="outputServiceName1" style="color: #000000;"></span></h4>
-                                              </div>
-                                          </div>
-                                          <div class="content-container text-center">
-                                              <p class="text-dark"><span id="outputServiceDescription1" style="color: #000000;"></span></p>
-                                              <a href="" class="sub-button">Read More</a>
-                                          </div>
+                                  @if(!empty($landingPage['service_name3']))
+                                  <?php
+                                  $explodeServiceName = explode("+++",$landingPage['service_name3']);
+                                  $explodeServiceDescription = explode("+++",$landingPage['service_description3']);
+                                  $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
+                                  ?>
+                                    @for ($i = 0; $i < count($explodeServiceName); $i++)
+                                      <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                        <div class="card" style="background-color: #FFFFFF; color: #000000;">
+                                            <div class="heading-container">
+                                                <figure class="icon w-25">
+                                                    <img class="w-100" id="outputServiceIcon{{$i+1}}" src="{{ url("images/icons/$explodeServiceIcon[$i]") }}" alt="" width="auto" height="50px">
+                                                </figure>
+                                                <div class="heading-4">
+                                                    <h4 class="text-dark text-center"><span id="outputServiceName{{$i+1}}" style="color: #000000;">{{$explodeServiceName[$i]}}</span></h4>
+                                                </div>
+                                            </div>
+                                            <div class="content-container text-center">
+                                                <p class="text-dark"><span id="outputServiceDescription{{$i+1}}" style="color: #000000;">{{$explodeServiceDescription[$i]}}</span></p>
+                                                <a href="" class="sub-button">Read More</a>
+                                            </div>
+                                        </div>
                                       </div>
-                                  </div>
+                                    @endfor
+                                      
+                                  @else 
+                                  
+                                    <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                        <div class="card" style="background-color: #FFFFFF; color: #000000;">
+                                            <div class="heading-container">
+                                                <figure class="icon w-25">
+                                                    <img class="w-100" id="outputServiceIcon1" src="{{ url('landing_page/images/data-entry-service.png') }}" alt="" width="auto" height="50px">
+                                                </figure>
+                                                <div class="heading-4">
+                                                    <h4 class="text-dark text-center"><span id="outputServiceName1" style="color: #000000;"></span></h4>
+                                                </div>
+                                            </div>
+                                            <div class="content-container text-center">
+                                                <p class="text-dark"><span id="outputServiceDescription1" style="color: #000000;"></span></p>
+                                                <a href="" class="sub-button">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                  @endif
                                   
                               </div>
                           </div>
@@ -363,6 +575,13 @@
                         <div class="card card-primary mt-5">
                           <div class="card-header">
                             <h3 class="card-title">Create Section 3</h3>
+                            @if($landingPage['section3_id']!="")
+                              @if ($landingPage['status3']==1)
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-3" layout_id="{{$layout['id']}}" section_id="3" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                              @else
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-3" layout_id="{{$layout['id']}}" section_id="3" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                              @endif
+                            @endif
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -377,31 +596,70 @@
                                 <input type="text" class="form-control" name="description3" id="description3" placeholder="Enter Description" @if(!empty($landingPage['description3'])) value="{{$landingPage['description3']}}" @else value="Curb the struggle of managing extensive administration tasks, and scale your business growth with contemporary solutions. Hire virtual assistants from the global service provider Tech2Globe Web Solutions. We utilize the latest tools, techniques, and processes to provide world-class and 100% accurate services. Furthermore, we allocate you tech-savvy and proactive VAs that have aptitude in various fields to run admin errands for you and support challenges that you may be facing. Our comprehensive solutions include, but are not limited to" @endif>
                               </div>
                               <div id="accordion">
-                                <div class="card card-info card-outline">
-                                  <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
-                                      <div class="card-header">
-                                          <h4 class="card-title w-100">
-                                              Service 1
-                                          </h4>
+                                {{-- @if(!empty($landingPage['service_name3']))
+                                <?php
+                                // $explodeServiceName = explode("+++",$landingPage['service_name3']);
+                                // $explodeServiceDescription = explode("+++",$landingPage['service_description3']);
+                                // $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
+                                ?>
+                                  @for ($i = 0; $i < count($explodeServiceName); $i++)
+                                    <div class="card card-info card-outline">
+                                      <a class="d-block w-100" data-toggle="collapse" href="#collapse{{$i+1}}">
+                                          <div class="card-header">
+                                              <h4 class="card-title w-100">
+                                                  Service {{$i+1}}
+                                              </h4>
+                                          </div>
+                                      </a>
+                                      <div id="collapse{{$i+1}}" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                              <div class="form-group">
+                                                <label for="serviceName{{$i+1}}">Service Name {{$i+1}}</label>
+                                                <input type="text" class="form-control" name="serviceName{{$i+1}}" id="serviceName{{$i+1}}" placeholder="Enter Service Name" value="{{$explodeServiceName[$i]}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="serviceDescription{{$i+1}}">Service small description {{$i+1}}</label>
+                                                <input type="text" class="form-control" name="serviceDescription{{$i+1}}" id="serviceDescription{{$i+1}}" placeholder="Enter Service Description" value="{{$explodeServiceDescription[$i]}}">
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="serviceIcon{{$i+1}}">Service Icon {{$i+1}}</label>
+                                              <input type="file" class="form-control" name="serviceIcon{{$i+1}}" id="serviceIcon{{$i+1}}" placeholder="Enter Service Icon">
+                                            </div>
+                                          </div>
                                       </div>
-                                  </a>
-                                  <div id="collapse1" class="collapse show" data-parent="#accordion">
-                                        <div class="card-body">
+                                    </div>
+                                  @endfor
+                                    
+                                @else  --}}
+                                  
+                                  <div class="card card-info card-outline">
+                                    <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
+                                        <div class="card-header">
+                                            <h4 class="card-title w-100">
+                                                Service 1
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <div id="collapse1" class="collapse show" data-parent="#accordion">
+                                          <div class="card-body">
+                                            <div class="form-group">
+                                              <label for="serviceName1">Service Name 1</label>
+                                              <input type="text" class="form-control" name="serviceName1" id="serviceName1" placeholder="Enter Service Name" value="Data Entry Services">
+                                          </div>
                                           <div class="form-group">
-                                            <label for="serviceName1">Service Name 1</label>
-                                            <input type="text" class="form-control" name="serviceName1" id="serviceName1" placeholder="Enter Service Name" value="Data Entry Services">
+                                              <label for="serviceDescription1">Service small description 1</label>
+                                              <input type="text" class="form-control" name="serviceDescription1" id="serviceDescription1" placeholder="Enter Service Description" value="We have been in the data entry business for over 12 years, and our services are backed by this solid experience in handling diverse requirements.">
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="serviceIcon1">Service Icon 1</label>
+                                            <input type="file" class="form-control" name="serviceIcon1" id="serviceIcon1" placeholder="Enter Service Icon">
+                                          </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="serviceDescription1">Service small description 1</label>
-                                            <input type="text" class="form-control" name="serviceDescription1" id="serviceDescription1" placeholder="Enter Service Description" value="We have been in the data entry business for over 12 years, and our services are backed by this solid experience in handling diverse requirements.">
-                                        </div>
-                                        <div class="form-group">
-                                          <label for="serviceIcon1">Service Icon 1</label>
-                                          <input type="file" class="form-control" name="serviceIcon1" id="serviceIcon1" placeholder="Enter Service Icon">
-                                        </div>
-                                      </div>
+                                    </div>
                                   </div>
-                                </div>
+
+                                {{-- @endif --}}
+                               
                               </div>
                               <input type="button" class="btn btn-info" id="serviceAddButton" value="+ Click to add Service">               
                             </div>
@@ -427,45 +685,45 @@
                         <p>Preview</p>
                         <!-- why should you hire start -->
                         <section class="section-c padding-block-container" id="why-choose">
-                          <h3 class="text-center heading-3" style="color: #000000;" id="outputTitle4">Why Should You Hire Virtual Assistants From Tech2gobe?</h3>
+                          <h3 class="text-center heading-3" style="color: #000000;" id="outputTitle4">@if(!empty($landingPage['title4'])) {{$landingPage['title4']}} @else Why Should You Hire Virtual Assistants From Tech2gobe? @endif</h3>
                           <span class="separator-line-horrizontal-medium-light2 bg-deep-pink d-table mx-auto w-200px" style="width: 40%;"></span>
 
                           <div class="container">
                               <div id="counter" class="row">
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="40" id="outputBox1heading">40%</span>
-                                          <p class="text" style="color: #000000;" id="outputBox1content">Cost Reduction</p>
+                                          <span class="count" data-number="40" id="outputBox1heading">@if(!empty($landingPage['box1heading'])) {{$landingPage['box1heading']}} @else 40% @endif</span>
+                                          <p class="text" style="color: #000000;" id="outputBox1content">@if(!empty($landingPage['box1content'])) {{$landingPage['box1content']}} @else Cost Reduction @endif</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="24" id="outputBox2heading">24</span>
-                                          <p class="text" style="color: #000000;" id="outputBox2content">Hrs Turnaround</p>
+                                          <span class="count" data-number="24" id="outputBox2heading">@if(!empty($landingPage['box2heading'])) {{$landingPage['box2heading']}} @else 24 @endif</span>
+                                          <p class="text" style="color: #000000;" id="outputBox2content">@if(!empty($landingPage['box2content'])) {{$landingPage['box2content']}} @else Hrs Turnaround @endif</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="500" id="outputBox3heading">500+</span>
-                                          <p class="text" style="color: #000000;" id="outputBox3content">Satisfied Client</p>
+                                          <span class="count" data-number="500" id="outputBox3heading">@if(!empty($landingPage['box3heading'])) {{$landingPage['box3heading']}} @else 500+ @endif</span>
+                                          <p class="text" style="color: #000000;" id="outputBox3content">@if(!empty($landingPage['box3content'])) {{$landingPage['box3content']}} @else Satisfied Client @endif</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="250" id="outputBox4heading">250+</span>
-                                          <p class="text" style="color: #000000;" id="outputBox4content">Skilled Agents</p>
+                                          <span class="count" data-number="250" id="outputBox4heading">@if(!empty($landingPage['box4heading'])) {{$landingPage['box4heading']}} @else 250+ @endif</span>
+                                          <p class="text" style="color: #000000;" id="outputBox4content">@if(!empty($landingPage['box4content'])) {{$landingPage['box4content']}} @else Skilled Agents @endif</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="100" id="outputBox5heading">100%</span>
-                                          <p class="text" style="color: #000000;" id="outputBox5content">Accuracy</p>
+                                          <span class="count" data-number="100" id="outputBox5heading">@if(!empty($landingPage['box5heading'])) {{$landingPage['box5heading']}} @else 100% @endif</span>
+                                          <p class="text" style="color: #000000;" id="outputBox5content">@if(!empty($landingPage['box5content'])) {{$landingPage['box5content']}} @else Accuracy @endif</p>
                                       </div>
                                   </div>
                                   <div class="col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-12 col-xs-12">
                                       <div class="item">
-                                          <span class="count" data-number="12" id="outputBox6heading">12</span>
-                                          <p class="text" style="color: #000000;" id="outputBox6content">Years Experience </p>
+                                          <span class="count" data-number="12" id="outputBox6heading">@if(!empty($landingPage['box6heading'])) {{$landingPage['box6heading']}} @else 12 @endif</span>
+                                          <p class="text" style="color: #000000;" id="outputBox6content">@if(!empty($landingPage['box6heading'])) {{$landingPage['box6heading']}} @else Years Experience @endif</p>
                                       </div>
                                   </div>
                               </div>
@@ -482,6 +740,13 @@
                         <div class="card card-primary mt-5">
                           <div class="card-header">
                             <h3 class="card-title">Create Section 4</h3>
+                            @if($landingPage['section4_id']!="")
+                              @if ($landingPage['status4']==1)
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-4" layout_id="{{$layout['id']}}" section_id="4" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                              @else
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-4" layout_id="{{$layout['id']}}" section_id="4" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                              @endif
+                            @endif
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -632,6 +897,13 @@
                         <div class="card card-primary mt-5">
                           <div class="card-header">
                             <h3 class="card-title">Create Section 5</h3>
+                            @if($landingPage['section5_id']!="")
+                              @if ($landingPage['status5']==1)
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-5" layout_id="{{$layout['id']}}" section_id="5" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                              @else
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-5" layout_id="{{$layout['id']}}" section_id="5" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                              @endif
+                            @endif
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -724,13 +996,20 @@
                           
                       </div>
                   </div>
-                  {{-- <div class="row">
+                  <div class="row">
                       <!-- left column -->
                       <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
                             <h3 class="card-title">Create Section 6</h3>
+                            @if($landingPage['section6_id']!="")
+                              @if ($landingPage['status6']==1)
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-6" layout_id="{{$layout['id']}}" section_id="6" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                              @else
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-6" layout_id="{{$layout['id']}}" section_id="6" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                              @endif
+                            @endif
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -741,43 +1020,7 @@
                                 <input type="text" class="form-control" id="title6" name="title6" placeholder="Enter Title" @if(!empty($landingPage['title6'])) value="{{$landingPage['title6']}}" @else value="Testimonials" @endif>
                               </div>
                               <div id="testimonial">
-                                @if(!empty($landingPage['clientMessage6']))
-                                
-                                  @for($i=0; $i<count($explodeClientMessage); $i++)
-                                    <div class="card card-info card-outline">
-                                      <a class="d-block w-100" data-toggle="collapse" href="#collapse{{$i+1}}">
-                                          <div class="card-header">
-                                              <h4 class="card-title w-100">
-                                                  Testimonial {{$i+1}}
-                                              </h4>
-                                          </div>
-                                      </a>
-                                      <div id="collapse{{$i+1}}" class="collapse show" data-parent="#testimonial">
-                                            <div class="card-body">
-                                              <div class="form-group">
-                                                  <label for="clientMessage{{$i+1}}">Client Message {{$i+1}}</label>
-                                                  <input type="text" class="form-control" name="clientMessage{{$i+1}}" id="clientMessage{{$i+1}}" placeholder="Enter Client Message" value="{{ $explodeClientMessage[$i] }}">
-                                              </div>
-                                              <div class="row">
-                                                <div class="col-md-6">
-                                                  <div class="form-group">
-                                                    <label for="clientName{{$i+1}}">Client Name {{$i+1}}</label>
-                                                    <input type="text" class="form-control" name="clientName{{$i+1}}" id="clientName{{$i+1}}" placeholder="Enter Client Name" value="{{ $explodeClientName[$i] }}">
-                                                  </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                  <div class="form-group">
-                                                    <label for="clientPost{{$i+1}}">Client Post {{$i+1}}</label>
-                                                    <input type="text" class="form-control" name="clientPost{{$i+1}}" id="clientPost{{$i+1}}" placeholder="Enter Client Post" value="{{ $explodeClientPost[$i] }}">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  @endfor
-                                @else
+                               
                                   <div class="card card-info card-outline">
                                     <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
                                         <div class="card-header">
@@ -810,7 +1053,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                @endif
+                              
                                 <input type="button" class="btn btn-info" id="testimonialAddButton" value="+ Click to add Testimonial">               
                               </div>
                               <!-- /.card-body -->
@@ -824,7 +1067,7 @@
             
                       </div>
                       <!--/.col (left) -->
-                  </div> --}}
+                  </div>
                   <!-- /.row -->
                  </div>
                  <div class="tab-pane fade show" id="custom-tabs-section7" role="tabpanel" aria-labelledby="custom-tabs-section7-tab">
@@ -911,6 +1154,14 @@
                         <div class="card card-primary mt-5">
                           <div class="card-header">
                             <h3 class="card-title">Create Section 7</h3>
+                            @if($landingPage['section7_id']!="")
+                              @if ($landingPage['status7']==1)
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-7" layout_id="{{$layout['id']}}" section_id="7" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                              @else
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-7" layout_id="{{$layout['id']}}" section_id="7" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                              @endif
+                            @endif
+
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -1018,6 +1269,13 @@
                         <div class="card card-primary mt-5">
                           <div class="card-header">
                             <h3 class="card-title">Create Section 8</h3>
+                            @if($landingPage['section8_id']!="")
+                              @if ($landingPage['status8']==1)
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-8" layout_id="{{$layout['id']}}" section_id="8" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                              @else
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-8" layout_id="{{$layout['id']}}" section_id="8" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                              @endif
+                            @endif
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
@@ -1087,6 +1345,13 @@
                         <div class="card card-primary mt-5">
                           <div class="card-header">
                             <h3 class="card-title">Create Section 9</h3>
+                            @if($landingPage['section9_id']!="")
+                              @if ($landingPage['status9']==1)
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-9" layout_id="{{$layout['id']}}" section_id="9" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
+                              @else
+                                <a class="updateLandingPageSectionStatus" id="landingPage-section-9" layout_id="{{$layout['id']}}" section_id="9" style="color: yellow;" href="javascript:void(0)"><i class="fas fa-toggle-off fa-lg" status="Inactive">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Inactive</span></i></a>
+                              @endif
+                            @endif
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->

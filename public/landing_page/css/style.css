@@ -691,3 +691,10 @@ li.option{
 .select-box ol li .country-name {
     margin-left: .4rem;
 }
+
+.updateLandingPageSectionStatus{
+    border: none !important;
+    float: right;
+    display: inline-block;
+    font-size: 16px;
+}
