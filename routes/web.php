@@ -84,6 +84,15 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'create-landing-pages/{id}','LandingPageController@create');
         Route::match(['get','post'],'check-page-url','LandingPageController@checkPageUrl');
         Route::match(['get','post'],'update-landingPage-section-status','LandingPageController@update');
+        Route::match(['get','post'],'remove-landingPage-services','LandingPageController@destroy');
+
+        //Display Tec2globe Layout
+        Route::match(['get','post'],'tech2globe-layout','Tech2globeLayoutController@index');
+        Route::match(['get','post'],'tech2globe-all-layout','Tech2globeLayoutController@show');
+        Route::match(['get','post'],'tech2globe-layout/header','Tech2globeLayoutController@header');
+        Route::match(['get','post'],'tech2globe-layout/footer','Tech2globeLayoutController@footer');
+        Route::match(['get','post'],'tech2globe-layout/add-edit-main-menu/{id?}','Tech2globeLayoutController@addEditMainMenu');
+        Route::match(['get','post'],'tech2globe-layout/add-edit-sub-menu/{id?}','Tech2globeLayoutController@addEditSubMenu');
 
     });
 });
@@ -101,4 +110,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
                 return view('landing-page/update-section-complete');
             });Route::get('/hello-world', function () {
                 return view('landing-page/hello-world');
+            });Route::get('/naved-sir-ji', function () {
+                return view('landing-page/naved-sir-ji');
+            });Route::get('/new-york', function () {
+                return view('landing-page/new-york');
+            });Route::get('/bhavya', function () {
+                return view('landing-page/bhavya');
             });

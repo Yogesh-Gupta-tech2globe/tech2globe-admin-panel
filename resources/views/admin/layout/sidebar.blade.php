@@ -154,6 +154,70 @@
               </li>
             </ul>
           </li>
+
+
+          @if(Session::get('page')=="tech2globe_layout" || Session::get('page')=="tech2globe_all_layout" || Session::get('page')=="tech2globe_header" || Session::get('page')=="tech2globe_footer")
+            @php $active="active" @endphp
+          @else
+            @php $active="" @endphp
+          @endif
+          <li class="nav-item">
+            <a href="/admin/tech2globe-layout" class="nav-link {{ $active }}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Tech2Globe Layout
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @if(Session::get('page')=="tech2globe_layout")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/tech2globe-layout" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tech2Globe Layout</p>
+                </a>
+              </li>
+              @if(Session::get('page')=="tech2globe_all_layout")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/tech2globe-all-layout" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Layouts</p>
+                </a>
+              </li>
+
+              @if(Session::get('page')=="tech2globe_header")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/tech2globe-layout/header" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Header</p>
+                </a>
+              </li>
+
+              @if(Session::get('page')=="tech2globe_footer")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/tech2globe-layout/footer" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Footer</p>
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

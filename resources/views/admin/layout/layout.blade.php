@@ -86,6 +86,10 @@
     });
     $("#users").DataTable({  
     });
+    $("#mainMenu").DataTable({  
+    });
+    $("#subMenu").DataTable({  
+    });
     $("#layout").DataTable({  
       "order": [[ 0, "desc" ]]
     });

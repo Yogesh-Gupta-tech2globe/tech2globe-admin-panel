@@ -523,7 +523,7 @@
                                   $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
                                   ?>
                                     @for ($i = 0; $i < count($explodeServiceName); $i++)
-                                      <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
+                                      <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b" id="outputService{{$i+1}}">
                                         <div class="card" style="background-color: #FFFFFF; color: #000000;">
                                             <div class="heading-container">
                                                 <figure class="icon w-25">
@@ -596,21 +596,24 @@
                                 <input type="text" class="form-control" name="description3" id="description3" placeholder="Enter Description" @if(!empty($landingPage['description3'])) value="{{$landingPage['description3']}}" @else value="Curb the struggle of managing extensive administration tasks, and scale your business growth with contemporary solutions. Hire virtual assistants from the global service provider Tech2Globe Web Solutions. We utilize the latest tools, techniques, and processes to provide world-class and 100% accurate services. Furthermore, we allocate you tech-savvy and proactive VAs that have aptitude in various fields to run admin errands for you and support challenges that you may be facing. Our comprehensive solutions include, but are not limited to" @endif>
                               </div>
                               <div id="accordion">
-                                {{-- @if(!empty($landingPage['service_name3']))
+                                @if(!empty($landingPage['service_name3']))
                                 <?php
-                                // $explodeServiceName = explode("+++",$landingPage['service_name3']);
-                                // $explodeServiceDescription = explode("+++",$landingPage['service_description3']);
-                                // $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
+                                $explodeServiceName = explode("+++",$landingPage['service_name3']);
+                                $explodeServiceDescription = explode("+++",$landingPage['service_description3']);
+                                $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
                                 ?>
                                   @for ($i = 0; $i < count($explodeServiceName); $i++)
-                                    <div class="card card-info card-outline">
-                                      <a class="d-block w-100" data-toggle="collapse" href="#collapse{{$i+1}}">
-                                          <div class="card-header">
-                                              <h4 class="card-title w-100">
-                                                  Service {{$i+1}}
-                                              </h4>
-                                          </div>
-                                      </a>
+                                    <div class="card card-info card-outline" id="service{{$i+1}}">
+                                      <div class="card-header d-flex justify-content-between">
+                                        <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapse{{$i+1}}">
+                                          <h4 class="card-title">
+                                              Service {{$i+1}}
+                                          </h4>
+                                        </a>
+                                        <a class="d-inline-block w-auto border-0 serviceRemoveButton" serviceId="{{$i+1}}" layout_id="{{$landingPage['layout_id']}}" href="javascript:void(0)">
+                                          <i class="fas fa-times"></i>
+                                        </a>
+                                      </div>
                                       <div id="collapse{{$i+1}}" class="collapse" data-parent="#accordion">
                                             <div class="card-body">
                                               <div class="form-group">
@@ -630,16 +633,20 @@
                                     </div>
                                   @endfor
                                     
-                                @else  --}}
+                                @else
                                   
-                                  <div class="card card-info card-outline">
-                                    <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
-                                        <div class="card-header">
-                                            <h4 class="card-title w-100">
-                                                Service 1
-                                            </h4>
-                                        </div>
-                                    </a>
+                                  <div class="card card-info card-outline" id="service1">
+                                    <div class="card-header d-flex justify-content-between">
+                                      <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapse1">
+                                        <h4 class="card-title">
+                                            Service 1
+                                        </h4>
+                                      </a>
+                                      <a class="d-inline-block w-auto border-0 serviceRemoveButton" serviceId="1" layout_id="{{$landingPage['layout_id']}}" href="javascript:void(0)">
+                                        <i class="fas fa-times"></i>
+                                      </a>
+                                    </div>
+                                    
                                     <div id="collapse1" class="collapse show" data-parent="#accordion">
                                           <div class="card-body">
                                             <div class="form-group">
@@ -658,7 +665,7 @@
                                     </div>
                                   </div>
 
-                                {{-- @endif --}}
+                                 @endif
                                
                               </div>
                               <input type="button" class="btn btn-info" id="serviceAddButton" value="+ Click to add Service">               

@@ -457,8 +457,8 @@ $(document).ready(function(){
     var clickCount = 1;
     $("#serviceAddButton").click(function() {
         clickCount++;
-        var group = '<div class="card card-info card-outline"><a class="d-block w-100" data-toggle="collapse" href="#collapse' + clickCount + '"><div class="card-header"><h4 class="card-title w-100">Service ' + clickCount + '</h4></div></a><div id="collapse' + clickCount + '" class="collapse" data-parent="#accordion"><div class="card-body"><div class="form-group"><label for="serviceName' + clickCount + '">Service Name ' + clickCount + '</label><input type="text" class="form-control" name="serviceName' + clickCount + '" id="serviceName' + clickCount + '" placeholder="Enter Service Name"></div><div class="form-group"><label for="serviceDescription' + clickCount + '">Service small description ' + clickCount + '</label><input type="text" class="form-control" name="serviceDescription' + clickCount + '" id="serviceDescription' + clickCount + '" placeholder="Enter Service Description"></div><div class="form-group"><label for="serviceIcon' + clickCount + '">Service Icon ' + clickCount + '</label><input type="file" class="form-control" name="serviceIcon' + clickCount + '" id="serviceIcon' + clickCount + '" placeholder="Enter Service Icon"></div></div></div></div>';
-        var content = ' <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b"><div class="card" style="background-color: #FFFFFF; color: #000000;"><div class="heading-container"><figure class="icon w-25"><img class="w-100" src="" id="outputServiceIcon' + clickCount + '" alt=""></figure><div class="heading-4"><h4 class="text-dark text-center"><span id="outputServiceName' + clickCount + '" style="color: #000000;"></span></h4></div></div><div class="content-container text-center"><p class="text-dark"><span id="outputServiceDescription' + clickCount + '" style="color: #000000;"></span></p><a href="" class="sub-button">Read More</a></div></div></div>';
+        var group = '<div class="card card-info card-outline" id="service' + clickCount + '"><div class="card-header d-flex justify-content-between"><a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapse' + clickCount + '"><h4 class="card-title">Service ' + clickCount + '</h4></a><a class="d-inline-block w-auto border-0 serviceRemoveButton" serviceId="' + clickCount + '" href="javascript:void(0)"><i class="fas fa-times"></i></a></div><div id="collapse' + clickCount + '" class="collapse" data-parent="#accordion"><div class="card-body"><div class="form-group"><label for="serviceName' + clickCount + '">Service Name ' + clickCount + '</label><input type="text" class="form-control" name="serviceName' + clickCount + '" id="serviceName' + clickCount + '" placeholder="Enter Service Name"></div><div class="form-group"><label for="serviceDescription' + clickCount + '">Service small description ' + clickCount + '</label><input type="text" class="form-control" name="serviceDescription' + clickCount + '" id="serviceDescription' + clickCount + '" placeholder="Enter Service Description"></div><div class="form-group"><label for="serviceIcon' + clickCount + '">Service Icon ' + clickCount + '</label><input type="file" class="form-control" name="serviceIcon' + clickCount + '" id="serviceIcon' + clickCount + '" placeholder="Enter Service Icon"></div></div></div></div>';
+        var content = ' <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b" id="outputService' + clickCount + '"><div class="card" style="background-color: #FFFFFF; color: #000000;"><div class="heading-container"><figure class="icon w-25"><img class="w-100" src="" id="outputServiceIcon' + clickCount + '" alt=""></figure><div class="heading-4"><h4 class="text-dark text-center"><span id="outputServiceName' + clickCount + '" style="color: #000000;"></span></h4></div></div><div class="content-container text-center"><p class="text-dark"><span id="outputServiceDescription' + clickCount + '" style="color: #000000;"></span></p><a href="" class="sub-button">Read More</a></div></div></div>';
 
         $("#accordion").append(group);
         $("#outputServices").append(content);
@@ -496,6 +496,66 @@ $(document).ready(function(){
             
         });
     });
+
+    //Dynamically Removing Services (Section 3)
+    $(document).on("click", ".serviceRemoveButton", function() {
+        var serviceId = $(this).attr("serviceId");
+        var layout_id = $(this).attr("layout_id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                // Remove the dynamically generated content based on the serviceId
+                $("#service" + serviceId).remove();
+            
+                // Remove the corresponding output content based on the serviceId
+                $("#outputService" + serviceId).remove();
+
+                Swal.fire(
+                    'Deleted!',
+                    'Your service has been deleted.',
+                    'success'
+                )
+
+                // $.ajax({
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //     },
+                //     type: "post",
+                //     url: "/admin/remove-landingPage-services",
+                //     data: {layout_id:layout_id,serviceId:serviceId},
+                //     success: function (resp) {
+                //       if(resp['status']==1){
+                //         Swal.fire(
+                //             'Deleted!',
+                //             'Your file has been deleted.',
+                //             'success'
+                //         )
+                //       }else{
+                //         Swal.fire(
+                //             'Oops...',
+                //             'Something Went Wrong.',
+                //             'error'
+                //         )
+                //       }  
+                //     },
+                //     error:function(){
+                //         alert("Error");
+                //     }
+                // });
+              
+               
+            }
+          })
+    });
+    
 
     //Dynamically Adding Images (Section 5)
     var clickId = 1;

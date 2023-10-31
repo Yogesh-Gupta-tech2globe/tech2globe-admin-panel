@@ -519,11 +519,15 @@ class LandingPageController extends Controller
 
                 $message = "Section 3 updated Successfully!";
 
-                // echo "<pre>"; print_r($data); die;
+                // echo "<pre>"; print_r($data);
 
                 $serviceName = [];
                 $serviceDescription = [];
-                $serviceIcon = [];
+                if(!empty(explode(",",$landingPage['service_icon3']))){
+                    $serviceIcon = explode(",",$landingPage['service_icon3']);
+                }else{
+                    $serviceIcon = [];
+                }
 
                 foreach($data as $content => $value){
 
@@ -547,6 +551,37 @@ class LandingPageController extends Controller
                         array_push($serviceIcon,$serviceImage);
                     }
                 }
+
+                            
+                function findMissingValues($array1, $array2) {
+                    $missingIndexes = array();
+
+                    // Loop through the first array and check for missing values in the second array
+                    foreach ($array1 as $index => $value) {
+                        if (!in_array($value, $array2)) {
+                            $missingIndexes[] = $index;
+                        }
+                    }
+
+                    return $missingIndexes;
+                }
+
+                $previousServiceIcon = explode(",",$landingPage['service_icon3']);
+
+                if(!empty($previousServiceIcon) && empty($serviceIcon)){
+                    // Sample arrays
+                    $array1 = explode("+++",$landingPage['service_name3']);
+                    $array2 = $serviceName;
+
+                    // Find the missing values
+                    $missingIndexes = findMissingValues($array1, $array2);
+                    array_splice($previousServiceIcon,implode(', ', $missingIndexes),1);
+
+                    $serviceIcon = $previousServiceIcon;
+                }
+
+
+                //  echo "<pre>"; print_r($previousServiceIcon); die;
 
                 $implodeServiceName = implode("+++",$serviceName);
                 $implodeServiceDescription = implode("+++",$serviceDescription);
@@ -3607,9 +3642,29 @@ class LandingPageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(landing_pages $landing_pages)
+    public function destroy(Request $request)
     {
-        //
+        // if($request->ajax()){
+        //     $data = $request->all();
+        //     $landingPage = landing_pages::where('layout_id',$data['layout_id'])->first();
+        //     $serviceId = $data['serviceId'] - 1;
+
+        //     $explodeServiceName = explode("+++",$landingPage['service_name3']);
+        //     $explodeServiceDescription = explode("+++",$landingPage['service_description3']);
+        //     $explodeServiceIcon = explode(",",$landingPage['service_icon3']);
+
+        //     $explodeServiceName[$serviceId] = NULL;
+        //     $explodeServiceDescription[$serviceId] = NULL;
+        //     $explodeServiceIcon[$serviceId] = NULL;
+
+        //     $implodeServiceName = implode("+++",$explodeServiceName);
+        //     $implodeServiceDescription = implode("+++",$explodeServiceDescription);
+        //     $implodeServiceIcon = implode(",",$explodeServiceIcon);
+
+        //     landing_pages::where('layout_id',$data['layout_id'])->update(['service_name3' => $implodeServiceName,'service_description3' => $implodeServiceDescription,'service_icon3' => $implodeServiceIcon]);
+        //     return response()->json(['status'=>1]);
+            
+        // }
     }
 
     public function checkPageUrl(Request $request){

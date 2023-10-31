@@ -233,21 +233,6 @@
                                     <div class="card">
                                         <div class="heading-container">
                                             <figure class="icon w-25">
-                                                <img class="w-100" src="{{ url("images/icons/3765.png") }}" alt="">
-                                            </figure>
-                                            <div class="heading-4">
-                                                <h4 class="text-dark text-center">Data Entry Service</h4>
-                                            </div>
-                                        </div>
-                                        <div class="content-container text-center">
-                                            <p class="text-dark">We have been in the data entry business for over 12 years, and our services are backed by this solid experience in handling diverse requirements.</p>
-                                            <a href="data-entry-service" class="sub-button">Read More</a>
-                                        </div>
-                                    </div>
-                                </div><div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b">
-                                    <div class="card">
-                                        <div class="heading-container">
-                                            <figure class="icon w-25">
                                                 <img class="w-100" src="{{ url("images/icons/91637.png") }}" alt="">
                                             </figure>
                                             <div class="heading-4">
@@ -263,15 +248,15 @@
                                     <div class="card">
                                         <div class="heading-container">
                                             <figure class="icon w-25">
-                                                <img class="w-100" src="{{ url("images/icons/92563.png") }}" alt="">
+                                                <img class="w-100" src="{{ url("images/icons/80521.jpeg") }}" alt="">
                                             </figure>
                                             <div class="heading-4">
-                                                <h4 class="text-dark text-center">PPC Services</h4>
+                                                <h4 class="text-dark text-center">jonhwefoiweok</h4>
                                             </div>
                                         </div>
                                         <div class="content-container text-center">
-                                            <p class="text-dark">Oww koi ne, Hm thore saath se</p>
-                                            <a href="ppc-services" class="sub-button">Read More</a>
+                                            <p class="text-dark">fwefrew</p>
+                                            <a href="jonhwefoiweok" class="sub-button">Read More</a>
                                         </div>
                                     </div>
                                 </div></div>
