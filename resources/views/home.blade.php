@@ -1,6 +1,6 @@
 @extends('layout.layout')
 @section('content')
-<?php $base_url = 'http://localhost:8000'; ?>
+<?php $base_url = 'http://localhost:8000/'; ?>
 <!--  Main section start here -->
 <main>
   <!-- Banner section start here -->

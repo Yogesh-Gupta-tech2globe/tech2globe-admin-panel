@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="{{ url('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ url('landing_page/css/style.css') }}">
+  
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -86,9 +87,12 @@
     });
     $("#users").DataTable({  
     });
-    $("#mainMenu").DataTable({  
+    $("#mainMenu").DataTable({
+      
     });
     $("#subMenu").DataTable({  
+    });
+    $("#allPages").DataTable({  
     });
     $("#layout").DataTable({  
       "order": [[ 0, "desc" ]]

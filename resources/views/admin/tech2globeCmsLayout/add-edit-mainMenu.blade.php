@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group">
                         <label for="page_url">Page link*</label>
-                        <input type="url" class="form-control" id="page_url" name="page_url" placeholder="Enter Page Link" @if(!empty($mainMenu['page_url'])) value="{{ $mainMenu['page_url'] }}" @endif>
+                        <input type="text" class="form-control" id="page_url" name="page_url" placeholder="Enter Page Link" @if(!empty($mainMenu['page_url'])) value="{{ $mainMenu['page_url'] }}" @endif>
                     </div>
                     </div>
                     <!-- /.card-body -->

@@ -1,24 +1,24 @@
-$(document).ready(function(){
+$(document).ready(function () {
     //Check Admin password is correct or not
-    $("#current_pwd").keyup(function () { 
+    $("#current_pwd").keyup(function () {
         var current_pwd = $("#current_pwd").val();
-        
+
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
             url: "/admin/check-current-password",
-            data: {current_pwd:current_pwd},
-            success:function (resp) {
-                if(resp == "false"){
+            data: { current_pwd: current_pwd },
+            success: function (resp) {
+                if (resp == "false") {
                     $("#verifyCurrentPwd").html("Current Password is Incorrect");
                 }
-                else if(resp == "true"){
+                else if (resp == "true") {
                     $("#verifyCurrentPwd").html("Current Password is correct");
                 }
             },
-            error:function(){
+            error: function () {
                 alert("Error");
             }
         });
@@ -26,26 +26,26 @@ $(document).ready(function(){
 
     //Update Portfolio status
 
-    $(document).on("click",".updatePortfolioStatus", function(){
+    $(document).on("click", ".updatePortfolioStatus", function () {
         var status = $(this).children("i").attr("status");
         var portfolio_id = $(this).attr("portfolio_id");
-        
+
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
             url: "/admin/update-portfolio-status",
-            data: {status:status,portfolio_id:portfolio_id},
-            success:function (resp) {
-                if(resp['status']==0){
-                    $("#portfolio-"+portfolio_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+            data: { status: status, portfolio_id: portfolio_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#portfolio-" + portfolio_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
                 }
-                else if(resp['status']==1){
-                    $("#portfolio-"+portfolio_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                else if (resp['status'] == 1) {
+                    $("#portfolio-" + portfolio_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
                 }
             },
-            error:function(){
+            error: function () {
                 alert("Error");
             }
         });
@@ -53,26 +53,26 @@ $(document).ready(function(){
 
     //Update Users status
 
-    $(document).on("click",".updateUserStatus", function(){
+    $(document).on("click", ".updateUserStatus", function () {
         var status = $(this).children("i").attr("status");
         var user_id = $(this).attr("user_id");
-        
+
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
             url: "/admin/update-users-status",
-            data: {status:status,user_id:user_id},
-            success:function (resp) {
-                if(resp['status']==0){
-                    $("#user-"+user_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+            data: { status: status, user_id: user_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#user-" + user_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
                 }
-                else if(resp['status']==1){
-                    $("#user-"+user_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                else if (resp['status'] == 1) {
+                    $("#user-" + user_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
                 }
             },
-            error:function(){
+            error: function () {
                 alert("Error");
             }
         });
@@ -88,8 +88,8 @@ $(document).ready(function(){
     // })
 
     //Confirm delete with sweetalert for all modules
-    $(document).on("click",".confirmDelete",function(){
-        
+    $(document).on("click", ".confirmDelete", function () {
+
         var record = $(this).attr('record');
         var recordid = $(this).attr('recordid');
 
@@ -101,20 +101,17 @@ $(document).ready(function(){
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-              )
-              window.location.href = "/admin/delete-"+record+"/"+recordid;
+
+                window.location.href = "/admin/delete-" + record + "/" + recordid;
+                
             }
-          })
+        })
     })
 
     // Use jQuery to select elements and attach event handlers for Landing Page theme
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         //Basic Details Page
         $('#page_name').on('input', slugify);
@@ -123,9 +120,9 @@ $(document).ready(function(){
 
             var pageName = $('#page_name').val();
             var pageUrl = urlgen(pageName);
-            
+
             function urlgen(text) {
-            
+
                 return text
                     .toLowerCase()
                     .replace(/ /g, '-')     // Replace spaces with hyphens
@@ -181,27 +178,27 @@ $(document).ready(function(){
         $('#inputField6').on('input', updateOutput);
         $('#content9').on('input', updateOutput);
 
-        
+
 
         //Section 1 Images
         const imageUploadInput = $('#logo');
         const outputImage = $('#output-logo');
 
         imageUploadInput.on('change', function () {
-        const file = imageUploadInput[0].files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
+            const file = imageUploadInput[0].files[0];
 
-                    reader.onload = function (e) {
-                        outputImage.attr('src', e.target.result);
-                    };
+            if (file) {
+                const reader = new FileReader();
 
-                    reader.readAsDataURL(file);
-                } else {
-                    // Handle the case where no file is selected
-                    outputImage.attr('src', '');
-                }
+                reader.onload = function (e) {
+                    outputImage.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Handle the case where no file is selected
+                outputImage.attr('src', '');
+            }
         });
 
         //Section 2 Images
@@ -210,40 +207,40 @@ $(document).ready(function(){
         const outputBanner_image2 = $('#outputBanner_image2');
 
         banner_image2.on('change', function () {
-        const file = banner_image2[0].files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
+            const file = banner_image2[0].files[0];
 
-                    reader.onload = function (e) {
-                        outputBanner_image2.attr('src', e.target.result);
-                    };
+            if (file) {
+                const reader = new FileReader();
 
-                    reader.readAsDataURL(file);
-                } else {
-                    // Handle the case where no file is selected
-                    outputBanner_image2.attr('src', '');
-                }
+                reader.onload = function (e) {
+                    outputBanner_image2.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Handle the case where no file is selected
+                outputBanner_image2.attr('src', '');
+            }
         });
 
         const background_image2 = $('#background_image2');
         const outputBackground_image2 = $('#outputBackground_image2');
 
         background_image2.on('change', function () {
-        const file = background_image2[0].files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
+            const file = background_image2[0].files[0];
 
-                    reader.onload = function (e) {
-                        outputBackground_image2.attr('src', e.target.result);
-                    };
+            if (file) {
+                const reader = new FileReader();
 
-                    reader.readAsDataURL(file);
-                } else {
-                    // Handle the case where no file is selected
-                    outputBackground_image2.attr('src', '');
-                }
+                reader.onload = function (e) {
+                    outputBackground_image2.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Handle the case where no file is selected
+                outputBackground_image2.attr('src', '');
+            }
         });
 
         //Section 3
@@ -251,20 +248,20 @@ $(document).ready(function(){
         const outputServiceIcon1 = $('#outputServiceIcon1');
 
         serviceIcon1.on('change', function () {
-        const file = serviceIcon1[0].files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
+            const file = serviceIcon1[0].files[0];
 
-                    reader.onload = function (e) {
-                        outputServiceIcon1.attr('src', e.target.result);
-                    };
+            if (file) {
+                const reader = new FileReader();
 
-                    reader.readAsDataURL(file);
-                } else {
-                    // Handle the case where no file is selected
-                    outputServiceIcon1.attr('src', '');
-                }
+                reader.onload = function (e) {
+                    outputServiceIcon1.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Handle the case where no file is selected
+                outputServiceIcon1.attr('src', '');
+            }
         });
 
         //Section 5
@@ -273,20 +270,20 @@ $(document).ready(function(){
         const outputImage1 = $('#outputImage1');
 
         image1.on('change', function () {
-        const file = image1[0].files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
+            const file = image1[0].files[0];
 
-                    reader.onload = function (e) {
-                        outputImage1.attr('src', e.target.result);
-                    };
+            if (file) {
+                const reader = new FileReader();
 
-                    reader.readAsDataURL(file);
-                } else {
-                    // Handle the case where no file is selected
-                    outputImage1.attr('src', '');
-                }
+                reader.onload = function (e) {
+                    outputImage1.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Handle the case where no file is selected
+                outputImage1.attr('src', '');
+            }
         });
 
         //Section 7
@@ -295,20 +292,20 @@ $(document).ready(function(){
         const outputBackgroundImage7 = $('#our-contact');
 
         backgroundImage7.on('change', function () {
-        const file = backgroundImage7[0].files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
+            const file = backgroundImage7[0].files[0];
 
-                    reader.onload = function (e) {
-                        outputBackgroundImage7.css('background-image', 'url(' + e.target.result + ')');
-                    };
+            if (file) {
+                const reader = new FileReader();
 
-                    reader.readAsDataURL(file);
-                } else {
-                    // Handle the case where no file is selected
-                    outputBackgroundImage7.css('background-image', '');
-                }
+                reader.onload = function (e) {
+                    outputBackgroundImage7.css('background-image', 'url(' + e.target.result + ')');
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Handle the case where no file is selected
+                outputBackgroundImage7.css('background-image', '');
+            }
         });
 
         //Section 8
@@ -317,20 +314,20 @@ $(document).ready(function(){
         const outputBackgroundImage8 = $('.have-query-section');
 
         backgroundImage8.on('change', function () {
-        const file = backgroundImage8[0].files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
+            const file = backgroundImage8[0].files[0];
 
-                    reader.onload = function (e) {
-                        outputBackgroundImage8.css('background-image', 'url(' + e.target.result + ')');
-                    };
+            if (file) {
+                const reader = new FileReader();
 
-                    reader.readAsDataURL(file);
-                } else {
-                    // Handle the case where no file is selected
-                    outputBackgroundImage8.css('background-image', '');
-                }
+                reader.onload = function (e) {
+                    outputBackgroundImage8.css('background-image', 'url(' + e.target.result + ')');
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Handle the case where no file is selected
+                outputBackgroundImage8.css('background-image', '');
+            }
         });
 
         function updateOutput() {
@@ -427,26 +424,26 @@ $(document).ready(function(){
         }
     });
 
-    //Check Admin password is correct or not
-    $("#page_url").keyup(function () { 
+    //Check Landing Page Url is correct or not
+    $("#page_url").keyup(function () {
         var pageUrl = $("#page_url").val();
-        
+
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
             url: "/admin/check-page-url",
-            data: {pageUrl:pageUrl},
-            success:function (resp) {
-                if(resp == false){
+            data: { pageUrl: pageUrl },
+            success: function (resp) {
+                if (resp == false) {
                     $("#urlVerify").html("Current Page URL is already exist");
                 }
-                else if(resp == true){
+                else if (resp == true) {
                     $("#urlVerify").html("Current Page URL is correct");
                 }
             },
-            error:function(){
+            error: function () {
                 alert("Error");
             }
         });
@@ -455,7 +452,7 @@ $(document).ready(function(){
     //Dynamically Adding Services (Section 3)
 
     var clickCount = 1;
-    $("#serviceAddButton").click(function() {
+    $("#serviceAddButton").click(function () {
         clickCount++;
         var group = '<div class="card card-info card-outline" id="service' + clickCount + '"><div class="card-header d-flex justify-content-between"><a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapse' + clickCount + '"><h4 class="card-title">Service ' + clickCount + '</h4></a><a class="d-inline-block w-auto border-0 serviceRemoveButton" serviceId="' + clickCount + '" href="javascript:void(0)"><i class="fas fa-times"></i></a></div><div id="collapse' + clickCount + '" class="collapse" data-parent="#accordion"><div class="card-body"><div class="form-group"><label for="serviceName' + clickCount + '">Service Name ' + clickCount + '</label><input type="text" class="form-control" name="serviceName' + clickCount + '" id="serviceName' + clickCount + '" placeholder="Enter Service Name"></div><div class="form-group"><label for="serviceDescription' + clickCount + '">Service small description ' + clickCount + '</label><input type="text" class="form-control" name="serviceDescription' + clickCount + '" id="serviceDescription' + clickCount + '" placeholder="Enter Service Description"></div><div class="form-group"><label for="serviceIcon' + clickCount + '">Service Icon ' + clickCount + '</label><input type="file" class="form-control" name="serviceIcon' + clickCount + '" id="serviceIcon' + clickCount + '" placeholder="Enter Service Icon"></div></div></div></div>';
         var content = ' <div class="col-md-4 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-xs-12 card-container-section-b" id="outputService' + clickCount + '"><div class="card" style="background-color: #FFFFFF; color: #000000;"><div class="heading-container"><figure class="icon w-25"><img class="w-100" src="" id="outputServiceIcon' + clickCount + '" alt=""></figure><div class="heading-4"><h4 class="text-dark text-center"><span id="outputServiceName' + clickCount + '" style="color: #000000;"></span></h4></div></div><div class="content-container text-center"><p class="text-dark"><span id="outputServiceDescription' + clickCount + '" style="color: #000000;"></span></p><a href="" class="sub-button">Read More</a></div></div></div>';
@@ -464,13 +461,13 @@ $(document).ready(function(){
         $("#outputServices").append(content);
 
         // Event listener for each input field
-        $('#serviceName' + clickCount).on('input', function() {
+        $('#serviceName' + clickCount).on('input', function () {
             var text = $(this).val();
             $('#outputServiceName' + clickCount).text(text);
         });
 
-         // Event listener for each input field
-         $('#serviceDescription' + clickCount).on('input', function() {
+        // Event listener for each input field
+        $('#serviceDescription' + clickCount).on('input', function () {
             var data = $(this).val();
             $('#outputServiceDescription' + clickCount).text(data);
         });
@@ -479,26 +476,26 @@ $(document).ready(function(){
         var newOutputServiceIcon = $('#outputServiceIcon' + clickCount);
 
         // Event listener for each image input field
-        newServiceIcon.on('change', function() {
+        newServiceIcon.on('change', function () {
             var file = newServiceIcon[0].files[0];
 
-            if(file){
+            if (file) {
                 var reader = new FileReader();
 
-                reader.onload = function (e){
+                reader.onload = function (e) {
                     newOutputServiceIcon.attr('src', e.target.result);
                 };
 
                 reader.readAsDataURL(file);
-            }else{
+            } else {
                 newOutputServiceIcon.attr('src', '');
             }
-            
+
         });
     });
 
     //Dynamically Removing Services (Section 3)
-    $(document).on("click", ".serviceRemoveButton", function() {
+    $(document).on("click", ".serviceRemoveButton", function () {
         var serviceId = $(this).attr("serviceId");
         var layout_id = $(this).attr("layout_id");
 
@@ -510,11 +507,11 @@ $(document).ready(function(){
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 // Remove the dynamically generated content based on the serviceId
                 $("#service" + serviceId).remove();
-            
+
                 // Remove the corresponding output content based on the serviceId
                 $("#outputService" + serviceId).remove();
 
@@ -550,16 +547,16 @@ $(document).ready(function(){
                 //         alert("Error");
                 //     }
                 // });
-              
-               
+
+
             }
-          })
+        })
     });
-    
+
 
     //Dynamically Adding Images (Section 5)
     var clickId = 1;
-    $("#imageAddButton").click(function() {
+    $("#imageAddButton").click(function () {
         clickId++;
         var imagesInput = '<div class="form-group"><label for="image1">Image' + clickId + '</label><input type="file" class="form-control" name="image' + clickId + '" id="image' + clickId + '"></div> ';
         var imagesOutput = ' <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6"><figure><img src="{{ url(`landing_page/images/aonHewit.png`) }}" alt="" height="80" width="auto" id="outputImage' + clickId + '"></figure></div>';
@@ -571,28 +568,28 @@ $(document).ready(function(){
         var newOutputImage = $('#outputImage' + clickId);
 
         // Event listener for each image input field
-        newInputImage.on('change', function() {
+        newInputImage.on('change', function () {
             var file = newInputImage[0].files[0];
 
-            if(file){
+            if (file) {
                 var reader = new FileReader();
 
-                reader.onload = function (e){
+                reader.onload = function (e) {
                     newOutputImage.attr('src', e.target.result);
                 };
 
                 reader.readAsDataURL(file);
-            }else{
+            } else {
                 newOutputImage.attr('src', '');
             }
-            
+
         });
     });
 
     //Dynamically Adding Testimonials (Section 6)
 
     var clickOut = 1;
-    $("#testimonialAddButton").click(function() {
+    $("#testimonialAddButton").click(function () {
         clickOut++;
         var inputTestimonial = '<div class="card card-info card-outline"><a class="d-block w-100" data-toggle="collapse" href="#collapse' + clickOut + '"><div class="card-header"><h4 class="card-title w-100">Testimonial ' + clickOut + '</h4></div></a><div id="collapse' + clickOut + '" class="collapse" data-parent="#testimonial"><div class="card-body"><div class="form-group"><label for="clientMessage' + clickOut + '">Client Message ' + clickOut + '</label><input type="text" class="form-control" name="clientMessage' + clickOut + '" id="clientMessage' + clickOut + '" placeholder="Enter Client Message"></div><div class="row"><div class="col-md-6"><div class="form-group"><label for="clientName' + clickOut + '">Client Name ' + clickOut + '</label><input type="text" class="form-control" name="clientName' + clickOut + '" id="clientName' + clickOut + '" placeholder="Enter Client Name"></div></div><div class="col-md-6"><div class="form-group"><label for="clientPost' + clickOut + '">Client Post ' + clickOut + '</label><input type="text" class="form-control" name="clientPost' + clickOut + '" id="clientPost' + clickOut + '" placeholder="Enter Client Post"></div></div></div></div></div></div></div>';
         var outputTestimonial = '<div class="col-lg-4 col-md-6 col-sm-12 col-12"><div class="details h-auto"><p style="color: #000000;" id="outputClientMessage' + clickOut + '">Client Message ....</p></div><div class="description"><div class="name"><strong style="color: #000000;" id="outputClientName' + clickOut + '">- Client Name ...</strong></div><div class="designation my-2"><p id="outputClientPost' + clickOut + '">Clirnt Post ....</p></div></div></div>';
@@ -601,19 +598,19 @@ $(document).ready(function(){
         $("#outputTestimonial").append(outputTestimonial);
 
         // Event listener for each input field
-        $('#clientMessage' + clickOut).on('input', function() {
+        $('#clientMessage' + clickOut).on('input', function () {
             var text = $(this).val();
             $('#outputClientMessage' + clickOut).text(text);
         });
 
-         // Event listener for each input field
-         $('#clientName' + clickOut).on('input', function() {
+        // Event listener for each input field
+        $('#clientName' + clickOut).on('input', function () {
             var data = $(this).val();
             $('#outputClientName' + clickOut).text(data);
         });
 
-         // Event listener for each input field
-         $('#clientPost' + clickOut).on('input', function() {
+        // Event listener for each input field
+        $('#clientPost' + clickOut).on('input', function () {
             var data2 = $(this).val();
             $('#outputClientPost' + clickOut).text(data2);
         });
@@ -623,33 +620,155 @@ $(document).ready(function(){
 
     //Update Landing Page Theme Section status
 
-    $(document).on("click",".updateLandingPageSectionStatus", function(){
+    $(document).on("click", ".updateLandingPageSectionStatus", function () {
         var status = $(this).children("i").attr("status");
         var layout_id = $(this).attr("layout_id");
         var section_id = $(this).attr("section_id");
-        
+
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
             url: "/admin/update-landingPage-section-status",
-            data: {status:status,section_id:section_id,layout_id:layout_id},
-            success:function (resp) {
-                if(resp['status']==0){
-                    $("#landingPage-section-"+section_id).html("<i class='fas fa-toggle-off fa-lg' style='color: yellow' status='Inactive'>&nbsp;&nbsp;<span style='font-size: 16px;'>Section is Inactive</span></i>");
+            data: { status: status, section_id: section_id, layout_id: layout_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#landingPage-section-" + section_id).html("<i class='fas fa-toggle-off fa-lg' style='color: yellow' status='Inactive'>&nbsp;&nbsp;<span style='font-size: 16px;'>Section is Inactive</span></i>");
                 }
-                else if(resp['status']==1){
-                    $("#landingPage-section-"+section_id).html("<i class='fas fa-toggle-on fa-lg' style='color: #FFFFFF' status='Active'>&nbsp;&nbsp;<span style='font-size: 16px;'>Section is Active</span></i>");
+                else if (resp['status'] == 1) {
+                    $("#landingPage-section-" + section_id).html("<i class='fas fa-toggle-on fa-lg' style='color: #FFFFFF' status='Active'>&nbsp;&nbsp;<span style='font-size: 16px;'>Section is Active</span></i>");
                 }
             },
-            error:function(){
+            error: function () {
                 alert("Error");
             }
         });
     });
 
 
+
+    // Tech2Globe Website Header 
+
+    //Update Main Menu status
+    $(document).on("click", ".updateMainMenuStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var mainMenu_id = $(this).attr("mainMenu_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-mainMenu-status",
+            data: { status: status, mainMenu_id: mainMenu_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#mainMenu-" + mainMenu_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                }
+                else if (resp['status'] == 1) {
+                    $("#mainMenu-" + mainMenu_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //Update Sub Menu status
+    $(document).on("click", ".updateSubMenuStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var subMenu_id = $(this).attr("subMenu_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-subMenu-status",
+            data: { status: status, subMenu_id: subMenu_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#subMenu-" + subMenu_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                }
+                else if (resp['status'] == 1) {
+                    $("#subMenu-" + subMenu_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //Update sub Category on changing Category
+    $(document).on("change", ".categoryId", function () {
+    
+        var category_id = $(this).val();
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/tech2globe-layout",
+            data: {category_id: category_id },
+            success: function (subMenu) {
+
+                $('.subCategoryId').html(subMenu);
+
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+     //Creating Page Url
+     $(document).on("input", ".pageName", function(){
+
+        var pageName = $('.pageName').val();
+        var pageUrl = urlgen(pageName);
+
+         function urlgen(text) {
+
+             return text
+                 .toLowerCase()
+                 .replace(/ /g, '-')     // Replace spaces with hyphens
+                 .replace(/[^\w-]+/g, ''); // Remove non-word characters except hyphens
+         }
+
+        $('.pageUrl').val(pageUrl);
+     });
+
+     //Check Tech2globe Page Url is correct or not
+    $(document).on("keyup", ".pageUrl", function () {
+        var pageUrl = $(".pageUrl").val();
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/check-all-pages-url",
+            data: { pageUrl: pageUrl },
+            success: function (resp) {
+                if (resp == false) {
+                    $(".urlVerify").html("Current Page URL is already exist");
+                }
+                else if (resp == true) {
+                    $(".urlVerify").html("Current Page URL is correct");
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+     
+
+
 });
 
-    

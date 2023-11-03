@@ -50,47 +50,52 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  <table id="layout" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                      <th>S.No</th>
-                      <th>Page Name</th>
-                      <th>View Page</th>
-                      <th>Created At</th>
-                      <th>Updated At</th>
-                      <th>Action</th>
-                    </tr>
-                    </thead>
-                    {{-- <tbody>
-                      <?php $i=1; $j=0; ?>
-                        @foreach($layout as $row)
-                    <tr>
-                      <td>{{ $i++; }}</td>
-                      <td>{{ $row['page_name'] }}</td>
-                      <td><a target="blank" href="http://localhost:8000/{{ $row['page_url'] }}">View Page</a></td>
-                      <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
-                      <td>{{ date('d-m-Y', strtotime($landingPage[$j++]['updated_at'])) }}</td>
-                      <td> --}}
-                        {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                          @if ($row['status']==1)
-                            <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
-                          @else
-                            <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                          @endif
-                          &nbsp;&nbsp;
-                        @endif --}}
-                        {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                          <a href="{{ url('admin/create-landing-pages/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
-                          &nbsp;&nbsp;
-                        @endif --}}
-                        {{-- @if ($pagesModule['full_access']==1)
-                          <a class="confirmDelete" name="Portfolio" title="Delete Portfolio" href="javascript:void(0)" record="portfolio" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
-                        @endif --}}
-                      {{-- </td>
-                    </tr>
-                        @endforeach
-                    </tfoot> --}}
-                  </table>
+                  <div class="table-responsive">
+                    <table id="allPages" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>S.No</th>
+                        <th>Menu</th>
+                        <th>Sub Menu</th>
+                        <th>Page Name</th>
+                        <th>View Page</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th>Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <?php $i=1;?>
+                          @foreach($allPages as $row)
+                            <tr>
+                              <td>{{ $i++; }}</td>
+                              <td>
+                                @foreach ($mainMenu as $item)
+                                    @if($item['id'] == $row['category_id']) {{ $item['categoryName'] }} @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach ($subMenu as $item)
+                                    @if($item['id'] == $row['sub_category_id']) {{ $item['subCategoryName'] }} @endif
+                                @endforeach
+                              </td>
+                              <td>{{$row['page_name']}}</td>
+                              <td>@if(!empty($row['page_url']))<a target="blank" href="http://localhost:8000/{{ $row['page_url'] }}">View Page</a>@endif</td>
+                              <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
+                              <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
+                              <td>
+                      
+                                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                  <a href="{{ url('admin/tech2globe-layout/add-edit-sub-menu/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
+                                  &nbsp;&nbsp;
+                                @endif
+                                
+                              </td>
+                            </tr>
+                          @endforeach
+                      </tfoot>
+                    </table>
+                  </div>
                 </div>
                 <!-- /.card-body -->
               </div>

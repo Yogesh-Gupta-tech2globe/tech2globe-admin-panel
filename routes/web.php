@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Tech2globeController;
+use Illuminate\Routing\RouteRegistrar;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +95,14 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'tech2globe-layout/footer','Tech2globeLayoutController@footer');
         Route::match(['get','post'],'tech2globe-layout/add-edit-main-menu/{id?}','Tech2globeLayoutController@addEditMainMenu');
         Route::match(['get','post'],'tech2globe-layout/add-edit-sub-menu/{id?}','Tech2globeLayoutController@addEditSubMenu');
+        Route::get('delete-mainMenu/{id?}','Tech2globeLayoutController@deleteMainMenu');
+        Route::get('delete-subMenu/{id?}','Tech2globeLayoutController@deleteSubMenu');
+        Route::post('update-mainMenu-status','Tech2globeLayoutController@updateMainMenu');
+        Route::post('update-subMenu-status','Tech2globeLayoutController@updateSubMenu');
+        Route::post('check-all-pages-url','Tech2globeLayoutController@checkPageUrl');
+
+        //Tech2globe Service Theme
+        Route::post('create-service-theme','Tech2globeServiceThemeController@create');
 
     });
 });
@@ -116,4 +126,11 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
                 return view('landing-page/new-york');
             });Route::get('/bhavya', function () {
                 return view('landing-page/bhavya');
+            });
+
+            //Tech2globe Pages
+            Route::get('/data-management', function () {
+                return view('data-management');
+            });Route::get('/laravel-file', function () {
+                return view('laravel-file');
             });
