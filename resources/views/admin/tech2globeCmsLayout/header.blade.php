@@ -97,19 +97,19 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-2 col-md-2 col-sm-5">
-                                    <img src="{{ url('images/icons/skype.png') }}" class="icon" alt="Skype">
-                                    <a href="skype:info.tech2globe?call">Info.tech2globe</a>
+                                    <img @if(!empty($topNavbar['socialLink1Icon'])) src="{{ url('images/icons/'.$topNavbar['socialLink1Icon'].'') }}" @else src="{{ url('images/icons/skype.png') }}" @endif id="outputSocialLink1Icon" class="icon" alt="Skype">
+                                    <a href="skype:info.tech2globe?call" id="outputSocialLink1Text">@if(!empty($topNavbar['socialLink1Text'])) {{$topNavbar['socialLink1Text']}} @else Info.tech2globe @endif</a>
                                 </div>
                                 <div class="col-md-3 col-sm-7">
-                                    <!-- <img src="images/icons/gmail.png" class="icon" alt="Gmail"> -->
-                                    <i class="fas fa-envelope text-white pt-1"></i>
-                                    <a href="mailto:info@tech2globe.com">Info@tech2globe.com</a>
+                                    <img @if(!empty($topNavbar['socialLink2Icon'])) src="{{ url('images/icons/'.$topNavbar['socialLink2Icon'].'') }}" @else src="{{ url('images/icons/gmail.png') }}" @endif id="outputSocialLink2Icon" class="icon" alt="Gmail">
+                                    {{-- <i class="fas fa-envelope text-white pt-1"></i> --}}
+                                    <a href="mailto:info@tech2globe.com" id="outputSocialLink2Text">@if(!empty($topNavbar['socialLink2Text'])) {{$topNavbar['socialLink2Text']}} @else Info@tech2globe.com @endif</a>
                                 </div>
                                 <div class="col-md-7 col-sm-12">
                                     <div class="link float-end" style="margin-left: 350px;">
-                                        <a href="">Case Studies</a>
-                                        <a href="">Portfolio</a>
-                                        <a href="">Blogs</a>
+                                        <a href="" id="outputInnerPage1Text">@if(!empty($topNavbar['innerPage1Text'])) {{$topNavbar['innerPage1Text']}} @else Case Studies @endif</a>
+                                        <a href="" id="outputInnerPage2Text">@if(!empty($topNavbar['innerPage2Text'])) {{$topNavbar['innerPage2Text']}} @else Portfolio @endif</a>
+                                        <a href="" id="outputInnerPage3Text">@if(!empty($topNavbar['innerPage3Text'])) {{$topNavbar['innerPage3Text']}} @else Blogs @endif</a>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages/') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/tech2globe-layout/header') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
                                 <label for="socialLink1">Social Link 1</label>
@@ -145,7 +145,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                     <input type="file" name="socialLink1Icon" id="socialLink1Icon" class="form-control">
                                   </div>
                                   <div class="col-md-6">
-                                    <input type="text" class="form-control" id="socialLink1Text" name="socialLink1Text" placeholder="Enter Social Link Content">
+                                    <input type="text" class="form-control" id="socialLink1Text" name="socialLink1Text" placeholder="Enter Social Link Content" @if(!empty($topNavbar['socialLink1Text'])) value="{{$topNavbar['socialLink1Text']}}" @else value="Info.tech2globe" @endif>
                                   </div>
                                 </div>
                               </div>
@@ -156,7 +156,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                     <input type="file" name="socialLink2Icon" id="socialLink2Icon" class="form-control">
                                   </div>
                                   <div class="col-md-6">
-                                    <input type="text" class="form-control" id="socialLink2Text" name="socialLink2Text" placeholder="Enter Social Link Content">
+                                    <input type="text" class="form-control" id="socialLink2Text" name="socialLink2Text" placeholder="Enter Social Link Content" @if(!empty($topNavbar['socialLink2Text'])) value="{{$topNavbar['socialLink2Text']}}" @else value="Info@tech2globe.com" @endif>
                                   </div>
                                 </div>
                               </div>
@@ -164,15 +164,16 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                   <label for="innerPage1">Inner Page 1</label>
                                   <div class="row">
                                     <div class="col-md-6">
-                                      <input type="text" name="innerPage1Text" id="innerPage1Text" class="form-control" placeholder="Enter Inner Page Name">
+                                      <input type="text" name="innerPage1Text" id="innerPage1Text" class="form-control" placeholder="Enter Inner Page Name" @if(!empty($topNavbar['innerPage1Text'])) value="{{$topNavbar['innerPage1Text']}}" @else value="Case Studies" @endif>
                                     </div>
                                     <div class="col-md-6">
                                       <select class="form-control" name="innerPage1Link">
                                         <option value="">Select Page</option>
                                         @foreach ($allPagesData as $row)
-                                          <option value="{{$row->pageUrl1}}">{{$row->categoryName1}}</option>
-                                          <option value="{{$row->pageUrl2}}">{{$row->categoryName2}}</option>
-                                          <option value="{{$row->pageUrl}}">{{$row->pageName}}</option>
+                                        
+                                          @if(!empty($row->categoryName1))<option value="{{$row->pageUrl1}}" @if(!empty($row) && !empty($row->pageUrl1) && !empty($topNavbar['innerPage1Link'])) @if($row->pageUrl1 === $topNavbar['innerPage1Link']) selected @endif @endif>Main Menu / {{$row->categoryName1}}</option> @endif
+                                          @if(!empty($row->categoryName2))<option value="{{$row->pageUrl2}}" @if(!empty($row) && !empty($row->pageUrl2) && !empty($topNavbar['innerPage1Link'])) @if($row->pageUrl2 === $topNavbar['innerPage1Link']) selected @endif @endif>Sub Menu / {{$row->categoryName2}}</option>@endif
+                                          @if(!empty($row->pageName))<option value="{{$row->pageUrl}}" @if(!empty($row) && !empty($row->pageUrl) && !empty($topNavbar['innerPage1Link'])) @if($row->pageUrl === $topNavbar['innerPage1Link']) selected @endif @endif>Inner Pages / {{$row->pageName}}</option>@endif
                                         @endforeach
                                         
                                       </select>
@@ -183,11 +184,17 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                   <label for="innerPage2">Inner Page 2</label>
                                   <div class="row">
                                     <div class="col-md-6">
-                                      <input type="text" name="innerPage2Text" id="innerPage2Text" class="form-control" placeholder="Enter Inner Page Name">
+                                      <input type="text" name="innerPage2Text" id="innerPage2Text" class="form-control" placeholder="Enter Inner Page Name" @if(!empty($topNavbar['innerPage2Text'])) value="{{$topNavbar['innerPage2Text']}}" @else value="Portfolio" @endif>
                                     </div>
                                     <div class="col-md-6">
                                       <select class="form-control" name="innerPage2Link">
-                                        <option>Add Page</option>
+                                        <option value="">Select Page</option>
+                                        @foreach ($allPagesData as $row)
+                                        
+                                          @if(!empty($row->categoryName1))<option value="{{$row->pageUrl1}}" @if(!empty($row) && !empty($row->pageUrl1) && !empty($topNavbar['innerPage2Link'])) @if($row->pageUrl1 === $topNavbar['innerPage2Link']) selected @endif @endif>Main Menu / {{$row->categoryName1}}</option>@endif
+                                          @if(!empty($row->categoryName2))<option value="{{$row->pageUrl2}}" @if(!empty($row) && !empty($row->pageUrl2) && !empty($topNavbar['innerPage2Link'])) @if($row->pageUrl2 === $topNavbar['innerPage2Link']) selected @endif @endif>Sub Menu / {{$row->categoryName2}}</option>@endif
+                                          @if(!empty($row->pageName))<option value="{{$row->pageUrl}}" @if(!empty($row) && !empty($row->pageUrl) && !empty($topNavbar['innerPage2Link'])) @if($row->pageUrl === $topNavbar['innerPage2Link']) selected @endif @endif>Inner Pages / {{$row->pageName}}</option>@endif
+                                        @endforeach
                                       </select>
                                     </div>
                                   </div>
@@ -196,11 +203,17 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                 <label for="innerPage3">Inner Page 3</label>
                                 <div class="row">
                                   <div class="col-md-6">
-                                    <input type="text" name="innerPage3Text" id="innerPage3Text" class="form-control" placeholder="Enter Inner Page Name">
+                                    <input type="text" name="innerPage3Text" id="innerPage3Text" class="form-control" placeholder="Enter Inner Page Name" @if(!empty($topNavbar['innerPage3Text'])) value="{{$topNavbar['innerPage3Text']}}" @else value="Blogs" @endif>
                                   </div>
                                   <div class="col-md-6">
                                     <select class="form-control" name="innerPage3Link">
-                                      <option>Add Page</option>
+                                      <option value="">Select Page</option>
+                                        @foreach ($allPagesData as $row)
+                                        
+                                          @if(!empty($row->categoryName1))<option value="{{$row->pageUrl1}}" @if(!empty($row) && !empty($row->pageUrl1) && !empty($topNavbar['innerPage3Link'])) @if($row->pageUrl1 === $topNavbar['innerPage3Link']) selected @endif @endif>Main Menu / {{$row->categoryName1}}</option>@endif
+                                          @if(!empty($row->categoryName2))<option value="{{$row->pageUrl2}}" @if(!empty($row) && !empty($row->pageUrl2) && !empty($topNavbar['innerPage3Link'])) @if($row->pageUrl2 === $topNavbar['innerPage3Link']) selected @endif @endif>Sub Menu / {{$row->categoryName2}}</option>@endif
+                                          @if(!empty($row->pageName))<option value="{{$row->pageUrl}}" @if(!empty($row) && !empty($row->pageUrl) && !empty($topNavbar['innerPage3Link'])) @if($row->pageUrl === $topNavbar['innerPage3Link']) selected @endif @endif>Inner Pages / {{$row->pageName}}</option>@endif
+                                        @endforeach
                                     </select>
                                   </div>
                                 </div>
@@ -209,7 +222,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                             <!-- /.card-body -->
             
                             <div class="card-footer">
-                              <button type="submit" class="btn btn-primary" name="section1">Submit</button>
+                              <button type="submit" class="btn btn-primary" name="topNavbar">Submit</button>
                             </div>
                           </form>
                         </div>
@@ -229,8 +242,13 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                   </h4>
                 </a>
               </div>
-              <div id="collapseFive" class="collapse" data-parent="#accordion">
+              <div id="collapseFive" class="collapse show" data-parent="#accordion">
                 <div class="card-body">
+                  <?php
+                  $explodeCountryFlag = explode(",",$middleNavbar['countryFlag']);
+                  $explodeBranchNumber = explode(",",$middleNavbar['branchNumber']);
+                  $explodeBranchCountry = explode(",",$middleNavbar['branchCountry']);
+                  ?>
                   <div class="row p-3" style="border: #FFFFFF solid 2px;">
                     <div class="col-md-12">
                       <p>Preview</p>
@@ -240,12 +258,9 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                             <div class="row justify-content-between">
                                 <div class="col-md-3 col-sm-12">
                                     <div class="row">
-                                        <!-- <div class="col-lg-8 col-md-8">
-                                            <img src="images/tech2globe-logo.png" class="brand-logo" alt="Tech 2 globe Logo">
-                                        </div> -->
                                         <nav class="navbar navbar-expand-lg header-location">
                                             <div class="container">
-                                                <a class="navbar-brand" href=""><img src="{{ url('images/tech2globe-logo.jpg') }}" class="brand-logo" alt="Tech2globe Logo"></a>
+                                                <a class="navbar-brand" href=""><img @if(!empty($middleNavbar['websiteLogo'])) src="{{ url('images/logo/'.$middleNavbar['websiteLogo'].'') }}" @else src="{{ url('images/tech2globe-logo.jpg') }}" @endif class="brand-logo" id="outputWebsiteLogo" alt="Tech2globe Logo" width="auto" height="35px"></a>
                                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                                     <ul class="navbar-nav mb-2 mb-lg-0">
                                                         <li class="nav-item dropdown">
@@ -257,22 +272,12 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                                                         <div class="global-icon">
                                                                             <img src="{{ url('images/svgs/united-state-flag-icon.svg') }}" alt="America"> United States
                                                                         </div>
-                                                                    </a></li>
-                                                                <li><a target="_blank" class="dropdown-item" href="https://tech2globe.ca/">
-                                                                        <div class="global-icon">
-                                                                            <img src="{{ url('images/svgs/canada-flag-icon.svg') }}" alt="Canada"> Canada
-                                                                        </div>
-                                                                    </a></li>
+                                                                </a></li>
                                                                 <li><a target="_blank" class="dropdown-item" href="https://www.tech2globe.com/">
-                                                                        <div class="global-icon">
-                                                                            <img src="{{ url('images/svgs/bharat-flag-icon.svg') }}" alt="India"> India
-                                                                        </div>
-                                                                    </a></li>
-                                                                <li><a target="_blank" class="dropdown-item" href="https://tech2globe.de/">
-                                                                        <div class="global-icon">
-                                                                            <img src="{{ url('images/svgs/flag-icons-duch.svg') }}" alt="Germany"> Germany
-                                                                        </div>
-                                                                    </a></li>
+                                                                  <div class="global-icon">
+                                                                      <img src="{{ url('images/svgs/united-state-flag-icon.svg') }}" alt="America"> United States
+                                                                  </div>
+                                                                </a></li>
                                                             </ul>
                                                         </li>
                                                     </ul>
@@ -282,43 +287,18 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                     </div>
                                 </div>
                                 <div class="col-md-8 offset-1 col-sm-12 mt-3 d-none d-lg-block">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-3 col-sm-6 d-flex align-items-center">
+                                    <div class="row align-items-center" id="outptCompanyBranch">
+                                      @for($i = 0; $i < count($explodeCountryFlag); $i++)
+                                        <div class="col-md-3 col-sm-6 d-flex align-items-center" id="outputBranch{{$i+1}}">
                                             <div class="flag-icon">
-                                                <img src="{{ url('images/svgs/bharat-flag-icon.svg') }}" alt="India">
+                                                <img src="{{ url('images/svgs/'.$explodeCountryFlag[$i].'') }}" id="outputCountryFlag{{$i+1}}" alt="India">
                                             </div>
                                             <div class="ms-3">
                                                 <!-- <h6>Phone</h6> -->
-                                                <a href="tel:011-430-10-700">011-430-10-700</a>
+                                                <a href="tel:011-430-10-700" id="outputBranchNumber{{$i+1}}">{{$explodeBranchNumber[$i]}}</a>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-sm-6 flag-icon-1 d-flex align-items-center">
-                                            <div class="flag-icons">
-                                                <img src="{{ url('images/svgs/united-state-flag-icon.svg') }}" alt="America">
-                                            </div>
-                                            <div class="ms-3">
-                                                <!-- <h6>Phone</h6> -->
-                                                <a href="tel:1-516-858-5840">1-516-858-5840</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-6 d-flex align-items-center">
-                                            <div class="flag-icon">
-                                                <img src="{{ url('images/svgs/canada-flag-icon.svg') }}" alt="Canada">
-                                            </div>
-                                            <div class="ms-2">
-                                                <!-- <h6>Phone</h6> -->
-                                                <a href="tel:1-250-206-8787">+1-250-206-8787</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-6 d-flex align-items-center">
-                                            <div class="flag-icon">
-                                                <img src="{{ url('images/svgs/canada-flag-icon.svg') }}" alt="Canada">
-                                            </div>
-                                            <div class="ms-2">
-                                                <!-- <h6>Phone</h6> -->
-                                                <a href="tel:1-516-858-5840">+1-516-858-5840</a>
-                                            </div>
-                                        </div>
+                                      @endfor
                                     </div>
                                 </div>
                             </div>
@@ -333,7 +313,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Update Top Navbar</h3>
+                            <h3 class="card-title">Update Middle Navbar</h3>
                             {{-- @if($landingPage['section1_id']!="")
                               @if ($landingPage['status1']==1)
                                 <a class="updateLandingPageSectionStatus" id="landingPage-section-1" layout_id="{{$layout['id']}}" section_id="1" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
@@ -345,33 +325,104 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                           </div>
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/create-landing-pages/') }}" method="post" enctype="multipart/form-data">@csrf
+                          <form action="{{ url('admin/tech2globe-layout/header') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
-                                <label for="menu1">Menu 1</label>
-                                {{-- <input type="text" class="form-control" id="menu1" name="menu1" placeholder="Enter Menu 1" @if(!empty($landingPage['menu1'])) value="{{$landingPage['menu1']}}" @else value="What We Do" @endif> --}}
+                                <label for="websiteLogo">Website Logo</label>
+                                <input type="file" class="form-control" id="websiteLogo" name="websiteLogo">
                               </div>
-                              <div class="form-group">
-                                <label for="menu2">Menu 2</label>
-                                {{-- <input type="text" class="form-control" name="menu2" id="menu2" placeholder="Enter Menu 2" @if(!empty($landingPage['menu2'])) value="{{$landingPage['menu2']}}" @else value="Why Choose Tech2globe" @endif> --}}
+                              <div id="companyBranch">
+                                @if(!empty($middleNavbar['countryFlag']))
+                                <?php $i = 0; ?>
+                                  @for (; $i < count($explodeCountryFlag); $i++)
+                                  <div class="card card-info card-outline" id="branch{{$i+1}}">
+                                    <div class="card-header d-flex justify-content-between">
+                                      <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapse{{$i+1}}">
+                                        <h4 class="card-title">
+                                            Branch {{$i+1}}
+                                        </h4>
+                                      </a>
+                                      <a class="d-inline-block w-auto border-0 branchRemoveButton" branchId="{{$i+1}}" href="javascript:void(0)">
+                                        <i class="fas fa-times"></i>
+                                      </a>
+                                    </div>
+                                    
+                                    <div id="collapse{{$i+1}}" class="collapse" data-parent="#companyBranch">
+                                        <div class="card-body">
+                                          <div class="row">
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="countryFlag{{$i+1}}">Country Flag</label>
+                                                <input type="file" class="form-control" name="countryFlag{{$i+1}}" id="countryFlag{{$i+1}}">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="branchNumber{{$i+1}}">Branch Contact Number</label>
+                                                <input type="text" class="form-control" name="branchNumber{{$i+1}}" id="branchNumber{{$i+1}}" placeholder="Enter Branch Contact Number" value="{{$explodeBranchNumber[$i]}}">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="branchCountry{{$i+1}}">Branch Country</label>
+                                                <input type="text" class="form-control" name="branchCountry{{$i+1}}" id="branchCountry{{$i+1}}" placeholder="Enter Branch Country" value="{{$explodeBranchCountry[$i]}}">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  @endfor
+                                    
+                                @else
+                                  
+                                  <div class="card card-info card-outline" id="branch1">
+                                    <div class="card-header d-flex justify-content-between">
+                                      <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapse1">
+                                        <h4 class="card-title">
+                                            Branch 1
+                                        </h4>
+                                      </a>
+                                      {{-- <a class="d-inline-block w-auto border-0 serviceRemoveButton" serviceId="1" layout_id="{{$landingPage['layout_id']}}" href="javascript:void(0)"> --}}
+                                        <i class="fas fa-times"></i>
+                                      </a>
+                                    </div>
+                                    
+                                    <div id="collapse1" class="collapse show" data-parent="#companyBranch">
+                                        <div class="card-body">
+                                          <div class="row">
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="countryFlag1">Country Flag</label>
+                                                <input type="file" class="form-control" name="countryFlag1" id="countryFlag1">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="branchNumber1">Branch Contact Number</label>
+                                                <input type="text" class="form-control" name="branchNumber1" id="branchNumber1" placeholder="Enter Branch Contact Number" value="011-430-10-700">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="branchCountry1">Branch Country</label>
+                                                <input type="text" class="form-control" name="branchCountry1" id="branchCountry1" placeholder="Enter Branch Country" value="India">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                 @endif
+                               
                               </div>
-                              <div class="form-group">
-                                  <label for="menu3">Menu 3</label>
-                                  {{-- <input type="text" class="form-control" name="menu3" id="menu3" placeholder="Enter Menu 3" @if(!empty($landingPage['menu3'])) value="{{$landingPage['menu3']}}" @else value="Our Customers" @endif> --}}
-                              </div>
-                              <div class="form-group">
-                                  <label for="menu4">Menu 4</label>
-                                  {{-- <input type="text" class="form-control" name="menu4" id="menu4" placeholder="Enter Menu 4" @if(!empty($landingPage['menu4'])) value="{{$landingPage['menu4']}}" @else value="Contact Us" @endif> --}}
-                              </div> 
-                              <div class="form-group">
-                                  <label for="logo">logo</label>
-                                  <input type="file" class="form-control" name="logo" id="logo">
-                              </div>                
+                              <input type="button" class="btn btn-info" id="branchAddButton" branch_number="<?php echo $i; ?>" value="+ Click to add Branch Details">               
                             </div>
                             <!-- /.card-body -->
             
                             <div class="card-footer">
-                              <button type="submit" class="btn btn-primary" name="section1">Submit</button>
+                              <button type="submit" class="btn btn-primary" name="middleNavbar">Submit</button>
                             </div>
                           </form>
                         </div>

@@ -110,6 +110,8 @@ $(document).ready(function () {
         })
     })
 
+    // Landing Page Theme Start
+
     // Use jQuery to select elements and attach event handlers for Landing Page theme
     $(document).ready(function () {
 
@@ -646,9 +648,10 @@ $(document).ready(function () {
         });
     });
 
+    // Landing Page Theme End
 
 
-    // Tech2Globe Website Header 
+    // Tech2Globe Website Header Start
 
     //Update Main Menu status
     $(document).on("click", ".updateMainMenuStatus", function () {
@@ -765,6 +768,194 @@ $(document).ready(function () {
                 alert("Error");
             }
         });
+    });
+
+    //Real Time changes in Text
+
+    $('#socialLink1Text').on('input', updateHeaderOutput);
+    $('#socialLink2Text').on('input', updateHeaderOutput);
+    $('#innerPage1Text').on('input', updateHeaderOutput);
+    $('#innerPage2Text').on('input', updateHeaderOutput);
+    $('#innerPage3Text').on('input', updateHeaderOutput);
+    $('#branchNumber1').on('input', updateHeaderOutput);
+
+
+
+    function updateHeaderOutput() {
+       
+        const socialLink1Text = $('#socialLink1Text').val();
+        const socialLink2Text = $('#socialLink2Text').val();
+        const innerPage1Text = $('#innerPage1Text').val();
+        const innerPage2Text = $('#innerPage2Text').val();
+        const innerPage3Text = $('#innerPage3Text').val();
+        const branchNumber1 = $('#branchNumber1').val();
+
+
+       
+        $('#outputSocialLink1Text').text(socialLink1Text);
+        $('#outputSocialLink2Text').text(socialLink2Text);
+        $('#outputInnerPage1Text').text(innerPage1Text);
+        $('#outputInnerPage2Text').text(innerPage2Text);
+        $('#outputInnerPage3Text').text(innerPage3Text);
+        $('#outputBranchNumber1').text(branchNumber1);
+    }
+
+     //Real Time Changes in Images
+
+     //Top Navbar
+
+     const socialLink1Icon = $('#socialLink1Icon');
+     const outputSocialLink1Icon = $('#outputSocialLink1Icon');
+
+     socialLink1Icon.on('change', function () {
+         const file = socialLink1Icon[0].files[0];
+
+         if (file) {
+             const reader = new FileReader();
+
+             reader.onload = function (e) {
+                outputSocialLink1Icon.attr('src', e.target.result);
+             };
+
+             reader.readAsDataURL(file);
+         } else {
+             // Handle the case where no file is selected
+             outputSocialLink1Icon.attr('src', '');
+         }
+     });
+
+     const socialLink2Icon = $('#socialLink2Icon');
+     const outputSocialLink2Icon = $('#outputSocialLink2Icon');
+
+     socialLink2Icon.on('change', function () {
+         const file = socialLink2Icon[0].files[0];
+
+         if (file) {
+             const reader = new FileReader();
+
+             reader.onload = function (e) {
+                outputSocialLink2Icon.attr('src', e.target.result);
+             };
+
+             reader.readAsDataURL(file);
+         } else {
+             // Handle the case where no file is selected
+             outputSocialLink2Icon.attr('src', '');
+         }
+     });
+
+     //Middle Navbar
+
+     const websiteLogo = $('#websiteLogo');
+     const outputWebsiteLogo = $('#outputWebsiteLogo');
+
+     websiteLogo.on('change', function () {
+         const file = websiteLogo[0].files[0];
+
+         if (file) {
+             const reader = new FileReader();
+
+             reader.onload = function (e) {
+                outputWebsiteLogo.attr('src', e.target.result);
+             };
+
+             reader.readAsDataURL(file);
+         } else {
+             // Handle the case where no file is selected
+             outputWebsiteLogo.attr('src', '');
+         }
+     });
+
+     const countryFlag1 = $('#countryFlag1');
+     const outputCountryFlag1 = $('#outputCountryFlag1');
+
+     countryFlag1.on('change', function () {
+         const file = countryFlag1[0].files[0];
+
+         if (file) {
+             const reader = new FileReader();
+
+             reader.onload = function (e) {
+                outputCountryFlag1.attr('src', e.target.result);
+             };
+
+             reader.readAsDataURL(file);
+         } else {
+             // Handle the case where no file is selected
+             outputCountryFlag1.attr('src', '');
+         }
+     });
+
+
+     //Middle Navbar Adding Branch Dynamically
+     var branchCount = $("#branchAddButton").attr("branch_number");
+    $("#branchAddButton").click(function () {
+        
+        branchCount++;
+        var input = ' <div class="card card-info card-outline" id="branch' + branchCount + '"><div class="card-header d-flex justify-content-between"><a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapse' + branchCount + '"><h4 class="card-title"> Branch ' + branchCount + ' </h4></a><a class="d-inline-block w-auto border-0 branchRemoveButton" branchId="' + branchCount + '" href="javascript:void(0)"><i class="fas fa-times"></i></a></div><div id="collapse' + branchCount + '" class="collapse" data-parent="#companyBranch"><div class="card-body"><div class="row"><div class="col-md-4"><div class="form-group"><label for="countryFlag' + branchCount + '">Country Flag</label><input type="file" class="form-control" name="countryFlag' + branchCount + '" id="countryFlag' + branchCount + '"></div></div><div class="col-md-4"><div class="form-group"><label for="branchNumber' + branchCount + '">Branch Contact Number</label><input type="text" class="form-control" name="branchNumber' + branchCount + '" id="branchNumber' + branchCount + '" placeholder="Enter Branch Contact Number" value=""></div></div><div class="col-md-4"><div class="form-group"><label for="branchCountry' + branchCount + '">Branch Country</label><input type="text" class="form-control" name="branchCountry' + branchCount + '" id="branchCountry' + branchCount + '" placeholder="Enter Branch Country" value=""></div></div></div></div></div></div>';
+        var output = ' <div class="col-md-3 col-sm-6 d-flex align-items-center" id="outputBranch' + branchCount + '"><div class="flag-icon"><img src="" id="outputCountryFlag' + branchCount + '" alt=""></div><div class="ms-3"><a href="tel:" id="outputBranchNumber' + branchCount + '"></a></div></div>';
+
+        $("#companyBranch").append(input);
+        $("#outptCompanyBranch").append(output);
+
+        // Event listener for each input field
+        $('#branchNumber' + branchCount).on('input', function () {
+            var text = $(this).val();
+            $('#outputBranchNumber' + branchCount).text(text);
+        });
+
+        var newCountryFlag = $('#countryFlag' + branchCount);
+        var newOutputCountryFlag = $('#outputCountryFlag' + branchCount);
+
+        // Event listener for each image input field
+        newCountryFlag.on('change', function () {
+            var file = newCountryFlag[0].files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    newOutputCountryFlag.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                newOutputCountryFlag.attr('src', '');
+            }
+
+        });
+    });
+
+    
+    //Dynamically Removing Services (Section 3)
+    $(document).on("click", ".branchRemoveButton", function () {
+        var branchId = $(this).attr("branchId");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Remove the dynamically generated content based on the branchid
+                $("#branch" + branchId).remove();
+
+                // Remove the corresponding output content based on the branchid
+                $("#outputBranch" + branchId).remove();
+
+                Swal.fire(
+                    'Deleted!',
+                    'Your service has been deleted.',
+                    'success'
+                )
+
+
+            }
+        })
     });
 
      
