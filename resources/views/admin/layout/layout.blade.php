@@ -98,6 +98,10 @@
       "order": [[ 0, "desc" ]]
     });
     $('.select2').select2()
+    $("#footerPages").DataTable({  
+    });
+    $("#footerSocialIcons").DataTable({  
+    });
   });
 </script>
 <!-- Sweet Alert -->

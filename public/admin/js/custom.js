@@ -958,6 +958,36 @@ $(document).ready(function () {
         })
     });
 
+
+    
+    // Tech2Globe Website Footer Start
+
+    //Update Footer Pages status
+    $(document).on("click", ".updateFooterPagesStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var footerPages_id = $(this).attr("footerPages_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-footerPages-status",
+            data: { status: status, footerPages_id: footerPages_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#footerPages-" + footerPages_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                }
+                else if (resp['status'] == 1) {
+                    $("#footerPages-" + footerPages_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
      
 
 

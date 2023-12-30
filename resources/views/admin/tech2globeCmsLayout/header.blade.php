@@ -248,6 +248,8 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                   $explodeCountryFlag = explode(",",$middleNavbar['countryFlag']);
                   $explodeBranchNumber = explode(",",$middleNavbar['branchNumber']);
                   $explodeBranchCountry = explode(",",$middleNavbar['branchCountry']);
+                  $explodeBranchAddress = explode("+++",$middleNavbar['branchAddress']);
+                  $explodeBranchWebsite = explode(",",$middleNavbar['branchWebsite']);
                   ?>
                   <div class="row p-3" style="border: #FFFFFF solid 2px;">
                     <div class="col-md-12">
@@ -366,6 +368,20 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                               <div class="form-group">
                                                 <label for="branchCountry{{$i+1}}">Branch Country</label>
                                                 <input type="text" class="form-control" name="branchCountry{{$i+1}}" id="branchCountry{{$i+1}}" placeholder="Enter Branch Country" value="{{$explodeBranchCountry[$i]}}">
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label for="branchAddress{{$i+1}}">Branch Address</label>
+                                                <input type="text" class="form-control" name="branchAddress{{$i+1}}" id="branchAddress{{$i+1}}" placeholder="Enter Branch Address" @if(!empty($explodeBranchAddress[$i]) ) value="{{$explodeBranchAddress[$i]}}" @endif>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label for="branchWebsite{{$i+1}}">Branch Website url</label>
+                                                <input type="url" class="form-control" name="branchWebsite{{$i+1}}" id="branchWebsite{{$i+1}}" placeholder="Enter Branch Website Url" @if(!empty($explodeBranchWebsite[$i])) value="{{$explodeBranchWebsite[$i]}}" @endif>
                                               </div>
                                             </div>
                                           </div>

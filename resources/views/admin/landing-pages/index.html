@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>UL Design</title>
+	<style>
+		ul,ul ul{
+			list-style-type: none;
+			cursor: pointer;
+		}
+
+		ul{
+			display: flex;
+		}
+.food {
+    display: flex;
+}
+ul.list-item {
+    display: none;
+    flex-flow: column;
+
+}
+
+.food ul li:hover > ul.list-item {
+	cursor: pointer;
+    display: flex;
+}
+
+ul ul{
+	padding-inline-start: 0;
+}
+
+	</style>
+
+</head>
+<body>
+
+	<div class="food">
+		<ul>
+			<li class="first-level" id="one">Fruits
+				<ul class="list-item" id="one-list">
+					<li>Mango</li>
+					<li>Guava</li>
+					<li>Banana</li>
+				</ul>
+			</li>
+		</ul>
+		<ul>
+			<li class="first-level" id="two">Vegetables
+				<ul class="list-item" id="two-list">
+					<li>Cabbage</li>
+					<li>Potato</li>
+					<li>Onion</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+</body>
+</html>

@@ -10,6 +10,8 @@ use App\Models\tech2globe_header_category;
 use App\Models\tech2globe_header_sub_category;
 use App\Models\tech2globe_all_pages;
 use App\Models\layout;
+use App\Models\tech2globe_footer_category;
+use App\Models\tech2globe_footer_sub_category;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -369,6 +371,8 @@ class Tech2globeLayoutController extends Controller
                 $branchNumber = [];
                 $countryFlag = [];
                 $branchCountry = [];
+                $branchAddress = [];
+                $branchWebsite = [];
 
                 foreach($data as $content => $value){
 
@@ -390,6 +394,10 @@ class Tech2globeLayoutController extends Controller
                         array_push($countryFlag,$countryFlagImage);
                     }else if(str_contains($content,'branchCountry')){
                         array_push($branchCountry,$value); 
+                    }else if(str_contains($content,'branchAddress')){
+                        array_push($branchAddress,$value); 
+                    }else if(str_contains($content,'branchWebsite')){
+                        array_push($branchWebsite,$value); 
                     }
                 }
 
@@ -460,6 +468,8 @@ class Tech2globeLayoutController extends Controller
                 $implodeBranchNumber = implode(",",$branchNumber);
                 $implodeCountryFlag = implode(",",$countryFlag);
                 $implodeBranchCountry = implode(",",$branchCountry);
+                $implodeBranchAddress = implode("+++",$branchAddress);
+                $implodeBranchWebsite = implode(",",$branchWebsite);
 
                 $explodeBranchNumber = explode(",",$middleNavbar['branchNumber']);
                 $explodeCountryFlag = explode(",",$middleNavbar['countryFlag']);
@@ -599,6 +609,8 @@ class Tech2globeLayoutController extends Controller
                 $middleNavbar->countryFlag = $implodeCountryFlag;
                 $middleNavbar->branchNumber = $implodeBranchNumber;
                 $middleNavbar->branchCountry = $implodeBranchCountry;
+                $middleNavbar->branchAddress = $implodeBranchAddress;
+                $middleNavbar->branchWebsite = $implodeBranchWebsite;
                 $middleNavbar->save();
                 return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
             }
@@ -614,9 +626,9 @@ class Tech2globeLayoutController extends Controller
     public function footer()
     {
         Session::put('page','tech2globe_footer');
-
-        // $layout = Layout::get()->toArray();
-        // $landingPage = landing_pages::get()->toArray();
+        $footerPages = tech2globe_footer_sub_category::get()->toArray();
+        $footerCategory = tech2globe_footer_category::get()->toArray();
+        
     
         //Set Admin/Subadmins Permissions for Layout Module
         $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
@@ -633,7 +645,7 @@ class Tech2globeLayoutController extends Controller
             $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
         }
 
-        return view('admin.tech2globeCmsLayout.footer')->with(compact('pagesModule'));
+        return view('admin.tech2globeCmsLayout.footer')->with(compact('pagesModule','footerPages','footerCategory'));
 
     }
 
@@ -774,4 +786,126 @@ class Tech2globeLayoutController extends Controller
             return true;
         }
     }
+
+    public function addEditFooterPages(Request $request, $id=null)
+    {
+        $footerCategory = tech2globe_footer_category::get()->toArray();
+        $mainMenu = tech2globe_header_category::get()->toArray();
+        $subMenu = tech2globe_header_sub_category::get()->toArray();
+        $allPages = tech2globe_all_pages::get()->toArray();
+
+        $allPagesData = DB::table('tech2globe_header_category')
+            ->leftJoin('tech2globe_header_sub_category', 'tech2globe_header_category.id', '=', 'tech2globe_header_sub_category.category_id')
+            ->leftJoin('tech2globe_all_pages', 'tech2globe_header_sub_category.id', '=', 'tech2globe_all_pages.sub_category_id')
+            ->select('tech2globe_header_category.categoryName as categoryName1', 'tech2globe_header_category.page_url as pageUrl1', 'tech2globe_header_sub_category.subCategoryName as categoryName2', 'tech2globe_header_sub_category.page_url as pageUrl2', 'tech2globe_all_pages.page_name as pageName', 'tech2globe_all_pages.page_url as pageUrl')
+            ->get();
+
+        if($id==""){
+            $title = "Add Footer Pages";
+            $footerPages = new tech2globe_footer_sub_category;
+            $message = "New Footer Page added Successfully";
+        }else{
+            $title = "Edit Footer Page";
+            $footerPages = tech2globe_footer_sub_category::find($id);
+            $message = "Footer Page updated Successfully";
+        }
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            // print_r($data); die;
+
+            $rules = [
+                'category_id' => 'required',
+                'pageName' => 'required|max:20',
+                'pageLink' => 'required',
+            ];
+
+            $customMessages = [
+                'category_id.required' => 'Category is required',
+                'pageName.required' => 'Page Name is required',
+                'pageName.max' => 'Page Name not be greater than 20 Letters',
+                'pageLink.required' => 'Page Linked is required',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+
+            $footerPages->category_id = $data['category_id'];
+            $footerPages->sub_category_name = $data['pageName'];
+            $footerPages->page_link = $data['pageLink'];
+            $footerPages->save();
+            
+            return redirect('admin/tech2globe-layout/footer')->with('success_message',$message);
+        }
+
+        return view('admin.tech2globeCmsLayout.add-edit-footerPages')->with(compact('title','footerPages','footerCategory','allPagesData'));
+    }
+
+    public function updateFooterPages(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+
+            if($data['status']=="Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+
+            tech2globe_footer_sub_category::where('id',$data['footerPages_id'])->update(['status'=>$status]);
+            return response()->json(['status'=>$status, 'footerPages_id'=>$data['footerPages_id']]);
+        }
+    }
+
+    public function deleteFooterPages($id){
+
+        if(tech2globe_footer_sub_category::where('id',$id)->delete()){
+            return redirect()->back()->with('success_message','Footer Page deleted successfully!');
+        }else{
+            return redirect()->back()->with('error_message','Something went wrong!');
+        }
+    }
+
+    public function addEditFooterSocialIcons(Request $request, $id=null)
+    {
+        $footerCategory = tech2globe_footer_category::get()->toArray();
+       
+
+        if($id==""){
+            $title = "Add Footer Social Icons";
+            $footerPages = new tech2globe_footer_sub_category;
+            $message = "New Footer Social Icon added Successfully";
+        }else{
+            $title = "Edit Footer Social Icons";
+            $footerPages = tech2globe_footer_sub_category::find($id);
+            $message = "Footer Social Icon updated Successfully";
+        }
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            // print_r($data); die;
+
+            $rules = [
+                'pageName' => 'required',
+                'pageLink' => 'required|url',
+            ];
+
+            $customMessages = [
+                'pageName.required' => 'Social Platform is required',
+                'pageLink.required' => 'Page Linked is required',
+                'pageLink.url' => 'Please enter a valid url',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+
+            $footerPages->category_id = 5;
+            $footerPages->sub_category_name = $data['pageName'];
+            $footerPages->page_link = $data['pageLink'];
+            $footerPages->save();
+            
+            return redirect('admin/tech2globe-layout/footer')->with('success_message',$message);
+        }
+
+        return view('admin.tech2globeCmsLayout.add-edit-footerSocialIcons')->with(compact('title','footerPages','footerCategory'));
+    } 
 }

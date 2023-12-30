@@ -100,6 +100,11 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-mainMenu-status','Tech2globeLayoutController@updateMainMenu');
         Route::post('update-subMenu-status','Tech2globeLayoutController@updateSubMenu');
         Route::post('check-all-pages-url','Tech2globeLayoutController@checkPageUrl');
+        Route::match(['get','post'],'tech2globe-layout/add-edit-footer-pages/{id?}','Tech2globeLayoutController@addEditFooterPages');
+        Route::post('update-footerPages-status','Tech2globeLayoutController@updateFooterPages');
+        Route::get('delete-footerPages/{id?}','Tech2globeLayoutController@deleteFooterPages');
+        Route::match(['get','post'],'tech2globe-layout/add-edit-footer-socialicons/{id?}','Tech2globeLayoutController@addEditFooterSocialIcons');
+
 
         //Tech2globe Service Theme
         Route::post('create-service-theme','Tech2globeServiceThemeController@create');
