@@ -61,7 +61,7 @@
                 
                 
                     <div class="card-body">
-                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                      {{-- <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
                         @if(!empty($userRoles))
                         @foreach ($userRoles as $role)
                           @if($role['module']=="portfolio")
@@ -92,8 +92,8 @@
                           <input type="checkbox" name="portfolio[full]" value="1" @if(isset($fullPortfolio)) {{ $fullPortfolio }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
                           <input type="submit" class="btn btn-primary" value="Submit">
                         </div>
-                      </form>
-                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                      </form> --}}
+                      {{-- <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
                         @if(!empty($userRoles))
                           @foreach ($userRoles as $role)
                             @if($role['module']=="layout")
@@ -119,6 +119,38 @@
                           <input type="hidden" value="layout" name="module">
                           <div class="form-group">
                               <label for="layout">Layout: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="layout[view]" value="1" @if(isset($viewLayout)) {{ $viewLayout }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="layout[edit]" value="1" @if(isset($editLayout)) {{ $editLayout }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="layout[full]" value="1" @if(isset($fullLayout)) {{ $fullLayout }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form> --}}
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="layout")
+                              @if($role['view_access']==1)
+                                @php $viewLayout = "checked" @endphp
+                              @else
+                                @php $viewLayout = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editLayout = "checked" @endphp
+                              @else
+                                @php $editLayout = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullLayout = "checked" @endphp
+                              @else
+                                @php $fullLayout = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="layout" name="module">
+                          <div class="form-group">
+                              <label for="layout">Tech2Globe Layout: &nbsp;&nbsp;&nbsp;</label>
                               <input type="checkbox" name="layout[view]" value="1" @if(isset($viewLayout)) {{ $viewLayout }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="layout[edit]" value="1" @if(isset($editLayout)) {{ $editLayout }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="layout[full]" value="1" @if(isset($fullLayout)) {{ $fullLayout }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;

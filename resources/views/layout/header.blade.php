@@ -138,7 +138,7 @@
                                                 <div class="ruby-col-3">
 
                                                 @foreach ($allPages as $data)
-                                                    @if ($data['category_id'] == $row['id'] && $data['sub_category_id'] == $item['id'])
+                                                    @if ($data['category_id'] == $row['id'] && $data['sub_category_id'] == $item['id'] && $data['status'] == 1)
                                                     
                                                         <div class="ruby-row">
                                                             <div class="ruby-col-11"><span class="ruby-c-title"><a href="<?php echo $base_url; ?>{{$data['page_url']}}">{{$data['page_name']}}</a></span></div>

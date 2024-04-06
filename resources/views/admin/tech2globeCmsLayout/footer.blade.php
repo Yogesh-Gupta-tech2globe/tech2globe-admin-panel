@@ -214,7 +214,8 @@
                                   @if($item['id'] == $row['category_id']) {{$item['category_name']}} @endif
                                 @endforeach
                               </td>
-                              <td><img src="{{ url('images/') $row['sub_category_name'] }}"></td>
+                              {{-- <td><img src="{{ url('images/') $row['sub_category_name'] }}"></td> --}}
+                              <td></td>
                               <td>@if(!empty($row['page_link']))<a target="blank" href="{{ $row['page_link'] }}">View Social Page</a>@endif</td>
                               <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                               <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>

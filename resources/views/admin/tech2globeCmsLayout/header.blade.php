@@ -79,7 +79,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
       <div class="row">
           <div class="col-12" id="accordion">
 
-            <div class="card card-primary card-outline"> 
+            {{-- <div class="card card-primary card-outline"> 
               <div class="card-header d-flex justify-content-between">
                 <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapseFour">
                   <h4 class="card-title">
@@ -103,7 +103,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                 <div class="col-md-3 col-sm-7">
                                     <img @if(!empty($topNavbar['socialLink2Icon'])) src="{{ url('images/icons/'.$topNavbar['socialLink2Icon'].'') }}" @else src="{{ url('images/icons/gmail.png') }}" @endif id="outputSocialLink2Icon" class="icon" alt="Gmail">
                                     {{-- <i class="fas fa-envelope text-white pt-1"></i> --}}
-                                    <a href="mailto:info@tech2globe.com" id="outputSocialLink2Text">@if(!empty($topNavbar['socialLink2Text'])) {{$topNavbar['socialLink2Text']}} @else Info@tech2globe.com @endif</a>
+                                    {{-- <a href="mailto:info@tech2globe.com" id="outputSocialLink2Text">@if(!empty($topNavbar['socialLink2Text'])) {{$topNavbar['socialLink2Text']}} @else Info@tech2globe.com @endif</a>
                                 </div>
                                 <div class="col-md-7 col-sm-12">
                                     <div class="link float-end" style="margin-left: 350px;">
@@ -124,7 +124,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Update Top Navbar</h3>
+                            <h3 class="card-title">Update Top Navbar</h3> --}}
                             {{-- @if($landingPage['section1_id']!="")
                               @if ($landingPage['status1']==1)
                                 <a class="updateLandingPageSectionStatus" id="landingPage-section-1" layout_id="{{$layout['id']}}" section_id="1" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
@@ -133,10 +133,10 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                               @endif
                             @endif --}}
 
-                          </div>
+                          {{-- </div> --}}
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/tech2globe-layout/header') }}" method="post" enctype="multipart/form-data">@csrf
+                          {{-- <form action="{{ url('admin/tech2globe-layout/header') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
                                 <label for="socialLink1">Social Link 1</label>
@@ -225,24 +225,26 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                               <button type="submit" class="btn btn-primary" name="topNavbar">Submit</button>
                             </div>
                           </form>
-                        </div>
+                        </div> --}}
                         <!-- /.card -->
             
-                      </div>
+                      {{-- </div> --}}
                       <!--/.col (left) -->
-                  </div>
+                  {{-- </div>
                 </div>
               </div>
-            </div> 
-            <div class="card card-primary card-outline"> 
+            </div>  --}}
+
+
+            {{-- <div class="card card-primary card-outline"> 
               <div class="card-header d-flex justify-content-between">
                 <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapseFive">
                   <h4 class="card-title">
                       Logo Middle Navbar
                   </h4>
                 </a>
-              </div>
-              <div id="collapseFive" class="collapse show" data-parent="#accordion">
+              </div> --}}
+              {{-- <div id="collapseFive" class="collapse" data-parent="#accordion">
                 <div class="card-body">
                   <?php
                   $explodeCountryFlag = explode(",",$middleNavbar['countryFlag']);
@@ -287,8 +289,8 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                             </div>
                                         </nav>
                                     </div>
-                                </div>
-                                <div class="col-md-8 offset-1 col-sm-12 mt-3 d-none d-lg-block">
+                                </div> --}}
+                                {{-- <div class="col-md-8 offset-1 col-sm-12 mt-3 d-none d-lg-block">
                                     <div class="row align-items-center" id="outptCompanyBranch">
                                       @for($i = 0; $i < count($explodeCountryFlag); $i++)
                                         <div class="col-md-3 col-sm-6 d-flex align-items-center" id="outputBranch{{$i+1}}">
@@ -308,14 +310,14 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                       </div>
                         
                     </div>
-                  </div>
-                  <div class="row">
+                  </div> --}}
+                  {{-- <div class="row">
                       <!-- left column -->
                       <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-primary mt-5">
                           <div class="card-header">
-                            <h3 class="card-title">Update Middle Navbar</h3>
+                            <h3 class="card-title">Update Middle Navbar</h3> --}}
                             {{-- @if($landingPage['section1_id']!="")
                               @if ($landingPage['status1']==1)
                                 <a class="updateLandingPageSectionStatus" id="landingPage-section-1" layout_id="{{$layout['id']}}" section_id="1" href="javascript:void(0)"><i class="fas fa-toggle-on fa-lg" status="Active">&nbsp;&nbsp;<span style="font-size: 16px;">Section is Active</span></i></a>
@@ -324,10 +326,10 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                               @endif
                             @endif --}}
 
-                          </div>
+                          {{-- </div> --}}
                           <!-- /.card-header -->
                           <!-- form start -->
-                          <form action="{{ url('admin/tech2globe-layout/header') }}" method="post" enctype="multipart/form-data">@csrf
+                          {{-- <form action="{{ url('admin/tech2globe-layout/header') }}" method="post" enctype="multipart/form-data">@csrf
                             <div class="card-body">
                               <div class="form-group">
                                 <label for="websiteLogo">Website Logo</label>
@@ -387,8 +389,8 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                           </div>
                                         </div>
                                     </div>
-                                  </div>
-                                  @endfor
+                                  </div> --}}
+                                  {{-- @endfor
                                     
                                 @else
                                   
@@ -398,9 +400,9 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                         <h4 class="card-title">
                                             Branch 1
                                         </h4>
-                                      </a>
+                                      </a> --}}
                                       {{-- <a class="d-inline-block w-auto border-0 serviceRemoveButton" serviceId="1" layout_id="{{$landingPage['layout_id']}}" href="javascript:void(0)"> --}}
-                                        <i class="fas fa-times"></i>
+                                        {{-- <i class="fas fa-times"></i>
                                       </a>
                                     </div>
                                     
@@ -434,22 +436,24 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                
                               </div>
                               <input type="button" class="btn btn-info" id="branchAddButton" branch_number="<?php echo $i; ?>" value="+ Click to add Branch Details">               
-                            </div>
+                            </div> --}}
                             <!-- /.card-body -->
-            
+                  {{--             
                             <div class="card-footer">
                               <button type="submit" class="btn btn-primary" name="middleNavbar">Submit</button>
                             </div>
                           </form>
-                        </div>
+                        </div> --}}
                         <!-- /.card -->
             
-                      </div>
+                      {{-- </div> --}}
                       <!--/.col (left) -->
-                  </div>
+                  {{-- </div>
                 </div>
               </div>
-            </div> 
+            </div>  --}}
+
+            
             <div class="card card-primary card-outline"> 
                 <div class="card-header d-flex justify-content-between">
                   <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapseOne">
@@ -461,7 +465,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                     <a href="{{ url('admin/tech2globe-layout/add-edit-main-menu') }}" class="d-inline-block w-25 border-0 btn btn-primary">Add Menu</a>
                   @endif
                 </div>
-                <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                <div id="collapseOne" class="collapse" data-parent="#accordion">
                   <div class="card-body">
                     <div class="table-responsive">
                       <table id="mainMenu" class="table table-bordered table-striped">
@@ -581,8 +585,11 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                       All Pages
                   </h4>
                 </a>
+                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                  <a href="{{ url('admin/tech2globe-layout/add-edit-new-page') }}" class="d-inline-block w-25 border-0 btn btn-primary">Add New Page</a>
+                @endif
               </div>
-              <div id="collapseThree" class="collapse" data-parent="#accordion">
+              <div id="collapseThree" class="collapse show" data-parent="#accordion">
                 <div class="card-body">
                   <div class="table-responsive">
                     <table id="allPages" class="table table-bordered table-striped">
@@ -618,14 +625,14 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                               <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                               <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                               <td>
-                                {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                   @if ($row['status']==1)
                                     <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
                                   @else
                                     <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                   @endif
                                   &nbsp;&nbsp;
-                                @endif --}}
+                                @endif
                                 {{-- @if ($pagesModule['full_access']==1)
                                   <a class="confirmDelete" name="Portfolio" title="Delete Portfolio" href="javascript:void(0)" record="portfolio" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
                                 @endif --}}

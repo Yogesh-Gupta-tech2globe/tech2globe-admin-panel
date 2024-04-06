@@ -101,7 +101,7 @@
               </a>
             </li>
           @endif
-          @if(Session::get('page')=="portfolio")
+          {{-- @if(Session::get('page')=="portfolio")
             @php $active="active" @endphp
           @else
             @php $active="" @endphp
@@ -113,10 +113,10 @@
                 Portfolio
               </p>
             </a>
-          </li>
+          </li> --}}
 
 
-          @if(Session::get('page')=="layout" || Session::get('page')=="all_layout")
+          {{-- @if(Session::get('page')=="layout" || Session::get('page')=="all_layout")
             @php $active="active" @endphp
           @else
             @php $active="" @endphp
@@ -153,7 +153,7 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li> --}}
 
 
           @if(Session::get('page')=="tech2globe_layout" || Session::get('page')=="tech2globe_all_layout" || Session::get('page')=="tech2globe_header" || Session::get('page')=="tech2globe_footer")
@@ -170,7 +170,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @if(Session::get('page')=="tech2globe_layout")
+              {{-- @if(Session::get('page')=="tech2globe_layout")
                 @php $active="active" @endphp
               @else
                 @php $active="" @endphp
@@ -191,7 +191,7 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Layouts</p>
                 </a>
-              </li>
+              </li> --}}
 
               @if(Session::get('page')=="tech2globe_header")
                 @php $active="active" @endphp

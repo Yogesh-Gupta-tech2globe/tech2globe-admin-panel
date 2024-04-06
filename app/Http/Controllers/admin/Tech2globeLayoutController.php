@@ -728,6 +728,49 @@ class Tech2globeLayoutController extends Controller
         return view('admin.tech2globeCmsLayout.add-edit-subMenu')->with(compact('title','subMenu','mainMenu'));
     }
 
+    public function addEditNewPage(Request $request, $id=null)
+    {
+        if($id==""){
+            $title = "Add New Page";
+            $subMenu = new tech2globe_all_pages;
+            $message = "New Page added Successfully";
+        }else{
+            $title = "Edit Existing Page";
+            $subMenu = tech2globe_all_pages::find($id);
+            $message = "Page updated Successfully";
+        }
+
+        $mainMenu = tech2globe_header_category::get()->toArray();
+        $subMenu = tech2globe_header_sub_category::get()->toArray();
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            //  print_r($data); die;
+
+            $rules = [
+                'category_id' => 'required',
+                'subCategoryName' => 'required',
+            ];
+
+            $customMessages = [
+                'category_id.required' => 'Main Menu is required',
+                'subCategoryName.required' => 'Sub Menu name is required',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+
+            $subMenu->category_id = $data['category_id'];
+            $subMenu->subCategoryName = $data['subCategoryName'];
+            $subMenu->page_url = $data['page_url'];
+            $subMenu->save();
+            
+            return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
+        }
+
+        return view('admin.tech2globeCmsLayout.add-edit-newPage')->with(compact('title','subMenu','mainMenu'));
+    }
+
     public function deleteMainMenu($id){
 
         if(tech2globe_header_category::where('id',$id)->delete()){

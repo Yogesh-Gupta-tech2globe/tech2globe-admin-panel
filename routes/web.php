@@ -72,29 +72,30 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'update-role/{id?}','UsersController@updateRole');
 
         //Display Portfolio
-        Route::get('portfolio','PortfolioController@index');
-        Route::post('update-portfolio-status','PortfolioController@update');
-        Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit');
-        Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
+        // Route::get('portfolio','PortfolioController@index');
+        // Route::post('update-portfolio-status','PortfolioController@update');
+        // Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit');
+        // Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
 
         //Display Layout
-        Route::match(['get','post'],'layout','LayoutController@index');
-        Route::match(['get','post'],'all-layout','LayoutController@show');
+        // Route::match(['get','post'],'layout','LayoutController@index');
+        // Route::match(['get','post'],'all-layout','LayoutController@show');
 
         //Display Landing Pages
-        Route::match(['get','post'],'landing-pages','LandingPageController@index');
-        Route::match(['get','post'],'create-landing-pages/{id}','LandingPageController@create');
-        Route::match(['get','post'],'check-page-url','LandingPageController@checkPageUrl');
-        Route::match(['get','post'],'update-landingPage-section-status','LandingPageController@update');
-        Route::match(['get','post'],'remove-landingPage-services','LandingPageController@destroy');
+        // Route::match(['get','post'],'landing-pages','LandingPageController@index');
+        // Route::match(['get','post'],'create-landing-pages/{id}','LandingPageController@create');
+        // Route::match(['get','post'],'check-page-url','LandingPageController@checkPageUrl');
+        // Route::match(['get','post'],'update-landingPage-section-status','LandingPageController@update');
+        // Route::match(['get','post'],'remove-landingPage-services','LandingPageController@destroy');
 
         //Display Tec2globe Layout
-        Route::match(['get','post'],'tech2globe-layout','Tech2globeLayoutController@index');
-        Route::match(['get','post'],'tech2globe-all-layout','Tech2globeLayoutController@show');
+        // Route::match(['get','post'],'tech2globe-layout','Tech2globeLayoutController@index');
+        // Route::match(['get','post'],'tech2globe-all-layout','Tech2globeLayoutController@show');
         Route::match(['get','post'],'tech2globe-layout/header','Tech2globeLayoutController@header');
         Route::match(['get','post'],'tech2globe-layout/footer','Tech2globeLayoutController@footer');
         Route::match(['get','post'],'tech2globe-layout/add-edit-main-menu/{id?}','Tech2globeLayoutController@addEditMainMenu');
         Route::match(['get','post'],'tech2globe-layout/add-edit-sub-menu/{id?}','Tech2globeLayoutController@addEditSubMenu');
+        Route::match(['get','post'],'tech2globe-layout/add-edit-new-page/{id?}','Tech2globeLayoutController@addEditNewPage');
         Route::get('delete-mainMenu/{id?}','Tech2globeLayoutController@deleteMainMenu');
         Route::get('delete-subMenu/{id?}','Tech2globeLayoutController@deleteSubMenu');
         Route::post('update-mainMenu-status','Tech2globeLayoutController@updateMainMenu');
@@ -107,7 +108,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
 
         //Tech2globe Service Theme
-        Route::post('create-service-theme','Tech2globeServiceThemeController@create');
+        // Route::post('create-service-theme','Tech2globeServiceThemeController@create');
 
     });
 });
@@ -138,4 +139,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
                 return view('data-management');
             });Route::get('/laravel-file', function () {
                 return view('laravel-file');
+            });Route::get('/new-case-study-page', function () {
+                return view('landing-page/new-case-study-page');
+            });Route::get('/amazon-services-2knj', function () {
+                return view('amazon-services-2knj');
             });
