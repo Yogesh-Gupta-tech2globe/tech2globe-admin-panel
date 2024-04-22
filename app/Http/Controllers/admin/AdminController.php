@@ -9,6 +9,7 @@ use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use App\Models\AdminsRole;
+use App\Models\file_data;
 use Validator;
 use Session;
 use Image;
@@ -19,7 +20,11 @@ class AdminController extends Controller
     public function dashboard(){
         Session::put('page','dashboard');
 
-        return view('admin.dashboard');
+        $allFiles = file_data::get()->toArray();
+        $linkedFiles = file_data::where('linked_status','!=','0')->get()->toArray();
+        $unlinkedFiles = file_data::where('linked_status','=','0')->get()->toArray();
+
+        return view('admin.dashboard')->with(compact('allFiles','linkedFiles','unlinkedFiles'));
     }
 
     public function login(Request $request){

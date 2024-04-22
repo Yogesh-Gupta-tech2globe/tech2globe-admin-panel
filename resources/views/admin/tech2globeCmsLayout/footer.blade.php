@@ -29,7 +29,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
-              <li class="breadcrumb-item"><a href="/admin/tech2globe-layout">Tech2globe Layout</a></li>
+              <li class="breadcrumb-item"><a href="">Header & Footer</a></li>
               <li class="breadcrumb-item active">Footer</li>
             </ol>
           </div><!-- /.col -->
@@ -82,7 +82,7 @@
                                   @endforeach
                                 </td>
                                 <td>{{ $row['sub_category_name'] }}</td>
-                                <td>@if(!empty($row['page_link']))<a target="blank" href="http://localhost:8000/{{ $row['page_link'] }}">View Page</a>@endif</td>
+                                <td>@if(!empty($row['page_url']))<a target="blank" href="/{{ $row['page_url'] }}">View Page</a>@endif</td>
                                 <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                                 <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                                 <td>
@@ -98,9 +98,9 @@
                                     <a href="{{ url('admin/tech2globe-layout/add-edit-footer-pages/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                                     &nbsp;&nbsp;
                                   @endif
-                                  @if ($pagesModule['full_access']==1)
+                                  {{-- @if ($pagesModule['full_access']==1)
                                     <a class="confirmDelete" name="footerPages" title="Delete Footer Pages" href="javascript:void(0)" record="footerPages" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
-                                  @endif
+                                  @endif --}}
                                 </td>
                               </tr>
                             @endif
@@ -112,7 +112,7 @@
                 </div>
             </div> 
 
-            <div class="card card-primary card-outline"> 
+            {{-- <div class="card card-primary card-outline"> 
               <div class="card-header d-flex justify-content-between">
                 <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapseTwo">
                   <h4 class="card-title">
@@ -178,9 +178,9 @@
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>  --}}
             
-            <div class="card card-primary card-outline"> 
+            {{-- <div class="card card-primary card-outline"> 
               <div class="card-header d-flex justify-content-between">
                 <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapseThree">
                   <h4 class="card-title">
@@ -214,7 +214,7 @@
                                   @if($item['id'] == $row['category_id']) {{$item['category_name']}} @endif
                                 @endforeach
                               </td>
-                              {{-- <td><img src="{{ url('images/') $row['sub_category_name'] }}"></td> --}}
+                              <td><img src="{{ url('images/') $row['sub_category_name'] }}"></td>
                               <td></td>
                               <td>@if(!empty($row['page_link']))<a target="blank" href="{{ $row['page_link'] }}">View Social Page</a>@endif</td>
                               <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
@@ -244,7 +244,7 @@
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>  --}}
           </div>
       </div>
       

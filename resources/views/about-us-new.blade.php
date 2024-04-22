@@ -1,8 +1,8 @@
+@extends('layout.layout')
+@section('content')
+<?php $base_url = 'http://localhost:8000'; ?>
 
-            @extends("layout.layout")
-            @section("content")
-            <?php $base_url = "http://localhost:8000"; ?>
-            <!--  Main section start here -->
+<!--  Main section start here -->
 <main>
     <div class="feature-banner w-100 h-100 d-block position-relative bg-dark">
         <img src="images/about/about-feature-image.jpg" alt="" class="img-fluid opacity-50">
@@ -236,4 +236,6 @@
     </div><!-- inner page content -->
 </main>
 <!--  Main section end here -->
-            @endsection
+
+
+@endsection

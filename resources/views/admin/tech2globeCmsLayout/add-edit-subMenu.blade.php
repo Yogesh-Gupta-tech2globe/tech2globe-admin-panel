@@ -65,9 +65,51 @@
                         <label for="subCategoryName">Sub Menu Name*</label>
                         <input type="text" class="form-control" id="subCategoryName" name="subCategoryName" placeholder="Enter Sub Menu Name" required @if(!empty($subMenu['subCategoryName'])) value="{{ $subMenu['subCategoryName'] }}" @endif>
                     </div>
+
                     <div class="form-group">
-                        <label for="page_url">Page link*</label>
-                        <input type="url" class="form-control" id="page_url" name="page_url" placeholder="Enter Page Link" @if(!empty($subMenu['page_url'])) value="{{ $subMenu['page_url'] }}" @endif>
+                      <label>Choose way of Page link :</label>
+                      <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio1" value="1" name="customRadio">
+                        <label for="customRadio1" class="custom-control-label">Want to create new url</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio2" value="0" name="customRadio">
+                        <label for="customRadio2" class="custom-control-label">Want to use existing url</label>
+                      </div>
+                    </div>
+
+                    <div id="create_new_url">
+                      <div class="form-group">
+                        <label>Select File to link*</label>
+                        <select class="form-control" style="width: 100%;" name="file_id" id="linkfile">
+                            <option value="">Select File</option>
+
+                            @foreach ($fileData as $row)
+                              <option value="{{ $row['id'] }}" @if($row['id'] == $subMenu['file_id']) selected @endif>{{ $row['file_name'] }} (ID : F{{$row['id']}})</option>
+                            @endforeach
+                          
+                        </select>
+                      </div>
+
+                      <div class="form-group" id="pagelinkfield">
+                          <label for="page_url">Page link*</label>
+                          <input type="text" class="form-control pageUrl" id="page_url" name="page_url" placeholder="Enter Page Link" @if(!empty($subMenu['page_url'])) value="{{ $subMenu['page_url'] }}" @endif>
+                          <span class="urlVerify"></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group" id="use_existing_url">
+                      <label>Select Url to link*</label>
+                      <select class="form-control" style="width: 100%;" name="page_url2" id="selectedPageUrl">
+                          <option value="">Select Url</option>
+
+                          @foreach ($allpageurl as $row)
+                            @if(!empty($row->file_id))
+                            <option value="{{ $row->page_url }},{{$row->file_id}}" @if($row->page_url == $subMenu['page_url']) selected @endif>{{ $row->page_url }} | (Attached File ID : F{{$row->file_id}})</option>
+                            @endif
+                          @endforeach
+                        
+                      </select>
                     </div>
                     </div>
                     <!-- /.card-body -->

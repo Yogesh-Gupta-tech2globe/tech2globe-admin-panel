@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Tech2globeController;
 use Illuminate\Routing\RouteRegistrar;
 
+require __DIR__.'/pages.php';
+require __DIR__.'/mainMenu.php';
+require __DIR__.'/subMenu.php';
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,15 +25,12 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/about-us', function () {
+// Route::get('/about-us', function () {
     
-    return view('about-us');
-});
+//     return view('about-us');
+// });
 
-Route::get('/react-web-application', function () {
-    
-    return view('react-web-appliction');
-});
+
 
 
 // Route::get('/','HomeController@home');
@@ -71,12 +73,6 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('delete-users/{id?}','UsersController@destroy');
         Route::match(['get','post'],'update-role/{id?}','UsersController@updateRole');
 
-        //Display Portfolio
-        // Route::get('portfolio','PortfolioController@index');
-        // Route::post('update-portfolio-status','PortfolioController@update');
-        // Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit');
-        // Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
-
         //Display Layout
         // Route::match(['get','post'],'layout','LayoutController@index');
         // Route::match(['get','post'],'all-layout','LayoutController@show');
@@ -89,7 +85,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // Route::match(['get','post'],'remove-landingPage-services','LandingPageController@destroy');
 
         //Display Tec2globe Layout
-        // Route::match(['get','post'],'tech2globe-layout','Tech2globeLayoutController@index');
+        Route::match(['get','post'],'tech2globe-layout','Tech2globeLayoutController@index');
         // Route::match(['get','post'],'tech2globe-all-layout','Tech2globeLayoutController@show');
         Route::match(['get','post'],'tech2globe-layout/header','Tech2globeLayoutController@header');
         Route::match(['get','post'],'tech2globe-layout/footer','Tech2globeLayoutController@footer');
@@ -110,37 +106,65 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Tech2globe Service Theme
         // Route::post('create-service-theme','Tech2globeServiceThemeController@create');
 
+        //File Management Module
+        Route::get('all-files', 'FileManagementController@index');
+        Route::get('linked-files', 'FileManagementController@linkedFiles');
+        Route::get('unlinked-files', 'FileManagementController@unlinkedFiles');
+        Route::match(['get','post'],'add-edit-file/{id?}', 'FileManagementController@create');
+
+        //Extras Module
+        //Contact and social
+        Route::get('contact-social', 'ExtrasController@contactSocial');
+        Route::match(['get','post'],'add-edit-social-media/{id?}', 'ExtrasController@addEditSocialMedia');
+        Route::post('updateContactdetails','ExtrasController@updateContactdetails');
+        Route::post('update-social-status', 'ExtrasController@updateSocial');
+        //Company Branch 
+        Route::get('company-branch', 'ExtrasController@companyBranch');
+        Route::match(['get','post'],'add-edit-company-branch/{id?}', 'ExtrasController@addEditCompanyBranch');
+        Route::post('update-branch-status', 'ExtrasController@updateBranch');
+
+
+        //Our Work Module
+        //Portfolio
+        Route::get('portfolio','PortfolioController@index');
+        Route::post('update-portfolio-status','PortfolioController@update');
+        Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit');
+        // Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
+        Route::get('portfolio-category','PortfolioController@portfolioCategory');
+        Route::match(['get','post'],'add-edit-portfolio-category/{id?}','PortfolioController@addEditPortfolioCategory');
+        Route::post('update-portfolio-cat-status', 'PortfolioController@updatePortfolioCat');
+        Route::get('portfolio-subcategory','PortfolioController@portfolioSubCategory');
+        Route::match(['get','post'],'add-edit-portfolio-subcategory/{id?}','PortfolioController@addEditPortfolioSubCategory');
+        Route::post('update-portfolio-subcat-status', 'PortfolioController@updatePortfolioSubCat');
+        Route::post('getSubcategory', 'PortfolioController@getsubcategory');
+
     });
 });
 
             //Landing Pages Routes
-            Route::get('/amazon-services', function () {
-                return view('landing-page/amazon-services');
-            });Route::get('/yogesh-website', function () {
-                return view('landing-page/yogesh-website');
-            });Route::get('/testing-page', function () {
-                return view('landing-page/testing-page');
-            });Route::get('/demo-page', function () {
-                return view('landing-page/demo-page');
-            });Route::get('/update-section-complete', function () {
-                return view('landing-page/update-section-complete');
-            });Route::get('/hello-world', function () {
-                return view('landing-page/hello-world');
-            });Route::get('/naved-sir-ji', function () {
-                return view('landing-page/naved-sir-ji');
-            });Route::get('/new-york', function () {
-                return view('landing-page/new-york');
-            });Route::get('/bhavya', function () {
-                return view('landing-page/bhavya');
-            });
+            // Route::get('/amazon-services', function () {
+            //     return view('landing-page/amazon-services');
+            // });Route::get('/yogesh-website', function () {
+            //     return view('landing-page/yogesh-website');
+            // });Route::get('/testing-page', function () {
+            //     return view('landing-page/testing-page');
+            // });Route::get('/demo-page', function () {
+            //     return view('landing-page/demo-page');
+            // });Route::get('/update-section-complete', function () {
+            //     return view('landing-page/update-section-complete');
+            // });Route::get('/hello-world', function () {
+            //     return view('landing-page/hello-world');
+            // });Route::get('/naved-sir-ji', function () {
+            //     return view('landing-page/naved-sir-ji');
+            // });Route::get('/new-york', function () {
+            //     return view('landing-page/new-york');
+            // });Route::get('/bhavya', function () {
+            //     return view('landing-page/bhavya');
+            // });
 
             //Tech2globe Pages
-            Route::get('/data-management', function () {
-                return view('data-management');
-            });Route::get('/laravel-file', function () {
-                return view('laravel-file');
-            });Route::get('/new-case-study-page', function () {
-                return view('landing-page/new-case-study-page');
-            });Route::get('/amazon-services-2knj', function () {
-                return view('amazon-services-2knj');
-            });
+            Route::get('/amazon-services', function () {
+                    return view('new-test-file');
+                });Route::get('/infrastructure2', function () {
+                    return view('new-test-file');
+                });

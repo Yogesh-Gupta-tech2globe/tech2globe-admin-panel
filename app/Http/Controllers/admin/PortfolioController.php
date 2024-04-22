@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\portfolio;
 use App\Models\portfolio_category;
+use App\Models\portfolio_sub_category;
 use App\Models\AdminsRole;
 use Illuminate\Http\Request;
 use Session;
@@ -24,6 +25,35 @@ class PortfolioController extends Controller
         Session::put('page','portfolio');
 
         $portfolio = Portfolio::get()->toArray();
+        $portfoliocat = portfolio_category::get()->toArray();
+        $portfoliosubcat = portfolio_sub_category::get()->toArray();
+
+        //Set Admin/Subadmins Permissions for Portfolio Module
+        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($portfolioModuleCount==0){
+            $message = "This feature is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
+        }
+
+        return view('admin.ourWork.portfolio.portfolio')->with(compact('portfolio','pagesModule','portfoliocat','portfoliosubcat'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function portfolioCategory()
+    {
+        Session::put('page','portfolio');
+
+        $portfolioCat = portfolio_category::get()->toArray();
         // dd($portfolio);
 
         //Set Admin/Subadmins Permissions for Portfolio Module
@@ -41,15 +71,162 @@ class PortfolioController extends Controller
             $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
         }
 
-        return view('admin.portfolio.portfolio')->with(compact('portfolio','pagesModule'));
+        return view('admin.ourWork.portfolio.portfolio_category')->with(compact('portfolioCat','pagesModule'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function addEditPortfolioCategory(Request $request, $id=null){
+
+        if($id==""){
+            $portfolio_category = new portfolio_category;
+            $message = "Portfolio Category added Successfully";
+        }else{
+            $portfolio_category = portfolio_category::find($id);
+            $message = "Portfolio Category updated Successfully";
+        }
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            $rules = [
+                'name' => 'required|max:40|unique:portfolio_category,name',
+            ];
+
+            $customMessages = [
+                'name.required' => 'Category name is required',
+                'name.max' => 'Name should not be greater than 40 characters.',
+                'name.unique' => 'Enter Category Name is already present, Try a different one',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+
+
+            $portfolio_category->name = $data['name'];
+            $portfolio_category->save();
+            return redirect('admin/portfolio-category')->with('success_message',$message);
+        }
+
+    }
+
+    public function updatePortfolioCat(Request $request)
     {
-        //
+        if($request->ajax()){
+            $data = $request->all();
+
+            if($data['status']=="Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+
+            portfolio_category::where('id',$data['portfolio_cat_id'])->update(['status'=>$status]);
+            return response()->json(['status'=>$status, 'portfolio_cat_id'=>$data['portfolio_cat_id']]);
+        }
+    }
+
+    public function portfolioSubCategory()
+    {
+        Session::put('page','portfolio');
+
+        $portfolioCat = portfolio_category::get()->toArray();
+        $portfolioSubCat = portfolio_sub_category::get()->toArray();
+
+        //Set Admin/Subadmins Permissions for Portfolio Module
+        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($portfolioModuleCount==0){
+            $message = "This feature is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
+        }
+
+        return view('admin.ourWork.portfolio.portfolio_subcategory')->with(compact('portfolioCat','portfolioSubCat','pagesModule'));
+    }
+
+    public function addEditPortfolioSubCategory(Request $request, $id=null){
+
+        if($id==""){
+            $portfolio_sub_category = new portfolio_sub_category;
+            $message = "Portfolio Sub Category added Successfully";
+        }else{
+            $portfolio_sub_category = portfolio_sub_category::find($id);
+            $message = "Portfolio Sub Category updated Successfully";
+        }
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            $rules = [
+                'cat_id' => 'required',
+                'name' => 'required|max:40',
+            ];
+
+            $customMessages = [
+                'cat_id.required' => 'Category is required',
+                'name.required' => 'Sub Category name is required',
+                'name.max' => 'Name should not be greater than 40 characters.',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+
+            if($id = null){
+                $rules = [
+                    'name' => 'unique:portfolio_sub_category,name',
+                ];
+    
+                $customMessages = [
+                    'name.unique' => 'Enter Sub Category Name is already present, Try a different one',
+                ];
+    
+                $this->validate($request,$rules,$customMessages); 
+            }
+
+            $portfolio_sub_category->cat_id = $data['cat_id'];
+            $portfolio_sub_category->name = $data['name'];
+            $portfolio_sub_category->save();
+            return redirect('admin/portfolio-subcategory')->with('success_message',$message);
+        }
+
+    }
+
+    public function updatePortfolioSubCat(Request $request)
+    {
+        if($request->ajax()){
+            $data = $request->all();
+
+            if($data['status']=="Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+
+            portfolio_sub_category::where('id',$data['portfolio_subcat_id'])->update(['status'=>$status]);
+            return response()->json(['status'=>$status, 'portfolio_subcat_id'=>$data['portfolio_subcat_id']]);
+        }
+    }
+
+    public function getsubcategory(Request $request)
+    {
+        $catid = $request->catid;
+        $subcategory = portfolio_sub_category::where('cat_id',$catid)->get()->toArray();
+        
+        $subCatHtml = '';
+
+        if(!empty($subcategory)){
+            foreach($subcategory as $row){
+                $subCatHtml .= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+            }
+        }else{
+            $subCatHtml = '<option value="">No Sub Category Found in this Category</option>';
+        }
+
+        
+        return response()->json($subCatHtml);
     }
 
     /**
@@ -77,34 +254,37 @@ class PortfolioController extends Controller
             $title = "Add Portfolio";
             $portfolio = new portfolio;
             $message = "Portfolio added Successfully";
+            $portfolio_subcategory = [];
         }else{
             $title = "Edit Portfolio";
             $portfolio = portfolio::find($id);
             $message = "Portfolio updated Successfully";
+            $portfolio_subcategory = portfolio_sub_category::where('cat_id',$portfolio['cat_id'])->get()->toArray();
         }
 
         $portfolio_category = portfolio_category::get()->toArray();
-        //dd($portfolio_category);
 
         if($request->isMethod('post')){
             $data = $request->all();
 
-            // print_r($data); die;
-
             $rules = [
                 'title' => 'required',
                 'category_id' => 'required',
+                'subcategory_id' => 'required',
                 'website' => 'required',
-                'portfolio_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+                'content' => 'required',
+                'portfolio_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:500',
             ];
 
             $customMessages = [
                 'title.required' => 'Portfolio title is required',
                 'category_id.required' => 'Category is required',
+                'subcategory_id.required' => 'Sub Category is required',
                 'website.required' => 'Website Link is required',
+                'content.required' => 'Short Description is required',
                 'portfolio_image.image' => 'Valid Image is required',
                 'portfolio_image.mimes' => 'Image should be in jpg,jpeg,gif,svg,png format',
-                'portfolio_image.max' => 'Image size should not be greater than 2 MB',
+                'portfolio_image.max' => 'Image size should not be greater than 500KB',
             ];
 
             $this->validate($request,$rules,$customMessages);
@@ -143,16 +323,16 @@ class PortfolioController extends Controller
 
             $portfolio->title = $data['title'];
             $portfolio->cat_id = $data['category_id'];
+            $portfolio->sub_cat_id = $data['subcategory_id'];
             $portfolio->technology = $data['technology'];
             $portfolio->website_link = $data['website'];
             $portfolio->content = $data['content'];
             $portfolio->image = $imageName;
-            $portfolio->status = 1;
             $portfolio->save();
             return redirect('admin/portfolio')->with('success_message',$message);
         }
 
-        return view('admin.portfolio.add-edit-portfolio')->with(compact('title','portfolio_category','portfolio'));
+        return view('admin.ourWork.portfolio.add-edit-portfolio')->with(compact('title','portfolio_category','portfolio','portfolio_subcategory'));
     }
 
     /**

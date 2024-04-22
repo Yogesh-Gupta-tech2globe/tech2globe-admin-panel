@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  laravel-php-apache-environment:
+    build: .
+    image: tech2globe-admin-panel
+    volumes:
+      - ./doc-root:/var/www/html/
+    ports:
+      - 8090:80

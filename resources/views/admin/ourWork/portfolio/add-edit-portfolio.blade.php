@@ -59,12 +59,23 @@
                     </div>
                     <div class="form-group">
                         <label>Category*</label>
-                        <select class="form-control" style="width: 100%;" name="category_id" required>
+                        <select class="form-control" style="width: 100%;" name="category_id" required id="portcat">
                             <option value="">Select Category</option>
                             @foreach ($portfolio_category as $row)
-                              <option value="{{ $row['id'] }}" @if($row['id'] == $portfolio['cat_id']) selected @endif>{{ $row['category'] }}</option>
+                              <option value="{{ $row['id'] }}" @if($row['id'] == $portfolio['cat_id']) selected @endif>{{ $row['name'] }}</option>
                             @endforeach
                           
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Category*</label>
+                        <select class="form-control" style="width: 100%;" name="subcategory_id" required id="portsubcat">
+                            <option value="">Select Sub Category</option>
+                            @if(!empty($portfolio_subcategory))
+                              @foreach ($portfolio_subcategory as $row)
+                                <option value="{{ $row['id'] }}" @if($row['id'] == $portfolio['sub_cat_id']) selected @endif>{{ $row['name'] }}</option>
+                              @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="form-group">
@@ -76,8 +87,8 @@
                         <input type="url" class="form-control" id="website" name="website" placeholder="Enter Website Link" required @if(!empty($portfolio['website_link'])) value="{{ $portfolio['website_link'] }}" @endif>
                     </div>
                     <div class="form-group">
-                        <label for="content">Content</label>
-                        <textarea name="content" class="form-control" rows="3" cols="6" id="content" placeholder="Enter Content">@if(!empty($portfolio['content'])) {{ $portfolio['content'] }} @endif</textarea>
+                        <label for="content">Short Description*</label>
+                        <textarea name="content" class="form-control" required rows="3" cols="6" id="content" placeholder="Enter Content">@if(!empty($portfolio['content'])) {{ $portfolio['content'] }} @endif</textarea>
                     </div>
                     <div class="form-group">
                         <label for="portfolio_image">Image*</label>

@@ -19,15 +19,23 @@
   <link rel="stylesheet" href="{{ url('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ url('landing_page/css/style.css') }}">
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="{{ url('admin/plugins/codemirror/codemirror.css') }}">
+  <link rel="stylesheet" href="{{ url('admin/plugins/codemirror/theme/monokai.css') }}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{ url('admin/plugins/toastr/toastr.min.css') }}">
+
+  <!-- jQuery -->
+  <script src="{{ url('admin/plugins/jquery/jquery.min.js') }}"></script>
   
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
+  {{-- <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__wobble" src="{{ url('admin/img/tech2globe-logo.png') }}" alt="AdminLTELogo" width="50%" height="100">
-  </div>
+  </div> --}}
 
   @include('admin.layout.header')
 
@@ -48,8 +56,7 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
-<script src="{{ url('admin/plugins/jquery/jquery.min.js') }}"></script>
+
 <!-- Bootstrap -->
 <script src="{{ url('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- overlayScrollbars -->
@@ -80,6 +87,14 @@
 <script src="{{ url('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <!-- Select2 -->
 <script src="{{ url('admin/plugins/select2/js/select2.full.min.js') }}"></script>
+
+<!-- CodeMirror -->
+<script src="{{ url('admin/plugins/codemirror/codemirror.js') }}"></script>
+<script src="{{ url('admin/plugins/codemirror/mode/css/css.js') }}"></script>
+<script src="{{ url('admin/plugins/codemirror/mode/xml/xml.js') }}"></script>
+<script src="{{ url('admin/plugins/codemirror/mode/htmlmixed/htmlmixed.js') }}"></script>
+<!-- Toastr -->
+<script src="{{ url('admin/plugins/toastr/toastr.min.js') }}"></script>
 
 <script>
   $(function () {

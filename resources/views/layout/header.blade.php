@@ -141,7 +141,7 @@
                                                     @if ($data['category_id'] == $row['id'] && $data['sub_category_id'] == $item['id'] && $data['status'] == 1)
                                                     
                                                         <div class="ruby-row">
-                                                            <div class="ruby-col-11"><span class="ruby-c-title"><a href="<?php echo $base_url; ?>{{$data['page_url']}}">{{$data['page_name']}}</a></span></div>
+                                                            <div class="ruby-col-11"><span class="ruby-c-title"><a href="/{{$data['page_url']}}">{{$data['page_name']}}</a></span></div>
                                                         </div>
                                                 
                                                     @endif

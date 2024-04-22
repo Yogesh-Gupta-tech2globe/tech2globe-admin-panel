@@ -64,7 +64,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
-              <li class="breadcrumb-item"><a href="/admin/tech2globe-layout">Tech2globe Layout</a></li>
+              <li class="breadcrumb-item"><a href="">Header & Footer</a></li>
               <li class="breadcrumb-item active">Header</li>
             </ol>
           </div><!-- /.col -->
@@ -485,7 +485,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                               <tr>
                                 <td>{{ $i++; }}</td>
                                 <td>{{ $row['categoryName'] }}</td>
-                                <td>@if(!empty($row['page_url']))<a target="blank" href="{{ $row['page_url'] }}">View Page</a>@endif</td>
+                                <td>@if(!empty($row['page_url']))<a target="blank" href="/{{ $row['page_url'] }}">View Page</a>@endif</td>
                                 <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                                 <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                                 <td>
@@ -497,13 +497,13 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                     @endif
                                     &nbsp;&nbsp;
                                   @endif
-                                  @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                  {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                     <a href="{{ url('admin/tech2globe-layout/add-edit-main-menu/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                                     &nbsp;&nbsp;
-                                  @endif
-                                  @if ($pagesModule['full_access']==1)
+                                  @endif --}}
+                                  {{-- @if ($pagesModule['full_access']==1)
                                     <a class="confirmDelete" name="MainMenu" title="Delete Main Menu" href="javascript:void(0)" record="mainMenu" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
-                                  @endif
+                                  @endif --}}
                                 </td>
                               </tr>
                             @endforeach
@@ -550,7 +550,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                     @if($item['id'] == $row['category_id']) {{ $item['categoryName'] }} @endif
                                 @endforeach
                               </td>
-                              <td>@if(!empty($row['page_url']))<a target="blank" href="{{ $row['page_url'] }}">View Page</a>@endif</td>
+                              <td>@if(!empty($row['page_url']))<a target="blank" href="/{{ $row['page_url'] }}">View Page</a>@endif</td>
                               <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                               <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                               <td>
@@ -562,13 +562,13 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                   @endif
                                   &nbsp;&nbsp;
                                 @endif
-                                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                   <a href="{{ url('admin/tech2globe-layout/add-edit-sub-menu/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                                   &nbsp;&nbsp;
-                                @endif
-                                @if ($pagesModule['full_access']==1)
+                                @endif --}}
+                                {{-- @if ($pagesModule['full_access']==1)
                                   <a class="confirmDelete" name="subMenu" title="Delete Sub Menu" href="javascript:void(0)" record="subMenu" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
-                                @endif
+                                @endif --}}
                               </td>
                             </tr>
                           @endforeach
@@ -621,7 +621,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                 @endforeach
                               </td>
                               <td>{{$row['page_name']}}</td>
-                              <td>@if(!empty($row['page_url']))<a target="blank" href="http://localhost:8000/{{ $row['page_url'] }}">View Page</a>@endif</td>
+                              <td>@if(!empty($row['page_url']))<a target="blank" href="/{{ $row['page_url'] }}">View Page</a>@endif</td>
                               <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                               <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                               <td>

@@ -65,7 +65,53 @@
                         <label for="pageName">Page Name*</label>
                         <input type="text" class="form-control" name="pageName" placeholder="Enter Page Name" required @if(!empty($footerPages['sub_category_name'])) value="{{ $footerPages['sub_category_name'] }}" @endif>
                     </div>
+
                     <div class="form-group">
+                      <label>Choose way of Page link :</label>
+                      <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio1" value="1" name="customRadio">
+                        <label for="customRadio1" class="custom-control-label">Want to create new url</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="customRadio2" value="0" name="customRadio">
+                        <label for="customRadio2" class="custom-control-label">Want to use existing url</label>
+                      </div>
+                    </div>
+
+                    <div id="create_new_url">
+                      <div class="form-group">
+                        <label>Select File to link*</label>
+                        <select class="form-control" style="width: 100%;" name="file_id" id="linkfile">
+                            <option value="">Select File</option>
+
+                            @foreach ($fileData as $row)
+                              <option value="{{ $row['id'] }}" @if($row['id'] == $footerPages['file_id']) selected @endif>{{ $row['file_name'] }} (ID : F{{$row['id']}})</option>
+                            @endforeach
+                          
+                        </select>
+                      </div>
+
+                      <div class="form-group" id="pagelinkfield">
+                        <label for="page_url">Page link*</label>
+                        <input type="text" class="form-control pageUrl" id="page_url" name="page_url" placeholder="Enter Page Link" @if(!empty($footerPages['page_url'])) value="{{ $footerPages['page_url'] }}" @endif>
+                        <span class="urlVerify"></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group" id="use_existing_url">
+                      <label>Select Url to link*</label>
+                      <select class="form-control" style="width: 100%;" name="page_url2" id="selectedPageUrl">
+                          <option value="">Select Url</option>
+
+                          @foreach ($allpageurl as $row)
+                            @if(!empty($row->file_id))
+                            <option value="{{ $row->page_url }},{{$row->file_id}}" @if($row->page_url == $footerPages['page_url']) selected @endif>{{ $row->page_url }} | (Attached File ID : F{{$row->file_id}})</option>
+                            @endif
+                          @endforeach
+                        
+                      </select>
+                    </div>
+                    {{-- <div class="form-group">
                         <label for="pageLink">Page link*</label>
                         <select class="form-control" style="width: 100%;" name="pageLink" required>
                           <option value="">Select Page For Linked</option>
@@ -79,7 +125,7 @@
                           @endforeach
                         
                         </select>
-                    </div>
+                    </div> --}}
                     </div>
                     <!-- /.card-body -->
 

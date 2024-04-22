@@ -53,7 +53,7 @@
               <ul class="footer-list">
                 @foreach ($footerPages as $row)
                     @if($row['category_id'] == 1 && $row['status'] == 1)
-                        <li><a href="<?php echo $base_url; ?>{{$row['page_link']}}"><i class="fa-solid fa-angles-right"></i> {{$row['sub_category_name']}}</a></li>
+                        <li><a href="/{{$row['page_url']}}"><i class="fa-solid fa-angles-right"></i> {{$row['sub_category_name']}}</a></li>
                     @endif
                 @endforeach
               </ul>
@@ -65,7 +65,7 @@
               <ul class="footer-list">
                 @foreach ($footerPages as $row)
                     @if($row['category_id'] == 2 && $row['status'] == 1)
-                        <li><a href="<?php echo $base_url; ?>{{$row['page_link']}}"><i class="fa-solid fa-angles-right"></i> {{$row['sub_category_name']}}</a></li>
+                        <li><a href="/{{$row['page_url']}}"><i class="fa-solid fa-angles-right"></i> {{$row['sub_category_name']}}</a></li>
                     @endif
                 @endforeach
               </ul>
@@ -78,19 +78,9 @@
                   <ul class="footer-list">
                     @foreach ($footerPages as $row)
                         @if($row['category_id'] == 3 && $row['status'] == 1)
-                            <li><a href="<?php echo $base_url; ?>{{$row['page_link']}}"><i class="fa-solid fa-angles-right"></i> {{$row['sub_category_name']}}</a></li>
+                            <li><a href="/{{$row['page_url']}}"><i class="fa-solid fa-angles-right"></i> {{$row['sub_category_name']}}</a></li>
                         @endif
                     @endforeach
-                  </ul>
-              </div>
-              <div class="pt-4">
-                  <div class="footer-heading">
-                      <h6>Global</h6>
-                  </div>
-                  <ul class="footer-list">
-                    @for ($i=0; $i < count($explodeBranchCountry); $i++)
-                      <li><a target="_blank" href="{{$explodeBranchWebsite[$i]}}"><i class="fa-solid fa-angles-right"></i> {{$explodeBranchCountry[$i]}}</a></li> 
-                    @endfor
                   </ul>
               </div>
           </div>
