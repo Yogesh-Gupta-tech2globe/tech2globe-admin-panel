@@ -88,7 +88,7 @@ class FileManagementController extends Controller
 
             $this->validate($request,$rules,$customMessages);
 
-            if($id = null){
+            if(empty($id)){
                 $rules = [
                     'fileName' => 'required|unique:file_data,file_name',
                 ];
@@ -122,7 +122,7 @@ class FileManagementController extends Controller
 
             $latestId = $fileData->id;
 
-            if($id = null){
+            if(empty($id)){
                 // Adding a route dynamically
                 $routeContent = "Route::get('/admin/page/".$latestId."', function () {
                     return view('".$slug."');

@@ -577,6 +577,68 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="card card-primary card-outline"> 
+              <div class="card-header d-flex justify-content-between">
+                <a class="d-inline-block w-100 border-0" data-toggle="collapse" href="#collapseFour">
+                  <h4 class="card-title">
+                      Page Category
+                  </h4>
+                </a>
+                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                  <a href="{{ url('admin/tech2globe-layout/add-edit-new-page-category') }}" class="d-inline-block w-25 border-0 btn btn-primary">Add New Page Category</a>
+                @endif
+              </div>
+              <div id="collapseFour" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="allPages" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>S.No</th>
+                        <th>Menu</th>
+                        <th>Sub Menu</th>
+                        <th>Category Name</th>
+                        <th>View Page</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <?php $i=1;?>
+                          @foreach($pagesCategory as $row)
+                            <tr>
+                              <td>{{ $i++; }}</td>
+                              <td>
+                                @foreach ($mainMenu as $item)
+                                    @if($item['id'] == $row['category_id']) {{ $item['categoryName'] }} @endif
+                                @endforeach
+                              </td>
+                              <td>
+                                @foreach ($subMenu as $item)
+                                    @if($item['id'] == $row['sub_category_id']) {{ $item['subCategoryName'] }} @endif
+                                @endforeach
+                              </td>
+                              <td>{{$row['name']}}</td>
+                              <td>@if(!empty($row['page_url']))<a target="blank" href="/{{ $row['page_url'] }}">View Page</a>@endif</td>
+                              <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
+                              <td>
+                                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                  @if ($row['status']==1)
+                                    <a class="updatePageCategoryStatus" id="pageCate-{{ $row['id'] }}" pageCate_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                  @else
+                                    <a class="updatePageCategoryStatus" id="pageCate-{{ $row['id'] }}" pageCate_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                  @endif
+                                  &nbsp;&nbsp;
+                                @endif
+                              </td>
+                            </tr>
+                          @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div> 
             <div class="card card-primary card-outline"> 
               <div class="card-header d-flex justify-content-between">
@@ -598,10 +660,10 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                         <th>S.No</th>
                         <th>Menu</th>
                         <th>Sub Menu</th>
+                        <th>Page Category</th>
                         <th>Page Name</th>
                         <th>View Page</th>
                         <th>Created At</th>
-                        <th>Updated At</th>
                         <th>Action</th>
                       </tr>
                       </thead>
@@ -620,22 +682,23 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                     @if($item['id'] == $row['sub_category_id']) {{ $item['subCategoryName'] }} @endif
                                 @endforeach
                               </td>
+                              <td>
+                                @foreach ($pagesCategory as $item)
+                                    @if($item['id'] == $row['page_category_id']) {{ $item['name'] }} @endif
+                                @endforeach
+                              </td>
                               <td>{{$row['page_name']}}</td>
                               <td>@if(!empty($row['page_url']))<a target="blank" href="/{{ $row['page_url'] }}">View Page</a>@endif</td>
                               <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
-                              <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                               <td>
                                 @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                   @if ($row['status']==1)
-                                    <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                    <a class="updateAllPagesStatus" id="allPages-{{ $row['id'] }}" allPages_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
                                   @else
-                                    <a class="updatePortfolioStatus" id="portfolio-{{ $row['id'] }}" portfolio_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                    <a class="updateAllPagesStatus" id="allPages-{{ $row['id'] }}" allPages_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                   @endif
                                   &nbsp;&nbsp;
                                 @endif
-                                {{-- @if ($pagesModule['full_access']==1)
-                                  <a class="confirmDelete" name="Portfolio" title="Delete Portfolio" href="javascript:void(0)" record="portfolio" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
-                                @endif --}}
                               </td>
                             </tr>
                           @endforeach

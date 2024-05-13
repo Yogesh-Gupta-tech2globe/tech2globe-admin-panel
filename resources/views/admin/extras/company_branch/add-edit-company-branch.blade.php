@@ -73,7 +73,7 @@
                         </div>
                         @if (!empty($company['flag']))
                           <label>Previous Image</label><br>
-                          <img src="{{ url('admin/img/flag/'.$company['flag']) }}" height="150px" width="180px">
+                          <img src="{{ url('images/flag/'.$company['flag']) }}" height="150px" width="180px">
                           <input type="hidden" name="current_image" value="{{ $company['flag'] }}">
                         @endif
                     </div>

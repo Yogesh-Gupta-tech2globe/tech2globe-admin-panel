@@ -681,9 +681,11 @@ $(document).ready(function () {
             success: function (resp) {
                 if (resp['status'] == 0) {
                     $("#mainMenu-" + mainMenu_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Main menu Deactivated');    
                 }
                 else if (resp['status'] == 1) {
                     $("#mainMenu-" + mainMenu_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Main Menu Activated');    
                 }
             },
             error: function () {
@@ -707,9 +709,67 @@ $(document).ready(function () {
             success: function (resp) {
                 if (resp['status'] == 0) {
                     $("#subMenu-" + subMenu_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Submenu Deactivated');    
                 }
                 else if (resp['status'] == 1) {
                     $("#subMenu-" + subMenu_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Submenu Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //Update Page Category status
+    $(document).on("click", ".updatePageCategoryStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var pageCate_id = $(this).attr("pageCate_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-pageCate-status",
+            data: { status: status, pageCate_id: pageCate_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#pageCate-" + pageCate_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Page Category Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#pageCate-" + pageCate_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Page Category Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //Update All Page status
+    $(document).on("click", ".updateAllPagesStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var allPages_id = $(this).attr("allPages_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-allPages-status",
+            data: { status: status, allPages_id: allPages_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#allPages-" + allPages_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Page Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#allPages-" + allPages_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Page Activated');    
                 }
             },
             error: function () {
@@ -721,6 +781,7 @@ $(document).ready(function () {
     //Update sub Category on changing Category
     $(document).on("change", ".categoryId", function () {
     
+        $('.pageCategoryId').html('<option>Select Page Category</option>');
         var category_id = $(this).val();
 
         $.ajax({
@@ -733,6 +794,30 @@ $(document).ready(function () {
             success: function (subMenu) {
 
                 $('.subCategoryId').html(subMenu);
+
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //Update Page Category on changing Subcategory
+    $(document).on("change", ".subCategoryId", function () {
+        
+        var category_id = $(".categoryId").val();
+        var subCategory_id = $(this).val();
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/tech2globe-getPageCategory",
+            data: {category_id: category_id,subCategory_id: subCategory_id },
+            success: function (pageCategory) {
+
+                $('.pageCategoryId').html(pageCategory);
 
             },
             error: function () {
@@ -1085,6 +1170,36 @@ $(document).ready(function () {
         });
     });
 
+    //Achievements
+
+    //Update achievements Status
+    $(document).on("click", ".updateAchievementsStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var achievements_id = $(this).attr("achievements_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-achievements-status",
+            data: { status: status, achievements_id: achievements_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#achievements-" + achievements_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Achievements Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#achievements-" + achievements_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Achievements Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
 
     //Our Work Module
 
@@ -1207,9 +1322,181 @@ $(document).ready(function () {
             }
         });
     });
-     
+
+    //Testimonial
+    $("#testText").hide();
+    $("#testVideo").hide();
+    $("#testType").change(function (e) { 
+        e.preventDefault();
+
+        $("#editdata").remove();
+        var type = $("#testType").val();
+
+        if(type == "text"){
+            $("#testUrl").prop('required', false);
+            $("#testUrl").val(null);
+            $("#testVideo").hide(); 
+            $("#testText").show();
+            $("#testRating").prop('required', true);
+            $("#testComment").prop('required', true);
+        }else if(type == "video"){
+            $("#testRating").prop('required', false);
+            $("#testComment").prop('required', false);
+            $("#testRating").val(null);
+            $("#testComment").val(null);
+            $("#testText").hide();
+            $("#testVideo").show();
+            $("#testUrl").prop('required', true);
+        }else{
+            $("#testText").hide();
+            $("#testVideo").hide();
+        }
+    });
+    
+    //Update Testimonial status
+
+    $(document).on("click", ".updateTestimonialStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var testimonial_id = $(this).attr("testimonial_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-testimonial-status",
+            data: { status: status, testimonial_id: testimonial_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#testimonial-" + testimonial_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Testimonial Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#testimonial-" + testimonial_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Testimonial Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //FAQ
+    // Update FAQ Status
+
+    $(document).on("click", ".updateFaqStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var faq_id = $(this).attr("faq_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-faq-status",
+            data: { status: status, faq_id: faq_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#faq-" + faq_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('FAQ Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#faq-" + faq_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('FAQ Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //Case Study
+    $(document).ready(function() {
+        $('.sectionSubmit').submit(function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+            
+            // Serialize the form data
+            var formData = new FormData(this);
+            
+            // Send AJAX request
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: "/admin/create-case-study-section",
+                data: formData,
+                processData: false,  // Prevent jQuery from processing the data
+                contentType: false,  // Prevent jQuery from setting contentType
+                success: function(response) {
+                    toastr.success(response['message']);
+                    $("#casestudyviewbtn").html('<a class="btn btn-primary" href="/casestudy/'+ response['link'] +'" target="_blank">Visit Page</a>');    
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    var a = JSON.parse(xhr.responseText);
+                    console.log(a);
+                    toastr.error(a.message);
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+
+    // Case Study Section4 
+    var clickOut = 1;
+    $("#cardAddButton").click(function () {
+        clickOut++;
+        var inputCard = '<div class="card card-info card-outline"><a class="d-block w-100" data-toggle="collapse" href="#card'+ clickOut +'"><div class="card-header"><h4 class="card-title w-100">Card ' + clickOut + '</h4></div></a><div id="card' + clickOut + '" class="collapse show" data-parent="#section4card"><div class="card-body"><div class="form-group"><label for="cardheading">Heading</label><input type="text" class="form-control" name="cardHeading[]" placeholder="Enter Card Heading" required></div><div class="form-group"><label for="cardContent">Content</label><textarea class="form-control" name="cardContent[]" placeholder="Enter Card Content" required></textarea></div></div></div></div>';
+
+        $("#section4card").append(inputCard);
+
+    });
+
+
+    // Case Study Category
+    $('.casestudycategoryeditbtn').on('click', function(){
+        let name = $(this).data('name');
+        let id = $(this).data('id');
+        $('#add-category').find('#categoryName').val(name);
+        $('#add-category').find('#add-category-form').attr("action","add-edit-casestudy-category/"+id);
+    });
+
+    // Update Case Study Category Status
+    $(document).on("click", ".updateCasestudyCatStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var casestudy_id = $(this).attr("casestudy_cat_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-casestudycategory-status",
+            data: { status: status, casestudy_id: casestudy_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#casestudy-cat-" + casestudy_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Case Study Category Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#casestudy-cat-" + casestudy_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Case Study Category Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+    
 
     $(function () {
+        // Summernote
+        $('#summernote').summernote()
         // CodeMirror
         CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
             mode: "htmlmixed",

@@ -6,11 +6,19 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\tech2globe_header_category;
 use App\Models\tech2globe_header_sub_category;
+use App\Models\tech2globe_pages_category;
 use App\Models\tech2globe_all_pages;
 use App\Models\tech2globe_middle_header;
 use App\Models\tech2globe_top_header;
 use App\Models\tech2globe_footer_category;
 use App\Models\tech2globe_footer_sub_category;
+use App\Models\company_branch;
+use App\Models\contact_social;
+use App\Models\achievements;
+use App\Models\portfolio;
+use App\Models\casestudy;
+use App\Models\testimonial;
+use App\Models\faq;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -29,17 +37,81 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('layout.header', function ($view) {
-            $mainMenu = tech2globe_header_category::all();
-            $subMenu = tech2globe_header_sub_category::all();
-            $allPages = tech2globe_all_pages::all();
-            $view->with(['mainMenu' => $mainMenu, 'subMenu' => $subMenu,'allPages' => $allPages]);
+            $mainMenu = tech2globe_header_category::where('status',1)->get()->toArray();
+            $subMenu = tech2globe_header_sub_category::where('status',1)->get()->toArray();
+            $pageCategory = tech2globe_pages_category::where('status',1)->whereHas('subMenu', function ($query) {
+                $query->where('status', 1);
+            })->get()->toArray(); 
+            $allPages = tech2globe_all_pages::where('status',1)->whereHas('subCategory', function ($query) {
+                $query->where('status', 1);
+            })->whereHas('pageCategory', function ($query) {
+                $query->where('status', 1);
+            })->get()->toArray();
+            $companyBranch = company_branch::where('status',1)->get()->toArray();
+
+            $skypeId = contact_social::select('link')->where('name','Skype ID')->first();
+            $mailId = contact_social::select('link')->where('name','Mail ID')->first();
+
+            $view->with(['mainMenu' => $mainMenu, 'subMenu' => $subMenu,'pageCategory' => $pageCategory,'allPages' => $allPages,'companyBranch' => $companyBranch, 'skypeId' => $skypeId, 'mailId' => $mailId]);
         });
 
         View::composer('layout.footer', function ($view) {
-            $middleNavbar = tech2globe_middle_header::all();
+            
             $footerCategory = tech2globe_footer_category::all();
-            $footerPages = tech2globe_footer_sub_category::all();
-            $view->with(['middleNavbar' => $middleNavbar,'footerCategory' => $footerCategory, 'footerPages' => $footerPages]);
+            $footerPages = tech2globe_footer_sub_category::where('status',1)->get()->toArray();
+
+            $companyBranch = company_branch::where('status',1)->get()->toArray();
+            $social = contact_social::where('cat_status',1)->where('status',1)->get()->toArray();
+            $achievements = achievements::where('status',1)->get()->toArray();
+
+            $view->with(['footerCategory' => $footerCategory, 'footerPages' => $footerPages, 'companyBranch' => $companyBranch, 'social' => $social, 'achievements' => $achievements]);
+        });
+
+        View::composer('include.portfolio', function ($view) {
+
+            $portfolio = portfolio::where('status',1)->get()->toArray();
+
+            $view->with(['portfolio' => $portfolio]);
+        });
+
+        View::composer('include.casestudy', function ($view) {
+
+            $casestudy = casestudy::where('status',1)->get()->toArray();
+
+            $view->with(['casestudy' => $casestudy]);
+        });
+
+        View::composer('include.testimonials', function ($view) {
+
+            $testimonials = testimonial::where('status',1)->where('type','text')->get()->toArray();
+
+            $view->with(['testimonials' => $testimonials]);
+        });
+        
+        View::composer('include.blog', function ($view) {
+
+            // Endpoint URL
+            $endpoint = 'https://blog.tech2globe.com/wp-json/wp/v2/posts?per_page=5';
+
+            // Fetch posts
+            $response = file_get_contents($endpoint);
+
+            // Check if request was successful
+            if ($response === false) {
+                echo "Error fetching posts";
+            } else {
+                // Convert JSON response to array
+                $posts = json_decode($response, true);
+            }
+
+            $view->with(['posts' => $posts]);
+        });
+
+        View::composer('include.faq', function ($view) {
+
+            $faq = faq::where('status',1)->get()->toArray();
+
+            $view->with(['faq' => $faq]);
         });
     }
 }

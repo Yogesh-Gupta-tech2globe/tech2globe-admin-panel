@@ -7,6 +7,7 @@ use Illuminate\Routing\RouteRegistrar;
 require __DIR__.'/pages.php';
 require __DIR__.'/mainMenu.php';
 require __DIR__.'/subMenu.php';
+require __DIR__.'/casestudy.php';
 
 
 /*
@@ -92,10 +93,14 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'tech2globe-layout/add-edit-main-menu/{id?}','Tech2globeLayoutController@addEditMainMenu');
         Route::match(['get','post'],'tech2globe-layout/add-edit-sub-menu/{id?}','Tech2globeLayoutController@addEditSubMenu');
         Route::match(['get','post'],'tech2globe-layout/add-edit-new-page/{id?}','Tech2globeLayoutController@addEditNewPage');
+        Route::match(['get','post'],'tech2globe-layout/add-edit-new-page-category/{id?}','Tech2globeLayoutController@addEditNewPageCategory');
         Route::get('delete-mainMenu/{id?}','Tech2globeLayoutController@deleteMainMenu');
         Route::get('delete-subMenu/{id?}','Tech2globeLayoutController@deleteSubMenu');
         Route::post('update-mainMenu-status','Tech2globeLayoutController@updateMainMenu');
         Route::post('update-subMenu-status','Tech2globeLayoutController@updateSubMenu');
+        Route::post('update-pageCate-status','Tech2globeLayoutController@updatePageCategory');
+        Route::post('update-allPages-status','Tech2globeLayoutController@updateAllPages');
+        Route::post('tech2globe-getPageCategory','Tech2globeLayoutController@getPageCategory');
         Route::post('check-all-pages-url','Tech2globeLayoutController@checkPageUrl');
         Route::match(['get','post'],'tech2globe-layout/add-edit-footer-pages/{id?}','Tech2globeLayoutController@addEditFooterPages');
         Route::post('update-footerPages-status','Tech2globeLayoutController@updateFooterPages');
@@ -122,6 +127,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('company-branch', 'ExtrasController@companyBranch');
         Route::match(['get','post'],'add-edit-company-branch/{id?}', 'ExtrasController@addEditCompanyBranch');
         Route::post('update-branch-status', 'ExtrasController@updateBranch');
+        //Achievements
+        Route::get('achievements', 'ExtrasController@achievements');
+        Route::match(['get','post'],'add-edit-achievements/{id?}', 'ExtrasController@addEditAchievements');
+        Route::post('update-achievements-status', 'ExtrasController@updateAchievements');
 
 
         //Our Work Module
@@ -137,6 +146,24 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-edit-portfolio-subcategory/{id?}','PortfolioController@addEditPortfolioSubCategory');
         Route::post('update-portfolio-subcat-status', 'PortfolioController@updatePortfolioSubCat');
         Route::post('getSubcategory', 'PortfolioController@getsubcategory');
+
+        //Testimonial
+        Route::get('testimonial','TestimonialController@index');
+        Route::match(['get','post'],'add-edit-testimonial/{id?}','TestimonialController@addEditTestimonial');
+        Route::post('update-testimonial-status','TestimonialController@update');
+
+        //Faq
+        Route::get('faq','FaqController@index');
+        Route::match(['get','post'],'add-edit-faq/{id?}','FaqController@addEditFaq');
+        Route::post('update-faq-status','FaqController@update');
+
+        //Case Study
+        Route::get('case-study','CasestudyController@index');
+        Route::match(['get','post'],'add-edit-case-study/{id?}','CasestudyController@addEditCasestudy');
+        Route::get('case-study-category','CasestudyController@casestudyCategory');
+        Route::match(['get','post'],'add-edit-casestudy-category/{id?}','CasestudyController@addEditCasestudyCategory');
+        Route::post('update-casestudycategory-status', 'CasestudyController@updateCasestudyCat');
+        Route::post('create-case-study-section', 'CasestudyController@createsections');
 
     });
 });
@@ -164,7 +191,20 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
             //Tech2globe Pages
             Route::get('/amazon-services', function () {
-                    return view('new-test-file');
+                    $data = ['pagename' => 'Amazon Services'];
+                    return view('new-test-file', $data);
                 });Route::get('/infrastructure2', function () {
+                    return view('new-test-file');
+                });Route::get('/digital-marketing', function () {
+                    return view('about-us');
+                });Route::get('/accounting', function () {
+                    return view('new-test-file');
+                });Route::get('/accounting', function () {
+                    return view('new-test-file');
+                });Route::get('/physics', function () {
+                    return view('about-us');
+                });Route::get('/math', function () {
+                    return view('new-test-file');
+                });Route::get('/yogesh', function () {
                     return view('new-test-file');
                 });

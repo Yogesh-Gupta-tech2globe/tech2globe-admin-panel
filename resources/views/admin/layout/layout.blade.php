@@ -22,6 +22,8 @@
   <!-- CodeMirror -->
   <link rel="stylesheet" href="{{ url('admin/plugins/codemirror/codemirror.css') }}">
   <link rel="stylesheet" href="{{ url('admin/plugins/codemirror/theme/monokai.css') }}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{{ url('admin/plugins/summernote/summernote-bs4.min.css') }}">
   <!-- Toastr -->
   <link rel="stylesheet" href="{{ url('admin/plugins/toastr/toastr.min.css') }}">
 
@@ -93,6 +95,8 @@
 <script src="{{ url('admin/plugins/codemirror/mode/css/css.js') }}"></script>
 <script src="{{ url('admin/plugins/codemirror/mode/xml/xml.js') }}"></script>
 <script src="{{ url('admin/plugins/codemirror/mode/htmlmixed/htmlmixed.js') }}"></script>
+<!-- Summernote -->
+<script src="{{ url('admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <!-- Toastr -->
 <script src="{{ url('admin/plugins/toastr/toastr.min.js') }}"></script>
 

@@ -73,6 +73,13 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="pageCategoryName">Page Category*</label>
+                        <select class="form-control pageCategoryId" style="width: 100%;" name="page_category_id" required>
+                            <option value="">Select Page Category</option>
+                          
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="page_name">Page Name*</label>
                         <input type="text" class="form-control pageName" name="page_name" placeholder="Enter Page Name" @if(!empty($subMenu['page_url'])) value="{{ $subMenu['page_url'] }}" @endif>
                     </div>

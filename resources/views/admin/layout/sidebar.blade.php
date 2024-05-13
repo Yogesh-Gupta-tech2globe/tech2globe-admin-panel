@@ -249,7 +249,7 @@
             </ul>
           </li>
 
-          @if(Session::get('page')=="our_work" || Session::get('page')=="testimonial" || Session::get('page')=="portfolio" || Session::get('page')=="case_study" || Session::get('page')=="faqs" || Session::get('page')=="blog")
+          @if(Session::get('page')=="our_work" || Session::get('page')=="testimonial" || Session::get('page')=="portfolio" || Session::get('page')=="case_study" || Session::get('page')=="faq" || Session::get('page')=="blog")
             @php $active="active" @endphp
           @else
             @php $active="" @endphp
@@ -270,7 +270,7 @@
                 @php $active="" @endphp
               @endif
               <li class="nav-item">
-                <a href="" class="nav-link {{ $active}}">
+                <a href="/admin/testimonial" class="nav-link {{ $active}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Testimonial</p>
                 </a>
@@ -294,19 +294,19 @@
                 @php $active="" @endphp
               @endif
               <li class="nav-item">
-                <a href="" class="nav-link {{ $active}}">
+                <a href="/admin/case-study" class="nav-link {{ $active}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Case Study</p>
                 </a>
               </li>
 
-              @if(Session::get('page')=="faqs")
+              @if(Session::get('page')=="faq")
                 @php $active="active" @endphp
               @else
                 @php $active="" @endphp
               @endif
               <li class="nav-item">
-                <a href="" class="nav-link {{ $active}}">
+                <a href="/admin/faq" class="nav-link {{ $active}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>FAQs</p>
                 </a>
@@ -371,9 +371,9 @@
                 @php $active="" @endphp
               @endif
               <li class="nav-item">
-                <a href="" class="nav-link {{ $active}}">
+                <a href="/admin/achievements" class="nav-link {{ $active}}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Acheivements</p>
+                  <p>Achievements</p>
                 </a>
               </li>
 

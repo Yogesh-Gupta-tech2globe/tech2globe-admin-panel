@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\AdminsRole;
 use App\Models\contact_social;
 use App\Models\company_branch;
+use App\Models\achievements;
 use Session;
 use Auth;
 use Image;
@@ -233,7 +234,7 @@ class ExtrasController extends Controller
             if(!empty($data['flag']) && !empty($data['current_image'])){
 
                        
-                $imagePath = public_path('admin/img/flag/'.$data['current_image']);
+                $imagePath = public_path('images/flag/'.$data['current_image']);
 
                 if(file_exists($imagePath)){
                     if(unlink($imagePath)){
@@ -253,7 +254,7 @@ class ExtrasController extends Controller
                     $extension = $image_tmp->getClientOriginalExtension();
                     //Generate New Image Name
                     $imageName = rand(111,98999).'.'.$extension;
-                    $image_path = 'admin/img/flag/'.$imageName;
+                    $image_path = 'images/flag/'.$imageName;
                     Image::make($image_tmp)->save($image_path);
                 }
             }else if(!empty($data['current_image'])){
@@ -288,6 +289,125 @@ class ExtrasController extends Controller
 
             company_branch::where('id',$data['branch_id'])->update(['status'=>$status]);
             return response()->json(['status'=>$status, 'branch_id'=>$data['branch_id']]);
+        }
+    }
+
+    public function achievements()
+    {
+        Session::put('page','achievements');
+
+        $pageName = "Achievements";
+
+        $achievements = achievements::get()->toArray();
+
+        //Set Admin/Subadmins Permissions for Layout Module
+        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($layoutModuleCount==0){
+            $message = "This feature is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+        }
+
+        return view('admin.extras.achievements.achievements')->with(compact('pagesModule','pageName','achievements'));
+    }
+
+    public function addEditAchievements(Request $request, $id=null)
+    {
+        Session::put('page','achievements');
+
+        if($id==""){
+            $title = "Add Achievements";
+            $achievements = new achievements;
+            $message = "New Achievements added Successfully";
+        }else{
+            $title = "Edit Achievement";
+            $achievements = achievements::find($id);
+            $message = "Existing Achievement updated Successfully";
+        }
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            $rules = [
+                'name' => 'required|max:30',
+                'url' => 'required',
+                'image' => 'required|image|max:200',
+            ];
+
+            $customMessages = [
+                'name.required' => 'Name is required',
+                'name.max' => 'Maximum 30 characters are allowed for Name',
+                'url.required' => 'Redirection Url is required',
+                'image.required' => 'Achievement Image is required',
+                'image.image' => 'Only Images are allowed',
+                'image.max' => 'Image should not be greater than 200 Kb',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+
+            if(!empty($data['image']) && !empty($data['current_image'])){
+
+                       
+                $imagePath = public_path('images/achievements/'.$data['current_image']);
+
+                if(file_exists($imagePath)){
+                    if(unlink($imagePath)){
+                        
+                    }else{
+                        return redirect()->back()->with('error_message','There is some error on deleting Image!');
+                    }
+                }else{
+                    return redirect()->back()->with('error_message','Image not found! Please contact Admin');
+                }
+            }
+
+            if($request->hasFile('image')){
+                $image_tmp = $request->file('image');
+                if($image_tmp->isValid()){
+                    //Get Image Extension
+                    $extension = $image_tmp->getClientOriginalExtension();
+                    //Generate New Image Name
+                    $imageName = rand(111,98999).'.'.$extension;
+                    $image_path = 'images/achievements/'.$imageName;
+                    Image::make($image_tmp)->save($image_path);
+                }
+            }else if(!empty($data['current_image'])){
+                $imageName = $data['current_image'];
+            }else{
+                $imageName = "";
+            }
+
+            $achievements->name = $data['name'];
+            $achievements->url = $data['url'];
+            $achievements->image = $imageName;
+            $achievements->save();
+            
+            return redirect('admin/achievements')->with('success_message',$message);
+        }
+
+        return view('admin.extras.achievements.add-edit-achievements')->with(compact('title','achievements'));
+    }
+
+    public function updateAchievements(Request $request)
+    {
+        if($request->ajax()){
+            $data = $request->all();
+
+            if($data['status']=="Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+
+            achievements::where('id',$data['achievements_id'])->update(['status'=>$status]);
+            return response()->json(['status'=>$status, 'achievements_id'=>$data['achievements_id']]);
         }
     }
 }

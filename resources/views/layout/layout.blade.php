@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ url('css/aos.css') }}" />
     <link rel="stylesheet" href="{{ url('css/style.css') }}" />
     <link rel="stylesheet" href="{{ url('css/responsive.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -31,6 +33,8 @@
  
 
 <!-- REQUIRED SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
     <script src="{{ url('js/jquery.min.js') }}"></script>
     <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url('js/all.min.js') }}"></script>

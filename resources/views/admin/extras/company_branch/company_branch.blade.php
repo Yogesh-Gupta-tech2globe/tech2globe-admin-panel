@@ -73,7 +73,7 @@
                           <td>{{ $row['name'] }}</td>
                           <td>{{ $row['location'] }}</td>
                           <td>{{ $row['phone'] }}</td>
-                          <td><img src="{{ url('admin/img/flag/'.$row['flag']) }}" height="50px" width="50px"></td>
+                          <td><img src="{{ url('images/flag/'.$row['flag']) }}" height="50px" width="50px"></td>
                           <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                           <td>
                             @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
