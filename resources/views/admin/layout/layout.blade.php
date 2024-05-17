@@ -113,6 +113,8 @@
     });
     $("#allPages").DataTable({  
     });
+    $("#PagesCat").DataTable({  
+    });
     $("#layout").DataTable({  
       "order": [[ 0, "desc" ]]
     });

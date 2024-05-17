@@ -190,21 +190,22 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
             // });
 
             //Tech2globe Pages
-            Route::get('/amazon-services', function () {
-                    $data = ['pagename' => 'Amazon Services'];
-                    return view('new-test-file', $data);
-                });Route::get('/infrastructure2', function () {
-                    return view('new-test-file');
-                });Route::get('/digital-marketing', function () {
-                    return view('about-us');
-                });Route::get('/accounting', function () {
-                    return view('new-test-file');
-                });Route::get('/accounting', function () {
-                    return view('new-test-file');
-                });Route::get('/physics', function () {
-                    return view('about-us');
-                });Route::get('/math', function () {
-                    return view('new-test-file');
-                });Route::get('/yogesh', function () {
-                    return view('new-test-file');
+            
+                Route::get("/amazon-consulting", function () {
+
+                    $data = ["pageName" => "Amazon Consulting"];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/amazon-services", function () {
+
+                    $data = ["pageName" => "Amazon Services"];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/new-page", function () {
+
+                    $data = ["pageName" => "New Page"];
+                    return view("demo-file", $data);
+
                 });

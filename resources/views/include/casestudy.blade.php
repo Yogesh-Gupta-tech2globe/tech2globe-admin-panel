@@ -1,7 +1,7 @@
 <!-- case-study-section-start -->
 <section id="service-case-studies" class="container-p40">
     <div class="section-details">
-        <h2 class="section-title">Web Application Development Case Studies</h2>
+        <h2 class="section-title">{{$pageName}} Case Studies</h2>
         <p class="section-description">Explore our success stories - real projects, real results.</p>
     </div>
 

@@ -592,7 +592,7 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
               <div id="collapseFour" class="collapse" data-parent="#accordion">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table id="allPages" class="table table-bordered table-striped">
+                    <table id="PagesCat" class="table table-bordered table-striped">
                       <thead>
                       <tr>
                         <th>S.No</th>

@@ -255,7 +255,6 @@
                     <!-- /.row -->
                  </div>
                  <div class="tab-pane fade show" id="custom-tabs-section4" role="tabpanel" aria-labelledby="custom-tabs-section4-tab">
-                    <h3>Requirement</h3>
 
                     <div class="row">
                         <!-- left column -->
@@ -271,7 +270,7 @@
                                   <div class="card-body">
 
                                     <div class="form-group">
-                                      <label for="">Heading</label>
+                                      <label for="">Section 4 Heading</label>
                                       <input type="text" class="form-control" name="heading4" placeholder="Enter Section Heading" required @if(!empty($casestudy['heading4'])) value="{{$casestudy['heading4']}}" @endif>
                                     </div>
 
@@ -327,30 +326,44 @@
                     <!-- /.row -->
                  </div>
                  <div class="tab-pane fade show" id="custom-tabs-section5" role="tabpanel" aria-labelledby="custom-tabs-section5-tab">
-                    <h3>Challenges Faced</h3>
 
                    <div class="row">
                       <!-- left column -->
                       <div class="col-md-12">
                         <!-- general form elements -->
-                        <div class="card card-primary mt-5">
+                        <div class="card card-primary mt-2">
                             <div class="card-header">
                                 <h3 class="card-title">Create Section 5</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form id="" method="post" enctype="multipart/form-data">@csrf
+                            <form class="sectionSubmit" enctype="multipart/form-data">@csrf
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="title5">Challenges Expanation</label>
-                                        <textarea id="summernote">
-                                            Place <em>some</em> <u>text</u> <strong>here</strong>
+                                        <label for="heading5">Section 5 Heading</label>
+                                        <input type="text" class="form-control" name="heading5" required @if(!empty($casestudy['heading5'])) value="{{$casestudy['heading5']}}" @endif>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="title5">Content</label>
+                                        <textarea class="summernote" rows="5" cols="50" name="content5" required>
+                                            @if(!empty($casestudy['content5']))
+                                             {{$casestudy['content5']}}
+                                            @else
+                                              Place <em>some</em> <u>text</u> <strong>here</strong>
+                                            @endif
                                         </textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label for="image">Image</label>
-                                        <input type="file" class="form-control" name="image" id="image" required>
-                                    </div>            
+                                        <label for="image5">Image</label>
+                                        <input type="file" class="form-control" name="image5" required>
+                                    </div> 
+                                    @if (!empty($casestudy['image5']))
+                                      <label>Previous Image</label><br>
+                                      <img src="{{ url('images/casestudy/bannerImage/'.$casestudy['image5']) }}" height="100px" width="180px">
+                                      <input type="hidden" name="current_image" value="{{ $casestudy['image5'] }}">
+                                    @endif  
+                                    <input type="hidden" name="section" value="5">
+                                    <input type="hidden" name="casestudyId" value="{{$casestudy['id']}}">         
                                 </div>
                                 <!-- /.card-body -->
                 
@@ -367,53 +380,63 @@
                   <!-- /.row -->
                  </div>
                  <div class="tab-pane fade show" id="custom-tabs-section6" role="tabpanel" aria-labelledby="custom-tabs-section6-tab">
-                    <h3>Tech2globe Solutions</h3>
                  
                     <div class="row">
                         <!-- left column -->
                         <div class="col-md-12">
                             <!-- general form elements -->
-                            <div class="card card-primary mt-5">
+                            <div class="card card-primary mt-2">
                             <div class="card-header">
                                 <h3 class="card-title">Create Section 6</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form id="" method="post" enctype="multipart/form-data">@csrf
+                            <form class="" enctype="multipart/form-data">@csrf
                                 <div class="card-body">
                                 <div class="form-group">
-                                    <label for="title6">Title</label>
-                                    <input type="text" class="form-control" id="title6" name="title6" placeholder="Enter Title" @if(!empty($casestudy['title6'])) value="{{$casestudy['title6']}}" @else value="Testimonials" @endif>
+                                    <label for="heading6">Section 6 Heading</label>
+                                    <input type="text" class="form-control" name="heading6" placeholder="Enter Section 6 Heading" @if(!empty($casestudy['heading6'])) value="{{$casestudy['heading6']}}" @endif>
                                 </div>
-                                <div id="testimonial">
+                                <div class="form-group">
+                                    <label for="sdescription6">Short Description</label>
+                                    <textarea class="summernote" rows="5" cols="50" name="sdescription6" required>
+                                        @if(!empty($casestudy['sdescription6']))
+                                          {{$casestudy['sdescription6']}}
+                                        @else
+                                          Place <em>some</em> <u>text</u> <strong>here</strong>
+                                        @endif
+                                    </textarea>
+                                </div>
+
+                                <div id="icard">
                                 
                                     <div class="card card-info card-outline">
                                         <a class="d-block w-100" data-toggle="collapse" href="#collapse1">
                                             <div class="card-header">
                                                 <h4 class="card-title w-100">
-                                                    Testimonial 1
+                                                    Card 1
                                                 </h4>
                                             </div>
                                         </a>
-                                        <div id="collapse1" class="collapse show" data-parent="#testimonial">
+                                        <div id="collapse1" class="collapse show" data-parent="#icard">
                                             <div class="card-body">
-                                                <div class="form-group">
-                                                    <label for="clientMessage1">Client Message 1</label>
-                                                    <input type="text" class="form-control" name="clientMessage1" id="clientMessage1" placeholder="Enter Client Message" value="Choosing Tech2Globe’s Virtual Assistant services was one of the best decisions we made for our business. Their team of skilled professionals has consistently delivered top-notch support, helping us streamline our operations and boost productivity. We highly recommend Tech2Globe to anyone in need of reliable virtual assistant services.">
-                                                </div>
                                                 <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                    <label for="clientName1">Client Name 1</label>
-                                                    <input type="text" class="form-control" name="clientName1" id="clientName1" placeholder="Enter Client Name" value="Eva Smith">
-                                                    </div>
+                                                  <div class="col-md-6">
+                                                      <div class="form-group">
+                                                        <label for="clientName1">Icon</label>
+                                                        <input type="text" class="form-control" name="clientName1" placeholder="Enter Client Name">
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                      <div class="form-group">
+                                                        <label for="clientPost1">Heading</label>
+                                                        <input type="text" class="form-control" name="clientPost1" placeholder="Enter Client Post">
+                                                      </div>
+                                                  </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                    <label for="clientPost1">Client Post 1</label>
-                                                    <input type="text" class="form-control" name="clientPost1" id="clientPost1" placeholder="Enter Client Post" value="Relations Manager">
-                                                    </div>
-                                                </div>
+                                                <div class="form-group">
+                                                    <label for="clientMessage1">Content</label>
+                                                    <textarea class="form-control" required></textarea>
                                                 </div>
                                             </div>
                                         </div>

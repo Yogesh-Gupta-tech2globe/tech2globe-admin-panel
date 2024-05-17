@@ -714,9 +714,13 @@ class Tech2globeLayoutController extends Controller
                 $fileDatabyId = file_data::find($fileid);
 
                 // Adding a route dynamically
-                $routeContent = "Route::get('/".$pageUrl."', function () {
-                    return view('". $fileDatabyId['file_slug']."');
-                });";
+                $routeContent = '
+                Route::get("/'.$pageUrl.'", function () {
+
+                    $data = ["pageName" => "'.$data['categoryName'].'"];
+                    return view("'.$fileDatabyId['file_slug'].'", $data);
+
+                });';
 
                 $routePath = base_path('routes/mainMenu.php');
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
@@ -818,9 +822,14 @@ class Tech2globeLayoutController extends Controller
                 $fileDatabyId = file_data::find($fileid);
 
                 // Adding a route dynamically
-                $routeContent = "Route::get('/".$pageUrl."', function () {
-                    return view('". $fileDatabyId['file_slug']."');
-                });";
+
+                $routeContent = '
+                Route::get("/'.$pageUrl.'", function () {
+
+                    $data = ["pageName" => "'.$data['subCategoryName'].'"];
+                    return view("'.$fileDatabyId['file_slug'].'", $data);
+
+                });';
 
                 $routePath = base_path('routes/subMenu.php');
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
@@ -926,9 +935,13 @@ class Tech2globeLayoutController extends Controller
                 $fileDatabyId = file_data::find($fileid);
 
                 // Adding a route dynamically
-                $routeContent = "Route::get('/".$pageUrl."', function () {
-                    return view('". $fileDatabyId['file_slug']."');
-                });";
+                $routeContent = '
+                Route::get("/'.$pageUrl.'", function () {
+
+                    $data = ["pageName" => "'.$data['page_name'].'"];
+                    return view("'.$fileDatabyId['file_slug'].'", $data);
+
+                });';
 
                 $routePath = base_path('routes/web.php');
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
@@ -1034,9 +1047,13 @@ class Tech2globeLayoutController extends Controller
                 $fileDatabyId = file_data::find($fileid);
 
                 // Adding a route dynamically
-                $routeContent = "Route::get('/".$pageUrl."', function () {
-                    return view('". $fileDatabyId['file_slug']."');
-                });";
+                $routeContent = '
+                Route::get("/'.$pageUrl.'", function () {
+
+                    $data = ["pageName" => "'.$data['name'].'"];
+                    return view("'.$fileDatabyId['file_slug'].'", $data);
+
+                });';
 
                 $routePath = base_path('routes/web.php');
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
@@ -1239,9 +1256,13 @@ class Tech2globeLayoutController extends Controller
                 $fileDatabyId = file_data::find($fileid);
 
                 // Adding a route dynamically
-                $routeContent = "Route::get('/".$pageUrl."', function () {
-                    return view('". $fileDatabyId['file_slug']."');
-                });";
+                $routeContent = '
+                Route::get("/'.$pageUrl.'", function () {
+
+                    $data = ["pageName" => "'.$data['pageName'].'"];
+                    return view("'.$fileDatabyId['file_slug'].'", $data);
+
+                });';
 
                 $routePath = base_path('routes/web.php');
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);

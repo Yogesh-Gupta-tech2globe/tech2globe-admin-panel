@@ -252,6 +252,65 @@ class CasestudyController extends Controller
                 $casestudy->save();
 
                 return response()->json(['message'=>'Section Four is updated. Proceed Further','link'=>$slug]);
+            }else if($data['section'] == "5"){
+
+                $rules = [
+                    'heading5' => 'required',
+                    'content5' => 'required',
+                    'image5' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500',
+                ];
+    
+                $customMessages = [
+                    'heading5.required' => 'Section Heading is required',
+                    'content5.required' => 'Section Content is required',
+                    'image5.required' => 'Image is required',
+                    'image5.image' => 'Valid Image is required',
+                    'image5.mimes' => 'Image should be in jpg,jpeg,gif,svg,png format',
+                    'image5.max' => 'Image size should not be greater than 500 KB',
+                ];
+    
+                $this->validate($request,$rules,$customMessages);
+
+                $slug = Str::slug($casestudy['name']);
+
+                if(!empty($data['image5']) && !empty($data['current_image'])){
+
+                       
+                    $imagePath = public_path('images/casestudy/bannerImage/'.$data['current_image']);
+    
+                    if(file_exists($imagePath)){
+                        if(unlink($imagePath)){
+                            
+                        }else{
+                            return redirect()->back()->with('error_message','There is some error on deleting Image!');
+                        }
+                    }else{
+                        return redirect()->back()->with('error_message','Image not found! Please contact Admin');
+                    }
+                }
+    
+                if($request->hasFile('image5')){
+                    $image_tmp = $request->file('image5');
+                    if($image_tmp->isValid()){
+                        //Get Image Extension
+                        $extension = $image_tmp->getClientOriginalExtension();
+                        //Generate New Image Name
+                        $imageName = rand(111,98999).'.'.$extension;
+                        $image_path = 'images/casestudy/bannerImage/'.$imageName;
+                        Image::make($image_tmp)->save($image_path);
+                    }
+                }else if(!empty($data['current_image'])){
+                    $imageName = $data['current_image'];
+                }else{
+                    $imageName = "";
+                }
+    
+                $casestudy->heading5 = $data['heading5'];
+                $casestudy->content5 = $data['content5'];
+                $casestudy->image5 = $imageName;
+                $casestudy->save();
+
+                return response()->json(['message'=>'Section Five is updated. Proceed Further','link'=>$slug]);
             }
         }
 
@@ -437,6 +496,22 @@ class CasestudyController extends Controller
                                             </div>
                                         @endfor
                                         
+                                    </div>
+                                </div>
+                            </section>
+                        @endif
+
+                        @if(!empty($heading5))
+                            <section id="rightImageLeftTextBottomParagraph" class=" section-with-bg">
+                                <h3>{{$heading5}}</h3>
+                                <div class="container my-3">
+                                    <div class="row mb-3 gy-2">
+                                        <div class="col-md-6">
+                                            <img src="{{ url("images/casestudy/bannerImage/".$image5) }}" alt="Challenges Faced" class="img-fluid rounded">
+                                        </div>
+                                        <div class="col-md-6">
+                                           @php echo $content5; @endphp
+                                        </div>
                                     </div>
                                 </div>
                             </section>

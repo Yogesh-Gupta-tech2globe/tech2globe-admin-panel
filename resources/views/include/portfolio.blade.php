@@ -1,8 +1,8 @@
 <!-- portfolio-section-start -->
 <section id="service-portfolio" class="container-p40">
     <div class="section-details">
-        <h2 class="section-title">Web Application Development Portfolio</h2>
-        <p class="section-description">Explore our web development portfolio to discover our past endeavors.</p>
+        <h2 class="section-title">{{$pageName}} Portfolio</h2>
+        <p class="section-description">Explore our {{$pageName}} portfolio to discover our past endeavors.</p>
     </div>
     <div class="container">
         <div class="row p-3">

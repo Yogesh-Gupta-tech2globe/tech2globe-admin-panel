@@ -25,3 +25,9 @@ use App\Models\casestudy;
                     return view("casestudy/navneet", $casestudy);
 
                 });
+                Route::get("/casestudy/ecommere-management", function () {
+
+                    $casestudy = casestudy::where("name","Ecommere management")->first();
+                    return view("casestudy/ecommere-management", $casestudy);
+
+                });

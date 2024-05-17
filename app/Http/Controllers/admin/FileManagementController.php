@@ -110,6 +110,11 @@ class FileManagementController extends Controller
             @section("content")
             <?php $base_url = "http://localhost:8000"; ?>
             '.$fileCode.'
+                @include("include.portfolio")
+                @include("include.casestudy")
+                @include("include.testimonials")
+                {{-- @include("include.blog") --}}
+                @include("include.faq")
             @endsection';
 
             file_put_contents($filePath, $newContent);
@@ -124,9 +129,13 @@ class FileManagementController extends Controller
 
             if(empty($id)){
                 // Adding a route dynamically
-                $routeContent = "Route::get('/admin/page/".$latestId."', function () {
-                    return view('".$slug."');
-                });";
+                $routeContent = '
+                Route::get("/admin/page/'.$latestId.'", function () {
+
+                    $data = ["pageName" => "'.$fileName.'"];
+                    return view("'.$slug.'", $data);
+
+                });';
 
                 $routePath = base_path('routes/pages.php');
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
