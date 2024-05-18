@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Tech2globeController;
 use Illuminate\Routing\RouteRegistrar;
+use App\Models\portfolio;
+use App\Models\casestudy;
+use App\Models\testimonial;
+use App\Models\faq;
+use App\Models\blog;
 
 require __DIR__.'/pages.php';
 require __DIR__.'/mainMenu.php';
@@ -25,6 +30,16 @@ Route::get('/', function () {
     
     return view('home');
 });
+
+function fetch_post_by_id($base_url, $post_id) {
+    $url = "$base_url/$post_id";
+    $response = file_get_contents($url);
+    if ($response === FALSE) {
+        return null;
+    }
+    $post = json_decode($response, true);
+    return $post;
+}
 
 // Route::get('/about-us', function () {
     
@@ -165,6 +180,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-casestudycategory-status', 'CasestudyController@updateCasestudyCat');
         Route::post('create-case-study-section', 'CasestudyController@createsections');
 
+        //Blog
+        Route::get('blog','BlogController@index');
+        Route::match(['get','post'],'add-edit-blog/{id?}','BlogController@addEditBlog');
+        Route::post('update-blog-status','BlogController@update');
     });
 });
 
@@ -199,13 +218,71 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
                 });
                 Route::get("/amazon-services", function () {
 
-                    $data = ["pageName" => "Amazon Services"];
+                    $portfolio = portfolio::where('status',1)->where('page_id',11)->get()->toArray();
+                    $casestudy = casestudy::where('status',1)->where('page_id',11)->get()->toArray();
+                    $testimonials = testimonial::where('status',1)->where('page_id',11)->get()->toArray();
+                    $faq = faq::where('status',1)->where('page_id',11)->get()->toArray();
+                    $blog = blog::select('blog_id')->where('status',1)->where('page_id',11)->get()->toArray();
+
+                    // $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    // $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    // foreach ($post_ids as $post_id) {
+                    //     $post = fetch_post_by_id($base_url, $post_id['blog_id']);
+                    //     if ($post) {
+                    //         $all_posts[] = $post;
+                    //     } 
+                    // }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
                     return view("demo-file", $data);
 
                 });
                 Route::get("/new-page", function () {
 
                     $data = ["pageName" => "New Page"];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/accounting-services", function () {
+
+                    $portfolio = portfolio::where('status',1)->where('page_id',12)->get()->toArray();
+                    $casestudy = casestudy::where('status',1)->where('page_id',12)->get()->toArray();
+                    $testimonials = testimonial::where('status',1)->where('page_id',12)->get()->toArray();
+                    $faq = faq::where('status',1)->where('page_id',12)->get()->toArray();
+                    $data = ["pageName" => "Accounting Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy];
+                    return view("accounting-services", $data);
+
+                });
+
+         
+
+
+
+
+
+
+                Route::get("/react-web-appliction", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",13)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",13)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",13)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",13)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",13)->get()->toArray();
+
+                    // $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    // $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    // foreach ($post_ids as $post_id) {
+                    //     $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                    //     if ($post) {
+                    //         $all_posts[] = $post;
+                    //     } 
+                    // }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
                     return view("demo-file", $data);
 
                 });

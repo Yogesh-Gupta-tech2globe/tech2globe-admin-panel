@@ -7,6 +7,7 @@ use App\Models\portfolio;
 use App\Models\portfolio_category;
 use App\Models\portfolio_sub_category;
 use App\Models\AdminsRole;
+use App\Models\tech2globe_all_pages;
 use Illuminate\Http\Request;
 use Session;
 use Validator;
@@ -263,6 +264,7 @@ class PortfolioController extends Controller
         }
 
         $portfolio_category = portfolio_category::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
 
         if($request->isMethod('post')){
             $data = $request->all();
@@ -271,6 +273,7 @@ class PortfolioController extends Controller
                 'title' => 'required',
                 'category_id' => 'required',
                 'subcategory_id' => 'required',
+                'page_id' => 'required',
                 'website' => 'required',
                 'content' => 'required',
                 'portfolio_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:500',
@@ -280,6 +283,7 @@ class PortfolioController extends Controller
                 'title.required' => 'Portfolio title is required',
                 'category_id.required' => 'Category is required',
                 'subcategory_id.required' => 'Sub Category is required',
+                'page_id.required' => 'Inner Page is required',
                 'website.required' => 'Website Link is required',
                 'content.required' => 'Short Description is required',
                 'portfolio_image.image' => 'Valid Image is required',
@@ -324,6 +328,7 @@ class PortfolioController extends Controller
             $portfolio->title = $data['title'];
             $portfolio->cat_id = $data['category_id'];
             $portfolio->sub_cat_id = $data['subcategory_id'];
+            $portfolio->page_id = $data['page_id'];
             $portfolio->technology = $data['technology'];
             $portfolio->website_link = $data['website'];
             $portfolio->content = $data['content'];
@@ -332,7 +337,7 @@ class PortfolioController extends Controller
             return redirect('admin/portfolio')->with('success_message',$message);
         }
 
-        return view('admin.ourWork.portfolio.add-edit-portfolio')->with(compact('title','portfolio_category','portfolio','portfolio_subcategory'));
+        return view('admin.ourWork.portfolio.add-edit-portfolio')->with(compact('title','portfolio_category','portfolio','portfolio_subcategory','allInnerPages'));
     }
 
     /**

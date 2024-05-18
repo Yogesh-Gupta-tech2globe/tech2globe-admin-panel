@@ -113,7 +113,7 @@ class FileManagementController extends Controller
                 @include("include.portfolio")
                 @include("include.casestudy")
                 @include("include.testimonials")
-                {{-- @include("include.blog") --}}
+                @include("include.blog")
                 @include("include.faq")
             @endsection';
 

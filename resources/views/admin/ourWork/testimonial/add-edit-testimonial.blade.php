@@ -64,12 +64,21 @@
                     <div class="form-group">
                         <label for="testType">Testimonial Type*</label>
                         <select class="form-control" name="type" id="testType" required>
-                            <option value="null">Select Type</option>
+                            {{-- <option value="null">Select Type</option> --}}
                             <option value="text" @if($testimonial['type'] == "text") selected @endif>Text</option>
-                            <option value="video" @if($testimonial['type'] == "video") selected @endif>Video</option>
+                            {{-- <option value="video" @if($testimonial['type'] == "video") selected @endif>Video</option> --}}
                         </select>
                     </div>
-                    <div id="testText">
+                    <div id="">
+                        <div class="form-group">
+                            <label>Select Page*</label>
+                            <select class="form-control" style="width: 100%;" name="page_id" required>
+                                <option value="">Select Inner Page</option>
+                                  @foreach ($allInnerPages as $row)
+                                    <option value="{{ $row['id'] }}" @if($row['id'] == $testimonial['page_id']) selected @endif>{{ $row['page_name'] }}</option>
+                                  @endforeach
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="rating">Ratings*</label>
                             <select class="form-control" name="rating" id="testRating">

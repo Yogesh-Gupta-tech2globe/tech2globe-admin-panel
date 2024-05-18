@@ -5,19 +5,20 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdminsRole;
-use App\Models\faq;
+use App\Models\blog;
 use App\Models\tech2globe_all_pages;
-use Session;
 use Auth;
+use Session;
 
-class FaqController extends Controller
+class BlogController extends Controller
 {
     public function index()
     {
-        Session::put('page','faq');
+        Session::put('page','blog');
 
-        $pagename = "FAQ";
-        $faq = faq::get()->toArray();
+        $pagename = "Blog";
+        $blog = blog::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
 
         //Set Admin/Subadmins Permissions for Portfolio Module
         $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
@@ -34,48 +35,55 @@ class FaqController extends Controller
             $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
         }
 
-        return view('admin.ourWork.faq.faq')->with(compact('pagesModule','pagename','faq'));
+        return view('admin.ourWork.blog.blog')->with(compact('pagesModule','pagename','blog','allInnerPages'));
     }
 
-    public function addEditFaq(Request $request, $id=null)
+    public function addEditBlog(Request $request, $id=null)
     {
         if($id==""){
-            $title = "Add FAQ";
-            $faq = new faq();
-            $message = "FAQ added Successfully";
+            $title = "Add Blog";
+            $blog = new blog();
+            $message = "Blog added Successfully";
         }else{
-            $title = "Edit FAQ";
-            $faq = faq::find($id);
-            $message = "FAQ updated Successfully";
+            $title = "Edit Blog";
+            $blog = blog::find($id);
+            $message = "Blog updated Successfully";
         }
-
-        $allInnerPages = tech2globe_all_pages::get()->toArray();
 
         if($request->isMethod('post')){
             $data = $request->all();
 
             $rules = [
                 'page_id' => 'required',
-                'question' => 'required',
-                'answer' => 'required',
+                'blog_id' => 'required',
             ];
 
             $customMessages = [
                 'page_id.required' => 'Inner Page is required',
-                'question.required' => 'Please Enter a Question',
-                'answer.required' => 'Please Enter a Answer',
+                'blog_id.required' => 'Please Select a Blog',
             ];
 
             $this->validate($request,$rules,$customMessages);
             
-            $faq->page_id = $data['page_id'];
-            $faq->question = $data['question'];
-            $faq->answer = $data['answer'];
-            $faq->save();
-            return redirect('admin/faq')->with('success_message',$message);
+            $blog->page_id = $data['page_id'];
+            $blog->blog_id = $data['blog_id'];
+            $blog->save();
+            return redirect('admin/blog')->with('success_message',$message);
         }
 
-        return view('admin.ourWork.faq.add-edit-faq')->with(compact('title','faq','allInnerPages'));
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
+   
+        $endpoint = 'https://blog.tech2globe.com/wp-json/wp/v2/posts?per_page=100';
+        $response = file_get_contents($endpoint);
+
+        if ($response === false) {
+            echo "Error fetching posts";
+        } else {
+            // Convert JSON response to array
+            $posts = json_decode($response, true);
+        }
+
+        return view('admin.ourWork.blog.add-edit-blog')->with(compact('title','blog','allInnerPages','posts'));
     }
 
     public function update(Request $request){
@@ -89,8 +97,9 @@ class FaqController extends Controller
                 $status = 1;
             }
 
-            faq::where('id',$data['faq_id'])->update(['status'=>$status]);
-            return response()->json(['status'=>$status, 'faq_id'=>$data['faq_id']]);
+            blog::where('id',$data['blog_id'])->update(['status'=>$status]);
+            return response()->json(['status'=>$status, 'blog_id'=>$data['blog_id']]);
         }
     }
+
 }

@@ -79,6 +79,15 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label>Select Page*</label>
+                        <select class="form-control" style="width: 100%;" name="page_id" required>
+                            <option value="">Select Inner Page</option>
+                              @foreach ($allInnerPages as $row)
+                                <option value="{{ $row['id'] }}" @if($row['id'] == $portfolio['page_id']) selected @endif>{{ $row['page_name'] }}</option>
+                              @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="technology">Technology</label>
                         <input type="text" class="form-control" id="technology" name="technology" placeholder="Enter Technology" @if(!empty($portfolio['technology'])) value="{{ $portfolio['technology'] }}" @endif>
                     </div>

@@ -1492,6 +1492,35 @@ $(document).ready(function () {
             }
         });
     });
+
+    //Blog
+    // Update Case Study Category Status
+    $(document).on("click", ".updateBlogStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var blog_id = $(this).attr("blog_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-blog-status",
+            data: { status: status, blog_id: blog_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#blog-" + blog_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Blog Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#blog-" + blog_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Blog Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
     
 
     $(function () {

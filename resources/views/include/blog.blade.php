@@ -1,17 +1,5 @@
-{{-- @php
-// Check if decoding was successful
-if ($posts === null) {
-    echo "Error decoding JSON response";
-} else {
-    // Process the list of posts
-    foreach ($posts as $post) {
-        echo "Title: " . $post['title']['rendered'] . "<br>";
-        echo "Content: " . $post['content']['rendered'] . "<br>";
-        echo "<hr>";
-    }
-}
-@endphp --}}
 
+@if(!empty($all_posts))
 <!-- blogs-section-start -->
 <section id="service-blogs" class="container-p40">
     <div class="section-details">
@@ -20,7 +8,7 @@ if ($posts === null) {
     </div>
     <div class="blogs-carousel owl-carousel">
         <!-- blog-1 -->
-        @foreach ($posts as $post)
+        @foreach ($all_posts as $post)
             <div class="item card h-100 m-1">
                 @php
                 if (isset($post['featured_media'])) {
@@ -35,8 +23,8 @@ if ($posts === null) {
                 @endphp
                 <div class="card-body pt-0 px-2">
                     <h5 class="card-title">{{$post['title']['rendered']}}</h5>
-                    <p class="text-muted blog-excerpt">{{Str::limit(strip_tags($post['content']['rendered']), 200, ' ...')}}</p>
-                    <a href="https://blog.tech2globe.com/{{Str::slug($post['title']['rendered'])}}" class="link-offset-2">Read More <i class="fa-solid fa-chevron-right fa-xs"></i></a>
+                    <p class="text-muted blog-excerpt">{{$post['excerpt']}}</p>
+                    <a href="https://blog.tech2globe.com/{{Str::slug($post['slug'])}}" target="_blanck" class="link-offset-2">Read More <i class="fa-solid fa-chevron-right fa-xs"></i></a>
                 </div>
             </div>
         @endforeach
@@ -47,3 +35,4 @@ if ($posts === null) {
     </div>
 </section>
 <!-- blogs-section-end -->
+@endif

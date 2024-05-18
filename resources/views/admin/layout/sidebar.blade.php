@@ -318,7 +318,7 @@
                 @php $active="" @endphp
               @endif
               <li class="nav-item">
-                <a href="" class="nav-link {{ $active}}">
+                <a href="/admin/blog" class="nav-link {{ $active}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Blog</p>
                 </a>

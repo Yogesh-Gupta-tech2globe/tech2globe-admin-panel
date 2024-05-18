@@ -142,6 +142,15 @@
                 </select>
               </div>
               <div class="form-group">
+                  <label>Select Page*</label>
+                  <select class="form-control" style="width: 100%;" name="page_id" required>
+                      <option value="">Select Inner Page</option>
+                        @foreach ($allInnerPages as $row)
+                          <option value="{{ $row['id'] }}">{{ $row['page_name'] }}</option>
+                        @endforeach
+                  </select>
+              </div>
+              <div class="form-group">
                 <label for="name">Case Study Name</label>
                 <input type="text" class="form-control" name="name" placeholder="Enter Case Study Name" required>
               </div>

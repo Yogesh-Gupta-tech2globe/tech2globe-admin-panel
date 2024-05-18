@@ -22,3 +22,9 @@ Route::get('/admin/page/1', function () {
                     return view("demo-file", $data);
 
                 });
+                Route::get("/admin/page/19", function () {
+
+                    $data = ["pageName" => "Accounting Services"];
+                    return view("accounting-services", $data);
+
+                });

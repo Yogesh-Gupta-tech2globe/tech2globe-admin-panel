@@ -67,51 +67,51 @@ class AppServiceProvider extends ServiceProvider
             $view->with(['footerCategory' => $footerCategory, 'footerPages' => $footerPages, 'companyBranch' => $companyBranch, 'social' => $social, 'achievements' => $achievements]);
         });
 
-        View::composer('include.portfolio', function ($view) {
+        // View::composer('include.portfolio', function ($view) {
 
-            $portfolio = portfolio::where('status',1)->get()->toArray();
+        //     $portfolio = portfolio::where('status',1)->get()->toArray();
 
-            $view->with(['portfolio' => $portfolio]);
-        });
+        //     $view->with(['portfolio' => $portfolio]);
+        // });
 
-        View::composer('include.casestudy', function ($view) {
+        // View::composer('include.casestudy', function ($view) {
 
-            $casestudy = casestudy::where('status',1)->get()->toArray();
+        //     $casestudy = casestudy::where('status',1)->get()->toArray();
 
-            $view->with(['casestudy' => $casestudy]);
-        });
+        //     $view->with(['casestudy' => $casestudy]);
+        // });
 
-        View::composer('include.testimonials', function ($view) {
+        // View::composer('include.testimonials', function ($view) {
 
-            $testimonials = testimonial::where('status',1)->where('type','text')->get()->toArray();
+        //     $testimonials = testimonial::where('status',1)->where('type','text')->get()->toArray();
 
-            $view->with(['testimonials' => $testimonials]);
-        });
+        //     $view->with(['testimonials' => $testimonials]);
+        // });
         
-        View::composer('include.blog', function ($view) {
+        // View::composer('include.blog', function ($view) {
 
-            // Endpoint URL
-            $endpoint = 'https://blog.tech2globe.com/wp-json/wp/v2/posts?per_page=5';
+        //     // Endpoint URL
+        //     $endpoint = 'https://blog.tech2globe.com/wp-json/wp/v2/posts?per_page=5';
 
-            // Fetch posts
-            $response = file_get_contents($endpoint);
+        //     // Fetch posts
+        //     $response = file_get_contents($endpoint);
 
-            // Check if request was successful
-            if ($response === false) {
-                echo "Error fetching posts";
-            } else {
-                // Convert JSON response to array
-                $posts = json_decode($response, true);
-            }
+        //     // Check if request was successful
+        //     if ($response === false) {
+        //         echo "Error fetching posts";
+        //     } else {
+        //         // Convert JSON response to array
+        //         $posts = json_decode($response, true);
+        //     }
 
-            $view->with(['posts' => $posts]);
-        });
+        //     $view->with(['posts' => $posts]);
+        // });
 
-        View::composer('include.faq', function ($view) {
+        // View::composer('include.faq', function ($view) {
 
-            $faq = faq::where('status',1)->get()->toArray();
+        //     $faq = faq::where('status',1)->get()->toArray();
 
-            $view->with(['faq' => $faq]);
-        });
+        //     $view->with(['faq' => $faq]);
+        // });
     }
 }

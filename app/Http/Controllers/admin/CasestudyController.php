@@ -8,6 +8,7 @@ use App\Models\AdminsRole;
 use App\Models\casestudy;
 use App\Models\faq;
 use App\Models\casestudy_category;
+use App\Models\tech2globe_all_pages;
 use Auth;
 use Session;
 use Image;
@@ -23,6 +24,7 @@ class CasestudyController extends Controller
 
         $casestudy = casestudy::get()->toArray();
         $category = casestudy_category::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
 
         //Set Admin/Subadmins Permissions for Portfolio Module
         $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
@@ -39,7 +41,7 @@ class CasestudyController extends Controller
             $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
         }
 
-        return view('admin.ourWork.caseStudy.caseStudy')->with(compact('pagesModule','pagename','casestudy','category'));
+        return view('admin.ourWork.caseStudy.caseStudy')->with(compact('pagesModule','pagename','casestudy','category','allInnerPages'));
     }
 
     public function addEditCasestudy(Request $request, $id=null)
@@ -55,8 +57,9 @@ class CasestudyController extends Controller
         }
 
         $category = casestudy_category::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
 
-        return view('admin.ourWork.caseStudy.add-edit-case-study')->with(compact('title','casestudy','category'));
+        return view('admin.ourWork.caseStudy.add-edit-case-study')->with(compact('title','casestudy','category','allInnerPages'));
     }
 
     public function createsections(Request $request)
@@ -70,22 +73,32 @@ class CasestudyController extends Controller
 
                 $rules = [
                     'catid' => 'required',
-                    'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500',
+                    'page_id' => 'required',
                 ];
     
                 $customMessages = [
                     'catid.required' => 'Category is required',
-                    'bannerImage.required' => 'Banner Image is required',
-                    'bannerImage.image' => 'Valid Image is required',
-                    'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
-                    'bannerImage.max' => 'Banner Image size should not be greater than 500 KB',
+                    'page_id.required' => 'Inner Page is required',
                 ];
     
                 $this->validate($request,$rules,$customMessages);
-    
+
                 $slug = Str::slug($data['name']);
 
                 if(!empty($data['bannerImage']) && !empty($data['current_image'])){
+
+                    $rules = [
+                        'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500',
+                    ];
+        
+                    $customMessages = [
+                        'bannerImage.required' => 'Banner Image is required',
+                        'bannerImage.image' => 'Valid Image is required',
+                        'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
+                        'bannerImage.max' => 'Banner Image size should not be greater than 500 KB',
+                    ];
+        
+                    $this->validate($request,$rules,$customMessages);
 
                        
                     $imagePath = public_path('images/casestudy/bannerImage/'.$data['current_image']);
@@ -118,6 +131,7 @@ class CasestudyController extends Controller
                 }
     
                 $casestudy->category_id = $data['catid'];
+                $casestudy->page_id = $data['page_id'];
                 $casestudy->name = $data['name'];
                 $casestudy->bannerImage = $imageName;
                 $casestudy->save();
@@ -323,12 +337,14 @@ class CasestudyController extends Controller
 
                 $rules = [
                     'catid' => 'required',
+                    'page_id' => 'required',
                     'name' => 'required|unique:casestudy,name',
                     'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500',
                 ];
     
                 $customMessages = [
                     'catid.required' => 'Category is required',
+                    'page_id.required' => 'Inner Page is required',
                     'name.required' => 'Case Study name is required',
                     'name.unique' => 'This Case Study name is already exist! Try a different one',
                     'bannerImage.required' => 'Banner Image is required',
@@ -540,6 +556,7 @@ class CasestudyController extends Controller
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);    
 
                 $casestudy->category_id = $data['catid'];
+                $casestudy->page_id = $data['page_id'];
                 $casestudy->name = $data['name'];
                 $casestudy->bannerImage = $imageName;
                 $casestudy->save();

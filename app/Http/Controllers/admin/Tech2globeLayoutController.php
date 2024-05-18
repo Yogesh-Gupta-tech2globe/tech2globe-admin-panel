@@ -934,11 +934,32 @@ class Tech2globeLayoutController extends Controller
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
+                $pageId = $allPage->select('id')->latest('id')->first();
+                $pageId = $pageId['id'];
+                $pageId++;
+
                 // Adding a route dynamically
                 $routeContent = '
                 Route::get("/'.$pageUrl.'", function () {
 
-                    $data = ["pageName" => "'.$data['page_name'].'"];
+                    $portfolio = portfolio::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+
+                    // $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    // $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    // foreach ($post_ids as $post_id) {
+                    //     $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                    //     if ($post) {
+                    //         $all_posts[] = $post;
+                    //     } 
+                    // }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
                     return view("'.$fileDatabyId['file_slug'].'", $data);
 
                 });';

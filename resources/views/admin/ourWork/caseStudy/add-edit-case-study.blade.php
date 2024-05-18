@@ -104,12 +104,21 @@
                                   </select>
                                 </div>
                                 <div class="form-group">
+                                    <label>Select Page*</label>
+                                    <select class="form-control" style="width: 100%;" name="page_id" required>
+                                        <option value="">Select Inner Page</option>
+                                          @foreach ($allInnerPages as $row)
+                                            <option value="{{ $row['id'] }}" @if($row['id'] == $casestudy['page_id']) selected @endif>{{ $row['page_name'] }}</option>
+                                          @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                   <label for="name">Case Study Name</label>
                                   <input type="text" class="form-control" name="name" placeholder="Enter Case Study Name" required readonly @if(!empty($casestudy['name'])) value="{{$casestudy['name']}}" @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="bannerImage">Banner Image</label>
-                                    <input type="file" class="form-control" name="bannerImage" id="bannerImage" required>
+                                    <input type="file" class="form-control" name="bannerImage" id="bannerImage">
                                 </div>
                                 @if (!empty($casestudy['bannerImage']))
                                   <label>Previous Image</label><br>

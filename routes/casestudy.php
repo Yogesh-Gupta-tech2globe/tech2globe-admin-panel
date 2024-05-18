@@ -31,3 +31,15 @@ use App\Models\casestudy;
                     return view("casestudy/ecommere-management", $casestudy);
 
                 });
+                Route::get("/casestudy/amazon-services-case-study", function () {
+
+                    $casestudy = casestudy::where("name","Amazon Services Case Study")->first();
+                    return view("casestudy/amazon-services-case-study", $casestudy);
+
+                });
+                Route::get("/casestudy/bhavya", function () {
+
+                    $casestudy = casestudy::where("name","Bhavya")->first();
+                    return view("casestudy/bhavya", $casestudy);
+
+                });

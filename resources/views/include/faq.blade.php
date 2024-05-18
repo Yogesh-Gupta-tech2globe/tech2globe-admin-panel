@@ -1,3 +1,4 @@
+@if(!empty($faq))
 <!-- faq-section-start -->
 <section id="service-faqs" class="container-p40 container">
     <div class="section-details">
@@ -24,3 +25,4 @@
     </div>
 </section>
 <!-- faq-section-end -->
+@endif

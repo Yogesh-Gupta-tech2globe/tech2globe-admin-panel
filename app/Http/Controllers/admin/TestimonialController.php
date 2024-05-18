@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdminsRole;
 use App\Models\testimonial;
+use App\Models\tech2globe_all_pages;
 use Session;
 use Auth;
 
@@ -47,6 +48,8 @@ class TestimonialController extends Controller
             $message = "Testimonial updated Successfully";
         }
 
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
+
         if($request->isMethod('post')){
             $data = $request->all();
 
@@ -67,11 +70,13 @@ class TestimonialController extends Controller
             if($data['type'] == "text"){
 
                 $rules = [
+                    'page_id' => 'required',
                     'rating' => 'required',
                     'comment' => 'required',
                 ];
     
                 $customMessages = [
+                    'page_id.required' => 'Inner Page is required',
                     'rating.required' => 'Rating is required',
                     'comment.required' => 'Client comment is required',
                 ];
@@ -94,6 +99,7 @@ class TestimonialController extends Controller
             $testimonial->customer_name = $data['name'];
             $testimonial->customer_info = $data['info'];
             $testimonial->type = $data['type'];
+            $testimonial->page_id = $data['page_id'];
             $testimonial->ratings = $data['rating'];
             $testimonial->comment = $data['comment'];
             $testimonial->video_url = $data['video_url'];
@@ -101,7 +107,7 @@ class TestimonialController extends Controller
             return redirect('admin/testimonial')->with('success_message',$message);
         }
 
-        return view('admin.ourWork.testimonial.add-edit-testimonial')->with(compact('title','testimonial'));
+        return view('admin.ourWork.testimonial.add-edit-testimonial')->with(compact('title','testimonial','allInnerPages'));
     }
 
     public function update(Request $request){

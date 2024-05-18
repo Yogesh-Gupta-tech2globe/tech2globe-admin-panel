@@ -13,6 +13,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Home</a></li>
+              <li class="breadcrumb-item">Our Work</li>
               <li class="breadcrumb-item active">{{ $title }}</li>
             </ol>
           </div>
@@ -51,24 +52,25 @@
                     </div>
                 @endif
                 
-                <form @if(empty($faq['id'])) action="{{ url('admin/add-edit-faq') }}" @else action="{{ url('admin/add-edit-faq/'.$faq['id']) }}" @endif method="post" enctype="multipart/form-data">@csrf
+                <form @if(empty($blog['id'])) action="{{ url('admin/add-edit-blog') }}" @else action="{{ url('admin/add-edit-blog/'.$blog['id']) }}" @endif method="post">@csrf
                     <div class="card-body">
                       <div class="form-group">
                           <label>Select Page*</label>
                           <select class="form-control" style="width: 100%;" name="page_id" required>
                               <option value="">Select Inner Page</option>
                                 @foreach ($allInnerPages as $row)
-                                  <option value="{{ $row['id'] }}" @if($row['id'] == $faq['page_id']) selected @endif>{{ $row['page_name'] }}</option>
+                                  <option value="{{ $row['id'] }}" @if($row['id'] == $blog['page_id']) selected @endif>{{ $row['page_name'] }}</option>
                                 @endforeach
                           </select>
                       </div>
                       <div class="form-group">
-                          <label for="question">Q. Question*</label>
-                          <input type="text" class="form-control" id="question" name="question" placeholder="Enter Question" required @if(!empty($faq['question'])) value="{{ $faq['question'] }}" @endif>
-                      </div>
-                      <div class="form-group">
-                          <label for="answer">A. Answer*</label>
-                          <textarea class="form-control" name="answer" id="answer" placeholder="Enter Answer" required>@if(!empty($faq['answer'])) {{ $faq['answer'] }} @endif</textarea>
+                            <label for="question">Select Blog*</label>
+                            <select class="form-control" style="width: 100%;" name="blog_id" required>
+                                <option value="">Select Blog</option>
+                                @foreach ($posts as $row)
+                                    <option value="{{ $row['id'] }}" @if($row['id'] == $blog['blog_id']) selected @endif>{{ $row['title']['rendered'] }}</option>
+                                @endforeach
+                            </select>
                       </div>
                     </div>
                     <!-- /.card-body -->
