@@ -66,9 +66,13 @@
                         <select class="form-control subCategoryId" style="width: 100%;" name="sub_category_id" required>
                             <option value="">Select Sub Menu</option>
   
-                            {{-- @foreach ($subMenu as $row)
-                              <option value="{{ $row['id'] }}" @if($row['id'] == $allPage['sub_category_id']) selected @endif>{{ $row['subCategoryName'] }}</option>
-                            @endforeach --}}
+                            @if(!empty($allPage['sub_category_id']))
+                            @foreach ($subMenu as $row)
+                              @if($row['category_id'] == $allPage['category_id'])
+                              <option value="{{ $row['id'] }}" @if($row['id'] == $allPage['sub_category_id'] && $row['category_id'] == $allPage['category_id']) selected @endif>{{ $row['subCategoryName'] }}</option>
+                              @endif
+                            @endforeach
+                            @endif
                           
                         </select>
                     </div>
@@ -76,22 +80,30 @@
                         <label for="pageCategoryName">Page Category*</label>
                         <select class="form-control pageCategoryId" style="width: 100%;" name="page_category_id" required>
                             <option value="">Select Page Category</option>
+
+                            @if(!empty($allPage['page_category_id']))
+                            @foreach ($pageCat as $row)
+                              @if($row['category_id'] == $allPage['category_id'] && $row['sub_category_id'] == $allPage['sub_category_id'])
+                              <option value="{{ $row['id'] }}" @if($row['id'] == $allPage['page_category_id']) selected @endif>{{ $row['name'] }}</option>
+                              @endif
+                            @endforeach
+                            @endif
                           
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="page_name">Page Name*</label>
-                        <input type="text" class="form-control pageName" name="page_name" placeholder="Enter Page Name" @if(!empty($subMenu['page_url'])) value="{{ $subMenu['page_url'] }}" @endif>
+                        <input type="text" class="form-control pageName" name="page_name" placeholder="Enter Page Name" @if(!empty($allPage['page_name'])) value="{{ $allPage['page_name'] }}" @endif>
                     </div>
 
                     <div class="form-group">
                       <label>Choose way of Page link :</label>
                       <div class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" id="customRadio1" value="1" name="customRadio" required>
+                        <input class="custom-control-input" type="radio" id="customRadio1" value="1" name="customRadio" required @if($allPage['type'] == "1") checked @endif>
                         <label for="customRadio1" class="custom-control-label">Want to create new url</label>
                       </div>
                       <div class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" id="customRadio2" value="0" name="customRadio">
+                        <input class="custom-control-input" type="radio" id="customRadio2" value="0" name="customRadio" @if($allPage['type'] == "0") checked @endif>
                         <label for="customRadio2" class="custom-control-label">Want to use existing url</label>
                       </div>
                     </div>
@@ -99,7 +111,7 @@
                     <div id="create_new_url">
                       <div class="form-group">
                         <label>Select File to link*</label>
-                        <select class="form-control" style="width: 100%;" name="file_id">
+                        <select class="form-control" style="width: 100%;" name="file_id" id="linkfile">
                             <option value="">Select File</option>
 
                             @foreach ($fileData as $row)
@@ -111,7 +123,7 @@
 
                       <div class="form-group">
                           <label for="page_url">Page link*</label>
-                          <input type="text" class="form-control pageUrl" name="page_url" placeholder="Enter Page Link" @if(!empty($subMenu['page_url'])) value="{{ $subMenu['page_url'] }}" @endif>
+                          <input type="text" class="form-control pageUrl" name="page_url" placeholder="Enter Page Link" @if(!empty($allPage['page_url'])) value="{{ $allPage['page_url'] }}" @endif>
                           <span class="urlVerify"></span>
                       </div>
                     </div>

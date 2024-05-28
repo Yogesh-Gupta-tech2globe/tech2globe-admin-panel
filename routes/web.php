@@ -286,3 +286,183 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
                     return view("demo-file", $data);
 
                 });
+                Route::get("/internal-testing010", function () {
+
+                    $data = ["pageName" => "Internal Testing"];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/digital-marketing-thu", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",14)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",14)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",14)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",14)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",14)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("demo-file", $data);
+
+                });
+                
+                Route::get("/contact-us", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",15)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",15)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",15)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",15)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",15)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/contact-us", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",15)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",15)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",15)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",15)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",15)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/contact-us", function () {
+
+                    $data = ["pageName" => "Yash"];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/contact-us", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",15)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",15)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",15)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",15)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",15)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/contact-us", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",15)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",15)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",15)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",15)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",15)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/contact-us", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",15)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",15)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",15)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",15)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",15)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/contact-us", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",15)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",15)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",15)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",15)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",15)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/footer-new-page", function () {
+
+                    $data = ["pageName" => "About us"];
+                    return view("demo-file", $data);
+
+                });

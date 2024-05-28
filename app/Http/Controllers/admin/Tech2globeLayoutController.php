@@ -693,28 +693,57 @@ class Tech2globeLayoutController extends Controller
             $fileid = null;
 
             if(!empty($data['file_id'])){
-                $rules = [
-                    'file_id' => 'required',
-                    'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
-                ];
+
+                if($id==""){
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                        'page_url.max' => 'Page Url characters should not be greater than 35',
+                        'page_url.unique' => 'This Page url is already exist! Try a different one',
+                    ]; 
     
-                $customMessages = [
-                    'file_id.required' => 'File Linked is required',
-                    'page_url.required' => 'Page url is required',
-                    'page_url.max' => 'Page Url characters should not be greater than 35',
-                    'page_url.unique' => 'This Page url is already exist! Try a different one',
-                ]; 
-
-                $this->validate($request,$rules,$customMessages);
-
+                    $this->validate($request,$rules,$customMessages);    
+                }else{
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                    ]; 
+    
+                    $this->validate($request,$rules,$customMessages);    
+                }
+                
                 $pageUrl = Str::slug($data['page_url']);
                 $fileid = $data['file_id'];
+
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($mainMenu['file_id']);
 
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                // Adding a route dynamically
-                $routeContent = '
+                // Managing a route dynamically
+                $oldRouteContent='';
+                if($id != ''){
+                $oldRouteContent = '
+                Route::get("/'.$mainMenu['page_url'].'", function () {
+
+                    $data = ["pageName" => "'.$mainMenu['categoryName'].'"];
+                    return view("'.$fileDatabyIdOld['file_slug'].'", $data);
+
+                });';
+                }
+
+                $newRouteContent = '
                 Route::get("/'.$pageUrl.'", function () {
 
                     $data = ["pageName" => "'.$data['categoryName'].'"];
@@ -723,12 +752,36 @@ class Tech2globeLayoutController extends Controller
                 });';
 
                 $routePath = base_path('routes/mainMenu.php');
-                file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                // Read the entire file
+                $currentContent = file_get_contents($routePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldRouteContent, $newRouteContent, $currentContent);
+
+                if($id != '' && $newContent !== $currentContent){
+                    file_put_contents($routePath, $newContent, LOCK_EX);
+                }else{
+                    file_put_contents($routePath, $newRouteContent,FILE_APPEND | LOCK_EX);
+                }
+
+                if($id != '' && $mainMenu['file_id'] != $data['file_id']){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
             if(empty($data['file_id']) && !empty($data['page_url2'])){
@@ -737,15 +790,32 @@ class Tech2globeLayoutController extends Controller
                 $pageUrl = $b[0];
                 $fileid = $b[1];
 
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($mainMenu['file_id']);
+
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                if($id != '' && $mainMenu['file_id'] != $fileid){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
+            $mainMenu->type = $data['customRadio'];
             $mainMenu->categoryName = $data['categoryName'];
             $mainMenu->page_url = $pageUrl;
             $mainMenu->file_id = $fileid;
@@ -801,29 +871,57 @@ class Tech2globeLayoutController extends Controller
             $fileid = null;
 
             if(!empty($data['file_id'])){
-                $rules = [
-                    'file_id' => 'required',
-                    'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
-                ];
+
+                if($id==""){
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                        'page_url.max' => 'Page Url characters should not be greater than 35',
+                        'page_url.unique' => 'This Page url is already exist! Try a different one',
+                    ]; 
     
-                $customMessages = [
-                    'file_id.required' => 'File Linked is required',
-                    'page_url.required' => 'Page url is required',
-                    'page_url.max' => 'Page Url characters should not be greater than 35',
-                    'page_url.unique' => 'This Page url is already exist! Try a different one',
-                ]; 
-
-                $this->validate($request,$rules,$customMessages);
-
+                    $this->validate($request,$rules,$customMessages);    
+                }else{
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                    ]; 
+    
+                    $this->validate($request,$rules,$customMessages);    
+                }
+                
                 $pageUrl = Str::slug($data['page_url']);
                 $fileid = $data['file_id'];
+
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($subMenu['file_id']);
 
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                // Adding a route dynamically
+                // Managing a route dynamically
+                $oldRouteContent='';
+                if($id!=""){
+                $oldRouteContent = '
+                Route::get("/'.$subMenu['page_url'].'", function () {
 
-                $routeContent = '
+                    $data = ["pageName" => "'.$subMenu['subCategoryName'].'"];
+                    return view("'.$fileDatabyIdOld['file_slug'].'", $data);
+
+                });';
+                }
+
+                $newRouteContent = '
                 Route::get("/'.$pageUrl.'", function () {
 
                     $data = ["pageName" => "'.$data['subCategoryName'].'"];
@@ -832,12 +930,36 @@ class Tech2globeLayoutController extends Controller
                 });';
 
                 $routePath = base_path('routes/subMenu.php');
-                file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                // Read the entire file
+                $currentContent = file_get_contents($routePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldRouteContent, $newRouteContent, $currentContent);
+
+                if($id != '' && $newContent !== $currentContent){
+                    file_put_contents($routePath, $newContent, LOCK_EX);
+                }else{
+                    file_put_contents($routePath, $newRouteContent,FILE_APPEND | LOCK_EX);
+                }
+
+                if($id != '' && $subMenu['file_id'] != $data['file_id']){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
             if(empty($data['file_id']) && !empty($data['page_url2'])){
@@ -846,15 +968,32 @@ class Tech2globeLayoutController extends Controller
                 $pageUrl = $b[0];
                 $fileid = $b[1];
 
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($subMenu['file_id']);
+
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                if($id != '' && $subMenu['file_id'] != $fileid){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
+            $subMenu->type = $data['customRadio'];
             $subMenu->category_id = $data['category_id'];
             $subMenu->subCategoryName = $data['subCategoryName'];
             $subMenu->page_url = $pageUrl;
@@ -881,6 +1020,7 @@ class Tech2globeLayoutController extends Controller
 
         $mainMenu = tech2globe_header_category::get()->toArray();
         $subMenu = tech2globe_header_sub_category::get()->toArray();
+        $pageCat = tech2globe_pages_category::get()->toArray();
         $fileData = file_data::get()->toArray();
         $allpageurl = DB::table('tech2globe_header_category')
             ->select('page_url', 'file_id')
@@ -912,34 +1052,84 @@ class Tech2globeLayoutController extends Controller
 
             $pageUrl = '';
             $fileid = null;
-
+            
             if(!empty($data['file_id'])){
-                $rules = [
-                    'file_id' => 'required',
-                    'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
-                ];
+
+                if($id==""){
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                        'page_url.max' => 'Page Url characters should not be greater than 35',
+                        'page_url.unique' => 'This Page url is already exist! Try a different one',
+                    ]; 
     
-                $customMessages = [
-                    'file_id.required' => 'File Linked is required',
-                    'page_url.required' => 'Page url is required',
-                    'page_url.max' => 'Page Url characters should not be greater than 35',
-                    'page_url.unique' => 'This Page url is already exist! Try a different one',
-                ]; 
-
-                $this->validate($request,$rules,$customMessages);
-
+                    $this->validate($request,$rules,$customMessages);    
+                }else{
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                    ]; 
+    
+                    $this->validate($request,$rules,$customMessages);    
+                }
+                
                 $pageUrl = Str::slug($data['page_url']);
                 $fileid = $data['file_id'];
+
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($allPage['file_id']);
 
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                $pageId = $allPage->select('id')->latest('id')->first();
-                $pageId = $pageId['id'];
-                $pageId++;
+                if($id==""){
+                    $pageId = $allPage->select('id')->latest('id')->first();
+                    $pageId = $pageId['id'];
+                    $pageId++;
+                }else{
+                    $pageId = $allPage['id'];
+                }
 
-                // Adding a route dynamically
-                $routeContent = '
+                // Managing a route dynamically
+                $oldRouteContent='';
+                if($id != ''){
+                $oldRouteContent = '
+                Route::get("/'.$allPage['page_url'].'", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("'.$fileDatabyIdOld['file_slug'].'", $data);
+
+                });';
+                }
+
+                $newRouteContent = '
                 Route::get("/'.$pageUrl.'", function () {
 
                     $portfolio = portfolio::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
@@ -948,16 +1138,16 @@ class Tech2globeLayoutController extends Controller
                     $faq = faq::where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
                     $blog = blog::select("blog_id")->where("status",1)->where("page_id",'.$pageId.')->get()->toArray();
 
-                    // $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
-                    // $post_ids = $blog; // replace with your array of post IDs
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
                     $all_posts = [];
 
-                    // foreach ($post_ids as $post_id) {
-                    //     $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
-                    //     if ($post) {
-                    //         $all_posts[] = $post;
-                    //     } 
-                    // }
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
 
                     $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
                     return view("'.$fileDatabyId['file_slug'].'", $data);
@@ -965,12 +1155,36 @@ class Tech2globeLayoutController extends Controller
                 });';
 
                 $routePath = base_path('routes/web.php');
-                file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                // Read the entire file
+                $currentContent = file_get_contents($routePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldRouteContent, $newRouteContent, $currentContent);
+
+                if($id != '' && $newContent !== $currentContent){
+                    file_put_contents($routePath, $newContent, LOCK_EX);
+                }else{
+                    file_put_contents($routePath, $newRouteContent,FILE_APPEND | LOCK_EX);
+                }
+
+                if($id != '' && $allPage['file_id'] != $data['file_id']){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
             if(empty($data['file_id']) && !empty($data['page_url2'])){
@@ -979,15 +1193,33 @@ class Tech2globeLayoutController extends Controller
                 $pageUrl = $b[0];
                 $fileid = $b[1];
 
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($allPage['file_id']);
+
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                if($id != '' && $allPage['file_id'] != $fileid){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
+
+            $allPage->type = $data['customRadio'];
             $allPage->category_id = $data['category_id'];
             $allPage->sub_category_id = $data['sub_category_id'];
             $allPage->page_category_id = $data['page_category_id'];
@@ -999,7 +1231,7 @@ class Tech2globeLayoutController extends Controller
             return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
         }
 
-        return view('admin.tech2globeCmsLayout.add-edit-newPage')->with(compact('title','subMenu','mainMenu','allPage','fileData','allpageurl'));
+        return view('admin.tech2globeCmsLayout.add-edit-newPage')->with(compact('title','subMenu','mainMenu','allPage','fileData','allpageurl','pageCat'));
     }
 
     public function addEditNewPageCategory(Request $request, $id=null)
@@ -1047,28 +1279,57 @@ class Tech2globeLayoutController extends Controller
             $fileid = null;
 
             if(!empty($data['file_id'])){
-                $rules = [
-                    'file_id' => 'required',
-                    'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
-                ];
+
+                if($id==""){
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                        'page_url.max' => 'Page Url characters should not be greater than 35',
+                        'page_url.unique' => 'This Page url is already exist! Try a different one',
+                    ]; 
     
-                $customMessages = [
-                    'file_id.required' => 'File Linked is required',
-                    'page_url.required' => 'Page url is required',
-                    'page_url.max' => 'Page Url characters should not be greater than 35',
-                    'page_url.unique' => 'This Page url is already exist! Try a different one',
-                ]; 
-
-                $this->validate($request,$rules,$customMessages);
-
+                    $this->validate($request,$rules,$customMessages);    
+                }else{
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                    ]; 
+    
+                    $this->validate($request,$rules,$customMessages);    
+                }
+                
                 $pageUrl = Str::slug($data['page_url']);
                 $fileid = $data['file_id'];
+
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($category['file_id']);
 
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                // Adding a route dynamically
-                $routeContent = '
+                // Managing a route dynamically
+                $oldRouteContent='';
+                if($id != ''){
+                $oldRouteContent = '
+                Route::get("/'.$category['page_url'].'", function () {
+
+                    $data = ["pageName" => "'.$category['name'].'"];
+                    return view("'.$fileDatabyIdOld['file_slug'].'", $data);
+
+                });';
+                }
+
+                $newRouteContent = '
                 Route::get("/'.$pageUrl.'", function () {
 
                     $data = ["pageName" => "'.$data['name'].'"];
@@ -1077,12 +1338,36 @@ class Tech2globeLayoutController extends Controller
                 });';
 
                 $routePath = base_path('routes/web.php');
-                file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                // Read the entire file
+                $currentContent = file_get_contents($routePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldRouteContent, $newRouteContent, $currentContent);
+
+                if($id != '' && $newContent !== $currentContent){
+                    file_put_contents($routePath, $newContent, LOCK_EX);
+                }else{
+                    file_put_contents($routePath, $newRouteContent,FILE_APPEND | LOCK_EX);
+                }
+
+                if($id != '' && $category['file_id'] != $data['file_id']){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
             if(empty($data['file_id']) && !empty($data['page_url2'])){
@@ -1091,15 +1376,32 @@ class Tech2globeLayoutController extends Controller
                 $pageUrl = $b[0];
                 $fileid = $b[1];
 
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($category['file_id']);
+
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                if($id != '' && $category['file_id'] != $fileid){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
+            $category->type = $data['customRadio'];
             $category->category_id = $data['category_id'];
             $category->sub_category_id = $data['sub_category_id'];
             $category->file_id = $fileid;
@@ -1235,8 +1537,6 @@ class Tech2globeLayoutController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
 
-            // print_r($data); die;
-
             $rules = [
                 'category_id' => 'required',
                 'pageName' => 'required|max:20',
@@ -1255,29 +1555,112 @@ class Tech2globeLayoutController extends Controller
             $pageUrl = '';
             $fileid = null;
 
-            if(!empty($data['file_id'])){
-                $rules = [
-                    'file_id' => 'required',
-                    'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
-                ];
+            // if(!empty($data['file_id'])){
+            //     $rules = [
+            //         'file_id' => 'required',
+            //         'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+            //     ];
     
-                $customMessages = [
-                    'file_id.required' => 'File Linked is required',
-                    'page_url.required' => 'Page url is required',
-                    'page_url.max' => 'Page Url characters should not be greater than 35',
-                    'page_url.unique' => 'This Page url is already exist! Try a different one',
-                ]; 
+            //     $customMessages = [
+            //         'file_id.required' => 'File Linked is required',
+            //         'page_url.required' => 'Page url is required',
+            //         'page_url.max' => 'Page Url characters should not be greater than 35',
+            //         'page_url.unique' => 'This Page url is already exist! Try a different one',
+            //     ]; 
 
-                $this->validate($request,$rules,$customMessages);
+            //     $this->validate($request,$rules,$customMessages);
 
+            //     $pageUrl = Str::slug($data['page_url']);
+            //     $fileid = $data['file_id'];
+
+            //     //Fetching file data
+            //     $fileDatabyId = file_data::find($fileid);
+
+            //     // Adding a route dynamically
+            //     $routeContent = '
+            //     Route::get("/'.$pageUrl.'", function () {
+
+            //         $data = ["pageName" => "'.$data['pageName'].'"];
+            //         return view("'.$fileDatabyId['file_slug'].'", $data);
+
+            //     });';
+
+            //     $routePath = base_path('routes/web.php');
+            //     file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
+
+            //     $filelinkedStatus = $fileDatabyId['linked_status'];
+            //     $filelinkedStatus++;
+            //     $fileDatabyId->linked_status = $filelinkedStatus;
+            //     $fileDatabyId->save();
+            // }
+
+            // if(empty($data['file_id']) && !empty($data['page_url2'])){
+            //     $a = $data['page_url2'];
+            //     $b = explode(',',$a);
+            //     $pageUrl = $b[0];
+            //     $fileid = $b[1];
+
+            //     //Fetching file data
+            //     $fileDatabyId = file_data::find($fileid);
+
+            //     $filelinkedStatus = $fileDatabyId['linked_status'];
+            //     $filelinkedStatus++;
+            //     $fileDatabyId->linked_status = $filelinkedStatus;
+            //     $fileDatabyId->save();
+            // }
+
+            if(!empty($data['file_id'])){
+
+                if($id==""){
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                        'page_url.max' => 'Page Url characters should not be greater than 35',
+                        'page_url.unique' => 'This Page url is already exist! Try a different one',
+                    ]; 
+    
+                    $this->validate($request,$rules,$customMessages);    
+                }else{
+                    $rules = [
+                        'file_id' => 'required',
+                        'page_url' => 'required',
+                    ];
+        
+                    $customMessages = [
+                        'file_id.required' => 'File Linked is required',
+                        'page_url.required' => 'Page url is required',
+                    ]; 
+    
+                    $this->validate($request,$rules,$customMessages);    
+                }
+                
                 $pageUrl = Str::slug($data['page_url']);
                 $fileid = $data['file_id'];
+
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($footerPages['file_id']);
 
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                // Adding a route dynamically
-                $routeContent = '
+                // Managing a route dynamically
+                $oldRouteContent='';
+                if($id != ''){
+                $oldRouteContent = '
+                Route::get("/'.$footerPages['page_url'].'", function () {
+
+                    $data = ["pageName" => "'.$footerPages['sub_category_name'].'"];
+                    return view("'.$fileDatabyIdOld['file_slug'].'", $data);
+
+                });';
+                }
+
+                $newRouteContent = '
                 Route::get("/'.$pageUrl.'", function () {
 
                     $data = ["pageName" => "'.$data['pageName'].'"];
@@ -1286,12 +1669,36 @@ class Tech2globeLayoutController extends Controller
                 });';
 
                 $routePath = base_path('routes/web.php');
-                file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                // Read the entire file
+                $currentContent = file_get_contents($routePath);
+
+                // Construct the new content with the updated section
+                $newContent = str_ireplace($oldRouteContent, $newRouteContent, $currentContent);
+
+                if($id != '' && $newContent !== $currentContent){
+                    file_put_contents($routePath, $newContent, LOCK_EX);
+                }else{
+                    file_put_contents($routePath, $newRouteContent,FILE_APPEND | LOCK_EX);
+                }
+
+                if($id != '' && $footerPages['file_id'] != $data['file_id']){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
             if(empty($data['file_id']) && !empty($data['page_url2'])){
@@ -1300,15 +1707,32 @@ class Tech2globeLayoutController extends Controller
                 $pageUrl = $b[0];
                 $fileid = $b[1];
 
+                //Fetching old file data
+                $fileDatabyIdOld = file_data::find($footerPages['file_id']);
+
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                $filelinkedStatus = $fileDatabyId['linked_status'];
-                $filelinkedStatus++;
-                $fileDatabyId->linked_status = $filelinkedStatus;
-                $fileDatabyId->save();
+                if($id != '' && $footerPages['file_id'] != $fileid){
+
+                    $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
+                    $filelinkedStatusOld--;
+                    $fileDatabyIdOld->linked_status = $filelinkedStatusOld;
+                    $fileDatabyIdOld->save();
+
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }else{
+                    $filelinkedStatusNew = $fileDatabyId['linked_status'];
+                    $filelinkedStatusNew++;
+                    $fileDatabyId->linked_status = $filelinkedStatusNew;
+                    $fileDatabyId->save();
+                }
             }
 
+            $footerPages->type = $data['customRadio'];
             $footerPages->category_id = $data['category_id'];
             $footerPages->sub_category_name = $data['pageName'];
             $footerPages->page_url = $pageUrl;

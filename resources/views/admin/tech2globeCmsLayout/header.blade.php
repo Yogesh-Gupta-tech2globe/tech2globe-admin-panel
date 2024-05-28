@@ -497,10 +497,10 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                     @endif
                                     &nbsp;&nbsp;
                                   @endif
-                                  {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                  @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                     <a href="{{ url('admin/tech2globe-layout/add-edit-main-menu/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                                     &nbsp;&nbsp;
-                                  @endif --}}
+                                  @endif
                                   {{-- @if ($pagesModule['full_access']==1)
                                     <a class="confirmDelete" name="MainMenu" title="Delete Main Menu" href="javascript:void(0)" record="mainMenu" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
                                   @endif --}}
@@ -562,10 +562,10 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                   @endif
                                   &nbsp;&nbsp;
                                 @endif
-                                {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                   <a href="{{ url('admin/tech2globe-layout/add-edit-sub-menu/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                                   &nbsp;&nbsp;
-                                @endif --}}
+                                @endif
                                 {{-- @if ($pagesModule['full_access']==1)
                                   <a class="confirmDelete" name="subMenu" title="Delete Sub Menu" href="javascript:void(0)" record="subMenu" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
                                 @endif --}}
@@ -629,6 +629,10 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                   @else
                                     <a class="updatePageCategoryStatus" id="pageCate-{{ $row['id'] }}" pageCate_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                   @endif
+                                  &nbsp;&nbsp;
+                                @endif
+                                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                  <a href="{{ url('admin/tech2globe-layout/add-edit-new-page-category/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                                   &nbsp;&nbsp;
                                 @endif
                               </td>
@@ -697,6 +701,10 @@ nav.navbar.bg-light.sticky-top.display-mob-block.mobile-nav {height: auto;}
                                   @else
                                     <a class="updateAllPagesStatus" id="allPages-{{ $row['id'] }}" allPages_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                   @endif
+                                  &nbsp;&nbsp;
+                                @endif
+                                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                                  <a href="{{ url('admin/tech2globe-layout/add-edit-new-page/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                                   &nbsp;&nbsp;
                                 @endif
                               </td>

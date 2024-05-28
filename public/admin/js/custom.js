@@ -629,11 +629,11 @@ $(document).ready(function () {
 
     //Main Menu Addition
 
-    $("#pagelinkfield").hide();
+    // $("#pagelinkfield").hide();
     $("#create_new_url").hide();
     $("#use_existing_url").hide();
 
-    $(".custom-control-input").on('change', function() {
+    $(".custom-control-input").change(function() {
         var status = $(this).val();
     
         if (status == 1) {
@@ -651,6 +651,8 @@ $(document).ready(function () {
             $("#selectedPageUrl").prop('required', true);
         }
     });
+
+    $('.custom-control-input:checked').trigger('change');
 
     $("#linkfile").on('change', function() {
         var a = $("#linkfile").val();

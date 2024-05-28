@@ -14,3 +14,33 @@ use Illuminate\Routing\RouteRegistrar;
                     return view("demo-file", $data);
 
                 });
+                Route::get("/yogesh-ji", function () {
+
+                    $data = ["pageName" => "Yogesh"];
+                    return view("accounting-services", $data);
+
+                });
+                Route::get("/hello-world34", function () {
+
+                    $data = ["pageName" => "Yogesh"];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/hello-world34", function () {
+
+                    $data = ["pageName" => "Yogesh"];
+                    return view("accounting-services", $data);
+
+                });
+                Route::get("/chemistry34", function () {
+
+                    $data = ["pageName" => "Chemistry"];
+                    return view("accounting-services", $data);
+
+                });
+                Route::get("/fun-ki-ji", function () {
+
+                    $data = ["pageName" => "fun"];
+                    return view("accounting-services", $data);
+
+                });

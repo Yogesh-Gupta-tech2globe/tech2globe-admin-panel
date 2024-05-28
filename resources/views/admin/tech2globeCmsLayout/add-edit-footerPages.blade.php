@@ -69,11 +69,11 @@
                     <div class="form-group">
                       <label>Choose way of Page link :</label>
                       <div class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" id="customRadio1" value="1" name="customRadio">
+                        <input class="custom-control-input" type="radio" id="customRadio1" value="1" name="customRadio" @if($footerPages['type'] == "1") checked @endif>
                         <label for="customRadio1" class="custom-control-label">Want to create new url</label>
                       </div>
                       <div class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" id="customRadio2" value="0" name="customRadio">
+                        <input class="custom-control-input" type="radio" id="customRadio2" value="0" name="customRadio" @if($footerPages['type'] == "0") checked @endif>
                         <label for="customRadio2" class="custom-control-label">Want to use existing url</label>
                       </div>
                     </div>
