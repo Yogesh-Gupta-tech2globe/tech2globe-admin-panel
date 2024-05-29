@@ -59,7 +59,118 @@ class CasestudyController extends Controller
         $category = casestudy_category::get()->toArray();
         $allInnerPages = tech2globe_all_pages::get()->toArray();
 
-        return view('admin.ourWork.caseStudy.add-edit-case-study')->with(compact('title','casestudy','category','allInnerPages'));
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            if($data['section'] == "1"){
+
+                $rules = [
+                    'catid' => 'required',
+                    'page_id' => 'required',
+                    'name' => 'required|unique:casestudy,name',
+                    'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500|dimensions:ratio=3/2',
+                ];
+    
+                $customMessages = [
+                    'catid.required' => 'Category is required',
+                    'page_id.required' => 'Inner Page is required',
+                    'name.required' => 'Case Study name is required',
+                    'name.unique' => 'This Case Study name is already exist! Try a different one',
+                    'bannerImage.required' => 'Banner Image is required',
+                    'bannerImage.image' => 'Valid Image is required',
+                    'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
+                    'bannerImage.max' => 'Banner Image size should not be greater than 500 KB',
+                    'bannerImage.dimensions' => 'Banner Image Dimensions should be in a ratio 3/2',
+                ];
+    
+                $this->validate($request,$rules,$customMessages);
+    
+                $slug = Str::slug($data['name']);
+    
+                if($request->hasFile('bannerImage')){
+                    $image_tmp = $request->file('bannerImage');
+                    if($image_tmp->isValid()){
+                        //Get Image Extension
+                        $extension = $image_tmp->getClientOriginalExtension();
+                        //Generate New Image Name
+                        $imageName = rand(111,98999).'.'.$extension;
+                        $image_path = 'images/casestudy/bannerImage/'.$imageName;
+                        Image::make($image_tmp)->save($image_path);
+                    }
+                }else{
+                    $imageName = "";
+                }
+    
+                $fileContent = '
+                @extends("layout.layout")
+                @section("content")
+                <?php $base_url = "http://localhost:8000"; ?>
+
+                    <div class="case-study-banner-container">
+                        <div class="case-study-banner-overlay"></div>
+                        <img src="{{ url("images/casestudy/bannerImage/".$bannerImage."") }}" alt="Banner" class="img-fluid">
+                        <h1 class="fs-1">{{$name}}</h1>
+                    </div>
+
+                    <main id="caseStudyContainer">
+
+                        @if(!empty($filecode))
+                            <?php echo $filecode; ?>
+                        @endif
+                        
+                    </main>
+                
+                @endsection
+                ';
+    
+                $filePath = resource_path('views/casestudy/'.$slug.'.blade.php');
+    
+                //Creating the file
+                file_put_contents($filePath, $fileContent);
+    
+                // Adding a route dynamically
+                $routeContent = '
+                Route::get("/casestudy/'.$slug.'", function () {
+
+                    $casestudy = casestudy::where("name","'.$data['name'].'")->first();
+                    return view("casestudy/'.$slug.'", $casestudy);
+
+                });';
+    
+                $routePath = base_path('routes/casestudy.php');
+                file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);    
+
+                $casestudy->category_id = $data['catid'];
+                $casestudy->page_id = $data['page_id'];
+                $casestudy->name = $data['name'];
+                $casestudy->bannerImage = $imageName;
+                $casestudy->save();
+
+                $message = "Case Study added Successfully and it is live now! Proceed Further by click on edit Button";
+                return redirect('admin/case-study')->with('success_message',$message);
+
+                // return response()->json(['message'=>'Section One is completed and your page is live now! Proceed Further','link'=>$slug]);
+            }else if($data['section'] == "2"){
+                $filecode = $data['filecode'];
+
+                $rules = [
+                    'filecode' => 'required',
+                ];
+    
+                $customMessages = [
+                    'filecode.required' => 'File code is required',
+                ];
+    
+                $this->validate($request,$rules,$customMessages);
+
+                $casestudy->filecode = $filecode;
+                $casestudy->save();
+
+                return redirect('admin/case-study')->with('success_message',$message);
+            }
+        }
+
+        return view('admin.ourWork.caseStudy.add-edit-case-study2')->with(compact('title','casestudy','category','allInnerPages'));
     }
 
     public function createsections(Request $request)
@@ -88,7 +199,7 @@ class CasestudyController extends Controller
                 if(!empty($data['bannerImage']) && !empty($data['current_image'])){
 
                     $rules = [
-                        'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500',
+                        'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500|dimensions:ratio=3/2',
                     ];
         
                     $customMessages = [
@@ -96,6 +207,7 @@ class CasestudyController extends Controller
                         'bannerImage.image' => 'Valid Image is required',
                         'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
                         'bannerImage.max' => 'Banner Image size should not be greater than 500 KB',
+                        'bannerImage.dimensions' => 'Banner Image Dimensions should be in a ratio 3/2',
                     ];
         
                     $this->validate($request,$rules,$customMessages);
@@ -339,7 +451,7 @@ class CasestudyController extends Controller
                     'catid' => 'required',
                     'page_id' => 'required',
                     'name' => 'required|unique:casestudy,name',
-                    'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500',
+                    'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500|dimensions:ratio=3/2',
                 ];
     
                 $customMessages = [
@@ -351,6 +463,7 @@ class CasestudyController extends Controller
                     'bannerImage.image' => 'Valid Image is required',
                     'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
                     'bannerImage.max' => 'Banner Image size should not be greater than 500 KB',
+                    'bannerImage.dimensions' => 'Banner Image Dimensions should be in a ratio 3/2',
                 ];
     
                 $this->validate($request,$rules,$customMessages);
@@ -635,6 +748,22 @@ class CasestudyController extends Controller
             }
 
             casestudy_category::where('id',$data['casestudy_id'])->update(['status'=>$status]);
+            return response()->json(['status'=>$status, 'casestudy_id'=>$data['casestudy_id']]);
+        }
+    }
+
+    public function updateCasestudy(Request $request){
+
+        if($request->ajax()){
+            $data = $request->all();
+
+            if($data['status']=="Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+
+            casestudy::where('id',$data['casestudy_id'])->update(['status'=>$status]);
             return response()->json(['status'=>$status, 'casestudy_id'=>$data['casestudy_id']]);
         }
     }

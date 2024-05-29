@@ -46,7 +46,7 @@
                     <div class="row">
                         <nav class="navbar navbar-expand-lg header-location">
                             <div class="container">
-                                <a class="navbar-brand" href="<?php echo $base_url; ?>"><img class="lozad" src="{{ url('images/tech2globe-logo.png') }}" class="brand-logo" alt="Tech 2 globe Logo"></a>
+                                <a class="navbar-brand" href="<?php echo $base_url; ?>"><img class="lozad" src="{{ url('images/logo/'.$sitelogo['name']) }}" class="brand-logo" alt="Tech 2 globe Logo"></a>
                             </div>
                         </nav>
                     </div>

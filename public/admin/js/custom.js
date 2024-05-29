@@ -1435,7 +1435,8 @@ $(document).ready(function () {
                 contentType: false,  // Prevent jQuery from setting contentType
                 success: function(response) {
                     toastr.success(response['message']);
-                    $("#casestudyviewbtn").html('<a class="btn btn-primary" href="/casestudy/'+ response['link'] +'" target="_blank">Visit Page</a>');    
+                    $("#casestudyviewbtn").html('<a class="btn btn-primary" href="/casestudy/'+ response['link'] +'" target="_blank">Visit Page</a>');
+                    window.location.replace("/admin/case-study");  
                 },
                 error: function(xhr, status, error) {
                     // Handle errors
@@ -1487,6 +1488,35 @@ $(document).ready(function () {
                 else if (resp['status'] == 1) {
                     $("#casestudy-cat-" + casestudy_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
                     toastr.success('Case Study Category Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    
+    // Update Case Study Status
+    $(document).on("click", ".updateCasestudyStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var casestudy_id = $(this).attr("casestudy_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-casestudy-status",
+            data: { status: status, casestudy_id: casestudy_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#casestudy-" + casestudy_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Case Study Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#casestudy-" + casestudy_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Case Study Activated');    
                 }
             },
             error: function () {

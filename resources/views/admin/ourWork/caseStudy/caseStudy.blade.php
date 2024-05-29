@@ -91,9 +91,9 @@
                               <td>
                                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                   @if ($row['status']==1)
-                                      <a class="updateFaqStatus" id="faq-{{ $row['id'] }}" faq_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                      <a class="updateCasestudyStatus" id="casestudy-{{ $row['id'] }}" casestudy_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
                                   @else
-                                      <a class="updateFaqStatus" id="faq-{{ $row['id'] }}" faq_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                      <a class="updateCasestudyStatus" id="casestudy-{{ $row['id'] }}" casestudy_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                   @endif
                                   &nbsp;&nbsp;
                                   @endif
@@ -124,7 +124,7 @@
   <div class="modal fade" id="add-casestudy">
     <div class="modal-dialog">
       <div class="modal-content bg-secondary">
-        <form action="create-case-study-section" method="post" enctype="multipart/form-data">@csrf
+        <form action="add-edit-case-study" method="post" enctype="multipart/form-data">@csrf
             <div class="modal-header">
                 <h4 class="modal-title">Add {{$pagename}}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -157,6 +157,10 @@
               <div class="form-group">
                   <label for="bannerImage">Banner Image</label>
                   <input type="file" class="form-control" name="bannerImage" id="bannerImage" required>
+                  <ul>
+                    <li>Banner Size should not be greater than 500KB</li>
+                    <li>Banner Dimensions should be in a ration like (300x200, 450x300, 600x400)</li>
+                  </ul>
               </div>
               <input type="hidden" name="section" value="1">   
             </div>

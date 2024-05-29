@@ -8,6 +8,7 @@ use App\Models\AdminsRole;
 use App\Models\contact_social;
 use App\Models\company_branch;
 use App\Models\achievements;
+use App\Models\sitelogo;
 use Session;
 use Auth;
 use Image;
@@ -410,4 +411,87 @@ class ExtrasController extends Controller
             return response()->json(['status'=>$status, 'achievements_id'=>$data['achievements_id']]);
         }
     }
+
+    public function sitelogo()
+    {
+        Session::put('page','site_logo');
+
+        $pageName = "Site Logo";
+        $sitelogo = sitelogo::find(1);
+
+        //Set Admin/Subadmins Permissions for Layout Module
+        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($layoutModuleCount==0){
+            $message = "This feature is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+        }
+
+        return view('admin.extras.sitelogo.sitelogo')->with(compact('pagesModule','pageName','sitelogo'));
+    }
+
+    public function sitelogoupdate(Request $request){
+        $sitelogo = sitelogo::find(1);
+       
+        $data = $request->all();
+
+        $rules = [
+            'logo' => 'required|image|max:200',
+        ];
+
+        $customMessages = [
+            'logo.required' => 'Update logo is required',
+            'logo.image' => 'Only Images are allowed',
+            'logo.max' => 'Image should not be greater than 200 Kb',
+        ];
+
+        $this->validate($request,$rules,$customMessages);
+
+        if(!empty($data['logo']) && !empty($data['current_image'])){
+
+                    
+            $imagePath = public_path('images/logo/'.$data['current_image']);
+
+            if(file_exists($imagePath)){
+                if(unlink($imagePath)){
+                    
+                }else{
+                    return redirect()->back()->with('error_message','There is some error on deleting Image!');
+                }
+            }else{
+                return redirect()->back()->with('error_message','Image not found! Please contact Admin');
+            }
+        }
+
+        if($request->hasFile('logo')){
+            $image_tmp = $request->file('logo');
+            if($image_tmp->isValid()){
+                //Get Image Extension
+                $extension = $image_tmp->getClientOriginalExtension();
+                //Generate New Image Name
+                $imageName = rand(111,98999).'.'.$extension;
+                $image_path = 'images/logo/'.$imageName;
+                Image::make($image_tmp)->save($image_path);
+            }
+        }else if(!empty($data['current_image'])){
+            $imageName = $data['current_image'];
+        }else{
+            $imageName = "";
+        }
+
+        $sitelogo->name = $imageName;
+        $sitelogo->save();
+
+        $message = "Site logo updated Successfully";
+        
+        return redirect('admin/site-logo')->with('success_message',$message);
+    }
+    
 }

@@ -64,6 +64,7 @@
                     <div class="form-group">
                         <label for="subCategoryName">Sub Menu Name*</label>
                         <input type="text" class="form-control" id="subCategoryName" name="subCategoryName" placeholder="Enter Sub Menu Name" required @if(!empty($subMenu['subCategoryName'])) value="{{ $subMenu['subCategoryName'] }}" @endif>
+                        <input type="hidden" name="customRadio" value="">
                     </div>
 
                     <div class="form-group">

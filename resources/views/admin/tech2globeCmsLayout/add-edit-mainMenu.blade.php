@@ -53,6 +53,7 @@
                     <div class="form-group">
                         <label for="categoryName">Main Menu Name*</label>
                         <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Main Menu Name" required @if(!empty($mainMenu['categoryName'])) value="{{ $mainMenu['categoryName'] }}" @endif>
+                        <input type="hidden" name="customRadio" value="">
                     </div>
 
                     <div class="form-group">

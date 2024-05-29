@@ -43,3 +43,33 @@ use App\Models\casestudy;
                     return view("casestudy/bhavya", $casestudy);
 
                 });
+                Route::get("/casestudy/bug-fixing", function () {
+
+                    $casestudy = casestudy::where("name","Bug Fixing")->first();
+                    return view("casestudy/bug-fixing", $casestudy);
+
+                });
+                Route::get("/casestudy/hgtyhty", function () {
+
+                    $casestudy = casestudy::where("name","hgtyhty")->first();
+                    return view("casestudy/hgtyhty", $casestudy);
+
+                });
+                Route::get("/casestudy/yyyyyyyyyyyyyyy", function () {
+
+                    $casestudy = casestudy::where("name","yyyyyyyyyyyyyyy")->first();
+                    return view("casestudy/yyyyyyyyyyyyyyy", $casestudy);
+
+                });
+                Route::get("/casestudy/new-case-study-with-code", function () {
+
+                    $casestudy = casestudy::where("name","New case study with code")->first();
+                    return view("casestudy/new-case-study-with-code", $casestudy);
+
+                });
+                Route::get("/casestudy/kim", function () {
+
+                    $casestudy = casestudy::where("name","kim")->first();
+                    return view("casestudy/kim", $casestudy);
+
+                });

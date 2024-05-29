@@ -326,7 +326,7 @@
             </ul>
           </li>
 
-          @if(Session::get('page')=="extras" || Session::get('page')=="company_branch" || Session::get('page')=="contact_social" || Session::get('page')=="achievements" || Session::get('page')=="captcha")
+          @if(Session::get('page')=="extras" || Session::get('page')=="site_logo" || Session::get('page')=="company_branch" || Session::get('page')=="contact_social" || Session::get('page')=="achievements" || Session::get('page')=="captcha")
             @php $active="active" @endphp
           @else
             @php $active="" @endphp
@@ -340,6 +340,18 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+
+              @if(Session::get('page')=="site_logo")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/site-logo" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Site Logo</p>
+                </a>
+              </li>
 
               @if(Session::get('page')=="company_branch")
                 @php $active="active" @endphp
@@ -383,9 +395,9 @@
                 @php $active="" @endphp
               @endif
               <li class="nav-item">
-                <a href="" class="nav-link {{ $active}}">
+                <a href="/admin/recaptcha" class="nav-link {{ $active}}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Recaptcha Keys (V2)</p>
+                  <p>Form Recaptcha Keys</p>
                 </a>
               </li>
             </ul>

@@ -146,6 +146,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('achievements', 'ExtrasController@achievements');
         Route::match(['get','post'],'add-edit-achievements/{id?}', 'ExtrasController@addEditAchievements');
         Route::post('update-achievements-status', 'ExtrasController@updateAchievements');
+        //Site Logo
+        Route::get('site-logo', 'ExtrasController@sitelogo');
+        Route::post('site-logo-update', 'ExtrasController@sitelogoupdate');
 
 
         //Our Work Module
@@ -179,6 +182,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-edit-casestudy-category/{id?}','CasestudyController@addEditCasestudyCategory');
         Route::post('update-casestudycategory-status', 'CasestudyController@updateCasestudyCat');
         Route::post('create-case-study-section', 'CasestudyController@createsections');
+        Route::post('update-casestudy-status', 'CasestudyController@updateCasestudy');
 
         //Blog
         Route::get('blog','BlogController@index');
@@ -457,12 +461,6 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
                     }
 
                     $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
-                    return view("demo-file", $data);
-
-                });
-                Route::get("/footer-new-page", function () {
-
-                    $data = ["pageName" => "About us"];
                     return view("demo-file", $data);
 
                 });

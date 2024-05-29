@@ -15,6 +15,7 @@ use App\Models\tech2globe_footer_sub_category;
 use App\Models\company_branch;
 use App\Models\contact_social;
 use App\Models\achievements;
+use App\Models\sitelogo;
 use App\Models\portfolio;
 use App\Models\casestudy;
 use App\Models\testimonial;
@@ -52,7 +53,9 @@ class AppServiceProvider extends ServiceProvider
             $skypeId = contact_social::select('link')->where('name','Skype ID')->first();
             $mailId = contact_social::select('link')->where('name','Mail ID')->first();
 
-            $view->with(['mainMenu' => $mainMenu, 'subMenu' => $subMenu,'pageCategory' => $pageCategory,'allPages' => $allPages,'companyBranch' => $companyBranch, 'skypeId' => $skypeId, 'mailId' => $mailId]);
+            $sitelogo = sitelogo::where('id',1)->first();
+
+            $view->with(['mainMenu' => $mainMenu, 'subMenu' => $subMenu,'pageCategory' => $pageCategory,'allPages' => $allPages,'companyBranch' => $companyBranch, 'skypeId' => $skypeId, 'mailId' => $mailId, 'sitelogo' => $sitelogo]);
         });
 
         View::composer('layout.footer', function ($view) {
