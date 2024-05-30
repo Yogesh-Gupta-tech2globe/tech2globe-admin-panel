@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ url('css/aos.css') }}" />
     <link rel="stylesheet" href="{{ url('css/style.css') }}" />
     <link rel="stylesheet" href="{{ url('css/responsive.css') }}" />
+  <link rel="stylesheet" href="{{ url('admin/plugins/toastr/toastr.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
   	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
@@ -43,6 +44,8 @@
     <script src="{{ url('js/owl.carousel.js') }}"></script>
     <script src="{{ url('js/aos.js') }}"></script>
     <script src="{{ url('js/main.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ url('admin/plugins/toastr/toastr.min.js') }}"></script>
     <script>
         AOS.init();
     </script>

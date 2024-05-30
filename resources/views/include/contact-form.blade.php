@@ -322,7 +322,7 @@
 
 
 
-        <form name='contact1' method="POST" action="include/banner-mail" id='contact-us1'>
+        <form name='contact1' class="formSubmit" id='contact-us1'>@csrf
 
             <div class="row">
 
@@ -1325,7 +1325,7 @@
                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 boxes px-2">
 
                     <!-- <div class="g-recaptcha mt-1 ps-0" data-sitekey="6LcgtGUoAAAAACiwvWRy3dCLGtegotNKS0YN6Uak"></div> -->
-                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAaIGkjRLxuffu9G" data-theme="light"></div>
+                    <div class="cf-turnstile" data-sitekey="{{$site_key->site_key}}" data-theme="light"></div>
 
 
                 </div>

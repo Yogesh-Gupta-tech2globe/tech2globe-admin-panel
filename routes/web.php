@@ -8,6 +8,7 @@ use App\Models\casestudy;
 use App\Models\testimonial;
 use App\Models\faq;
 use App\Models\blog;
+use App\Http\Controllers\mailController;
 
 require __DIR__.'/pages.php';
 require __DIR__.'/mainMenu.php';
@@ -30,6 +31,8 @@ Route::get('/', function () {
     
     return view('home');
 });
+
+Route::post('/mail', [mailController::class, 'mail']);
 
 function fetch_post_by_id($base_url, $post_id) {
     $url = "$base_url/$post_id";
@@ -149,6 +152,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Site Logo
         Route::get('site-logo', 'ExtrasController@sitelogo');
         Route::post('site-logo-update', 'ExtrasController@sitelogoupdate');
+        //Recaptcha 
+        Route::get('recaptcha', 'ExtrasController@recaptcha');
+        Route::post('recaptcha-update', 'ExtrasController@recaptchaupdate');
 
 
         //Our Work Module

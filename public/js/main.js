@@ -290,6 +290,44 @@ $(document).ready(function() {
     //     selector: '.glightbox'
     // });
 
+    //Contact form
+  
+    $('.formSubmit').submit(function(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+        
+        // Serialize the form data
+        var formData = new FormData(this);
+        
+        // Send AJAX request
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: "/mail",
+            data: formData,
+            processData: false,  // Prevent jQuery from processing the data
+            contentType: false,  // Prevent jQuery from setting contentType
+            success: function(response) {
+                if(response['message']){
+                    toastr.success(response['message']);
+                }else{
+                    toastr.error(response['error']);
+                }
+                // window.location.replace("/admin/case-study");  
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                var a = JSON.parse(xhr.responseText);
+                console.log(a);
+                toastr.error(a.message);
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+
 });
 
   

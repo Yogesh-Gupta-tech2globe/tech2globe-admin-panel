@@ -141,7 +141,7 @@
             $actual_link = str_replace('.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
             ?>
 
-            <form name='contact1' method="POST" action="include/mail" id='contact-us1'>
+            <form name='contact1' class="formSubmit" id='contact-us1'>@csrf
                 <div class="px-3">
                     <div class="row">
                         <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 input-fileds px-0">
@@ -646,7 +646,7 @@
                     <div class="row">
                         <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 px-0">
                             <!-- <div class="g-recaptcha" data-sitekey="6LcgtGUoAAAAACiwvWRy3dCLGtegotNKS0YN6Uak"></div> -->
-                            <div class="cf-turnstile" data-sitekey="0x4AAAAAAAZkfkKo2ooZlFK4" data-theme="light"></div>
+                            <div class="cf-turnstile" data-sitekey="{{$site_key->site_key}}" data-theme="light"></div>
 
                         </div>
                     </div>

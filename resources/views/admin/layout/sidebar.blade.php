@@ -326,7 +326,7 @@
             </ul>
           </li>
 
-          @if(Session::get('page')=="extras" || Session::get('page')=="site_logo" || Session::get('page')=="company_branch" || Session::get('page')=="contact_social" || Session::get('page')=="achievements" || Session::get('page')=="captcha")
+          @if(Session::get('page')=="extras" || Session::get('page')=="site_logo" || Session::get('page')=="company_branch" || Session::get('page')=="contact_social" || Session::get('page')=="achievements" || Session::get('page')=="recaptcha")
             @php $active="active" @endphp
           @else
             @php $active="" @endphp
@@ -389,7 +389,7 @@
                 </a>
               </li>
 
-              @if(Session::get('page')=="captcha")
+              @if(Session::get('page')=="recaptcha")
                 @php $active="active" @endphp
               @else
                 @php $active="" @endphp

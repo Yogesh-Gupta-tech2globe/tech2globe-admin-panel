@@ -20,6 +20,7 @@ use App\Models\portfolio;
 use App\Models\casestudy;
 use App\Models\testimonial;
 use App\Models\faq;
+use App\Models\recaptcha;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -116,5 +117,26 @@ class AppServiceProvider extends ServiceProvider
 
         //     $view->with(['faq' => $faq]);
         // });
+
+        View::composer('include.cta-form', function ($view) {
+
+            $recaptcha = recaptcha::select('site_key')->find(1);
+
+            $view->with(['site_key' => $recaptcha]);
+        });
+
+        View::composer('include.query-form', function ($view) {
+
+            $recaptcha = recaptcha::select('site_key')->find(1);
+
+            $view->with(['site_key' => $recaptcha]);
+        });
+
+        View::composer('include.contact-form', function ($view) {
+
+            $recaptcha = recaptcha::select('site_key')->find(1);
+
+            $view->with(['site_key' => $recaptcha]);
+        });
     }
 }

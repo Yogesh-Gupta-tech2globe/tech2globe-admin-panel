@@ -504,7 +504,7 @@
 
                     ?>
 
-                    <form action="include/mail" method="POST">
+                    <form class="formSubmit">@csrf
 
                         <?php $actual_link = str_replace('.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']); ?>
 
@@ -1465,7 +1465,7 @@
 
 
 
-                        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAZkfkKo2ooZlFK4" data-theme="light"></div>
+                        <div class="cf-turnstile" data-sitekey="{{$site_key->site_key}}" data-theme="light"></div>
 
                         <!-- <div class="g-recaptcha" data-sitekey="6LcgtGUoAAAAACiwvWRy3dCLGtegotNKS0YN6Uak" style="transform:scale(0.77); transform-origin:0 0; margin-left: 30px;"></div> -->
 

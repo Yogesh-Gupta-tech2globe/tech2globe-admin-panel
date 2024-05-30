@@ -9,6 +9,7 @@ use App\Models\contact_social;
 use App\Models\company_branch;
 use App\Models\achievements;
 use App\Models\sitelogo;
+use App\Models\recaptcha;
 use Session;
 use Auth;
 use Image;
@@ -492,6 +493,59 @@ class ExtrasController extends Controller
         $message = "Site logo updated Successfully";
         
         return redirect('admin/site-logo')->with('success_message',$message);
+    }
+
+    public function recaptcha()
+    {
+        Session::put('page','recaptcha');
+
+        $pageName = "Recaptcha";
+        $recaptcha = recaptcha::find(1);
+
+        //Set Admin/Subadmins Permissions for Layout Module
+        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($layoutModuleCount==0){
+            $message = "This feature is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+        }
+
+        return view('admin.extras.recaptcha.recaptcha')->with(compact('pagesModule','pageName','recaptcha'));
+    }
+
+    function recaptchaupdate(Request $request){
+
+        if($request->isMethod('post')){
+            $recaptcha = recaptcha::find(1);
+            $data = $request->all();
+
+            $rules = [
+                'site_key' => 'required',
+                'secret_key' => 'required',
+            ];
+    
+            $customMessages = [
+                'site_key.required' => 'Site key is required',
+                'secret_key.required' => 'Secret Key is required',
+            ];
+    
+            $this->validate($request,$rules,$customMessages);
+
+            $recaptcha->site_key = $data['site_key'];
+            $recaptcha->secret_key = $data['secret_key'];
+            $recaptcha->save();
+
+            $message = "Recaptcha updated Successfully";
+        
+            return redirect('admin/recaptcha')->with('success_message',$message);
+        }
     }
     
 }
