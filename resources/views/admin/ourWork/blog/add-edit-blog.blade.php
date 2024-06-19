@@ -1,6 +1,17 @@
 @extends('admin.layout.layout')
 @section('content')
 
+<style>
+  .select2-container {
+    border: 1px solid white;
+  }
+
+  .select2-search select2-search--inline .select2-search__field{
+    border: 1px solid white;
+    width: 100%;
+  }
+</style>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -64,13 +75,23 @@
                           </select>
                       </div>
                       <div class="form-group">
-                            <label for="question">Select Blog*</label>
-                            <select class="form-control" style="width: 100%;" name="blog_id" required>
-                                <option value="">Select Blog</option>
-                                @foreach ($posts as $row)
-                                    <option value="{{ $row['id'] }}" @if($row['id'] == $blog['blog_id']) selected @endif>{{ $row['title']['rendered'] }}</option>
-                                @endforeach
-                            </select>
+                            @if(empty($blog['id']))
+                              <label for="blog_id">Select Blog*</label>
+                              <select class="form-control" name="blog_id[]" required id="ourWorkBlog" multiple data-placeholder="Choose Blog">
+                                  <option value="">Select Blog</option>
+                                  @foreach ($posts as $row)
+                                      <option value="{{ $row['id'] }}" @if($row['id'] == $blog['blog_id']) selected @endif>{{ $row['title']['rendered'] }}</option>
+                                  @endforeach
+                              </select>
+                            @else
+                              <label for="blog_id">Selected Blog*</label>
+                              @foreach ($posts as $row)
+                                @if($row['id'] == $blog['blog_id'])
+                                  <input type="text" class="form-control" value="{{ $row['title']['rendered'] }}" readonly>
+                                  <input type="hidden" value="{{ $row['id'] }}" name="blog_id[]" required>
+                                @endif
+                              @endforeach
+                            @endif
                       </div>
                     </div>
                     <!-- /.card-body -->

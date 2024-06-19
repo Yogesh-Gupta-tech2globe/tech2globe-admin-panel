@@ -18,23 +18,24 @@ class FaqController extends Controller
 
         $pagename = "FAQ";
         $faq = faq::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
 
-        //Set Admin/Subadmins Permissions for Portfolio Module
-        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
+        //Set Admin/Subadmins Permissions for Our Work Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($portfolioModuleCount==0){
-            $message = "This feature is restricted for you!";
+        }else if($ModuleCount==0){
+            $message = "This module is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->first()->toArray();
         }
 
-        return view('admin.ourWork.faq.faq')->with(compact('pagesModule','pagename','faq'));
+        return view('admin.ourWork.faq.faq')->with(compact('pagesModule','pagename','faq','allInnerPages'));
     }
 
     public function addEditFaq(Request $request, $id=null)
@@ -67,11 +68,19 @@ class FaqController extends Controller
             ];
 
             $this->validate($request,$rules,$customMessages);
+
+            for($i=0; $i < count($data['question']); $i++){
+
+                if($id==""){
+                    $faq = new faq();
+                }
+
+                $faq->page_id = $data['page_id'];
+                $faq->question = $data['question'][$i];
+                $faq->answer = $data['answer'][$i];
+                $faq->save();
+            }
             
-            $faq->page_id = $data['page_id'];
-            $faq->question = $data['question'];
-            $faq->answer = $data['answer'];
-            $faq->save();
             return redirect('admin/faq')->with('success_message',$message);
         }
 

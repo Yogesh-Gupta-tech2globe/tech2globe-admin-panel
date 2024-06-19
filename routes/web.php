@@ -9,6 +9,7 @@ use App\Models\testimonial;
 use App\Models\faq;
 use App\Models\blog;
 use App\Http\Controllers\mailController;
+use App\Http\Controllers\aplusController;
 
 require __DIR__.'/pages.php';
 require __DIR__.'/mainMenu.php';
@@ -33,6 +34,11 @@ Route::get('/', function () {
 });
 
 Route::post('/mail', [mailController::class, 'mail']);
+Route::get('/aplusplugin-register', [aplusController::class, 'index']);
+Route::post('/aplusplugin-create', [aplusController::class, 'create']);
+Route::get('/aplusplugin-thank', function () { 
+    return view('aplusplugin.thankyou');
+});
 
 function fetch_post_by_id($base_url, $post_id) {
     $url = "$base_url/$post_id";
@@ -125,6 +131,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('delete-footerPages/{id?}','Tech2globeLayoutController@deleteFooterPages');
         Route::match(['get','post'],'tech2globe-layout/add-edit-footer-socialicons/{id?}','Tech2globeLayoutController@addEditFooterSocialIcons');
 
+        //Mobile Header
+        Route::match(['get','post'],'tech2globe-layout/mobile-header','Tech2globeLayoutController@mobileheader');
 
         //Tech2globe Service Theme
         // Route::post('create-service-theme','Tech2globeServiceThemeController@create');
@@ -163,12 +171,12 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-portfolio-status','PortfolioController@update');
         Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit');
         // Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
-        Route::get('portfolio-category','PortfolioController@portfolioCategory');
-        Route::match(['get','post'],'add-edit-portfolio-category/{id?}','PortfolioController@addEditPortfolioCategory');
-        Route::post('update-portfolio-cat-status', 'PortfolioController@updatePortfolioCat');
-        Route::get('portfolio-subcategory','PortfolioController@portfolioSubCategory');
-        Route::match(['get','post'],'add-edit-portfolio-subcategory/{id?}','PortfolioController@addEditPortfolioSubCategory');
-        Route::post('update-portfolio-subcat-status', 'PortfolioController@updatePortfolioSubCat');
+        // Route::get('portfolio-category','PortfolioController@portfolioCategory');
+        // Route::match(['get','post'],'add-edit-portfolio-category/{id?}','PortfolioController@addEditPortfolioCategory');
+        // Route::post('update-portfolio-cat-status', 'PortfolioController@updatePortfolioCat');
+        // Route::get('portfolio-subcategory','PortfolioController@portfolioSubCategory');
+        // Route::match(['get','post'],'add-edit-portfolio-subcategory/{id?}','PortfolioController@addEditPortfolioSubCategory');
+        // Route::post('update-portfolio-subcat-status', 'PortfolioController@updatePortfolioSubCat');
         Route::post('getSubcategory', 'PortfolioController@getsubcategory');
 
         //Testimonial
@@ -184,9 +192,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Case Study
         Route::get('case-study','CasestudyController@index');
         Route::match(['get','post'],'add-edit-case-study/{id?}','CasestudyController@addEditCasestudy');
-        Route::get('case-study-category','CasestudyController@casestudyCategory');
-        Route::match(['get','post'],'add-edit-casestudy-category/{id?}','CasestudyController@addEditCasestudyCategory');
-        Route::post('update-casestudycategory-status', 'CasestudyController@updateCasestudyCat');
+        // Route::get('case-study-category','CasestudyController@casestudyCategory');
+        // Route::match(['get','post'],'add-edit-casestudy-category/{id?}','CasestudyController@addEditCasestudyCategory');
+        // Route::post('update-casestudycategory-status', 'CasestudyController@updateCasestudyCat');
         Route::post('create-case-study-section', 'CasestudyController@createsections');
         Route::post('update-casestudy-status', 'CasestudyController@updateCasestudy');
 

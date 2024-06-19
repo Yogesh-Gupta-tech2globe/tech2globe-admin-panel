@@ -327,6 +327,42 @@ $(document).ready(function() {
         });
     });
 
+    //Aplus Plugin form
+    $('#aplusformSubmit').submit(function(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+        
+        // Serialize the form data
+        var formData = new FormData(this);
+        
+        // Send AJAX request
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: "/aplusplugin-create",
+            data: formData,
+            processData: false,  // Prevent jQuery from processing the data
+            contentType: false,  // Prevent jQuery from setting contentType
+            success: function(response) {
+                if(response['message']){
+                    window.location.replace("/aplusplugin-thank");  
+                    toastr.success(response['message']);
+                }else{
+                    toastr.error(response['error']);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                var a = JSON.parse(xhr.responseText);
+                console.log(a);
+                toastr.error(a.message);
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
 
 });
 

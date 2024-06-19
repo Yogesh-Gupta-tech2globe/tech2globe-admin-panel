@@ -58,8 +58,8 @@
                     <thead>
                     <tr>
                       <th>S.No</th>
-                      <th>Added Page</th>
-                      <th>Added Blog</th>
+                      <th>Linked Page</th>
+                      <th>Added Blog (Post ID)</th>
                       <th>Created At</th>
                       <th>Action</th>
                     </tr>

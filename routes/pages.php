@@ -28,3 +28,9 @@ Route::get('/admin/page/1', function () {
                     return view("accounting-services", $data);
 
                 });
+                Route::get("/admin/page/20", function () {
+
+                    $data = ["pageName" => "hi"];
+                    return view("hi", $data);
+
+                });

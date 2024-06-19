@@ -1,6 +1,37 @@
 @extends('admin.layout.layout')
 @section('content')
 
+<style>
+  .qa-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .qa-item button.close-btn {
+      background-color: #fff;
+      border-radius: 50%;
+      height: 25px;
+      width: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      right: 0;
+      bottom: 5px;
+  }
+
+  .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+  }
+
+</style>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -63,13 +94,17 @@
                           </select>
                       </div>
                       <div class="form-group">
-                          <label for="question">Q. Question*</label>
-                          <input type="text" class="form-control" id="question" name="question" placeholder="Enter Question" required @if(!empty($faq['question'])) value="{{ $faq['question'] }}" @endif>
+                          <label for="question">Q1. Question*</label>
+                          <input type="text" class="form-control" id="question" name="question[]" placeholder="Enter Question" required @if(!empty($faq['question'])) value="{{ $faq['question'] }}" @endif>
                       </div>
                       <div class="form-group">
-                          <label for="answer">A. Answer*</label>
-                          <textarea class="form-control" name="answer" id="answer" placeholder="Enter Answer" required>@if(!empty($faq['answer'])) {{ $faq['answer'] }} @endif</textarea>
+                          <label for="answer">A1. Answer*</label>
+                          <textarea class="form-control" name="answer[]" id="answer" placeholder="Enter Answer" required>@if(!empty($faq['answer'])) {{ $faq['answer'] }} @endif</textarea>
                       </div>
+                      @if(empty($faq['id']))
+                      <div id="showQA"></div>
+                      <button type="button" class="btn btn-warning" id="addQA">Add Q/A</button>
+                      @endif
                     </div>
                     <!-- /.card-body -->
 

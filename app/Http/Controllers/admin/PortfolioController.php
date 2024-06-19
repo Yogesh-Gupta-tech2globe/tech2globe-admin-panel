@@ -26,25 +26,26 @@ class PortfolioController extends Controller
         Session::put('page','portfolio');
 
         $portfolio = Portfolio::get()->toArray();
-        $portfoliocat = portfolio_category::get()->toArray();
-        $portfoliosubcat = portfolio_sub_category::get()->toArray();
+        // $portfoliocat = portfolio_category::get()->toArray();
+        // $portfoliosubcat = portfolio_sub_category::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
 
-        //Set Admin/Subadmins Permissions for Portfolio Module
-        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
+        //Set Admin/Subadmins Permissions for Our Work Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($portfolioModuleCount==0){
-            $message = "This feature is restricted for you!";
+        }else if($ModuleCount==0){
+            $message = "This module is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->first()->toArray();
         }
 
-        return view('admin.ourWork.portfolio.portfolio')->with(compact('portfolio','pagesModule','portfoliocat','portfoliosubcat'));
+        return view('admin.ourWork.portfolio.portfolio')->with(compact('portfolio','pagesModule','allInnerPages'));
     }
 
     /**
@@ -271,24 +272,25 @@ class PortfolioController extends Controller
 
             $rules = [
                 'title' => 'required',
-                'category_id' => 'required',
-                'subcategory_id' => 'required',
+                // 'category_id' => 'required',
+                // 'subcategory_id' => 'required',
                 'page_id' => 'required',
                 'website' => 'required',
                 'content' => 'required',
-                'portfolio_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:500',
+                'portfolio_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:100|dimensions:width=200,height=265',
             ];
 
             $customMessages = [
                 'title.required' => 'Portfolio title is required',
-                'category_id.required' => 'Category is required',
-                'subcategory_id.required' => 'Sub Category is required',
+                // 'category_id.required' => 'Category is required',
+                // 'subcategory_id.required' => 'Sub Category is required',
                 'page_id.required' => 'Inner Page is required',
                 'website.required' => 'Website Link is required',
                 'content.required' => 'Short Description is required',
                 'portfolio_image.image' => 'Valid Image is required',
                 'portfolio_image.mimes' => 'Image should be in jpg,jpeg,gif,svg,png format',
-                'portfolio_image.max' => 'Image size should not be greater than 500KB',
+                'portfolio_image.max' => 'Image size should not be greater than 100KB',
+                'portfolio_image.dimensions' => 'Image Dimensions should be 200 X 265px',
             ];
 
             $this->validate($request,$rules,$customMessages);
@@ -326,8 +328,8 @@ class PortfolioController extends Controller
             }
 
             $portfolio->title = $data['title'];
-            $portfolio->cat_id = $data['category_id'];
-            $portfolio->sub_cat_id = $data['subcategory_id'];
+            $portfolio->cat_id = 0;
+            $portfolio->sub_cat_id = 0;
             $portfolio->page_id = $data['page_id'];
             $portfolio->technology = $data['technology'];
             $portfolio->website_link = $data['website'];

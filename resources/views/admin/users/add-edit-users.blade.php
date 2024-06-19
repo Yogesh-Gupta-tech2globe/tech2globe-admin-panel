@@ -69,9 +69,10 @@
                         <label for="role">Role*</label>
                         <select class="form-control" id="role" name="role" required>
                           <option>Select User Role</option>
-                          <option value="Hr" @if($users['role']=="Hr") selected @endif>Hr</option>
-                          <option value="Manager" @if($users['role']=="Manager") selected @endif>Manager</option>
-                          <option value="SEO" @if($users['role']=="SEO") selected @endif>SEO</option>
+                          <option value="Digital Marketing" @if($users['role']=="Digital Marketing") selected @endif>Digital Marketing</option>
+                          <option value="Designer" @if($users['role']=="Designer") selected @endif>Designer</option>
+                          <option value="Developer" @if($users['role']=="Developer") selected @endif>Developer</option>
+                          <option value="Business Analyst" @if($users['role']=="Business Analyst") selected @endif>Business Analyst</option>
                         </select>
                     </div>
                     <div class="form-group">

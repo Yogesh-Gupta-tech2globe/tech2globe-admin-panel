@@ -61,6 +61,7 @@
                       <th>Customer Name</th>
                       <th>Testimonial Type</th>
                       <th>Ratings</th>
+                      <th>Linked Page</th>
                       <th>Created At</th>
                       <th>Action</th>
                     </tr>
@@ -73,6 +74,11 @@
                             <td>{{ $row['customer_name'] }}</td>
                             <td>{{ ucfirst($row['type']) }}</td>
                             <td>{{ $row['ratings'] }}</td>
+                            <td>
+                                @foreach ($allInnerPages as $item)
+                                    @if($item['id'] == $row['page_id']) {{ $item['page_name'] }} @endif
+                                @endforeach
+                            </td>
                             <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                             <td>
                                 @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)

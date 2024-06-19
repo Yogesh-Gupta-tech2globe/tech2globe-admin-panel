@@ -1,3 +1,7 @@
+<?php
+use App\Models\AdminsRole;
+?>
+ 
  <!-- Main Sidebar Container -->
  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -155,253 +159,273 @@
             </ul>
           </li> --}}
 
-          @if(Session::get('page')=="file_management" || Session::get('page')=="linked_files" || Session::get('page')=="unlinked_files")
-            @php $active="active" @endphp
-          @else
-            @php $active="" @endphp
+          @if(AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->count() != 0 || Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="file_management" || Session::get('page')=="linked_files" || Session::get('page')=="unlinked_files")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                  File Management
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+
+                @if(Session::get('page')=="file_management")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/all-files" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>All Files</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="linked_files")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/linked-files" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Linked Files</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="unlinked_files")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/unlinked-files" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Unlinked Files</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
           @endif
-          <li class="nav-item">
-            <a href="" class="nav-link {{ $active }}">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                File Management
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
 
-              @if(Session::get('page')=="file_management")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/all-files" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>All Files</p>
-                </a>
-              </li>
+          @if(AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'headfoot'])->count() != 0 || Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="tech2globe_header" || Session::get('page')=="tech2globe_mobile_header" || Session::get('page')=="tech2globe_footer")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="/admin/tech2globe-layout" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-glasses"></i>
+                <p>
+                  Header & Footer
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                
+                @if(Session::get('page')=="tech2globe_header")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/tech2globe-layout/header" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Main Header</p>
+                  </a>
+                </li>
 
-              @if(Session::get('page')=="linked_files")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/linked-files" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Linked Files</p>
-                </a>
-              </li>
+                {{-- @if(Session::get('page')=="tech2globe_mobile_header")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/tech2globe-layout/mobile-header" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Mobile Header</p>
+                  </a>
+                </li> --}}
 
-              @if(Session::get('page')=="unlinked_files")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/unlinked-files" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Unlinked Files</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          @if(Session::get('page')=="tech2globe_header" || Session::get('page')=="tech2globe_footer")
-            @php $active="active" @endphp
-          @else
-            @php $active="" @endphp
+                @if(Session::get('page')=="tech2globe_footer")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/tech2globe-layout/footer" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Footer</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
           @endif
-          <li class="nav-item">
-            <a href="/admin/tech2globe-layout" class="nav-link {{ $active }}">
-              <i class="nav-icon fas fa-glasses"></i>
-              <p>
-                Header & Footer
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              
-              @if(Session::get('page')=="tech2globe_header")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/tech2globe-layout/header" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Main Header</p>
-                </a>
-              </li>
 
-              @if(Session::get('page')=="tech2globe_footer")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/tech2globe-layout/footer" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Footer</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          @if(AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->count() != 0 || Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="our_work" || Session::get('page')=="testimonial" || Session::get('page')=="portfolio" || Session::get('page')=="case_study" || Session::get('page')=="faq" || Session::get('page')=="blog")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-pen-fancy"></i>
+                <p>
+                  Our Work
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
 
-          @if(Session::get('page')=="our_work" || Session::get('page')=="testimonial" || Session::get('page')=="portfolio" || Session::get('page')=="case_study" || Session::get('page')=="faq" || Session::get('page')=="blog")
-            @php $active="active" @endphp
-          @else
-            @php $active="" @endphp
+                @if(Session::get('page')=="testimonial")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/testimonial" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Testimonial</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="portfolio")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/portfolio" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Portfolio</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="case_study")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/case-study" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Case Study</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="faq")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/faq" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>FAQs</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="blog")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/blog" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Blog</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
           @endif
-          <li class="nav-item">
-            <a href="" class="nav-link {{ $active }}">
-              <i class="nav-icon fas fa-pen-fancy"></i>
-              <p>
-                Our Work
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
 
-              @if(Session::get('page')=="testimonial")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/testimonial" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Testimonial</p>
-                </a>
-              </li>
+          @if(AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->count() != 0 || Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="extras" || Session::get('page')=="site_logo" || Session::get('page')=="company_branch" || Session::get('page')=="contact_social" || Session::get('page')=="achievements" || Session::get('page')=="recaptcha")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-gopuram"></i>
+                <p>
+                  Extras
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
 
-              @if(Session::get('page')=="portfolio")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/portfolio" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Portfolio</p>
-                </a>
-              </li>
+                @if(Session::get('page')=="site_logo")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/site-logo" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Site Logo</p>
+                  </a>
+                </li>
 
-              @if(Session::get('page')=="case_study")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/case-study" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Case Study</p>
-                </a>
-              </li>
+                @if(Session::get('page')=="company_branch")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/company-branch" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Company Branch Handling</p>
+                  </a>
+                </li>
 
-              @if(Session::get('page')=="faq")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/faq" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FAQs</p>
-                </a>
-              </li>
+                @if(Session::get('page')=="contact_social")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/contact-social" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Contact & Social Media</p>
+                  </a>
+                </li>
 
-              @if(Session::get('page')=="blog")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/blog" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Blog</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+                @if(Session::get('page')=="achievements")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/achievements" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Achievements</p>
+                  </a>
+                </li>
 
-          @if(Session::get('page')=="extras" || Session::get('page')=="site_logo" || Session::get('page')=="company_branch" || Session::get('page')=="contact_social" || Session::get('page')=="achievements" || Session::get('page')=="recaptcha")
-            @php $active="active" @endphp
-          @else
-            @php $active="" @endphp
+                @if(Session::get('page')=="recaptcha")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/recaptcha" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Form Recaptcha Keys</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
           @endif
-          <li class="nav-item">
-            <a href="" class="nav-link {{ $active }}">
-              <i class="nav-icon fas fa-gopuram"></i>
-              <p>
-                Extras
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-
-              @if(Session::get('page')=="site_logo")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/site-logo" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Site Logo</p>
-                </a>
-              </li>
-
-              @if(Session::get('page')=="company_branch")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/company-branch" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Company Branch Handling</p>
-                </a>
-              </li>
-
-              @if(Session::get('page')=="contact_social")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/contact-social" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contact & Social Media</p>
-                </a>
-              </li>
-
-              @if(Session::get('page')=="achievements")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/achievements" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Achievements</p>
-                </a>
-              </li>
-
-              @if(Session::get('page')=="recaptcha")
-                @php $active="active" @endphp
-              @else
-                @php $active="" @endphp
-              @endif
-              <li class="nav-item">
-                <a href="/admin/recaptcha" class="nav-link {{ $active}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Form Recaptcha Keys</p>
-                </a>
-              </li>
-            </ul>
-          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

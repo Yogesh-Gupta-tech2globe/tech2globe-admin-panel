@@ -1414,6 +1414,59 @@ $(document).ready(function () {
         });
     });
 
+    // Add FAq question Answer
+    $(document).ready(function(){
+        var i = 1;
+        $("#addQA").click(function(e) { 
+            e.preventDefault();
+            i++;
+            
+            // Remove close button from the previously appended item, if it exists
+            $(".qa-item .close-btn").remove();
+
+            var content = '<div class="qa-item">' +
+                            '<button type="button" class="close-btn">&times;</button>' +
+                            '<div class="form-group">' +
+                                '<label for="question">Q' + i + '. Question*</label>' +
+                                '<input type="text" class="form-control" name="question[]" placeholder="Enter Question" required>' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<label for="answer">A' + i + '. Answer*</label>' +
+                                '<textarea class="form-control" name="answer[]" placeholder="Enter Answer" required></textarea>' +
+                            '</div>' +
+                        '</div>';
+
+            // Append the content to the showQA container
+            $("#showQA").append(content);
+
+            // Add click event listener to the close button of the latest appended content
+            $(".qa-item").last().find(".close-btn").click(function() {
+                $(this).closest(".qa-item").remove();
+
+                i--;
+                
+                // Add the close button to the new latest item, if it exists
+                var lastItem = $(".qa-item").last();
+                if (lastItem.length) {
+                    lastItem.append('<button type="button" class="close-btn">&times;</button>');
+                    lastItem.find(".close-btn").click(function() {
+                        $(this).closest(".qa-item").remove();
+                        // Repeat the logic to ensure close button is added to the new latest item
+                        var newLastItem = $(".qa-item").last();
+                        if (newLastItem.length) {
+                            newLastItem.append('<button type="button" class="close-btn">&times;</button>');
+                            newLastItem.find(".close-btn").click(function() {
+                                $(this).closest(".qa-item").remove();
+                            });
+                        }
+                    });
+                }
+            });
+        });
+       
+
+    });
+
     //Case Study
     $(document).ready(function() {
         $('.sectionSubmit').submit(function(event) {

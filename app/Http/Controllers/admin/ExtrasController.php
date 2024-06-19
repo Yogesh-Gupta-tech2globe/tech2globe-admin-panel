@@ -35,19 +35,19 @@ class ExtrasController extends Controller
         $mailid = contact_social::where('name','Mail ID')->first();
         $phone = contact_social::where('name','Phone Number')->first();
 
-        //Set Admin/Subadmins Permissions for Layout Module
-        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        //Set Admin/Subadmins Permissions for Extras Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($layoutModuleCount==0){
+        }else if($ModuleCount==0){
             $message = "This feature is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->first()->toArray();
         }
 
         return view('admin.extras.contact_social.contact_social')->with(compact('pagesModule','pageName','social','skypeid','mailid','phone'));
@@ -176,19 +176,19 @@ class ExtrasController extends Controller
 
         $company = company_branch::get()->toArray();
 
-        //Set Admin/Subadmins Permissions for Layout Module
-        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        //Set Admin/Subadmins Permissions for Extras Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($layoutModuleCount==0){
+        }else if($ModuleCount==0){
             $message = "This feature is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->first()->toArray();
         }
 
         return view('admin.extras.company_branch.company_branch')->with(compact('pagesModule','pageName','company'));
@@ -302,19 +302,19 @@ class ExtrasController extends Controller
 
         $achievements = achievements::get()->toArray();
 
-        //Set Admin/Subadmins Permissions for Layout Module
-        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        //Set Admin/Subadmins Permissions for Extras Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($layoutModuleCount==0){
+        }else if($ModuleCount==0){
             $message = "This feature is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->first()->toArray();
         }
 
         return view('admin.extras.achievements.achievements')->with(compact('pagesModule','pageName','achievements'));
@@ -420,19 +420,19 @@ class ExtrasController extends Controller
         $pageName = "Site Logo";
         $sitelogo = sitelogo::find(1);
 
-        //Set Admin/Subadmins Permissions for Layout Module
-        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        //Set Admin/Subadmins Permissions for Extras Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($layoutModuleCount==0){
+        }else if($ModuleCount==0){
             $message = "This feature is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->first()->toArray();
         }
 
         return view('admin.extras.sitelogo.sitelogo')->with(compact('pagesModule','pageName','sitelogo'));
@@ -502,25 +502,25 @@ class ExtrasController extends Controller
         $pageName = "Recaptcha";
         $recaptcha = recaptcha::find(1);
 
-        //Set Admin/Subadmins Permissions for Layout Module
-        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        //Set Admin/Subadmins Permissions for Extras Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($layoutModuleCount==0){
+        }else if($ModuleCount==0){
             $message = "This feature is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Extras'])->first()->toArray();
         }
 
         return view('admin.extras.recaptcha.recaptcha')->with(compact('pagesModule','pageName','recaptcha'));
     }
 
-    function recaptchaupdate(Request $request){
+    public function recaptchaupdate(Request $request){
 
         if($request->isMethod('post')){
             $recaptcha = recaptcha::find(1);

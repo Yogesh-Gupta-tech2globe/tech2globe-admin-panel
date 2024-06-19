@@ -51,8 +51,8 @@
                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                   <a style="max-width: 150px; float: right;" href="{{ url('admin/add-edit-portfolio') }}" class="btn btn-block btn-primary mt-2">Add Portfolio</a>
                   @endif
-                  <a style="max-width: 200px; float: right;" href="{{ url('admin/portfolio-subcategory') }}" class="btn btn-block btn-primary m-2">Portfolio Sub Category</a>
-                  <a style="max-width: 200px; float: right;" href="{{ url('admin/portfolio-category') }}" class="btn btn-block btn-primary">Portfolio Category</a>
+                  {{-- <a style="max-width: 200px; float: right;" href="{{ url('admin/portfolio-subcategory') }}" class="btn btn-block btn-primary m-2">Portfolio Sub Category</a>
+                  <a style="max-width: 200px; float: right;" href="{{ url('admin/portfolio-category') }}" class="btn btn-block btn-primary">Portfolio Category</a> --}}
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -61,8 +61,7 @@
                     <tr>
                       <th>S.No</th>
                       <th>Title</th>
-                      <th>Category</th>
-                      <th>Sub Category</th>
+                      <th>Linked Page</th>
                       <th>Linked Site</th>
                       <th>Created At</th>
                       <th>Updated At</th>
@@ -76,13 +75,8 @@
                       <td>{{ $i++; }}</td>
                       <td>{{ $row['title'] }}</td>
                       <td>
-                        @foreach ($portfoliocat as $category)
-                            @if($category['id'] == $row['cat_id']) {{ $category['name'] }} @endif
-                        @endforeach
-                      </td>
-                      <td>
-                        @foreach ($portfoliosubcat as $subcategory)
-                            @if($subcategory['id'] == $row['sub_cat_id']) {{ $subcategory['name'] }} @endif
+                        @foreach ($allInnerPages as $page)
+                            @if($page['id'] == $row['page_id']) {{ $page['page_name'] }} @endif
                         @endforeach
                       </td>
                       <td><a href="{{ $row['website_link'] }}" target="_blank">View</a></td>

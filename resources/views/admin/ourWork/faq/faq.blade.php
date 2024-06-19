@@ -60,6 +60,7 @@
                       <th>S.No</th>
                       <th>Question</th>
                       <th>Answer</th>
+                      <th>Linked Page</th>
                       <th>Created At</th>
                       <th>Action</th>
                     </tr>
@@ -71,6 +72,11 @@
                             <td>{{ $i++; }}</td>
                             <td>{{ Str::limit($row['question'], 20, ' ...') }}</td>
                             <td>{{ Str::limit($row['answer'], 20, ' ...') }}</td>
+                            <td>
+                                @foreach ($allInnerPages as $item)
+                                    @if($item['id'] == $row['page_id']) {{ $item['page_name'] }} @endif
+                                @endforeach
+                            </td>
                             <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                             <td>
                                 @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)

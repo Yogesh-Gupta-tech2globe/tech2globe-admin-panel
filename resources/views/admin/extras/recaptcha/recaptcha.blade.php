@@ -68,11 +68,13 @@
                     <td>Secret Key</td>
                     <td><input type="text" class="form-control" name="secret_key" required @if(!empty($recaptcha['secret_key'])) value="{{$recaptcha['secret_key']}}" @endif></td>
                   </tr>
-                  <tr>
-                    <td>
-                        <input type="submit" class="btn btn-warning" value="Update"> 
-                    </td>
-                  </tr>
+                  @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                    <tr>
+                      <td>
+                          <input type="submit" class="btn btn-warning" value="Update"> 
+                      </td>
+                    </tr>
+                  @endif
                 </table>
                 </form>
               </div>

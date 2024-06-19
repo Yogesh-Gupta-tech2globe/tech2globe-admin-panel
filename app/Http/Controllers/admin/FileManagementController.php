@@ -21,19 +21,19 @@ class FileManagementController extends Controller
         Session::put('page','file_management');
         $pageName = "All Files";
 
-        //Set Admin/Subadmins Permissions for Layout Module
-        $layoutModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->count();
+        //Set Admin/Subadmins Permissions for File Management Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($layoutModuleCount==0){
-            $message = "This feature is restricted for you!";
+        }else if($ModuleCount==0){
+            $message = "This Module is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'layout'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->first()->toArray();
         }
 
         // Specify the views directory path
@@ -108,7 +108,7 @@ class FileManagementController extends Controller
             $newContent = '
             @extends("layout.layout")
             @section("content")
-            <?php $base_url = "http://localhost:8000"; ?>
+            <?php $base_url = "/"; ?>
             '.$fileCode.'
                 @include("include.portfolio")
                 @include("include.casestudy")
@@ -194,7 +194,22 @@ class FileManagementController extends Controller
 
         $fileData = file_data::where('linked_status','!=','0')->get()->toArray();
 
-        return view('admin.fileManagement.linked-files')->with(compact('pageName','fileData'));
+        //Set Admin/Subadmins Permissions for File Management Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($ModuleCount==0){
+            $message = "This Module is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->first()->toArray();
+        }
+
+        return view('admin.fileManagement.linked-files')->with(compact('pagesModule','pageName','fileData'));
     }
 
     public function unlinkedFiles()
@@ -204,6 +219,21 @@ class FileManagementController extends Controller
 
         $fileData = file_data::where('linked_status','=','0')->get()->toArray();
 
-        return view('admin.fileManagement.unlinked-files')->with(compact('pageName','fileData'));
+        //Set Admin/Subadmins Permissions for File Management Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($ModuleCount==0){
+            $message = "This Module is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->first()->toArray();
+        }
+
+        return view('admin.fileManagement.unlinked-files')->with(compact('pagesModule','pageName','fileData'));
     }
 }

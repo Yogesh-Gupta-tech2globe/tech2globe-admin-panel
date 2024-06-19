@@ -54,6 +54,7 @@
                   <tr>
                     <td><img src="{{ url('images/logo/'.$sitelogo['name']) }}" width="30%"></td>
                   </tr>
+                  @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                   <tr>
                     <td>
                         <form action="{{ url('admin/site-logo-update') }}" method="post" enctype="multipart/form-data">@csrf
@@ -68,6 +69,7 @@
                         </form>
                     </td>
                   </tr>
+                  @endif
                 </table>
               </div>
               <!-- /.card-body -->

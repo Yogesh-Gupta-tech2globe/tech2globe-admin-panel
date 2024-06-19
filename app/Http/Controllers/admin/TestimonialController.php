@@ -17,23 +17,24 @@ class TestimonialController extends Controller
         Session::put('page','testimonial');
 
         $testimonial = testimonial::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
 
-        //Set Admin/Subadmins Permissions for Portfolio Module
-        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
+        //Set Admin/Subadmins Permissions for Our Work Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($portfolioModuleCount==0){
-            $message = "This feature is restricted for you!";
+        }else if($ModuleCount==0){
+            $message = "This module is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->first()->toArray();
         }
 
-        return view('admin.ourWork.testimonial.testimonial')->with(compact('pagesModule','testimonial'));
+        return view('admin.ourWork.testimonial.testimonial')->with(compact('pagesModule','testimonial','allInnerPages'));
     }
 
     public function addEditTestimonial(Request $request, $id=null)

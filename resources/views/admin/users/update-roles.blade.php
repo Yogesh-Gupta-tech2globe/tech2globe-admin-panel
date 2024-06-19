@@ -125,7 +125,7 @@
                               <input type="submit" class="btn btn-primary" value="Submit">
                           </div>
                       </form> --}}
-                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                      {{-- <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
                         @if(!empty($userRoles))
                           @foreach ($userRoles as $role)
                             @if($role['module']=="layout")
@@ -154,6 +154,134 @@
                               <input type="checkbox" name="layout[view]" value="1" @if(isset($viewLayout)) {{ $viewLayout }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="layout[edit]" value="1" @if(isset($editLayout)) {{ $editLayout }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="layout[full]" value="1" @if(isset($fullLayout)) {{ $fullLayout }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form> --}}
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="fileManagement")
+                              @if($role['view_access']==1)
+                                @php $viewFileManagement = "checked" @endphp
+                              @else
+                                @php $viewFileManagement = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editFileManagement = "checked" @endphp
+                              @else
+                                @php $editFileManagement = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullFileManagement = "checked" @endphp
+                              @else
+                                @php $fullFileManagement = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="fileManagement" name="module">
+                          <div class="form-group">
+                              <label for="fileManagement">File Management: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="fileManagement[view]" value="1" @if(isset($viewFileManagement)) {{ $viewFileManagement }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="fileManagement[edit]" value="1" @if(isset($editFileManagement)) {{ $editFileManagement }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="fileManagement[full]" value="1" @if(isset($fullFileManagement)) {{ $fullFileManagement }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form>
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="headfoot")
+                              @if($role['view_access']==1)
+                                @php $viewheadfoot = "checked" @endphp
+                              @else
+                                @php $viewheadfoot = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editheadfoot = "checked" @endphp
+                              @else
+                                @php $editheadfoot = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullheadfoot = "checked" @endphp
+                              @else
+                                @php $fullheadfoot = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="headfoot" name="module">
+                          <div class="form-group">
+                              <label for="headfoot">Header & Footer: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="headfoot[view]" value="1" @if(isset($viewheadfoot)) {{ $viewheadfoot }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="headfoot[edit]" value="1" @if(isset($editheadfoot)) {{ $editheadfoot }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="headfoot[full]" value="1" @if(isset($fullheadfoot)) {{ $fullheadfoot }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form>
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="ourWork")
+                              @if($role['view_access']==1)
+                                @php $viewourWork = "checked" @endphp
+                              @else
+                                @php $viewourWork = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editourWork = "checked" @endphp
+                              @else
+                                @php $editourWork = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullourWork = "checked" @endphp
+                              @else
+                                @php $fullourWork = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="ourWork" name="module">
+                          <div class="form-group">
+                              <label for="ourWork">Our Work: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="ourWork[view]" value="1" @if(isset($viewourWork)) {{ $viewourWork }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="ourWork[edit]" value="1" @if(isset($editourWork)) {{ $editourWork }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="ourWork[full]" value="1" @if(isset($fullourWork)) {{ $fullourWork }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form>
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="Extras")
+                              @if($role['view_access']==1)
+                                @php $viewExtras = "checked" @endphp
+                              @else
+                                @php $viewExtras = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editExtras = "checked" @endphp
+                              @else
+                                @php $editExtras = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullExtras = "checked" @endphp
+                              @else
+                                @php $fullExtras = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="Extras" name="module">
+                          <div class="form-group">
+                              <label for="fileManagement">Extras: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="Extras[view]" value="1" @if(isset($viewExtras)) {{ $viewExtras }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="Extras[edit]" value="1" @if(isset($editExtras)) {{ $editExtras }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="Extras[full]" value="1" @if(isset($fullExtras)) {{ $fullExtras }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="submit" class="btn btn-primary" value="Submit">
                           </div>
                       </form>

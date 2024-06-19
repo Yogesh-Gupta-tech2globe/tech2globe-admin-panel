@@ -23,7 +23,7 @@
                 @endphp
                 <div class="card-body pt-0 px-2">
                     <h5 class="card-title">{{$post['title']['rendered']}}</h5>
-                    <p class="text-muted blog-excerpt">{{$post['excerpt']}}</p>
+                    <p class="text-muted blog-excerpt">{{ strip_tags($post['excerpt']['rendered']) }}</p>
                     <a href="https://blog.tech2globe.com/{{Str::slug($post['slug'])}}" target="_blanck" class="link-offset-2">Read More <i class="fa-solid fa-chevron-right fa-xs"></i></a>
                 </div>
             </div>

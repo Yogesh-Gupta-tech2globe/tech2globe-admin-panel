@@ -73,3 +73,15 @@ use App\Models\casestudy;
                     return view("casestudy/kim", $casestudy);
 
                 });
+                Route::get("/casestudy/yogesh", function () {
+
+                    $casestudy = casestudy::where("name","Yogesh")->first();
+                    return view("casestudy/yogesh", $casestudy);
+
+                });
+                Route::get("/casestudy/vdfsewfwe", function () {
+
+                    $casestudy = casestudy::where("name","vdfsewfwe")->first();
+                    return view("casestudy/vdfsewfwe", $casestudy);
+
+                });

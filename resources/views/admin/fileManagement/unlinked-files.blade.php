@@ -69,9 +69,9 @@
                           <td><a target="blank" href="/admin/page/{{ $row['id'] }}">View Page</a></td>
                           <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                           <td>
-                            
+                            @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                             <a href="{{ url('admin/add-edit-file/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
-                              
+                            @endif 
                           </td>
                         </tr>
                       @endforeach

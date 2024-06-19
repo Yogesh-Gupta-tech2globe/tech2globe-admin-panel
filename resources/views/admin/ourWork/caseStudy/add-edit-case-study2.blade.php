@@ -73,7 +73,7 @@
                             <!-- form start -->
                             <form id="section1" class="sectionSubmit" enctype="multipart/form-data">@csrf
                               <div class="card-body">
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                   <label for="name">Category</label>
                                   <select class="form-control" name="catid" required>
                                     <option value="">Select Case Study Category</option>
@@ -81,7 +81,7 @@
                                       <option value="{{$row['id']}}" @if($casestudy['category_id'] == $row['id']) selected @endif>{{$row['name']}}</option>
                                     @endforeach
                                   </select>
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label>Select Page*</label>
                                     <select class="form-control" style="width: 100%;" name="page_id" required>
@@ -99,6 +99,10 @@
                                     <label for="bannerImage">Banner Image</label>
                                     <input type="file" class="form-control" name="bannerImage" id="bannerImage">
                                 </div>
+                                <ul>
+                                  <li>Banner Size should not be greater than 100KB</li>
+                                  <li>Banner Dimensions should be 573 X 226px</li>
+                                </ul>
                                 @if (!empty($casestudy['bannerImage']))
                                   <label>Previous Image</label><br>
                                   <img src="{{ url('images/casestudy/bannerImage/'.$casestudy['bannerImage']) }}" height="100px" width="180px">

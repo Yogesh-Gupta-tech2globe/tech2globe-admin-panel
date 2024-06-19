@@ -47,7 +47,9 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">@lang('Social Media')</h3>
+                @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                 <a style="max-width: 200px; float: right; display: inline-block;" href="{{ url('admin/add-edit-social-media') }}" class="btn btn-block btn-primary">Add Social Media</a>
+                @endif
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -103,21 +105,21 @@
                     <form class="updateContactdetails">
                     <td>Skype ID</td>
                     <td><input type="text" class="form-control" name="skypeid" placeholder="Enter Company Official Skype Id" required @if(!empty('skypeid')) value="{{$skypeid->link}}" @endif></td>
-                    <td><input type="submit" value="Update" class="btn btn-primary"></td>
+                    <td>@if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)<input type="submit" value="Update" class="btn btn-primary">@endif</td>
                     </form>
                   </tr>
                   <tr>
                     <form class="updateContactdetails">
                     <td>Mail ID</td>
                     <td><input type="email" class="form-control" name="mailid" placeholder="Enter Company Official Mail Id" required @if(!empty('mailid')) value="{{$mailid->link}}" @endif></td>
-                    <td><input type="submit" value="Update" class="btn btn-primary"></td>
+                    <td>@if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)<input type="submit" value="Update" class="btn btn-primary">@endif</td>
                     </form>
                   </tr>
                   <tr>
                     <form class="updateContactdetails">
                     <td>Phone Number</td>
                     <td><input type="text" class="form-control" name="phone" placeholder="Enter Company Official Phone Number" minlength="10" maxlength="10" required @if(!empty('phone')) value="{{$phone->link}}" @endif></td>
-                    <td><input type="submit" value="Update" class="btn btn-primary"></td>
+                    <td>@if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)<input type="submit" value="Update" class="btn btn-primary">@endif</td>
                     </form>
                   </tr>
                 </table>

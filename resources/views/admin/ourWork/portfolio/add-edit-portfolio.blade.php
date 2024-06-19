@@ -57,7 +57,7 @@
                         <label for="title">Title*</label>
                         <input type="text" class="form-control" id="title" name="title" placeholder="Enter Portfolio Title" required @if(!empty($portfolio['title'])) value="{{ $portfolio['title'] }}" @endif>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label>Category*</label>
                         <select class="form-control" style="width: 100%;" name="category_id" required id="portcat">
                             <option value="">Select Category</option>
@@ -77,7 +77,7 @@
                               @endforeach
                             @endif
                         </select>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label>Select Page*</label>
                         <select class="form-control" style="width: 100%;" name="page_id" required>
@@ -102,14 +102,12 @@
                     <div class="form-group">
                         <label for="portfolio_image">Image*</label>
                         <div class="input-group">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="portfolio_image" name="portfolio_image" @if(empty($portfolio['image'])) required @endif>
-                            <label class="custom-file-label" for="image">Choose Image</label>
+                          <input type="file" class="form-control" id="portfolio_image" name="portfolio_image" @if(empty($portfolio['image'])) required @endif>
                         </div>
-                        <div class="input-group-append">
-                            <span class="input-group-text">Upload</span>
-                        </div>
-                        </div>
+                        <ul>
+                          <li>Image Size should not be greater than 100KB</li>
+                          <li>Image Dimensions should be 200 X 265px</li>
+                        </ul>
                         @if (!empty($portfolio['image']))
                           <label>Previous Image</label><br>
                           <img src="{{ url('admin/img/portfolio-images/'.$portfolio['image']) }}" height="100px" width="180px">

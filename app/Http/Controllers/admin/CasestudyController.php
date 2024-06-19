@@ -26,19 +26,19 @@ class CasestudyController extends Controller
         $category = casestudy_category::get()->toArray();
         $allInnerPages = tech2globe_all_pages::get()->toArray();
 
-        //Set Admin/Subadmins Permissions for Portfolio Module
-        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
+        //Set Admin/Subadmins Permissions for Our Work Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
             $pagesModule['view_access'] = 1;
             $pagesModule['edit_access'] = 1;
             $pagesModule['full_access'] = 1;
-        }else if($portfolioModuleCount==0){
-            $message = "This feature is restricted for you!";
+        }else if($ModuleCount==0){
+            $message = "This module is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'ourWork'])->first()->toArray();
         }
 
         return view('admin.ourWork.caseStudy.caseStudy')->with(compact('pagesModule','pagename','casestudy','category','allInnerPages'));
@@ -65,22 +65,22 @@ class CasestudyController extends Controller
             if($data['section'] == "1"){
 
                 $rules = [
-                    'catid' => 'required',
+                    // 'catid' => 'required',
                     'page_id' => 'required',
                     'name' => 'required|unique:casestudy,name',
-                    'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500|dimensions:ratio=3/2',
+                    'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:100|dimensions:width=573,height=226',
                 ];
     
                 $customMessages = [
-                    'catid.required' => 'Category is required',
+                    // 'catid.required' => 'Category is required',
                     'page_id.required' => 'Inner Page is required',
                     'name.required' => 'Case Study name is required',
                     'name.unique' => 'This Case Study name is already exist! Try a different one',
                     'bannerImage.required' => 'Banner Image is required',
                     'bannerImage.image' => 'Valid Image is required',
                     'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
-                    'bannerImage.max' => 'Banner Image size should not be greater than 500 KB',
-                    'bannerImage.dimensions' => 'Banner Image Dimensions should be in a ratio 3/2',
+                    'bannerImage.max' => 'Banner Image size should not be greater than 100 KB',
+                    'bannerImage.dimensions' => 'Banner Image Dimensions should be 573x226px',
                 ];
     
                 $this->validate($request,$rules,$customMessages);
@@ -104,7 +104,7 @@ class CasestudyController extends Controller
                 $fileContent = '
                 @extends("layout.layout")
                 @section("content")
-                <?php $base_url = "http://localhost:8000"; ?>
+                <?php $base_url = "/"; ?>
 
                     <div class="case-study-banner-container">
                         <div class="case-study-banner-overlay"></div>
@@ -140,7 +140,7 @@ class CasestudyController extends Controller
                 $routePath = base_path('routes/casestudy.php');
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);    
 
-                $casestudy->category_id = $data['catid'];
+                $casestudy->category_id = 0;
                 $casestudy->page_id = $data['page_id'];
                 $casestudy->name = $data['name'];
                 $casestudy->bannerImage = $imageName;
@@ -183,12 +183,12 @@ class CasestudyController extends Controller
             if($data['section'] == "1"){
 
                 $rules = [
-                    'catid' => 'required',
+                    // 'catid' => 'required',
                     'page_id' => 'required',
                 ];
     
                 $customMessages = [
-                    'catid.required' => 'Category is required',
+                    // 'catid.required' => 'Category is required',
                     'page_id.required' => 'Inner Page is required',
                 ];
     
@@ -199,15 +199,15 @@ class CasestudyController extends Controller
                 if(!empty($data['bannerImage']) && !empty($data['current_image'])){
 
                     $rules = [
-                        'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:500|dimensions:ratio=3/2',
+                        'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:100|dimensions:width=573,height=226',
                     ];
         
                     $customMessages = [
                         'bannerImage.required' => 'Banner Image is required',
                         'bannerImage.image' => 'Valid Image is required',
                         'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
-                        'bannerImage.max' => 'Banner Image size should not be greater than 500 KB',
-                        'bannerImage.dimensions' => 'Banner Image Dimensions should be in a ratio 3/2',
+                        'bannerImage.max' => 'Banner Image size should not be greater than 100 KB',
+                        'bannerImage.dimensions' => 'Banner Image Dimensions should be 573x226px',
                     ];
         
                     $this->validate($request,$rules,$customMessages);
@@ -242,13 +242,13 @@ class CasestudyController extends Controller
                     $imageName = "";
                 }
     
-                $casestudy->category_id = $data['catid'];
+                // $casestudy->category_id = $data['catid'];
                 $casestudy->page_id = $data['page_id'];
                 $casestudy->name = $data['name'];
                 $casestudy->bannerImage = $imageName;
                 $casestudy->save();
 
-                return response()->json(['message'=>'Section One is updated. Proceed Further','link'=>$slug]);
+                return response()->json(['message'=>'Section One is updated.','link'=>$slug]);
 
             }else if($data['section'] == "2"){
 

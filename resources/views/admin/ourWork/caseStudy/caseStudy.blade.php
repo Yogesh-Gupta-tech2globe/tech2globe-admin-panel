@@ -60,7 +60,7 @@
                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                   <a style="max-width: 150px; float: right;" href="" class="btn btn-block btn-primary mt-2" data-toggle="modal" data-target="#add-casestudy">Add {{ $pagename }}</a>
                   @endif
-                  <a style="max-width: 150px; float: right;" href="{{ url('admin/case-study-category') }}" class="btn btn-block btn-primary mt-2 mx-2">Category</a>
+                  {{-- <a style="max-width: 150px; float: right;" href="{{ url('admin/case-study-category') }}" class="btn btn-block btn-primary mt-2 mx-2">Category</a> --}}
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -69,7 +69,7 @@
                     <tr>
                       <th>S.No</th>
                       <th>Name</th>
-                      <th>Category</th>
+                      <th>Linked Page</th>
                       <th>View</th>
                       <th>Created At</th>
                       <th>Action</th>
@@ -82,8 +82,8 @@
                               <td>{{ $i++; }}</td>
                               <td>{{ $row['name'] }}</td>
                               <td>
-                                @foreach ($category as $cat)
-                                  @if ($cat['id'] == $row['category_id']) {{$cat['name']}} @endif
+                                @foreach ($allInnerPages as $page)
+                                  @if ($page['id'] == $row['page_id']) {{$page['page_name']}} @endif
                                 @endforeach
                               </td>
                               <td><a href="/casestudy/{{ Str::slug($row['name']) }}" target="_blank">View</a></td>
@@ -132,7 +132,7 @@
                 </button>
             </div>
             <div class="modal-body">
-              <div class="form-group">
+              {{-- <div class="form-group">
                 <label for="name">Category</label>
                 <select class="form-control" name="catid" required>
                   <option value="">Select Case Study Category</option>
@@ -140,7 +140,7 @@
                     <option value="{{$row['id']}}">{{$row['name']}}</option>
                   @endforeach
                 </select>
-              </div>
+              </div> --}}
               <div class="form-group">
                   <label>Select Page*</label>
                   <select class="form-control" style="width: 100%;" name="page_id" required>
@@ -158,8 +158,8 @@
                   <label for="bannerImage">Banner Image</label>
                   <input type="file" class="form-control" name="bannerImage" id="bannerImage" required>
                   <ul>
-                    <li>Banner Size should not be greater than 500KB</li>
-                    <li>Banner Dimensions should be in a ration like (300x200, 450x300, 600x400)</li>
+                    <li>Banner Size should not be greater than 100KB</li>
+                    <li>Banner Dimensions should be 573 X 226px</li>
                   </ul>
               </div>
               <input type="hidden" name="section" value="1">   
