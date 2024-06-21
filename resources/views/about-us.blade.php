@@ -1,7 +1,7 @@
 
             @extends("layout.layout")
             @section("content")
-            <?php $base_url = "http://localhost:8000"; ?>
+            <?php $base_url = "/"; ?>
             <!--  Main section start here -->
 <main>
     <div class="feature-banner w-100 h-100 d-block position-relative bg-dark">
@@ -236,4 +236,9 @@
     </div><!-- inner page content -->
 </main>
 <!--  Main section end here -->
+                @include("include.portfolio")
+                @include("include.casestudy")
+                @include("include.testimonials")
+                @include("include.blog")
+                @include("include.faq")
             @endsection

@@ -52,45 +52,47 @@ use App\Models\AdminsRole;
               </p>
             </a>
           </li>
+          
+          @if(Session::get('page')=="update_password" || Session::get('page')=="update_details")
+            @php $active="active" @endphp
+          @else
+            @php $active="" @endphp
+          @endif
+          <li class="nav-item">
+            <a href="#" class="nav-link {{ $active}}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Setting
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @if(Session::get('page')=="update_password")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/update-password" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Update Password</p>
+                </a>
+              </li>
+              @if(Session::get('page')=="update_details")
+                @php $active="active" @endphp
+              @else
+                @php $active="" @endphp
+              @endif
+              <li class="nav-item">
+                <a href="/admin/update-details" class="nav-link {{ $active}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Update Details</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
           @if(Auth::guard('admin')->user()->type == 'admin')
-            @if(Session::get('page')=="update_password" || Session::get('page')=="update_details")
-              @php $active="active" @endphp
-            @else
-              @php $active="" @endphp
-            @endif
-            <li class="nav-item">
-              <a href="#" class="nav-link {{ $active}}">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  Setting
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                @if(Session::get('page')=="update_password")
-                  @php $active="active" @endphp
-                @else
-                  @php $active="" @endphp
-                @endif
-                <li class="nav-item">
-                  <a href="/admin/update-password" class="nav-link {{ $active}}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Update Admin Password</p>
-                  </a>
-                </li>
-                @if(Session::get('page')=="update_details")
-                  @php $active="active" @endphp
-                @else
-                  @php $active="" @endphp
-                @endif
-                <li class="nav-item">
-                  <a href="/admin/update-details" class="nav-link {{ $active}}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Update Admin Details</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
             @if(Session::get('page')=="users")
               @php $active="active" @endphp
             @else

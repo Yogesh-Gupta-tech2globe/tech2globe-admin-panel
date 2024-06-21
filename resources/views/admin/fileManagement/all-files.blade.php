@@ -69,7 +69,7 @@
                         <tr>
                           <td>F{{ $i++; }}</td>
                           <td>{{ $row['file_name'] }}</td>
-                          <td><a target="blank" href="/admin/page/{{ $row['id'] }}">View Page</a></td>
+                          <td><a target="_blank" href="/admin/page/{{ $row['id'] }}">View Page</a></td>
                           <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                           <td>
                             {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)

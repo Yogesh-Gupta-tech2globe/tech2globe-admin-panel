@@ -82,19 +82,19 @@ class AdminController extends Controller
     public function update_password(Request $request){
 
         //Set Admin/Subadmins Permissions for Setting Module
-        $settingModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'setting'])->count();
-        $pagesModule = array();
+        // $settingModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'setting'])->count();
+        // $pagesModule = array();
 
-        if(Auth::guard('admin')->user()->type=="admin"){
-            $pagesModule['view_access'] = 1;
-            $pagesModule['edit_access'] = 1;
-            $pagesModule['full_access'] = 1;
-        }else if($settingModuleCount==0){
-            $message = "This feature is restricted for you!";
-            return redirect('admin/dashboard')->with('error_message',$message);
-        }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'setting'])->first()->toArray();
-        }
+        // if(Auth::guard('admin')->user()->type=="admin"){
+        //     $pagesModule['view_access'] = 1;
+        //     $pagesModule['edit_access'] = 1;
+        //     $pagesModule['full_access'] = 1;
+        // }else if($settingModuleCount==0){
+        //     $message = "This feature is restricted for you!";
+        //     return redirect('admin/dashboard')->with('error_message',$message);
+        // }else{
+        //     $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'setting'])->first()->toArray();
+        // }
 
         if($request->isMethod('post')){
             $data = $request->all();
@@ -136,19 +136,19 @@ class AdminController extends Controller
     public function update_details(Request $request){
 
         //Set Admin/Subadmins Permissions for Setting Module
-        $settingModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'setting'])->count();
-        $pagesModule = array();
+        // $settingModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'setting'])->count();
+        // $pagesModule = array();
 
-        if(Auth::guard('admin')->user()->type=="admin"){
-            $pagesModule['view_access'] = 1;
-            $pagesModule['edit_access'] = 1;
-            $pagesModule['full_access'] = 1;
-        }else if($settingModuleCount==0){
-            $message = "This feature is restricted for you!";
-            return redirect('admin/dashboard')->with('error_message',$message);
-        }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'setting'])->first()->toArray();
-        }
+        // if(Auth::guard('admin')->user()->type=="admin"){
+        //     $pagesModule['view_access'] = 1;
+        //     $pagesModule['edit_access'] = 1;
+        //     $pagesModule['full_access'] = 1;
+        // }else if($settingModuleCount==0){
+        //     $message = "This feature is restricted for you!";
+        //     return redirect('admin/dashboard')->with('error_message',$message);
+        // }else{
+        //     $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'setting'])->first()->toArray();
+        // }
 
         if($request->isMethod('post')){
             $data = $request->all();

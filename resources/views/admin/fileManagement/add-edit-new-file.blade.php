@@ -1,8 +1,35 @@
 @extends('admin.layout.layout')
 @section('content')
 
+<style type="text/css" media="screen">
+  #editor { 
+    width: 100%;
+    height: 800px;
+  }
+
+  .zoom-controls {
+      margin-bottom: 10px;
+  }
+</style>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    @if(Session::has('success_message'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Success:</strong>{{ Session::get('success_message') }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    @endif
+    @if(Session::has('error_message'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Error:</strong>{{ Session::get('error_message') }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    @endif
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -27,6 +54,9 @@
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">{{ $title }}</h3>
+              @if(!empty($fileData['id']))
+                <a style="max-width: 150px; float: right; display: inline-block;" href="/admin/page/{{ $fileData['id'] }}" target="_blank" class="btn btn-block btn-primary">View Page</a>
+              @endif
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -50,21 +80,34 @@
                   </button>
                 </div>
                 @endif
+
+                <div class="controls mb-3">
+                  <label>Editor Controls:</label><br>
+                    <button id="zoom-in" class="btn btn-warning">Zoom In</button>
+                    <button id="zoom-out" class="btn btn-danger">Zoom Out</button>
+                    <label class="mx-5">
+                        <input type="checkbox" id="wrap-code" /> Wrap Code
+                    </label>
+                    <br>
+                    <label for="themeSelector">Select Theme: </label>
+                    <select id="themeSelector" class="form-control"></select>
+                    
+                </div>
+
+                <label for="email" class="mt-2 mb-2">Enter Code of File*</label>
+                <div id="editor">
+                  @if(!empty($fileData['file_code']))
+                    {{ htmlspecialchars_decode($fileData['file_code']) }}
+                  @else
+                      Write Code Here...
+                  @endif
+                </div>
                 
                 <form @if(empty($fileData['id'])) action="{{ url('admin/add-edit-file') }}" @else action="{{ url('admin/add-edit-file/'.$fileData['id']) }}" @endif method="post" enctype="multipart/form-data">@csrf
                     <div class="card-body">
                     
                       <div class="form-group">
-                        <label for="email">Enter Code of File*</label>
-                        <textarea id="codeMirrorDemo" class="" name="fileCode">
-                          @if(!empty($fileData['file_code']))
-                            {{ htmlspecialchars_decode($fileData['file_code']) }}
-                          @else
-                            <section>
-                              Write Code Here...
-                            </section>
-                          @endif
-                        </textarea>
+                        <textarea id="fileContent" style="display: none" name="fileCode"></textarea>
                       </div>
                           
                       <div class="form-group">
@@ -95,5 +138,76 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-themelist.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/keybinding-vscode.js"></script>
+
+  <script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/dracula");
+    editor.session.setMode("ace/mode/php_laravel_blade");
+
+    // Set VS Code key bindings
+    editor.setKeyboardHandler("ace/keyboard/vscode");
+
+    // Get the list of themes
+    const themes = ace.require("ace/ext/themelist").themes;
+
+    // Populate the dropdown with themes
+    const themeSelector = document.getElementById('themeSelector');
+    themes.forEach(theme => {
+      const option = document.createElement('option');
+      option.value = theme.theme;
+      option.textContent = theme.caption;
+      themeSelector.appendChild(option);
+    });
+
+    // Change theme dynamically
+    themeSelector.addEventListener('change', function() {
+      const selectedTheme = this.value;
+      editor.setTheme(selectedTheme);
+    });
+
+
+    // Initial font size
+    var fontSize = 14;
+    editor.setFontSize(fontSize);
+
+    // Set initial wrapping
+    editor.session.setOption("wrap", true);
+
+    // Zoom in and out functions
+    document.getElementById('zoom-in').addEventListener('click', function() {
+        fontSize += 2;
+        editor.setFontSize(fontSize);
+    });
+
+    document.getElementById('zoom-out').addEventListener('click', function() {
+        fontSize -= 2;
+        editor.setFontSize(fontSize);
+    });
+
+    // Toggle wrap functionality
+    document.getElementById('wrap-code').addEventListener('change', function() {
+        var shouldWrap = this.checked;
+        editor.session.setOption("wrap", shouldWrap);
+    });
+
+    // Copy editor content to textarea before submitting form
+    document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('#fileContent').value = editor.getValue();
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey && event.key === 's') || (event.ctrlKey && event.key === 'S')) {
+            // Prevent the default save action
+            event.preventDefault();
+            // Execute custom logic here
+            console.log('Ctrl + S was pressed!');
+        }
+    });
+
+  </script>
 
 @endsection
+

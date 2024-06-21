@@ -1606,7 +1606,7 @@ class Tech2globeLayoutController extends Controller
                         } 
                     }
 
-                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    $data = ["pageName" => "'.$allPage['page_name'].'","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
                     return view("'.$fileDatabyIdOld['file_slug'].'", $data);
 
                 });';
@@ -1632,7 +1632,7 @@ class Tech2globeLayoutController extends Controller
                         } 
                     }
 
-                    $data = ["pageName" => "Amazon Services","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    $data = ["pageName" => "'.$data['page_name'].'","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
                     return view("'.$fileDatabyId['file_slug'].'", $data);
 
                 });';

@@ -141,7 +141,11 @@ class FileManagementController extends Controller
                 file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);
             }
             
-            return redirect('admin/all-files')->with('success_message',$message);
+            if(empty($id)){
+                return redirect('admin/all-files')->with('success_message',$message);
+            }else{
+                return redirect('admin/add-edit-file/'.$id.'')->with('success_message',$message);
+            }
         }
 
         return view('admin.fileManagement.add-edit-new-file')->with(compact('title', 'fileData'));

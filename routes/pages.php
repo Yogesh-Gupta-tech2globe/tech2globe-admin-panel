@@ -34,3 +34,9 @@ Route::get('/admin/page/1', function () {
                     return view("hi", $data);
 
                 });
+                Route::get("/admin/page/21", function () {
+
+                    $data = ["pageName" => "first site"];
+                    return view("first-site", $data);
+
+                });
