@@ -428,6 +428,22 @@ use App\Models\AdminsRole;
               </ul>
             </li>
           @endif
+
+          @if(Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="event")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="/admin/event" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-calendar-plus"></i>
+                <p>
+                  {{"Event"}}
+                </p>
+              </a>
+            </li>
+          @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

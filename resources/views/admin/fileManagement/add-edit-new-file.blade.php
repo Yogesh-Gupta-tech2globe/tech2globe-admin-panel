@@ -99,7 +99,7 @@
                   @if(!empty($fileData['file_code']))
                     {{ htmlspecialchars_decode($fileData['file_code']) }}
                   @else
-                      Write Code Here...
+                      
                   @endif
                 </div>
                 

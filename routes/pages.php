@@ -40,3 +40,9 @@ Route::get('/admin/page/1', function () {
                     return view("first-site", $data);
 
                 });
+                Route::get("/admin/page/22", function () {
+
+                    $data = ["pageName" => "Life at tech2globe"];
+                    return view("life-at-tech2globe", $data);
+
+                });

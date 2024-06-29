@@ -50,10 +50,10 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="users" class="table table-bordered table-striped">
+                <table id="fileManagement" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>S.No</th>
+                    <th>File ID</th>
                     <th>File Name</th>
                     <th>View</th>
                     <th>Created on</th>
@@ -61,10 +61,9 @@
                   </tr>
                   </thead>
                   <tbody>
-                    <?php $i=1;?>
                       @foreach($fileData as $row)
                         <tr>
-                          <td>{{ $i++; }}</td>
+                          <td>F{{ $row['id'] }}</td>
                           <td>{{ $row['file_name'] }}</td>
                           <td><a target="blank" href="/admin/page/{{ $row['id'] }}">View Page</a></td>
                           <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>

@@ -8,19 +8,15 @@ use App\Models\tech2globe_header_category;
 use App\Models\tech2globe_header_sub_category;
 use App\Models\tech2globe_pages_category;
 use App\Models\tech2globe_all_pages;
-use App\Models\tech2globe_middle_header;
-use App\Models\tech2globe_top_header;
 use App\Models\tech2globe_footer_category;
 use App\Models\tech2globe_footer_sub_category;
 use App\Models\company_branch;
 use App\Models\contact_social;
 use App\Models\achievements;
 use App\Models\sitelogo;
-use App\Models\portfolio;
-use App\Models\casestudy;
-use App\Models\testimonial;
-use App\Models\faq;
 use App\Models\recaptcha;
+use App\Models\events;
+use App\Models\event_category;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -137,6 +133,13 @@ class AppServiceProvider extends ServiceProvider
             $recaptcha = recaptcha::select('site_key')->find(1);
 
             $view->with(['site_key' => $recaptcha]);
+        });
+
+        View::composer('include.life-at-tech2globe', function ($view) {
+
+            $category = event_category::where('status',1)->get()->toArray();
+
+            $view->with(['category' => $category]);
         });
     }
 }

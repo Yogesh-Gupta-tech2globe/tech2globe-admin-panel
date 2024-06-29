@@ -1520,7 +1520,7 @@ class Tech2globeLayoutController extends Controller
                 'category_id' => 'required',
                 'sub_category_id' => 'required',
                 'page_category_id' => 'required',
-                'page_name' => 'required|max:30',
+                'page_name' => 'required|max:60',
             ];
 
             $customMessages = [
@@ -1528,7 +1528,7 @@ class Tech2globeLayoutController extends Controller
                 'sub_category_id.required' => 'Sub Menu is required',
                 'page_category_id.required' => 'Page Category is required',
                 'page_name.required' => 'Page Name is required',
-                'page_name.max' => 'Page Name characters should not be greater than 30.',
+                'page_name.max' => 'Page Name characters should not be greater than 60.',
             ];
 
             $this->validate($request,$rules,$customMessages);
@@ -1541,13 +1541,12 @@ class Tech2globeLayoutController extends Controller
                 if($id==""){
                     $rules = [
                         'file_id' => 'required',
-                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                        'page_url' => 'required|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
                     ];
         
                     $customMessages = [
                         'file_id.required' => 'File Linked is required',
                         'page_url.required' => 'Page url is required',
-                        'page_url.max' => 'Page Url characters should not be greater than 35',
                         'page_url.unique' => 'This Page url is already exist! Try a different one',
                     ]; 
     

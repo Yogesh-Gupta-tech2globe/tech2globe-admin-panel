@@ -10,6 +10,7 @@ use App\Models\faq;
 use App\Models\blog;
 use App\Http\Controllers\mailController;
 use App\Http\Controllers\aplusController;
+use App\Http\Controllers\admin\EventController;
 
 require __DIR__.'/pages.php';
 require __DIR__.'/mainMenu.php';
@@ -50,6 +51,9 @@ function fetch_post_by_id($base_url, $post_id) {
     return $post;
 }
 
+Route::post('/getevents', [EventController::class, 'getevents']);
+Route::post('/geteventsyear', [EventController::class, 'geteventsyear']);
+
 // Route::get('/about-us', function () {
     
 //     return view('about-us');
@@ -76,7 +80,7 @@ function fetch_post_by_id($base_url, $post_id) {
 // });
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
-    
+
     Route::match(['get','post'],'login','AdminController@login');
     Route::match(['get','post'],'register','AdminController@register');
     Route::match(['get','post'],'forgot-password','AdminController@forgot_password');
@@ -202,6 +206,16 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('blog','BlogController@index');
         Route::match(['get','post'],'add-edit-blog/{id?}','BlogController@addEditBlog');
         Route::post('update-blog-status','BlogController@update');
+
+        //Event Module
+        Route::get('event','EventController@index');
+        Route::get('event-category','EventController@eventCategory');
+        Route::post('add-edit-eventCategory/{id?}','EventController@addEditEventCategory')->whereNumber('id');
+        Route::post('update-eventCat-status','EventController@updateCat');
+        Route::match(['get','post'],'add-edit-event/{id?}','EventController@addEditEvent')->whereNumber('id');
+        Route::post('delete-event-image','EventController@deleteEventImage');
+        Route::post('update-event-status','EventController@update');
+
     });
 });
 

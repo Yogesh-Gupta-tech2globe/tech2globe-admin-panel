@@ -1606,6 +1606,150 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    //Event
+    //Event Category
+    //Add edit modal button
+    $('.eventcategoryeditbtn').on('click', function(){
+        let name = $(this).data('name');
+        let id = $(this).data('id');
+        let image = $(this).data('image');
+        var previousImage = `
+            <label>Previous Image</label><br>
+            <img src="/images/event/category/${image}" height="100px" width="150px">
+            <input type="hidden" name="current_image" value="${image}"></input>
+        `;
+        
+        $("#eventPreviousImage").html('');
+        $('#add-eventCategory').find('#name').val(name);
+        $("#eventPreviousImage").append(previousImage);
+        $("#image").prop('required', false);
+        $('#add-eventCategory').find('#add-eventCategory-form').attr("action","add-edit-eventCategory/"+id);
+    });
+
+    // Update Event Category Status
+    $(document).on("click", ".updateEventCatStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var eventCat_id = $(this).attr("eventCat_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-eventCat-status",
+            data: { status: status, eventCat_id: eventCat_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#eventCat-" + eventCat_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Event Category Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#eventCat-" + eventCat_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Event Category Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    // Add Edit Event Form
+    $("#eventForm").submit(function (e) { 
+        e.preventDefault();
+
+         // Serialize the form data
+         var formData = new FormData(this);
+         var eventID = $("#eventID").val();
+
+        // Define the URL based on eventID
+        var url = (eventID === "" || eventID === null) ? "/admin/add-edit-event" : "/admin/add-edit-event/" + encodeURIComponent(eventID);
+            
+         // Send AJAX request
+         $.ajax({
+             headers: {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             },
+             type: 'POST',
+             url: url,
+             data: formData,
+             processData: false,  // Prevent jQuery from processing the data
+             contentType: false,  // Prevent jQuery from setting contentType
+             success: function(response) {
+                 toastr.success(response['message']);
+                 window.location.replace("/admin/event");  
+             },
+             error: function(xhr, status, error) {
+                 // Handle errors
+                 var a = JSON.parse(xhr.responseText);
+                 console.log(a);
+                 toastr.error(a.message);
+                 console.error(xhr.responseText);
+             }
+         });
+        
+    });
+
+    $(".eventImageDeleteBtn").click(function (e) { 
+        e.preventDefault();
+        
+        let eventId =  $(this).data('id');
+        let imgNum =  $(this).data('imgnum'); 
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/delete-event-image",
+            data: { eventId: eventId, imgNum: imgNum },
+            success: function (resp) {
+                if (resp = 200) {
+                    toastr.success('Image removed Successfully.');
+                    location.reload();    
+                }else{
+                    toastr.error(resp['error']);
+                }
+            },
+            error: function (xhr, status, error) {
+                 // Handle errors
+                 var a = JSON.parse(xhr.responseText);
+                 console.log(a);
+                 toastr.error(a.message);
+                 console.error(xhr.responseText);
+            }
+        });
+    });
+
+    // Update Event Status
+    $(document).on("click", ".updateEventStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var event_id = $(this).attr("event_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-event-status",
+            data: { status: status, event_id: event_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#event-" + event_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Event Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#event-" + event_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Event Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
     
 
     $(function () {

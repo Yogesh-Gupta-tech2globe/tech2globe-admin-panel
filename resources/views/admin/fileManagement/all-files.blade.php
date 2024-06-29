@@ -53,10 +53,10 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="users" class="table table-bordered table-striped">
+                <table id="fileManagement" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>S.No</th>
+                    <th>File ID</th>
                     <th>File Name</th>
                     <th>View</th>
                     <th>Created on</th>
@@ -64,30 +64,17 @@
                   </tr>
                   </thead>
                   <tbody>
-                    <?php $i=1;?>
                       @foreach($fileData as $row)
                         <tr>
-                          <td>F{{ $i++; }}</td>
+                          <td>F{{ $row['id'] }}</td>
                           <td>{{ $row['file_name'] }}</td>
                           <td><a target="_blank" href="/admin/page/{{ $row['id'] }}">View Page</a></td>
                           <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                           <td>
-                            {{-- @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                              @if ($row['status']==1)
-                                <a class="updateUserStatus" id="user-{{ $row['id'] }}" user_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
-                              @else
-                                <a class="updateUserStatus" id="user-{{ $row['id'] }}" user_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
-                              @endif
-                              &nbsp;&nbsp;
-                            @endif --}}
                             @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                               <a href="{{ url('admin/add-edit-file/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                               &nbsp;&nbsp;
                             @endif
-                            {{-- @if ($pagesModule['full_access']==1)
-                              <a class="confirmDelete" name="Users" title="Delete User" href="javascript:void(0)" record="users" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
-                              &nbsp;&nbsp;
-                            @endif --}}
                           </td>
                         </tr>
                       @endforeach

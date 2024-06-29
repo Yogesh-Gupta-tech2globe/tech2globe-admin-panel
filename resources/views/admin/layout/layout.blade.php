@@ -103,6 +103,9 @@
 
 <script>
   $(function () {
+    $('#fileManagement').DataTable({
+        "order": [[0, "desc"]]
+    });
     $("#portfolio").DataTable({  
     });
     $("#users").DataTable({  

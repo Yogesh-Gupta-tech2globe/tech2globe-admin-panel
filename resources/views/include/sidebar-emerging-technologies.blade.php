@@ -28,6 +28,4 @@
 
      </div>
 
-     <?php include("include/query-form.php"); ?>
-
 </div>
