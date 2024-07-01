@@ -213,25 +213,40 @@ class ExtrasController extends Controller
 
             $rules = [
                 'name' => 'required|max:30',
+                'city' => 'required|max:30',
                 'location' => 'required',
                 'phone' => 'required|regex:/^[0-9\W]+$/u',
-                'googlemap' => 'required',
-                'flag' => 'required|image|max:200',
+                'googlemap' => 'required|url',
+                'flag' => 'image|max:100',
             ];
 
             $customMessages = [
                 'name.required' => 'Branch Name is required',
                 'name.max' => 'Maximum 30 characters are allowed for Branch Name',
+                'city.required' => 'Branch City is required',
+                'city.max' => 'Maximum 30 characters are allowed for Branch City',
                 'location.required' => 'Branch Location is required',
                 'phone.required' => 'Branch Phone is required',
                 'phone.regex' => 'Only Numeric and Special symbols characters are allowed in Phone',
                 'googlemap.required' => 'Embed a map is required',
-                'flag.required' => 'Country Flag is required',
+                'googlemap.url' => 'Please enter the only src in Embed a map field',
                 'flag.image' => 'Only Images are allowed',
-                'flag.max' => 'Image should not be greater than 200 Kb',
+                'flag.max' => 'Image should not be greater than 100 Kb',
             ];
 
             $this->validate($request,$rules,$customMessages);
+
+            if($id==''){
+                $rules = [
+                    'flag' => 'required',
+                ];
+    
+                $customMessages = [
+                    'flag.required' => 'Country Flag is required',
+                ];
+    
+                $this->validate($request,$rules,$customMessages);                    
+            }
 
             if(!empty($data['flag']) && !empty($data['current_image'])){
 
@@ -266,6 +281,7 @@ class ExtrasController extends Controller
             }
 
             $company->name = $data['name'];
+            $company->city = $data['city'];
             $company->location = $data['location'];
             $company->phone = $data['phone'];
             $company->google_map = $data['googlemap'];

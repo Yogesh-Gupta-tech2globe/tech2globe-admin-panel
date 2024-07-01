@@ -1216,7 +1216,7 @@ class Tech2globeLayoutController extends Controller
 
                 // Managing a route dynamically
                 $oldRouteContent='';
-                if($id != ''){
+                if($id != '' && !empty($mainMenu['page_url']) && !empty($mainMenu['file_id'])){
                 $oldRouteContent = '
                 Route::get("/'.$mainMenu['page_url'].'", function () {
 
@@ -1248,7 +1248,7 @@ class Tech2globeLayoutController extends Controller
                     file_put_contents($routePath, $newRouteContent,FILE_APPEND | LOCK_EX);
                 }
 
-                if($id != '' && $mainMenu['file_id'] != $data['file_id']){
+                if($id != '' && $mainMenu['file_id'] != $data['file_id'] && !empty($mainMenu['page_url']) && !empty($mainMenu['file_id'])){
 
                     $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
                     $filelinkedStatusOld--;
@@ -1279,7 +1279,7 @@ class Tech2globeLayoutController extends Controller
                 //Fetching file data
                 $fileDatabyId = file_data::find($fileid);
 
-                if($id != '' && $mainMenu['file_id'] != $fileid){
+                if($id != '' && $mainMenu['file_id'] != $fileid && !empty($mainMenu['page_url']) && !empty($mainMenu['file_id'])){
 
                     $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
                     $filelinkedStatusOld--;
@@ -1394,7 +1394,7 @@ class Tech2globeLayoutController extends Controller
 
                 // Managing a route dynamically
                 $oldRouteContent='';
-                if($id!=""){
+                if($id!="" && !empty($subMenu['page_url']) && !empty($subMenu['file_id'])){
                 $oldRouteContent = '
                 Route::get("/'.$subMenu['page_url'].'", function () {
 
@@ -1426,7 +1426,7 @@ class Tech2globeLayoutController extends Controller
                     file_put_contents($routePath, $newRouteContent,FILE_APPEND | LOCK_EX);
                 }
 
-                if($id != '' && $subMenu['file_id'] != $data['file_id']){
+                if($id != '' && $subMenu['file_id'] != $data['file_id'] && !empty($subMenu['page_url']) && !empty($msubMenu['file_id'])){
 
                     $filelinkedStatusOld = $fileDatabyIdOld['linked_status'];
                     $filelinkedStatusOld--;

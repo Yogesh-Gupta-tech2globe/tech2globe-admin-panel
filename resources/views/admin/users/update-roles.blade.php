@@ -185,7 +185,7 @@
                               <label for="fileManagement">File Management: &nbsp;&nbsp;&nbsp;</label>
                               <input type="checkbox" name="fileManagement[view]" value="1" @if(isset($viewFileManagement)) {{ $viewFileManagement }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="fileManagement[edit]" value="1" @if(isset($editFileManagement)) {{ $editFileManagement }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
-                              <input type="checkbox" name="fileManagement[full]" value="1" @if(isset($fullFileManagement)) {{ $fullFileManagement }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              {{-- <input type="checkbox" name="fileManagement[full]" value="1" @if(isset($fullFileManagement)) {{ $fullFileManagement }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
                               <input type="submit" class="btn btn-primary" value="Submit">
                           </div>
                       </form>
@@ -217,7 +217,7 @@
                               <label for="headfoot">Header & Footer: &nbsp;&nbsp;&nbsp;</label>
                               <input type="checkbox" name="headfoot[view]" value="1" @if(isset($viewheadfoot)) {{ $viewheadfoot }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="headfoot[edit]" value="1" @if(isset($editheadfoot)) {{ $editheadfoot }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
-                              <input type="checkbox" name="headfoot[full]" value="1" @if(isset($fullheadfoot)) {{ $fullheadfoot }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              {{-- <input type="checkbox" name="headfoot[full]" value="1" @if(isset($fullheadfoot)) {{ $fullheadfoot }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
                               <input type="submit" class="btn btn-primary" value="Submit">
                           </div>
                       </form>
@@ -249,7 +249,7 @@
                               <label for="ourWork">Our Work: &nbsp;&nbsp;&nbsp;</label>
                               <input type="checkbox" name="ourWork[view]" value="1" @if(isset($viewourWork)) {{ $viewourWork }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="ourWork[edit]" value="1" @if(isset($editourWork)) {{ $editourWork }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
-                              <input type="checkbox" name="ourWork[full]" value="1" @if(isset($fullourWork)) {{ $fullourWork }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              {{-- <input type="checkbox" name="ourWork[full]" value="1" @if(isset($fullourWork)) {{ $fullourWork }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
                               <input type="submit" class="btn btn-primary" value="Submit">
                           </div>
                       </form>
@@ -281,7 +281,39 @@
                               <label for="fileManagement">Extras: &nbsp;&nbsp;&nbsp;</label>
                               <input type="checkbox" name="Extras[view]" value="1" @if(isset($viewExtras)) {{ $viewExtras }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="Extras[edit]" value="1" @if(isset($editExtras)) {{ $editExtras }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
-                              <input type="checkbox" name="Extras[full]" value="1" @if(isset($fullExtras)) {{ $fullExtras }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              {{-- <input type="checkbox" name="Extras[full]" value="1" @if(isset($fullExtras)) {{ $fullExtras }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form>
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="Event")
+                              @if($role['view_access']==1)
+                                @php $viewEvent = "checked" @endphp
+                              @else
+                                @php $viewEvent = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editEvent = "checked" @endphp
+                              @else
+                                @php $editEvent = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullEvent = "checked" @endphp
+                              @else
+                                @php $fullEvent = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="Event" name="module">
+                          <div class="form-group">
+                              <label for="fileManagement">Event: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="Event[view]" value="1" @if(isset($viewEvent)) {{ $viewEvent }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="Event[edit]" value="1" @if(isset($editEvent)) {{ $editEvent }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              {{-- <input type="checkbox" name="Event[full]" value="1" @if(isset($fullEvent)) {{ $fullEvent }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
                               <input type="submit" class="btn btn-primary" value="Submit">
                           </div>
                       </form>

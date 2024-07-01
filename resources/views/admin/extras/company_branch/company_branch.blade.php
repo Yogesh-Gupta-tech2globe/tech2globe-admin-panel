@@ -57,8 +57,9 @@
                   <thead>
                   <tr>
                     <th>S.No</th>
-                    <th>Name</th>
-                    <th>Location</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Address</th>
                     <th>Phone</th>
                     <th>Flag</th>
                     <th>Created on</th>
@@ -66,11 +67,11 @@
                   </tr>
                   </thead>
                   <tbody>
-                    <?php $i=1;?>
                       @foreach($company as $row)
                         <tr>
-                          <td>{{ $i++; }}</td>
+                          <td>{{ $loop->iteration }}</td>
                           <td>{{ $row['name'] }}</td>
+                          <td>{{ $row['city'] }}</td>
                           <td>{{ $row['location'] }}</td>
                           <td>{{ $row['phone'] }}</td>
                           <td><img src="{{ url('images/flag/'.$row['flag']) }}" height="50px" width="50px"></td>

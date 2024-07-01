@@ -38,3 +38,15 @@ use Illuminate\Routing\RouteRegistrar;
                     return view("demo-file", $data);
 
                 });
+                Route::get("/life-at-tech2globe", function () {
+
+                    $data = ["pageName" => "Life at Tech2globe"];
+                    return view("life-at-tech2globe", $data);
+
+                });
+                Route::get("/life-at-tech2globe", function () {
+
+                    $data = ["pageName" => "Life at Tech2globe"];
+                    return view("life-at-tech2globe", $data);
+
+                });

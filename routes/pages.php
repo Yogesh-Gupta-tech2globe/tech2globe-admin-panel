@@ -46,3 +46,9 @@ Route::get('/admin/page/1', function () {
                     return view("life-at-tech2globe", $data);
 
                 });
+                Route::get("/admin/page/23", function () {
+
+                    $data = ["pageName" => "Contact Us"];
+                    return view("contact-us", $data);
+
+                });

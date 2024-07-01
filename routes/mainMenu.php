@@ -44,3 +44,15 @@ use Illuminate\Routing\RouteRegistrar;
                     return view("accounting-services", $data);
 
                 });
+                Route::get("/ihjbiioinjo", function () {
+
+                    $data = ["pageName" => "mam"];
+                    return view("demo-file", $data);
+
+                });
+                Route::get("/dvfefewdfe", function () {
+
+                    $data = ["pageName" => "jimkim"];
+                    return view("hi", $data);
+
+                });

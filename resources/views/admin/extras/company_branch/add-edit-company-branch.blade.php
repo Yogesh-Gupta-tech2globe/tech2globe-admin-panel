@@ -29,9 +29,7 @@
             <h3 class="card-title">{{ $title }}</h3>
 
             <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-              </button>
+              <a href="/admin/company-branch" class="btn btn-primary">Back</a>
             </div>
           </div>
           <!-- /.card-header -->
@@ -52,12 +50,16 @@
                 <form @if(empty($company['id'])) action="{{ url('admin/add-edit-company-branch') }}" @else action="{{ url('admin/add-edit-company-branch/'.$company['id']) }}" @endif method="post" enctype="multipart/form-data">@csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="name">Branch Name*</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter Branch Name" required @if(!empty($company['name'])) value="{{$company['name']}}" @endif>
+                            <label for="name">Branch Country*</label>
+                            <input type="text" name="name" class="form-control" placeholder="Enter Branch Country" required @if(!empty($company['name'])) value="{{$company['name']}}" @endif>
                         </div>
                         <div class="form-group">
-                            <label for="location">Branch Location*</label>
-                            <input type="text" name="location" class="form-control" placeholder="Enter Branch Location" required @if(!empty($company['location'])) value="{{$company['location']}}" @endif>
+                            <label for="name">Branch City*</label>
+                            <input type="text" name="city" class="form-control" placeholder="Enter Branch City" required @if(!empty($company['city'])) value="{{$company['city']}}" @endif>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Branch Address*</label>
+                            <input type="text" name="location" class="form-control" placeholder="Enter Branch Address" required @if(!empty($company['location'])) value="{{$company['location']}}" @endif>
                         </div>
                         <div class="form-group">
                             <label for="phone">Branch Phone*</label>
@@ -66,14 +68,20 @@
                         <div class="form-group">
                             <label for="googlemap">Embed a map*</label>
                             <textarea class="form-control" name="googlemap" required placeholder="Enter src given by Google map"> @if(!empty($company['google_map'])) {{$company['google_map']}} @endif</textarea>
+                            <ul>
+                              <li>Please enter the only "src" of provided iframe.</li>
+                            </ul>
                         </div>
                         <div class="form-group">
                             <label for="flag">Country Flag*</label>
-                            <input type="file" name="flag" class="form-control" required>
+                            <input type="file" name="flag" class="form-control"  @if (empty($company['flag'])) required @endif accept="image/*">
+                            <ul>
+                              <li>Image should not be greater than 100Kb</li>
+                            </ul>
                         </div>
                         @if (!empty($company['flag']))
                           <label>Previous Image</label><br>
-                          <img src="{{ url('images/flag/'.$company['flag']) }}" height="150px" width="180px">
+                          <img src="{{ url('images/flag/'.$company['flag']) }}" height="100px">
                           <input type="hidden" name="current_image" value="{{ $company['flag'] }}">
                         @endif
                     </div>

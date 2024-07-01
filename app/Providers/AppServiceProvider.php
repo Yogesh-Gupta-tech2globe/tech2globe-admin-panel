@@ -141,5 +141,12 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with(['category' => $category]);
         });
+
+        View::composer('include.company-branch', function ($view) {
+
+            $companyBranch = company_branch::where('status',1)->get()->toArray();
+
+            $view->with(['companyBranch' => $companyBranch]);
+        });
     }
 }
