@@ -17,6 +17,7 @@ use App\Models\sitelogo;
 use App\Models\recaptcha;
 use App\Models\events;
 use App\Models\event_category;
+use App\Models\jobs;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -147,6 +148,13 @@ class AppServiceProvider extends ServiceProvider
             $companyBranch = company_branch::where('status',1)->get()->toArray();
 
             $view->with(['companyBranch' => $companyBranch]);
+        });
+
+        View::composer('include.career-table', function ($view) {
+
+            $jobs = jobs::where('status',1)->latest()->get()->toArray();
+
+            $view->with(['jobs' => $jobs]);
         });
     }
 }

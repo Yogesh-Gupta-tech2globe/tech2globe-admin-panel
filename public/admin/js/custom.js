@@ -1750,6 +1750,54 @@ $(document).ready(function () {
             }
         });
     });
+
+    //Job Module
+    // Update Job Status
+    $(document).on("click", ".updateJobStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var job_id = $(this).attr("job_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-job-status",
+            data: { status: status, job_id: job_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#job-" + job_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Job Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#job-" + job_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Job Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //Update Job Request Status
+    $('.update-jobRequest-status').on('click', function(){
+        let status = $(this).data('status');
+        let id = $(this).data('id');
+        
+        $("#showjobstatus").val(status);
+
+        // Optional: Add the selected attribute to the option
+        $('#showjobstatus option').each(function() {
+            if ($(this).val() == status) {
+                $(this).attr('selected', true);
+            } else {
+                $(this).removeAttr('selected');
+            }
+        });
+
+        $('#update-status').find('#update-jobRequest-status').attr("action","update-jobRequest-status/"+id);
+    });
     
 
     $(function () {

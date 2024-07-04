@@ -444,6 +444,49 @@ use App\Models\AdminsRole;
               </a>
             </li>
           @endif
+
+          @if(AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Jobs'])->count() != 0 || Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="jobs" || Session::get('page')=="job_applications")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-briefcase"></i>
+                <p>
+                  Jobs
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+
+                @if(Session::get('page')=="jobs")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/jobs" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Jobs</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="job_applications")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/job-applications" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Job Applications</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

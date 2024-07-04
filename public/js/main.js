@@ -363,6 +363,49 @@ $(document).ready(function() {
         });
     });
 
+    //Career form
+    $('#careerFormSubmit').submit(function(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+        
+        $("#careerFormFrontend").hide();
+        $("#preloader").show();
+        // Serialize the form data
+        var formData = new FormData(this);
+        var id = $("#vacancy_id").val(); 
+
+        // Send AJAX request
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: "/career_form/"+id,
+            data: formData,
+            processData: false,  // Prevent jQuery from processing the data
+            contentType: false,  // Prevent jQuery from setting contentType
+            success: function(response) {
+                if(response['message']){
+                    window.location.replace("/thank-you");  
+                    toastr.success(response['message']);
+                }else{
+                    $("#careerFormFrontend").show();
+                    $("#preloader").hide();
+                    toastr.error(response['error']);
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#careerFormFrontend").show();
+                $("#preloader").hide();
+                // Handle errors
+                var a = JSON.parse(xhr.responseText);
+                console.log(a);
+                toastr.error(a.message);
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
 
 });
 

@@ -11,6 +11,7 @@ use App\Models\blog;
 use App\Http\Controllers\mailController;
 use App\Http\Controllers\aplusController;
 use App\Http\Controllers\admin\EventController;
+use App\Http\Controllers\admin\JobsController;
 
 require __DIR__.'/pages.php';
 require __DIR__.'/mainMenu.php';
@@ -53,6 +54,12 @@ function fetch_post_by_id($base_url, $post_id) {
 
 Route::post('/getevents', [EventController::class, 'getevents']);
 Route::post('/geteventsyear', [EventController::class, 'geteventsyear']);
+
+Route::match(['get','post'],'/career_form/{id}', [JobsController::class, 'create'])->whereNumber('id');
+
+Route::get('/thank-you', function () { 
+    return view('thank-you');
+});
 
 // Route::get('/about-us', function () {
     
@@ -215,6 +222,13 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-edit-event/{id?}','EventController@addEditEvent')->whereNumber('id');
         Route::post('delete-event-image','EventController@deleteEventImage');
         Route::post('update-event-status','EventController@update');
+
+        //Job Module
+        Route::get('jobs','JobsController@index');
+        Route::match(['get','post'],'add-edit-job/{id?}','JobsController@addEditJob')->whereNumber('id');
+        Route::post('update-job-status','JobsController@update');
+        Route::get('job-applications','JobsController@show');
+        Route::post('update-jobRequest-status/{id}', 'JobsController@updateRequest');
 
     });
 });

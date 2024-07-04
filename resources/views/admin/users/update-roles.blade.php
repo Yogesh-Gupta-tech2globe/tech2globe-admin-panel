@@ -317,6 +317,38 @@
                               <input type="submit" class="btn btn-primary" value="Submit">
                           </div>
                       </form>
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="Jobs")
+                              @if($role['view_access']==1)
+                                @php $viewJobs = "checked" @endphp
+                              @else
+                                @php $viewJobs = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editJobs = "checked" @endphp
+                              @else
+                                @php $editJobs = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullJobs = "checked" @endphp
+                              @else
+                                @php $fullJobs = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="Jobs" name="module">
+                          <div class="form-group">
+                              <label for="Jobs">Jobs: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="Jobs[view]" value="1" @if(isset($viewJobs)) {{ $viewJobs }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="Jobs[edit]" value="1" @if(isset($editJobs)) {{ $editJobs }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              {{-- <input type="checkbox" name="Jobs[full]" value="1" @if(isset($fullJobs)) {{ $fullJobs }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form>
                     </div>
                     <!-- /.card-body -->
               </div>

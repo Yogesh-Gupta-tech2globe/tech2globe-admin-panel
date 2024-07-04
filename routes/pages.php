@@ -52,3 +52,21 @@ Route::get('/admin/page/1', function () {
                     return view("contact-us", $data);
 
                 });
+                Route::get("/admin/page/24", function () {
+
+                    $data = ["pageName" => "career"];
+                    return view("career", $data);
+
+                });
+                Route::get("/admin/page/25", function () {
+
+                    $data = ["pageName" => "career_form"];
+                    return view("career-form", $data);
+
+                });
+                Route::get("/admin/page/26", function () {
+
+                    $data = ["pageName" => "thank-you"];
+                    return view("thank-you", $data);
+
+                });
