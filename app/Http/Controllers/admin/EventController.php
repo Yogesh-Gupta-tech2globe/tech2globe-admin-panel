@@ -40,7 +40,7 @@ class EventController extends Controller
     public function eventCategory(){
         Session::put('page','event');
         $pagename = "Event Category";
-        $category = event_category::get()->toArray();
+        $category = event_category::orderBy('order_number','asc')->get();
 
         //Set Admin/Subadmins Permissions for Our Event Module
         $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'Event'])->count();
@@ -88,7 +88,11 @@ class EventController extends Controller
                     'image.max' => 'Image should not be greater than 100 Kb',
                 ];
     
-                $this->validate($request,$rules,$customMessages);    
+                $this->validate($request,$rules,$customMessages);
+
+                $orderNumber = event_category::max('order_number');
+                $category->order_number = $orderNumber + 1;
+
             }else{
                 $rules = [
                     'name' => 'required|max:30',
@@ -103,9 +107,12 @@ class EventController extends Controller
                 ];
     
                 $this->validate($request,$rules,$customMessages);
+
+                $category->order_number = $category['order_number'];
     
             }
-            
+
+                        
             if(!empty($data['image']) && !empty($data['current_image'])){
 
                        
@@ -367,6 +374,7 @@ class EventController extends Controller
 
                     <ul class="nav nav-pills my-3 festiv-year-collection" id="pills-tab" role="tablist">';
 
+                    if(count($query1) > 0){
                     foreach($query1 as $item) {
                         $output .= '<li class="nav-item" role="presentation">
                             <button class="nav-link rounded-1 border-0 ' . ($c == 1 ? 'active' : '') . ' yearBtn" catid="'.$categoryId.'" yearid="'.$item['year'].'" id="'.$categoryNameId.'-'.$item['year'].'-tab" data-bs-toggle="pill" data-bs-target="#'.$categoryNameId.'-'.$item['year'].'" type="button" role="tab" aria-controls="'.$categoryNameId.'-'.$item['year'].'" aria-selected="true">
@@ -374,6 +382,9 @@ class EventController extends Controller
                             </button>
                         </li>';
                         $c++;
+                    }
+                    }else{
+                        $output .= 'No Year';
                     }
 
             $output .= '</ul>
@@ -448,4 +459,27 @@ class EventController extends Controller
             return $output;
         }
     }
+
+    public function eventOrderUpdate(Request $request){
+        if($request->ajax()){
+            $order = json_decode($request->order, true); // Decode JSON string to array
+    
+            if (is_array($order)) { // Check if $order is an array
+                foreach ($order as $item) {
+                    $id = $item['id'];
+                    $order_number = $item['order_number'];
+    
+                    $eventCat = event_category::find($id);
+    
+                    if($eventCat) {
+                        $eventCat->order_number = $order_number;
+                        $eventCat->save();
+                    }
+                }
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Invalid data format'], 400);
+            }
+        }
+    }
+    
 }

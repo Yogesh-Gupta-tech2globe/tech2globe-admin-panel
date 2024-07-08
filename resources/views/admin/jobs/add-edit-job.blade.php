@@ -62,7 +62,7 @@
                             <label for="designation">Designation*</label>
                             <input type="text" class="form-control" name="designation" placeholder="Enter Designation" required @if(!empty($job['designation'])) value="{{ $job['designation'] }}" @endif>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="location">Location*</label>
                             <select class="form-control" name="location" required>
                                 <option>Select Location</option>
@@ -70,19 +70,47 @@
                                   <option value="{{$state['name']}}" @if($state['name'] == $job['location']) selected @endif>{{$state['name']}}</option>
                                 @endforeach
                             </select>
+                        </div> --}}
+                        <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="location">Country*</label>
+                                <select class="form-control" name="country" required id="jobCountry" @if(!empty($job['country'])) data-country="{{$job['country']}}" @endif>
+                                   <option value="">Select Country</option>
+                                </select>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="location">State*</label>
+                                <select class="form-control" name="state" required id="jobState" @if(!empty($job['state'])) data-state="{{$job['state']}}" @endif>
+                                    <option value="">Select State</option>
+                                   
+                                </select>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="location">City*</label>
+                              <select class="form-control" name="city" required id="jobCity" @if(!empty($job['city'])) data-city="{{$job['city']}}" @endif>
+                                  <option value="">Select City</option>
+                                  
+                              </select>
+                            </div>
+                          </div>
                         </div>
                         <div class="form-group">
                             <label for="profile">Job Profile*</label>
-                            <textarea class="form-control" name="job_profile" required>@if(!empty($job['job_profile'])) {{ $job['job_profile'] }} @endif</textarea>
+                            <textarea class="form-control" name="job_profile" required rows="6">@if(!empty($job['job_profile'])) {{ $job['job_profile'] }} @endif</textarea>
                         </div>
                         <div class="form-group">
                             <label for="skills">Skills*</label>
-                            <textarea class="form-control" name="skills" required>@if(!empty($job['skills'])) {{ $job['skills'] }} @endif</textarea>
+                            <textarea class="form-control" name="skills" required rows="6">@if(!empty($job['skills'])) {{ $job['skills'] }} @endif</textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="postedOn">Posted On*</label>
+                                    <label for="postedOn">Published On*</label>
                                     <input type="date" class="form-control" name="posted_on" required @if(!empty($job['posted_on'])) value="{{ $job['posted_on'] }}" @endif>
                                 </div>
                             </div>
@@ -102,6 +130,8 @@
                                     <label for="experience">Experience*</label>
                                     <select class="form-control" name="experience" required>
                                         <option>Select Experience</option>
+                                        <option value="Intern" @if($job['experience'] == "Intern") selected @endif>Intern</option>
+                                        <option value="0-1" @if($job['experience'] == "0-1") selected @endif>0-1</option>
                                         @for ($i=1; $i<=10; $i++)
                                             <option value="{{$i}}" @if($i == $job['experience']) selected @endif>{{$i}}</option>
                                         @endfor
@@ -116,7 +146,7 @@
                         </div>
                         <div class="form-group">
                             <label for="salary">Salary Offered*</label>
-                            <input type="text" class="form-control" name="salary" value="Best in the Industry" required readonly>
+                            <input type="text" class="form-control" name="salary" placeholder="Rs.10,000-Rs.50,000" required @if(!empty($job['salary'])) value="{{ $job['salary'] }}" @endif>
                         </div>
         
                     </div>

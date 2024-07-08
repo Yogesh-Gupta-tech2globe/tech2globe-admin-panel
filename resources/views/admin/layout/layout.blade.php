@@ -21,8 +21,8 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ url('landing_page/css/style.css') }}">
   <!-- CodeMirror -->
-  <link rel="stylesheet" href="{{ url('admin/plugins/codemirror/codemirror.css') }}">
-  <link rel="stylesheet" href="{{ url('admin/plugins/codemirror/theme/monokai.css') }}">
+  {{-- <link rel="stylesheet" href="{{ url('admin/plugins/codemirror/codemirror.css') }}">
+  <link rel="stylesheet" href="{{ url('admin/plugins/codemirror/theme/monokai.css') }}"> --}}
   <!-- summernote -->
   <link rel="stylesheet" href="{{ url('admin/plugins/summernote/summernote-bs4.min.css') }}">
   <!-- Toastr -->
@@ -30,6 +30,7 @@
 
   <!-- jQuery -->
   <script src="{{ url('admin/plugins/jquery/jquery.min.js') }}"></script>
+
   
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -88,20 +89,24 @@
 <script src="{{ url('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ url('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ url('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+{{-- <script src="{{ url('admin/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ url('admin/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ url('admin/plugins/datatables-buttons/js/buttons.buttons.min.js') }}"></script> --}}
 <!-- Select2 -->
 <script src="{{ url('admin/plugins/select2/js/select2.full.min.js') }}"></script>
 
 <!-- CodeMirror -->
-<script src="{{ url('admin/plugins/codemirror/codemirror.js') }}"></script>
+{{-- <script src="{{ url('admin/plugins/codemirror/codemirror.js') }}"></script>
 <script src="{{ url('admin/plugins/codemirror/mode/css/css.js') }}"></script>
 <script src="{{ url('admin/plugins/codemirror/mode/xml/xml.js') }}"></script>
-<script src="{{ url('admin/plugins/codemirror/mode/htmlmixed/htmlmixed.js') }}"></script>
+<script src="{{ url('admin/plugins/codemirror/mode/htmlmixed/htmlmixed.js') }}"></script> --}}
 <!-- Summernote -->
 <script src="{{ url('admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <!-- Toastr -->
 <script src="{{ url('admin/plugins/toastr/toastr.min.js') }}"></script>
 
 <script>
+
   $(function () {
     $('#fileManagement').DataTable({
         "order": [[0, "desc"]]

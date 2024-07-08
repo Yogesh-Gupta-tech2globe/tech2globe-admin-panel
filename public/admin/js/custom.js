@@ -1628,6 +1628,12 @@ $(document).ready(function () {
         $('#add-eventCategory').find('#add-eventCategory-form').attr("action","add-edit-eventCategory/"+id);
     });
 
+    $('.eventcategoryaddbtn').on('click', function(){
+        
+        $("#eventPreviousImage").html('');
+        $('#add-eventCategory').find('#name').val(null);
+    });
+
     // Update Event Category Status
     $(document).on("click", ".updateEventCatStatus", function () {
         var status = $(this).children("i").attr("status");
@@ -1751,6 +1757,42 @@ $(document).ready(function () {
         });
     });
 
+    $(document).ready(function() {
+        var table = $('#eventCategoryTable').DataTable({
+            rowReorder: {
+                selector: '.dragRow'
+            }
+        });
+    
+        table.on('row-reorder', function (e, diff, edit) {
+            var data = [];
+            for (var i = 0, ien = diff.length; i < ien; i++) {
+                var rowData = table.row(diff[i].node).data();
+                data.push({
+                    id: rowData[3],
+                    order_number: diff[i].newData
+                });
+            }
+    
+          $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: '/admin/eventOrderUpdate',
+            type: 'POST',
+            data: {
+                order: JSON.stringify(data)
+            },
+            success: function(response) {
+                toastr.success('Order updated successfully');    
+            },
+            error: function(xhr, status, error) {
+                console.log('Error: ' + error);
+            }
+          });
+        });
+    });
+
     //Job Module
     // Update Job Status
     $(document).on("click", ".updateJobStatus", function () {
@@ -1798,16 +1840,158 @@ $(document).ready(function () {
 
         $('#update-status').find('#update-jobRequest-status').attr("action","update-jobRequest-status/"+id);
     });
-    
 
-    $(function () {
-        // Summernote
-        $('.summernote').summernote()
-        // CodeMirror
-        CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-            mode: "htmlmixed",
-            theme: "monokai"
+    //Location APIs
+    var countrySettings = {
+        "url": "https://api.countrystatecity.in/v1/countries",
+        "method": "GET",
+        "headers": {
+            "X-CSCAPI-KEY": "emV4d082SGZGWml3N3RxOXRkT2FrMmp4eG5xd2d3cUdtOWlwWU1LNg=="
+        },
+    };
+    
+    $.ajax(countrySettings).done(function (response) {
+        var oldCountry = $("#jobCountry").data('country');
+        
+        var country = "<option value=''>Select Country</option>";
+        for(let i = 1; i < response.length; i++){
+            var isselect = '';
+            if(oldCountry != null && oldCountry == response[i]['name']){
+                isselect = "selected";
+            }else{
+                isselect = '';
+            }
+            country += "<option value='"+ response[i]['iso2']+"|"+ response[i]['name'] +"'"+ isselect +">"+ response[i]['name'] +"</option>"; 
+        }
+        $("#jobCountry").html('');
+        $("#jobCountry").html(country);
+        if(oldCountry != null){
+            $("#jobCountry").trigger('change');
+        }
+    });
+
+    $("#jobCountry").change(function (e) { 
+        e.preventDefault();
+
+        var country = $("#jobCountry").val();
+        var countryCode = country.split('|');
+        
+        $("#jobState").html('');
+        $("#jobCity").html('<option value="">Select City</option>');
+        $("#jobCity").prop('required', false);
+
+        var stateSettings = {
+            "url": "https://api.countrystatecity.in/v1/countries/"+ countryCode[0] +"/states",
+            "method": "GET",
+            "headers": {
+                "X-CSCAPI-KEY": "emV4d082SGZGWml3N3RxOXRkT2FrMmp4eG5xd2d3cUdtOWlwWU1LNg=="
+            },
+        };
+        
+        $.ajax(stateSettings).done(function (response) {
+            var oldState =  $("#jobState").data('state');
+            if(response.length == 0){
+                states = "<option value=''>Select State</option>";
+                $("#jobState").prop('required', false);
+            }else{
+                states = "<option value=''>Select State</option>";
+                $("#jobState").prop('required', true);
+            }
+
+            for(let i = 1; i < response.length; i++){
+                var isselect = '';
+                if(oldState != null && oldState == response[i]['name']){
+                    isselect = "selected";
+                }else{
+                    isselect = '';
+                }
+                states += "<option value='"+ response[i]['iso2']+"|"+ response[i]['name'] +"' "+isselect+">"+ response[i]['name'] +"</option>"; 
+            }
+    
+            $("#jobState").html(states);
+            if(oldState != null){
+                $("#jobState").trigger('change');
+            }
         });
     });
+
+    $("#jobState").change(function (e) { 
+        e.preventDefault();
+
+        var country = $("#jobCountry").val();
+        var countryCode = country.split('|');
+        var state = $(this).val();
+        var stateCode = state.split('|');
+
+        var citySettings = {
+            "url": "https://api.countrystatecity.in/v1/countries/"+ countryCode[0] +"/states/"+ stateCode[0] +"/cities",
+            "method": "GET",
+            "headers": {
+                "X-CSCAPI-KEY": "emV4d082SGZGWml3N3RxOXRkT2FrMmp4eG5xd2d3cUdtOWlwWU1LNg=="
+            },
+        };
+        
+        $.ajax(citySettings).done(function (response) {
+            var oldCity = $("#jobCity").data('city');
+            if(response.length == 0){
+                cities = "<option value=''>Select City</option>";
+                $("#jobCity").prop('required', false);
+            }else{
+                cities = "<option value=''>Select City</option>";
+                $("#jobCity").prop('required', true);
+            }
+
+            for(let i = 1; i < response.length; i++){
+                var isselect = '';
+                if(oldCity != null && oldCity == response[i]['name']){
+                    isselect = "selected";
+                }else{
+                    isselect = '';
+                }
+                cities += "<option value='"+ response[i]['name'] +"' "+isselect+">"+ response[i]['name'] +"</option>"; 
+            }
+
+            $("#jobCity").html('');
+            $("#jobCity").html(cities);
+        });
+    });
+
+    //Send mail of pending job requests
+    $("#jobRequestSendMail").click(function (e) { 
+        e.preventDefault();
+
+        $("#jobApplicationTable").hide();
+        $(".rocketloader").show();
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/jobRequestSendPendingMail",
+            success: function (response) {
+                if(response['success']){
+                    $(".rocketloader").hide();
+                    $("#jobApplicationTable").show();
+                    toastr.success(response['success']);    
+                }else{
+                    $(".rocketloader").hide();
+                    $("#jobApplicationTable").show();
+                    toastr.error(response['error']);    
+                }
+            }
+        });
+    });
+    
+
+    // $(function () {
+    //     // Summernote
+    //     $('.summernote').summernote()
+    //     // CodeMirror
+    //     CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+    //         mode: "htmlmixed",
+    //         theme: "monokai"
+    //     });
+    // });
 });
 

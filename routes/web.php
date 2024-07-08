@@ -222,6 +222,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-edit-event/{id?}','EventController@addEditEvent')->whereNumber('id');
         Route::post('delete-event-image','EventController@deleteEventImage');
         Route::post('update-event-status','EventController@update');
+        Route::post('eventOrderUpdate','EventController@eventOrderUpdate');
 
         //Job Module
         Route::get('jobs','JobsController@index');
@@ -229,6 +230,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-job-status','JobsController@update');
         Route::get('job-applications','JobsController@show');
         Route::post('update-jobRequest-status/{id}', 'JobsController@updateRequest');
+        Route::post('jobRequestSendPendingMail', 'JobsController@jobRequestSendPendingMail');
 
     });
 });

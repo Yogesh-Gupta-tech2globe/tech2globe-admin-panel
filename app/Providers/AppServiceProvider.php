@@ -138,7 +138,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('include.life-at-tech2globe', function ($view) {
 
-            $category = event_category::where('status',1)->get()->toArray();
+            $category = event_category::where('status',1)->orderBy('order_number','asc')->get()->toArray();
 
             $view->with(['category' => $category]);
         });

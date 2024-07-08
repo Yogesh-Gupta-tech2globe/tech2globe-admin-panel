@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CareerFormMail;
+use App\Mail\PendingJobRequestMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\File;
@@ -193,7 +194,7 @@ class JobsController extends Controller
                 'title' => 'required',
                 'industry' => 'required',
                 'designation' => 'required',
-                'location' => 'required',
+                'country' => 'required',
                 'job_profile' => 'required',
                 'skills' => 'required',
                 'posted_on' => 'required',
@@ -207,7 +208,7 @@ class JobsController extends Controller
                 'title.required' => 'Job Title is required',
                 'industry.required' => 'Industry is required',
                 'designation.required' => 'Designation is required',
-                'location.required' => 'Location is required',
+                'country.required' => 'Country is required',
                 'job_profile.required' => 'Job Profile is required',
                 'skills.required' => 'Skills is required',
                 'posted_on.required' => 'Posted On is required',
@@ -219,11 +220,20 @@ class JobsController extends Controller
 
             $this->validate($request,$rules,$customMessages);
             
-            
+            $country = explode('|',$data['country']);
+            if(!empty($data['state'])){
+                $state = explode('|',$data['state']);
+                $state = $state[1];
+            }else{
+                $state = '';
+            }
+
             $job->title = $data['title'];
             $job->industry = $data['industry'];
             $job->designation = $data['designation'];
-            $job->location = $data['location'];
+            $job->country = $country[1];
+            $job->state = $state;
+            $job->city = $data['city'];
             $job->job_profile = $data['job_profile'];
             $job->skills = $data['skills'];
             $job->posted_on = $data['posted_on'];
@@ -236,10 +246,8 @@ class JobsController extends Controller
             return redirect('admin/jobs')->with('success_message',$message);
         }
 
-        $path = public_path('json/states.json');
-        $states = json_decode(File::get($path), true);
 
-        return view('admin.jobs.add-edit-job')->with(compact('title','job','states'));
+        return view('admin.jobs.add-edit-job')->with(compact('title','job'));
     }
 
     /**
@@ -279,5 +287,16 @@ class JobsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function jobRequestSendPendingMail(){
+        $pendingJobsRequest = jobRequests::where('status',1)->orderBy('id','desc')->get();
+        $alljobs = jobs::get()->toArray();
+
+        if(Mail::to('yogesh.gupta@tech2globe.in')->send(new PendingJobRequestMail($pendingJobsRequest,$alljobs))){
+            return response()->json(['success'=>'Mail Send Successfully']);
+        }else{
+            return response()->json(['error'=>'There is some issue.']);
+        }
     }
 }

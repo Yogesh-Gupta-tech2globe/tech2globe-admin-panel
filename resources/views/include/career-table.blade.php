@@ -31,7 +31,7 @@
             @forelse ($jobs as $row)
                 <tr>
                     <td scope="row">{{ $row['title'] }}</td>
-                    <td>{{$row['experience']}}</td>
+                    <td>{{$row['experience']}} year</td>
                     <td>{{$row['num_of_post']}}</td>
                     <td class="apply-btn-career-page"><button data-bs-toggle="collapse"
                             data-bs-target="#vacancy_dme_{{$row['id']}}" aria-expanded="false"
@@ -43,7 +43,7 @@
                             <tbody>
                                 <tr>
                                     <th scope="col" class="w-50 bg-light"><strong>Location</strong></th>
-                                    <td scope="col" class="w-50">{{$row['location']}}</td>
+                                    <td scope="col" class="w-50"> {{$row['city']}} @if(!empty($row['city'])) , @endif{{$row['state']}} @if(!empty($row['state'])) , @endif {{$row['country']}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-light"><strong>Qualification</strong></th>
@@ -51,11 +51,11 @@
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-light"><strong>Work Experience</strong></th>
-                                    <td scope="col">{{$row['experience']}}</td>
+                                    <td scope="col">{{$row['experience']}} year</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-light"><strong>Salary</strong></th>
-                                    <td scope="col">Best in the Industry</td>
+                                    <td scope="col">{{$row['salary']}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col" class="bg-light"><strong>Required Skills/Experience</strong></th>
@@ -64,6 +64,10 @@
                                 <tr>
                                     <th scope="col" class="bg-light"><strong>Job Profile</strong></th>
                                     <td scope="col">{{$row['job_profile']}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="bg-light"><strong>Published On</strong></th>
+                                    <td scope="col">{{$row['posted_on']}}</td>
                                 </tr>
                                 <tr>
                                     <td scope="col" colspan="2"><a href="/career_form/{{$row['id']}}"

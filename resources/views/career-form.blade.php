@@ -581,187 +581,190 @@
     @include('include.breadcrumb-services')
     <!-- bread crum -->
 
-    <section class="container" id="careerFormFrontend">
+    <section class="container" id="careerFormFrontend" style="margin-top: -60px;">
         <div class="row">
             <div class="col-xs-12">
-                <div class="row">
-                    <div class="modal-body">
+                <div class="modal-body">
 
-                        <div class="content career-page-wrapper">
+                    <div class="content career-page-wrapper">
 
-                            <div id="wizard">
-                                <form id="careerFormSubmit">
-                                    <div class="row">
-                                        <section>
-                                            <div class="row">
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>First name *</p>
-                                                        <input name="fname" type="text" class="form-control" required />
-                                                    </div><!-- form group -->
-                                                </div>
+                        <div id="wizard">
+                            <form id="careerFormSubmit">
+                                <div class="row">
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>First name *</p>
+                                                    <input name="fname" type="text" class="form-control" required />
+                                                </div><!-- form group -->
+                                            </div>
 
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Last name *</p>
-                                                        <input name="lname" type="text" class="form-control" required />
-                                                    </div><!-- form group -->
-                                                </div>
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>Last name *</p>
+                                                    <input name="lname" type="text" class="form-control" required />
+                                                </div><!-- form group -->
+                                            </div>
 
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Email *</p>
-                                                        <input name="email" class="form-control" type="email" required />
-                                                    </div><!-- form group -->
-                                                </div>
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>Email *</p>
+                                                    <input name="email" class="form-control" type="email" required />
+                                                </div><!-- form group -->
+                                            </div>
 
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Portfolio website</p>
-                                                        <input name="website" type="link" placeholder="https://" class="form-control" />
-                                                    </div><!-- form group -->
-                                                </div>
-                                            </div><!-- row -->
-                                        </section><!-- first section -->
-
-
-                                        <section>
-                                            <div class="row">
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Vacancy you are applying for *</p>
-                                                        <input type="text" class="form-control" value="{{$vacancy['title']}}" readonly>
-														<input type="hidden" value="{{$id}}" name="vacancy_id" id="vacancy_id">
-                                                    </div><!-- form group -->
-                                                </div>
-
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p> Current CTC (PA.) *</p>
-                                                        <div class="row">
-                                                            <div class="form-floating col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                                <select class="form-select form-control" aria-label="Floating label select example" name="cctcl" required>
-                                                                    <option disabled selected>In Lakhs</option>
-                                                                    @for ($m = 0; $m < 21; $m++)
-                                                                    	<option value="{{$m}}">{{$m}}</option>
-                                                                    @endfor
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                                <select class="form-control" name="cctct" required>
-                                                                    <option disabled selected>In Thousands</option>
-                                                                    @for ($o = 0; $o < 100; $o++)
-                                                                    	<option value="{{$o}}">{{$o}}</option>
-                                                                    @endfor
-                                                                </select>
-                                                            </div>
-                                                        </div><!-- row -->
-                                                    </div><!-- form group -->
-                                                </div>
-
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Expected CTC (PA.) *</p>
-                                                        <div class="row">
-                                                            <div class=" form-floating col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                                <select class="form-select form-control" aria-label="Floating label select example" name="ectcl" required>
-                                                                    <option disabled selected>In Lakhs</option>
-                                                                    @for ($l = 0; $l < 26; $l++)
-                                                                    	<option value="{{$l}}">{{$l}}</option>
-                                                                    @endfor
-                                                                </select>
-                                                            </div>
-
-                                                            <div
-                                                                class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                                <select class="form-control" name="ectct" required>
-                                                                    <option disabled selected>In Thousands</option>
-                                                                    @for ($o = 0; $o < 100; $o++)
-                                                                    	<option value="{{$o}}">{{$o}}</option>
-                                                                    @endfor
-                                                                </select>
-                                                            </div>
-                                                        </div><!-- row -->
-                                                    </div><!-- form group -->
-                                                </div>
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>Portfolio website</p>
+                                                    <input name="website" type="link" placeholder="https://" class="form-control" />
+                                                </div><!-- form group -->
+                                            </div>
+                                        </div><!-- row -->
+                                    </section><!-- first section -->
 
 
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>When can you join?</p>
-                                                        <input name="StartDate" type="date" class="form-control datepicker" />
-                                                    </div><!-- form group -->
-                                                </div>
-                                            </div><!-- row -->
-                                        </section><!-- second section -->
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>Vacancy you are applying for *</p>
+                                                    <input type="text" class="form-control" value="{{$vacancy['title']}}" readonly>
+                                                    <input type="hidden" value="{{$id}}" name="vacancy_id" id="vacancy_id">
+                                                </div><!-- form group -->
+                                            </div>
+
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>Phone *</p>
+                                                    <input name="phone" type="text" class="form-control" minlength="10" maxlength="13" required />
+                                                </div><!-- form group -->
+                                            </div>
+
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>When can you join?</p>
+                                                    <input name="StartDate" type="date" class="form-control datepicker" />
+                                                </div><!-- form group -->
+                                            </div>
+
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>Last company you worked with</p>
+                                                    <input name="organization" type="text" class="form-control" />
+                                                </div><!-- form group -->
+                                            </div>
+
+                                        </div><!-- row -->
+                                    </section><!-- second section -->
+
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <p> Current CTC (PA.) *</p>
+                                                    <div class="row">
+                                                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                            <select class="form-select" name="cctcl" required>
+                                                                <option value="">In Lakhs</option>
+                                                                @for ($m = 0; $m < 21; $m++)
+                                                                    <option value="{{$m}}">{{$m}}</option>
+                                                                @endfor
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                            <select class="form-select" name="cctct" required>
+                                                                <option value="">In Thousands</option>
+                                                                @for ($o = 0; $o < 100; $o++)
+                                                                    <option value="{{$o}}">{{$o}}</option>
+                                                                @endfor
+                                                            </select>
+                                                        </div>
+                                                    </div><!-- row -->
+                                                </div><!-- form group -->
+                                            </div>
+
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <p>Expected CTC (PA.) *</p>
+                                                    <div class="row">
+                                                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                            <select class="form-select" name="ectcl" required>
+                                                                <option value="">In Lakhs</option>
+                                                                @for ($l = 0; $l < 26; $l++)
+                                                                    <option value="{{$l}}">{{$l}}</option>
+                                                                @endfor
+                                                            </select>
+                                                        </div>
+
+                                                        <div
+                                                            class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                            <select class="form-select" name="ectct" required>
+                                                                <option value="">In Thousands</option>
+                                                                @for ($o = 0; $o < 100; $o++)
+                                                                    <option value="{{$o}}">{{$o}}</option>
+                                                                @endfor
+                                                            </select>
+                                                        </div>
+                                                    </div><!-- row -->
+                                                </div><!-- form group -->
+                                            </div>
+                                        </div>
+                                    </section>
 
 
-                                        <section>
-                                            <div class="row">
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Phone *</p>
-                                                        <input name="phone" type="text" class="form-control" minlength="10" maxlength="13" required />
-                                                    </div><!-- form group -->
-                                                </div>
+                                    <section>
+                                        <div class="row">
 
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>Upload Your Resume *</p>
 
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Upload Your Resume *</p>
+                                                    <input name="file" type="file" accept=".jpg,.jpeg,.pdf,doc,docx,application/msword,.png" class="form-control" required />
+                                                    <small class="text-danger">Upload file must be pdf, jpg, png, word, or doc and less than 3mb</small>
+                                                </div><!-- form group -->
+                                            </div>
 
-                                                        <input name="file" type="file" accept=".jpg,.jpeg,.pdf,doc,docx,application/msword,.png" class="form-control" required />
-                                                        <small class="text-danger">Upload file must be pdf, jpg, png, word, or doc and less than 3mb</small>
-                                                    </div><!-- form group -->
-                                                </div>
+                                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <p>Notice Period</p>
+                                                    <select class="form-select" name="np">
+                                                        <option>In Days</option>
+                                                        @for ($o1 = 6; $o1 < 91; $o1++)
+                                                            <option value="{{$o1}}">{{$o1}} days</option>
+                                                        @endfor
+                                                    </select>
+                                                </div><!-- form group -->
+                                            </div>
 
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Last company you worked with</p>
-                                                        <input name="organization" type="text" class="form-control" />
-                                                    </div><!-- form group -->
-                                                </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <p>Reference / Comments / Questions</p>
+                                                    <textarea name="comment" class="form-control"></textarea>
+                                                </div><!-- form group -->
+                                            </div>
 
-                                                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                                    <div class="form-group">
-                                                        <p>Notice Period</p>
-                                                        <select class="form-control" name="np">
-                                                            <option>In Days</option>
-                                                            @for ($o1 = 6; $o1 < 91; $o1++)
-                                                            	<option value="{{$o1}}">{{$o1}} days</option>
-                                                            @endfor
-                                                        </select>
-                                                    </div><!-- form group -->
-                                                </div>
-                                            </div><!-- row -->
-                                        </section><!-- third section -->
+                                        </div><!-- row -->
+                                    </section><!-- third section -->
 
 
 
-                                        <section>
-                                            <div class="row">
-                                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                    <div class="form-group">
-                                                        <p>Reference / Comments / Questions</p>
-                                                        <textarea name="comment" class="form-control"></textarea>
-                                                    </div><!-- form group -->
-                                                </div>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                <div class="form-group">
+                                                    <button class="btn btn-danger" type="submit">APPLY</button>
+                                                </div><!-- form group -->
+                                            </div>
+                                        </div><!-- row -->
+                                    </section><!-- fourth section -->
 
-                                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                    <div class="form-group">
-                                                        <button class="btn btn-danger mt-3" type="submit">APPLY</button>
-                                                    </div><!-- form group -->
-                                                </div>
-                                            </div><!-- row -->
-                                        </section><!-- fourth section -->
-
-                                    </div><!-- row -->
-                                </form><!-- form -->
-                            </div><!-- wizard -->
-                        </div><!-- content / career-page-wrapper -->
-                    </div><!-- modal body -->
-                </div><!-- row -->
+                                </div><!-- row -->
+                            </form><!-- form -->
+                        </div><!-- wizard -->
+                    </div><!-- content / career-page-wrapper -->
+                </div><!-- modal body -->
             </div><!-- col/12 -->
         </div><!-- row -->
     </section><!-- container -->

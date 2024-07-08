@@ -1,6 +1,12 @@
 @extends('admin.layout.layout')
 @section('content')
 
+  {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css"> --}}
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css">
+  {{-- <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     @if(Session::has('success_message'))
@@ -58,29 +64,32 @@
                 <div class="card-header">
                   <h3 class="card-title">{{ $pagename }}</h3>
                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                  <a style="max-width: 200px; float: right;" class="btn btn-block btn-primary mt-2" data-toggle="modal" data-target="#add-eventCategory">Add {{ $pagename }}</a>
+                  <a style="max-width: 200px; float: right;" class="btn btn-block btn-primary mt-2 eventcategoryaddbtn" data-toggle="modal" data-target="#add-eventCategory">Add {{ $pagename }}</a>
                   @endif
                   <a style="max-width: 100px; float: right;" href="{{ url('admin/event') }}" class="btn btn-block btn-primary mt-2 mx-2">Back</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  <table id="portfolio" class="table table-bordered table-striped">
+                  <table id="eventCategoryTable" class="table table-dark table-striped table-hover">
                     <thead>
                     <tr>
-                      <th>S.No</th>
+                      <th>Order No.</th>
                       <th>Category Name</th>
                       <th>Image</th>
+                      <th style="display: none;">Order</th>
                       <th>Created At</th>
                       <th>Action</th>
+                      <th></th>
                     </tr>
                     </thead>
                     <tbody>
                       @php $i=1; @endphp
                         @foreach($category as $row)
                             <tr>
-                            <td>{{ $i++; }}</td>
+                            <td>{{ $i++ }}</td>
                             <td>{{ $row['name'] }}</td>
                             <td><img src="{{ url('images/event/category/'.$row['image']) }}" width="50px" height="50px"></td>
+                            <td style="display: none;">{{ $row['id'] }}</td>
                             <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                             <td>
                                 @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
@@ -96,6 +105,7 @@
                                 &nbsp;&nbsp;
                                 @endif
                             </td>
+                            <td class="dragRow" style="cursor: move;"><i class="fas fa-arrows-alt"></i></td>
                             </tr>
                         @endforeach
                     </tbody>
