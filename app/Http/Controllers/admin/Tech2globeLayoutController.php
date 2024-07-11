@@ -91,22 +91,6 @@ class Tech2globeLayoutController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show()
@@ -617,8 +601,6 @@ class Tech2globeLayoutController extends Controller
                 return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
             }
         }
-
-
 
         return view('admin.tech2globeCmsLayout.header')->with(compact('pagesModule','mainMenu','subMenu','allPages','pagesCategory'));
 
@@ -1302,9 +1284,16 @@ class Tech2globeLayoutController extends Controller
             $mainMenu->categoryName = $data['categoryName'];
             $mainMenu->page_url = $pageUrl;
             $mainMenu->file_id = $fileid;
-            $mainMenu->save();
+            if($mainMenu->save()){
+                activity($title)
+                ->performedOn($mainMenu)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'Main Menu'])
+                ->log('');
+
+                return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
+            }
             
-            return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
         }
 
         return view('admin.tech2globeCmsLayout.add-edit-mainMenu')->with(compact('title','mainMenu','fileData','allpageurl'));
@@ -1481,9 +1470,15 @@ class Tech2globeLayoutController extends Controller
             $subMenu->subCategoryName = $data['subCategoryName'];
             $subMenu->page_url = $pageUrl;
             $subMenu->file_id = $fileid;
-            $subMenu->save();
-            
-            return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
+            if($subMenu->save()){
+                activity($title)
+                ->performedOn($subMenu)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'Sub Menu'])
+                ->log('');
+
+                return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
+            }
         }
 
         return view('admin.tech2globeCmsLayout.add-edit-subMenu')->with(compact('title','subMenu','mainMenu','fileData','allpageurl'));
@@ -1708,9 +1703,15 @@ class Tech2globeLayoutController extends Controller
             $allPage->file_id = $fileid;
             $allPage->page_name = $data['page_name'];
             $allPage->page_url = $pageUrl;
-            $allPage->save();
-            
-            return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
+            if($allPage->save()){
+                activity($title)
+                ->performedOn($allPage)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'All Pages'])
+                ->log('');
+
+                return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
+            }
         }
 
         return view('admin.tech2globeCmsLayout.add-edit-newPage')->with(compact('title','subMenu','mainMenu','allPage','fileData','allpageurl','pageCat'));
@@ -1889,9 +1890,15 @@ class Tech2globeLayoutController extends Controller
             $category->file_id = $fileid;
             $category->name = $data['name'];
             $category->page_url = $pageUrl;
-            $category->save();
+            if($category->save()){
+                activity($title)
+                ->performedOn($category)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'Page Category'])
+                ->log('');
             
-            return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
+                return redirect('admin/tech2globe-layout/header')->with('success_message',$message);
+            }
         }
 
         return view('admin.tech2globeCmsLayout.add-edit-page-category')->with(compact('title','subMenu','mainMenu','category','fileData','allpageurl'));
@@ -1926,8 +1933,15 @@ class Tech2globeLayoutController extends Controller
                 $status = 1;
             }
 
-            tech2globe_header_category::where('id',$data['mainMenu_id'])->update(['status'=>$status]);
-            return response()->json(['status'=>$status, 'mainMenu_id'=>$data['mainMenu_id']]);
+            if(tech2globe_header_category::where('id',$data['mainMenu_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(tech2globe_header_category::find($data['mainMenu_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'Main Menu'])
+                ->log('Status');
+
+                return response()->json(['status'=>$status, 'mainMenu_id'=>$data['mainMenu_id']]);
+            }  
         }
     }
 
@@ -1941,7 +1955,14 @@ class Tech2globeLayoutController extends Controller
                 $status = 1;
             }
 
-            tech2globe_header_sub_category::where('id',$data['subMenu_id'])->update(['status'=>$status]);
+            if(tech2globe_header_sub_category::where('id',$data['subMenu_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(tech2globe_header_sub_category::find($data['subMenu_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'Sub Menu'])
+                ->log('Status');
+            }
+
             return response()->json(['status'=>$status, 'subMenu_id'=>$data['subMenu_id']]);
         }
     }
@@ -1956,7 +1977,13 @@ class Tech2globeLayoutController extends Controller
                 $status = 1;
             }
 
-            tech2globe_pages_category::where('id',$data['pageCate_id'])->update(['status'=>$status]);
+            if(tech2globe_pages_category::where('id',$data['pageCate_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(tech2globe_pages_category::find($data['pageCate_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'Page Category'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'pageCate_id'=>$data['pageCate_id']]);
         }
     }
@@ -1971,7 +1998,13 @@ class Tech2globeLayoutController extends Controller
                 $status = 1;
             }
 
-            tech2globe_all_pages::where('id',$data['allPages_id'])->update(['status'=>$status]);
+            if(tech2globe_all_pages::where('id',$data['allPages_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(tech2globe_all_pages::find($data['allPages_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'All Pages'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'allPages_id'=>$data['allPages_id']]);
         }
     }
@@ -2219,9 +2252,15 @@ class Tech2globeLayoutController extends Controller
             $footerPages->sub_category_name = $data['pageName'];
             $footerPages->page_url = $pageUrl;
             $footerPages->file_id = $fileid;
-            $footerPages->save();
-            
-            return redirect('admin/tech2globe-layout/footer')->with('success_message',$message);
+            if($footerPages->save()){
+                activity($title)
+                ->performedOn($footerPages)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'Footer'])
+                ->log('');
+
+                return redirect('admin/tech2globe-layout/footer')->with('success_message',$message);
+            }
         }
 
         return view('admin.tech2globeCmsLayout.add-edit-footerPages')->with(compact('title','footerPages','footerCategory','allpageurl','fileData'));
@@ -2237,7 +2276,13 @@ class Tech2globeLayoutController extends Controller
                 $status = 1;
             }
 
-            tech2globe_footer_sub_category::where('id',$data['footerPages_id'])->update(['status'=>$status]);
+            if(tech2globe_footer_sub_category::where('id',$data['footerPages_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(tech2globe_footer_sub_category::find($data['footerPages_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Header & Footer','submodule' => 'Footer'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'footerPages_id'=>$data['footerPages_id']]);
         }
     }

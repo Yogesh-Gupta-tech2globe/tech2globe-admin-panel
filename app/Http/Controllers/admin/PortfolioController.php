@@ -232,22 +232,6 @@ class PortfolioController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(portfolio $portfolio)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Request $request, $id=null)
@@ -335,7 +319,13 @@ class PortfolioController extends Controller
             $portfolio->website_link = $data['website'];
             $portfolio->content = $data['content'];
             $portfolio->image = $imageName;
-            $portfolio->save();
+            if($portfolio->save()){
+                activity($title)
+                ->performedOn($portfolio)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Our Work','submodule' => 'Portfolio'])
+                ->log('');
+            }
             return redirect('admin/portfolio')->with('success_message',$message);
         }
 
@@ -356,7 +346,13 @@ class PortfolioController extends Controller
                 $status = 1;
             }
 
-            portfolio::where('id',$data['portfolio_id'])->update(['status'=>$status]);
+            if(portfolio::where('id',$data['portfolio_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(portfolio::find($data['portfolio_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Our Work','submodule' => 'Portfolio'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'portfolio_id'=>$data['portfolio_id']]);
         }
     }

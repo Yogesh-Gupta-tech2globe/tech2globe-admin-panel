@@ -144,10 +144,16 @@ class CasestudyController extends Controller
                 $casestudy->page_id = $data['page_id'];
                 $casestudy->name = $data['name'];
                 $casestudy->bannerImage = $imageName;
-                $casestudy->save();
+                if($casestudy->save()){
+                    activity($title)
+                    ->performedOn($casestudy)
+                    ->causedBy(Auth::guard('admin')->user())
+                    ->withProperties(['module' => 'Our Work','submodule' => 'Case Study'])
+                    ->log('');
 
-                $message = "Case Study added Successfully and it is live now! Proceed Further by click on edit Button";
-                return redirect('admin/case-study')->with('success_message',$message);
+                    $message = "Case Study added Successfully and it is live now! Proceed Further by click on edit Button";
+                    return redirect('admin/case-study')->with('success_message',$message);
+                }
 
                 // return response()->json(['message'=>'Section One is completed and your page is live now! Proceed Further','link'=>$slug]);
             }else if($data['section'] == "2"){
@@ -763,7 +769,13 @@ class CasestudyController extends Controller
                 $status = 1;
             }
 
-            casestudy::where('id',$data['casestudy_id'])->update(['status'=>$status]);
+            if(casestudy::where('id',$data['casestudy_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(casestudy::find($data['casestudy_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Our Work','submodule' => 'Case study'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'casestudy_id'=>$data['casestudy_id']]);
         }
     }

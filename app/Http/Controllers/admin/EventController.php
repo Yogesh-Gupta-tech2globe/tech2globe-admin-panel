@@ -64,9 +64,11 @@ class EventController extends Controller
     {
 
         if($id==""){
+            $title = "Add Event Category";
             $category = new event_category();
             $message = "New Event Category added Successfully";
         }else{
+            $title = "Edit Event Category";
             $category = event_category::find($id);
             $message = "Existing Event Category updated Successfully";
         }
@@ -74,7 +76,7 @@ class EventController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
 
-            if($id=''){
+            if($id==""){
                 $rules = [
                     'name' => 'required|max:30',
                     'image' => 'required|image|max:100',
@@ -147,9 +149,15 @@ class EventController extends Controller
 
             $category->name = $data['name'];
             $category->image = $imageName;
-            $category->save();
-            
-            return redirect('admin/event-category')->with('success_message',$message);
+            if($category->save()){
+                activity($title)
+                ->performedOn($category)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Event','submodule' => 'Event Category'])
+                ->log('');
+
+                return redirect('admin/event-category')->with('success_message',$message);
+            }
         }
     }
 
@@ -164,7 +172,13 @@ class EventController extends Controller
                 $status = 1;
             }
 
-            event_category::where('id',$data['eventCat_id'])->update(['status'=>$status]);
+            if(event_category::where('id',$data['eventCat_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(event_category::find($data['eventCat_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Event','submodule' => 'Event Category'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'eventCat_id'=>$data['eventCat_id']]);
         }
     }
@@ -301,9 +315,15 @@ class EventController extends Controller
             $event->year = $data['year'];
             $event->cover_image = $coverImage;
             $event->image = $implodeAllImage;
-            $event->save();
+            if($event->save()){
+                activity($title)
+                ->performedOn($event)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Event','submodule' => 'Event'])
+                ->log('');
             
-            return response()->json(['message'=>$message]);
+                return response()->json(['message'=>$message]);
+            }
         }
 
         return view('admin.event.add-edit-event')->with(compact('title','event','category'));
@@ -347,7 +367,13 @@ class EventController extends Controller
                 $status = 1;
             }
 
-            events::where('id',$data['event_id'])->update(['status'=>$status]);
+            if(events::where('id',$data['event_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(events::find($data['event_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Event','submodule' => 'Event'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'event_id'=>$data['event_id']]);
         }
     }
@@ -473,7 +499,13 @@ class EventController extends Controller
     
                     if($eventCat) {
                         $eventCat->order_number = $order_number;
-                        $eventCat->save();
+                        if($eventCat->save()){
+                            activity('Update')
+                            ->performedOn($eventCat)
+                            ->causedBy(Auth::guard('admin')->user())
+                            ->withProperties(['module' => 'Event','submodule' => 'Event Category'])
+                            ->log('Order');
+                        }
                     }
                 }
             } else {

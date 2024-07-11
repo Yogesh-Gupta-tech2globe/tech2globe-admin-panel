@@ -41,33 +41,6 @@ class UsersController extends Controller
         return view('admin.users.users')->with(compact('users','pagesModule'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, $id=null)
     {
         if($id==""){
@@ -82,8 +55,6 @@ class UsersController extends Controller
 
         if($request->isMethod('post')){
             $data = $request->all();
-
-            // print_r($data); die;
 
             if($id == ""){
                 $usersCount = Admin::where('email',$data['email'])->count();
@@ -151,8 +122,15 @@ class UsersController extends Controller
             $users->password = bcrypt($data['password']);
             $users->image = $imageName;
             $users->status = 1;
-            $users->save();
-            return redirect('admin/users')->with('success_message',$message);
+            if($users->save()){
+                activity($title)
+                ->performedOn($users)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Users','submodule' => 'Users'])
+                ->log('');
+
+                return redirect('admin/users')->with('success_message',$message);
+            }
         }
 
         return view('admin.users.add-edit-users')->with(compact('title','users'));
@@ -172,7 +150,13 @@ class UsersController extends Controller
                 $status = 1;
             }
 
-            Admin::where('id',$data['user_id'])->update(['status'=>$status]);
+            if(Admin::where('id',$data['user_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(Admin::find($data['user_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Users','submodule' => 'Users'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'user_id'=>$data['user_id']]);
         }
     }
@@ -252,10 +236,16 @@ class UsersController extends Controller
             $role->view_access = $view;
             $role->edit_access = $edit;
             $role->full_access = $full;
-            $role->save();
+            if($role->save()){
+                activity("Update")
+                ->performedOn($role)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Users','submodule' => 'User Permission'])
+                ->log('Permission');
 
-            $message = "User Roles updated Successfully!";
-            return redirect()->back()->with('success_message',$message);
+                $message = "User Roles updated Successfully!";
+                return redirect()->back()->with('success_message',$message);
+            }
         }
 
         $userRoles = AdminsRole::where('admin_id',$id)->get()->toArray();

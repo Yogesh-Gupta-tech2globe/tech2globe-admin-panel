@@ -135,14 +135,6 @@ class JobsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show()
@@ -241,9 +233,15 @@ class JobsController extends Controller
             $job->experience = $data['experience'];
             $job->qualification = $data['qualification'];
             $job->salary = $data['salary'];
-            $job->save();
-            
-            return redirect('admin/jobs')->with('success_message',$message);
+            if($job->save()){
+                activity($title)
+                ->performedOn($job)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Jobs','submodule' => 'Jobs'])
+                ->log('');
+
+                return redirect('admin/jobs')->with('success_message',$message);
+            }
         }
 
 
@@ -264,7 +262,13 @@ class JobsController extends Controller
                 $status = 1;
             }
 
-            jobs::where('id',$data['job_id'])->update(['status'=>$status]);
+            if(jobs::where('id',$data['job_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(jobs::find($data['job_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Jobs','submodule' => 'Jobs'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'job_id'=>$data['job_id']]);
         }
     }
@@ -275,18 +279,16 @@ class JobsController extends Controller
             $jobRequest = jobRequests::find($id);
 
             $jobRequest->status = $request->status;
-            $jobRequest->save();
-            
-            return redirect('admin/job-applications')->with('success_message','Status Updated Successfully.');
-        }
-    }
+            if($jobRequest->save()){
+                activity("Update")
+                ->performedOn($jobRequest)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Jobs','submodule' => 'Job Applications'])
+                ->log('Status');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+                return redirect('admin/job-applications')->with('success_message','Status Updated Successfully.');
+            }
+        }
     }
 
     public function jobRequestSendPendingMail(){

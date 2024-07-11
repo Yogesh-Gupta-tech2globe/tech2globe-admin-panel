@@ -78,7 +78,13 @@ class FaqController extends Controller
                 $faq->page_id = $data['page_id'];
                 $faq->question = $data['question'][$i];
                 $faq->answer = $data['answer'][$i];
-                $faq->save();
+                if($faq->save()){
+                    activity($title)
+                    ->performedOn($faq)
+                    ->causedBy(Auth::guard('admin')->user())
+                    ->withProperties(['module' => 'Our Work','submodule' => 'FAQ'])
+                    ->log('');
+                }
             }
             
             return redirect('admin/faq')->with('success_message',$message);
@@ -98,7 +104,13 @@ class FaqController extends Controller
                 $status = 1;
             }
 
-            faq::where('id',$data['faq_id'])->update(['status'=>$status]);
+            if(faq::where('id',$data['faq_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(faq::find($data['faq_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Our Work','submodule' => 'FAQ'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'faq_id'=>$data['faq_id']]);
         }
     }

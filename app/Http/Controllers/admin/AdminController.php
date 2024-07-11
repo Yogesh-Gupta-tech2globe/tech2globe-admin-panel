@@ -104,10 +104,15 @@ class AdminController extends Controller
                 //Check if new password and confirm password is matching
                 if($data['new_pwd']==$data['confirm_pwd']){
                     //Update password
-                    Admin::where('id',Auth::guard('admin')->user()->id)->update(['password'=>bcrypt($data['new_pwd'])]);
+                    if(Admin::where('id',Auth::guard('admin')->user()->id)->update(['password'=>bcrypt($data['new_pwd'])])){
+                        activity('Update')
+                        ->performedOn(Admin::where('id',Auth::guard('admin')->user()->id)->first())
+                        ->causedBy(Auth::guard('admin')->user())
+                        ->withProperties(['module' => 'Setting','submodule' => 'Update Password'])
+                        ->log('Password');
 
-                    return redirect()->back()->with('success_message','Your Password is updated Successfully!');
-
+                        return redirect()->back()->with('success_message','Your Password is updated Successfully!');
+                    }
                 }else{
                     return redirect()->back()->with('error_message','Your New password and Confirm password is not matching!');
                 }
@@ -184,9 +189,15 @@ class AdminController extends Controller
                 $imageName = "";
             }
 
-            Admin::where('email',Auth::guard('admin')->user()->email)->update(['name'=>$data['admin_name'],'image'=>$imageName]);
+            if(Admin::where('email',Auth::guard('admin')->user()->email)->update(['name'=>$data['admin_name'],'image'=>$imageName])){
+                activity('Update')
+                ->performedOn(Admin::where('email',Auth::guard('admin')->user()->email)->first())
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Setting','submodule' => 'Update Details'])
+                ->log('Details');
 
-            return redirect()->back()->with('success_message','Admin Details is updated Successfully!');
+                return redirect()->back()->with('success_message','Admin Details is updated Successfully!');
+            }
             
         }
 

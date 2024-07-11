@@ -70,3 +70,9 @@ Route::get('/admin/page/1', function () {
                     return view("thank-you", $data);
 
                 });
+                Route::get("/admin/page/27", function () {
+
+                    $data = ["pageName" => "log file"];
+                    return view("log-file", $data);
+
+                });

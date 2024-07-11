@@ -125,6 +125,12 @@ class FileManagementController extends Controller
             $fileData->file_code = $processedHtmlContent;
             $fileData->save();
 
+            activity($title)
+                ->performedOn($fileData)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'File Management','submodule' => 'Files'])
+                ->log('');
+
             $latestId = $fileData->id;
 
             if(empty($id)){
@@ -149,46 +155,6 @@ class FileManagementController extends Controller
         }
 
         return view('admin.fileManagement.add-edit-new-file')->with(compact('title', 'fileData'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     public function linkedFiles()

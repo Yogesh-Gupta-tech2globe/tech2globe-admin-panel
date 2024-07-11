@@ -232,6 +232,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-jobRequest-status/{id}', 'JobsController@updateRequest');
         Route::post('jobRequestSendPendingMail', 'JobsController@jobRequestSendPendingMail');
 
+        //Log Module
+        Route::get('logs','logsController@index');
+
     });
 });
 

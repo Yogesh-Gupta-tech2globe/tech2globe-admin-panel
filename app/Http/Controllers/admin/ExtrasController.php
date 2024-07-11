@@ -98,9 +98,15 @@ class ExtrasController extends Controller
             $social->name = $data['name'];
             $social->link = $data['link'];
             $social->icon = $icon;
-            $social->save();
-            
-            return redirect('admin/contact-social')->with('success_message',$message);
+            if($social->save()){
+                activity($title)
+                ->performedOn($social)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Social Media'])
+                ->log('');
+
+                return redirect('admin/contact-social')->with('success_message',$message);
+            }
         }
 
         return view('admin.extras.contact_social.add-edit-social-media')->with(compact('title','social'));
@@ -126,9 +132,15 @@ class ExtrasController extends Controller
             $contact->cat_status = 0;
             $contact->name = "Skype ID";
             $contact->link = $data['skypeid'];
-            $contact->save();
-            
-            return $message = 'Skype ID Updated successfully!';
+            if($contact->save()){
+                activity('Update')
+                ->performedOn($contact)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Contact Details'])
+                ->log('Contact');
+
+                return $message = 'Skype ID Updated successfully!';
+            }
 
         }else if(!empty($data['mailid'])){
             $contact = contact_social::where('name','Mail ID')->first();
@@ -136,9 +148,15 @@ class ExtrasController extends Controller
             $contact->cat_status = 0;
             $contact->name = "Mail ID";
             $contact->link = $data['mailid'];
-            $contact->save();
-            
-            return $message = 'Mail ID Updated successfully!';
+            if($contact->save()){
+                activity('Update')
+                ->performedOn($contact)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Contact Details'])
+                ->log('Contact');
+
+                return $message = 'Mail ID Updated successfully!';
+            }
         }else if(!empty($data['phone'])){
             
             $contact = contact_social::where('name','Phone Number')->first();
@@ -146,9 +164,15 @@ class ExtrasController extends Controller
             $contact->cat_status = 0;
             $contact->name = "Phone Number";
             $contact->link = $data['phone'];
-            $contact->save();
-            
-            return $message = 'Phone Number Updated successfully!';
+            if($contact->save()){
+                activity('Update')
+                ->performedOn($contact)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Contact Details'])
+                ->log('Contact');
+
+                return $message = 'Phone Number Updated successfully!';
+            }
         }
     }
 
@@ -163,7 +187,13 @@ class ExtrasController extends Controller
                 $status = 1;
             }
 
-            contact_social::where('id',$data['social_id'])->update(['status'=>$status]);
+            if(contact_social::where('id',$data['social_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(contact_social::find($data['social_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Social Media'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'social_id'=>$data['social_id']]);
         }
     }
@@ -286,9 +316,15 @@ class ExtrasController extends Controller
             $company->phone = $data['phone'];
             $company->google_map = $data['googlemap'];
             $company->flag = $imageName;
-            $company->save();
-            
-            return redirect('admin/company-branch')->with('success_message',$message);
+            if($company->save()){
+                activity($title)
+                ->performedOn($company)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Company Branch Handling'])
+                ->log('');
+
+                return redirect('admin/company-branch')->with('success_message',$message);
+            }
         }
 
         return view('admin.extras.company_branch.add-edit-company-branch')->with(compact('title','company'));
@@ -305,7 +341,13 @@ class ExtrasController extends Controller
                 $status = 1;
             }
 
-            company_branch::where('id',$data['branch_id'])->update(['status'=>$status]);
+            if(company_branch::where('id',$data['branch_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(company_branch::find($data['branch_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Company Branch Handling'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'branch_id'=>$data['branch_id']]);
         }
     }
@@ -405,9 +447,15 @@ class ExtrasController extends Controller
             $achievements->name = $data['name'];
             $achievements->url = $data['url'];
             $achievements->image = $imageName;
-            $achievements->save();
-            
-            return redirect('admin/achievements')->with('success_message',$message);
+            if($achievements->save()){
+                activity($title)
+                ->performedOn($achievements)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Achievements'])
+                ->log('');
+
+                return redirect('admin/achievements')->with('success_message',$message);
+            }
         }
 
         return view('admin.extras.achievements.add-edit-achievements')->with(compact('title','achievements'));
@@ -424,7 +472,13 @@ class ExtrasController extends Controller
                 $status = 1;
             }
 
-            achievements::where('id',$data['achievements_id'])->update(['status'=>$status]);
+            if(achievements::where('id',$data['achievements_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(achievements::find($data['achievements_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Achievements'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'achievements_id'=>$data['achievements_id']]);
         }
     }
@@ -504,11 +558,17 @@ class ExtrasController extends Controller
         }
 
         $sitelogo->name = $imageName;
-        $sitelogo->save();
+        if($sitelogo->save()){
+            activity('Update')
+                ->performedOn($sitelogo)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Site Logo'])
+                ->log('Site logo');
 
-        $message = "Site logo updated Successfully";
-        
-        return redirect('admin/site-logo')->with('success_message',$message);
+            $message = "Site logo updated Successfully";
+            
+            return redirect('admin/site-logo')->with('success_message',$message);
+        }
     }
 
     public function recaptcha()
@@ -556,11 +616,17 @@ class ExtrasController extends Controller
 
             $recaptcha->site_key = $data['site_key'];
             $recaptcha->secret_key = $data['secret_key'];
-            $recaptcha->save();
+            if($recaptcha->save()){
+                activity('Update')
+                ->performedOn($recaptcha)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Extras','submodule' => 'Recaptcha'])
+                ->log('Keys');
 
-            $message = "Recaptcha updated Successfully";
-        
-            return redirect('admin/recaptcha')->with('success_message',$message);
+                $message = "Recaptcha updated Successfully";
+            
+                return redirect('admin/recaptcha')->with('success_message',$message);
+            }
         }
     }
     

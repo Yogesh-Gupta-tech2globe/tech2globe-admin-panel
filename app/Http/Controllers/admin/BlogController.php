@@ -73,7 +73,13 @@ class BlogController extends Controller
                 
                 $blog->page_id = $data['page_id'];
                 $blog->blog_id = $data['blog_id'][$i];
-                $blog->save();
+                if($blog->save()){
+                    activity($title)
+                    ->performedOn($blog)
+                    ->causedBy(Auth::guard('admin')->user())
+                    ->withProperties(['module' => 'Our Work','submodule' => 'Blog'])
+                    ->log('');
+                }
 
             }
             return redirect('admin/blog')->with('success_message',$message);
@@ -105,8 +111,15 @@ class BlogController extends Controller
                 $status = 1;
             }
 
-            blog::where('id',$data['blog_id'])->update(['status'=>$status]);
-            return response()->json(['status'=>$status, 'blog_id'=>$data['blog_id']]);
+            if(blog::where('id',$data['blog_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(blog::find($data['blog_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Our Work','submodule' => 'Blog'])
+                ->log('Status');
+
+                return response()->json(['status'=>$status, 'blog_id'=>$data['blog_id']]);
+            }
         }
     }
 

@@ -104,8 +104,15 @@ class TestimonialController extends Controller
             $testimonial->ratings = $data['rating'];
             $testimonial->comment = $data['comment'];
             $testimonial->video_url = $data['video_url'];
-            $testimonial->save();
-            return redirect('admin/testimonial')->with('success_message',$message);
+            if($testimonial->save()){
+                activity($title)
+                ->performedOn($testimonial)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Our Work','submodule' => 'Testimonial'])
+                ->log('');
+
+                return redirect('admin/testimonial')->with('success_message',$message);
+            }
         }
 
         return view('admin.ourWork.testimonial.add-edit-testimonial')->with(compact('title','testimonial','allInnerPages'));
@@ -122,7 +129,13 @@ class TestimonialController extends Controller
                 $status = 1;
             }
 
-            testimonial::where('id',$data['testimonial_id'])->update(['status'=>$status]);
+            if(testimonial::where('id',$data['testimonial_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(testimonial::find($data['testimonial_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Our Work','submodule' => 'Testimonial'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'testimonial_id'=>$data['testimonial_id']]);
         }
     }
