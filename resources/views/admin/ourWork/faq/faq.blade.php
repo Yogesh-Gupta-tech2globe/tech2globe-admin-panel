@@ -49,7 +49,7 @@
                 <div class="card-header">
                   <h3 class="card-title">{{ $pagename }}</h3>
                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                  <a style="max-width: 150px; float: right;" href="{{ url('admin/add-edit-faq') }}" class="btn btn-block btn-primary mt-2">Add {{ $pagename }}</a>
+                  <a style="max-width: 150px; float: right;" href="{{ url('admin/add-edit-faq') }}" class="btn btn-block btn-primary mt-2">Link {{ $pagename }}</a>
                   @endif
                 </div>
                 <!-- /.card-header -->
@@ -61,7 +61,7 @@
                       <th>Question</th>
                       <th>Answer</th>
                       <th>Linked Page</th>
-                      <th>Created At</th>
+                      <th>Updated At</th>
                       <th>Action</th>
                     </tr>
                     </thead>
@@ -74,10 +74,10 @@
                             <td>{{ Str::limit($row['answer'], 20, ' ...') }}</td>
                             <td>
                                 @foreach ($allInnerPages as $item)
-                                    @if($item['id'] == $row['page_id']) {{ $item['page_name'] }} @endif
+                                    @if($item['id'] == $row['page_id']) {{ $item['page_name'] }} | {{$item['page_url']}} @endif
                                 @endforeach
                             </td>
-                            <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
+                            <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                             <td>
                                 @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                 @if ($row['status']==1)

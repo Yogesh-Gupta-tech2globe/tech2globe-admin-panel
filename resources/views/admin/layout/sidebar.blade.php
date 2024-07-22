@@ -60,7 +60,7 @@ use App\Models\AdminsRole;
           @endif
           <li class="nav-item">
             <a href="#" class="nav-link {{ $active}}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-user-cog"></i>
               <p>
                 Setting
                 <i class="right fas fa-angle-left"></i>
@@ -169,7 +169,7 @@ use App\Models\AdminsRole;
             @endif
             <li class="nav-item">
               <a href="" class="nav-link {{ $active }}">
-                <i class="nav-icon fas fa-book"></i>
+                <i class="nav-icon fas fa-folder-open"></i>
                 <p>
                   File Management
                   <i class="right fas fa-angle-left"></i>
@@ -224,7 +224,7 @@ use App\Models\AdminsRole;
             @endif
             <li class="nav-item">
               <a href="/admin/tech2globe-layout" class="nav-link {{ $active }}">
-                <i class="nav-icon fas fa-glasses"></i>
+                <i class="nav-icon fas fa-wave-square"></i>
                 <p>
                   Header & Footer
                   <i class="right fas fa-angle-left"></i>
@@ -358,7 +358,7 @@ use App\Models\AdminsRole;
             @endif
             <li class="nav-item">
               <a href="" class="nav-link {{ $active }}">
-                <i class="nav-icon fas fa-gopuram"></i>
+                <i class="nav-icon fas fa-sliders-h"></i>
                 <p>
                   Extras
                   <i class="right fas fa-angle-left"></i>
@@ -501,6 +501,90 @@ use App\Models\AdminsRole;
                   {{"Logs"}}
                 </p>
               </a>
+            </li>
+          @endif
+
+          @if(Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="seo")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="/admin/seo" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-globe"></i>
+                <p>
+                  {{"SEO"}}
+                </p>
+              </a>
+            </li>
+          @endif
+
+          @if(AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'resources'])->count() != 0 || Auth::guard('admin')->user()->type == 'admin')
+            @if(Session::get('page')=="rtestimonial" || Session::get('page')=="rportfolio" || Session::get('page')=="rcase_study" || Session::get('page')=="rfaq")
+              @php $active="active" @endphp
+            @else
+              @php $active="" @endphp
+            @endif
+            <li class="nav-item">
+              <a href="" class="nav-link {{ $active }}">
+                <i class="nav-icon fas fa-dice-d20"></i>
+                <p>
+                  Resources
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+
+                @if(Session::get('page')=="rtestimonial")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/resources/testimonial" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Testimonial</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="rportfolio")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/resources/portfolio" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Portfolio</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="rcase_study")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/resources/case-study" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Case Study</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="rfaq")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/resources/faq" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>FAQs</p>
+                  </a>
+                </li>
+
+              </ul>
             </li>
           @endif
         </ul>

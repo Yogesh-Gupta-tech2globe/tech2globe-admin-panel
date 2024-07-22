@@ -49,10 +49,8 @@
                 <div class="card-header">
                   <h3 class="card-title">Portfolio</h3>
                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                  <a style="max-width: 150px; float: right;" href="{{ url('admin/add-edit-portfolio') }}" class="btn btn-block btn-primary mt-2">Add Portfolio</a>
+                  <a style="max-width: 150px; float: right;" href="{{ url('admin/add-edit-portfolio') }}" class="btn btn-block btn-primary mt-2">Link Portfolio</a>
                   @endif
-                  {{-- <a style="max-width: 200px; float: right;" href="{{ url('admin/portfolio-subcategory') }}" class="btn btn-block btn-primary m-2">Portfolio Sub Category</a>
-                  <a style="max-width: 200px; float: right;" href="{{ url('admin/portfolio-category') }}" class="btn btn-block btn-primary">Portfolio Category</a> --}}
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -62,8 +60,6 @@
                       <th>S.No</th>
                       <th>Title</th>
                       <th>Linked Page</th>
-                      <th>Linked Site</th>
-                      <th>Created At</th>
                       <th>Updated At</th>
                       <th>Action</th>
                     </tr>
@@ -76,11 +72,9 @@
                       <td>{{ $row['title'] }}</td>
                       <td>
                         @foreach ($allInnerPages as $page)
-                            @if($page['id'] == $row['page_id']) {{ $page['page_name'] }} @endif
+                            @if($page['id'] == $row['page_id']) {{ $page['page_name'] }} | {{$page['page_url']}} @endif
                         @endforeach
                       </td>
-                      <td><a href="{{ $row['website_link'] }}" target="_blank">View</a></td>
-                      <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                       <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                       <td>
                         @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
@@ -95,9 +89,6 @@
                           <a href="{{ url('admin/add-edit-portfolio/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                           &nbsp;&nbsp;
                         @endif
-                        {{-- @if ($pagesModule['full_access']==1)
-                          <a class="confirmDelete" name="Portfolio" title="Delete Portfolio" href="javascript:void(0)" record="portfolio" recordid="{{ $row['id'] }}"><i class="fas fa-trash"></i></a>
-                        @endif --}}
                       </td>
                     </tr>
                         @endforeach

@@ -12,6 +12,8 @@ use App\Http\Controllers\mailController;
 use App\Http\Controllers\aplusController;
 use App\Http\Controllers\admin\EventController;
 use App\Http\Controllers\admin\JobsController;
+use App\Http\Controllers\admin\PortfolioController;
+use App\Http\Controllers\admin\CasestudyController;
 
 require __DIR__.'/pages.php';
 require __DIR__.'/mainMenu.php';
@@ -54,6 +56,11 @@ function fetch_post_by_id($base_url, $post_id) {
 
 Route::post('/getevents', [EventController::class, 'getevents']);
 Route::post('/geteventsyear', [EventController::class, 'geteventsyear']);
+
+Route::post('/getPortfolioSubcat', [PortfolioController::class, 'getPortfolioSubcat']);
+Route::post('/getportfolio', [PortfolioController::class, 'getPortfolio']);
+
+Route::post('/getCasestudy', [CasestudyController::class, 'getCasestudy']);
 
 Route::match(['get','post'],'/career_form/{id}', [JobsController::class, 'create'])->whereNumber('id');
 
@@ -181,13 +188,6 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('portfolio','PortfolioController@index');
         Route::post('update-portfolio-status','PortfolioController@update');
         Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit');
-        // Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
-        // Route::get('portfolio-category','PortfolioController@portfolioCategory');
-        // Route::match(['get','post'],'add-edit-portfolio-category/{id?}','PortfolioController@addEditPortfolioCategory');
-        // Route::post('update-portfolio-cat-status', 'PortfolioController@updatePortfolioCat');
-        // Route::get('portfolio-subcategory','PortfolioController@portfolioSubCategory');
-        // Route::match(['get','post'],'add-edit-portfolio-subcategory/{id?}','PortfolioController@addEditPortfolioSubCategory');
-        // Route::post('update-portfolio-subcat-status', 'PortfolioController@updatePortfolioSubCat');
         Route::post('getSubcategory', 'PortfolioController@getsubcategory');
 
         //Testimonial
@@ -203,9 +203,6 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         //Case Study
         Route::get('case-study','CasestudyController@index');
         Route::match(['get','post'],'add-edit-case-study/{id?}','CasestudyController@addEditCasestudy');
-        // Route::get('case-study-category','CasestudyController@casestudyCategory');
-        // Route::match(['get','post'],'add-edit-casestudy-category/{id?}','CasestudyController@addEditCasestudyCategory');
-        // Route::post('update-casestudycategory-status', 'CasestudyController@updateCasestudyCat');
         Route::post('create-case-study-section', 'CasestudyController@createsections');
         Route::post('update-casestudy-status', 'CasestudyController@updateCasestudy');
 
@@ -234,6 +231,46 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
         //Log Module
         Route::get('logs','logsController@index');
+
+        //SEO Module
+        Route::get('seo','SeoController@index');
+        Route::match(['get','post'],'add-edit-seo/{id?}','SeoController@addEditSeo')->whereNumber('id');
+
+        //Resource Module
+        Route::prefix('resources')->group(function(){
+             //Portfolio
+            Route::get('portfolio','PortfolioController@index2');
+            Route::post('update-portfolio-status','PortfolioController@update2');
+            Route::match(['get','post'],'add-edit-portfolio/{id?}','PortfolioController@edit2');
+            // Route::get('delete-portfolio/{id?}','PortfolioController@destroy');
+            Route::get('portfolio-category','PortfolioController@portfolioCategory');
+            Route::match(['get','post'],'add-edit-portfolio-category/{id?}','PortfolioController@addEditPortfolioCategory');
+            Route::post('update-portfolio-cat-status', 'PortfolioController@updatePortfolioCat');
+            Route::get('portfolio-subcategory','PortfolioController@portfolioSubCategory');
+            Route::match(['get','post'],'add-edit-portfolio-subcategory/{id?}','PortfolioController@addEditPortfolioSubCategory');
+            Route::post('update-portfolio-subcat-status', 'PortfolioController@updatePortfolioSubCat');
+            Route::post('getSubcategory', 'PortfolioController@getsubcategory');
+
+            //Testimonial
+            Route::get('testimonial','TestimonialController@index2');
+            Route::match(['get','post'],'add-edit-testimonial/{id?}','TestimonialController@addEditTestimonial2');
+            Route::post('update-testimonial-status','TestimonialController@update2');
+
+            //Case Study
+            Route::get('case-study','CasestudyController@index2');
+            Route::match(['get','post'],'add-case-study','CasestudyController@addCasestudy');
+            Route::match(['get','post'],'edit-case-study/{id}','CasestudyController@editCasestudy')->whereNumber('id');
+            // Route::post('create-case-study-section', 'CasestudyController@createsections');
+            Route::post('update-casestudy-status', 'CasestudyController@update');
+            Route::get('case-study-category','CasestudyController@casestudyCategory');
+            Route::match(['get','post'],'add-edit-casestudy-category/{id?}','CasestudyController@addEditCasestudyCategory');
+            Route::post('update-casestudycategory-status', 'CasestudyController@updateCasestudyCat');
+
+            //Faq
+            Route::get('faq','FaqController@index2');
+            Route::match(['get','post'],'add-edit-faq/{id?}','FaqController@addEditFaq2');
+            Route::post('update-faq-status','FaqController@update2');
+        });
 
     });
 });
@@ -532,5 +569,51 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
                     $data = ["pageName" => "New era new","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
                     return view("accounting-services", $data);
+
+                });
+                Route::get("/testimonial", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",17)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",17)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",17)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",17)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",17)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "Testimonial","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("testimonial", $data);
+
+                });
+                Route::get("/new-test-page-23", function () {
+
+                    $portfolio = portfolio::where("status",1)->where("page_id",91)->get()->toArray();
+                    $casestudy = casestudy::where("status",1)->where("page_id",91)->get()->toArray();
+                    $testimonials = testimonial::where("status",1)->where("page_id",91)->get()->toArray();
+                    $faq = faq::where("status",1)->where("page_id",91)->get()->toArray();
+                    $blog = blog::select("blog_id")->where("status",1)->where("page_id",91)->get()->toArray();
+
+                    $base_url = "https://blog.tech2globe.com/wp-json/wp/v2/posts";
+                    $post_ids = $blog; // replace with your array of post IDs
+                    $all_posts = [];
+
+                    foreach ($post_ids as $post_id) {
+                        $post = fetch_post_by_id($base_url, $post_id["blog_id"]);
+                        if ($post) {
+                            $all_posts[] = $post;
+                        } 
+                    }
+
+                    $data = ["pageName" => "New Test Page","portfolio" => $portfolio,"testimonials" => $testimonials,"faq" => $faq,"casestudy" => $casestudy,"all_posts" => $all_posts];
+                    return view("new-testing-page", $data);
 
                 });

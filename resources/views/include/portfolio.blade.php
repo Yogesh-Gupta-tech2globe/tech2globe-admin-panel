@@ -21,16 +21,18 @@
                             <!-- owl-carousel-item -->
                             <div class="item">
                                 <div class="card">
-                                    <a href="{{ url('admin/img/portfolio-images/'.$row['image']) }}" data-glightbox="project-gallery" data-title="{{$row['title']}}" data-description=".cantabil-desc">
-                                        <img src="{{ url('admin/img/portfolio-images/'.$row['image']) }}" class="img-fluid w-100 h-100 " alt="{{$row['title']}}">
+                                    <a href="{{ url('images/portfolio/'.$row['image']) }}" data-glightbox="project-gallery" data-title="{{$row['title']}}" data-description=".cantabil-desc">
+                                        <img src="{{ url('images/portfolio/'.$row['image']) }}" class="img-fluid w-100 h-100 " alt="{{$row['title']}}">
                                         <div class="card-img-overlay d-flex flex-column justify-content-center align-items-center">
-                                            <i class="fas fa-expand fa-beat fa-2x text-white"></i>
+                                            {{-- <i class="fas fa-expand fa-beat fa-2x text-white"></i> --}}
+                                            <b class="text-white">{{$row['title']}}</b>
+                                            <a href="{{$row['website_link']}}" class="btn btn-danger text-white text-decoration-none" target="_blank">View Project</a>
                                         </div>
                                     </a>
                                     <!-- project-description -->
                                     <div class="glightbox-desc cantabil-desc">
                                         <p>{{$row['content']}}</p>
-                                        <a href="{{$row['website_link']}}" class="btn btn-danger text-white text-decoration-none">View Project</a>
+                                        <a href="{{$row['website_link']}}" class="btn btn-danger text-white text-decoration-none" target="_blank">View Project</a>
                                     </div>
                                 </div>
                             </div>

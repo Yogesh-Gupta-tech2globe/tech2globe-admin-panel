@@ -42,7 +42,7 @@
             @endforeach
             
         </div>
-        <div class="row p-lg-0 p-3 text-center">
+        {{-- <div class="row p-lg-0 p-3 text-center">
             <!-- navigation-buttons -->
             @if(count($testimonials) > 5)
                 <div class="testimonial-custom-nav">
@@ -50,7 +50,7 @@
                     <button class="owl-next p-0"><i class="fas fa-chevron-right"></i></button>
                 </div>
             @endif
-        </div>
+        </div> --}}
     </section>
     <!-- testimonials-section-end -->
 @endif

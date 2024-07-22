@@ -57,15 +57,6 @@
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">{{ $title }}</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -89,22 +80,28 @@
                           <select class="form-control" style="width: 100%;" name="page_id" required>
                               <option value="">Select Inner Page</option>
                                 @foreach ($allInnerPages as $row)
-                                  <option value="{{ $row['id'] }}" @if($row['id'] == $faq['page_id']) selected @endif>{{ $row['page_name'] }}</option>
+                                  <option value="{{ $row['id'] }}" @if($row['id'] == $faq['page_id']) selected @endif>{{ $row['page_name'] }} | {{$row['page_url']}}</option>
                                 @endforeach
                           </select>
                       </div>
                       <div class="form-group">
-                          <label for="question">Q1. Question*</label>
-                          <input type="text" class="form-control" id="question" name="question[]" placeholder="Enter Question" required @if(!empty($faq['question'])) value="{{ $faq['question'] }}" @endif>
+                        <label for="portfolio_id">Select FAQ*</label>
+                        @if(empty($faq['id']))
+                          <select class="form-control" name="faq_id" required>
+                              <option value="">Select FAQ</option>
+                              @foreach ($allFAQ as $row)
+                                  <option value="{{ $row['id'] }}">{{"Q."}} {{Str::limit($row['question'], 20, ' ...')}} || {{"A."}} {{Str::limit($row['answer'], 20, ' ...')}}</option>
+                              @endforeach
+                          </select> 
+                        @else
+                          @foreach ($allFAQ as $row)
+                            @if ($row['id'] == $faq['id'])
+                              <input type="text" class="form-control" value="{{"Q."}} {{Str::limit($row['question'], 20, ' ...')}} || {{"A."}} {{Str::limit($row['answer'], 20, ' ...')}}" readonly>
+                              <input type="hidden" name="faq_id" value="{{ $row['id'] }}">
+                            @endif
+                          @endforeach
+                        @endif
                       </div>
-                      <div class="form-group">
-                          <label for="answer">A1. Answer*</label>
-                          <textarea class="form-control" name="answer[]" id="answer" placeholder="Enter Answer" required>@if(!empty($faq['answer'])) {{ $faq['answer'] }} @endif</textarea>
-                      </div>
-                      @if(empty($faq['id']))
-                      <div id="showQA"></div>
-                      <button type="button" class="btn btn-warning" id="addQA">Add Q/A</button>
-                      @endif
                     </div>
                     <!-- /.card-body -->
 

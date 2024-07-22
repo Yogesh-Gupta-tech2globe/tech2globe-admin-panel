@@ -76,3 +76,45 @@ Route::get('/admin/page/1', function () {
                     return view("log-file", $data);
 
                 });
+                Route::get("/admin/page/28", function () {
+
+                    $data = ["pageName" => "Portfolio"];
+                    return view("portfolio", $data);
+
+                });
+                Route::get("/admin/page/29", function () {
+
+                    $data = ["pageName" => "testimonial"];
+                    return view("testimonial", $data);
+
+                });
+                Route::get("/admin/page/115", function () {
+
+                    $data = ["pageName" => "Portfolio"];
+                    return view("portfolio", $data);
+
+                });
+                Route::get("/admin/page/116", function () {
+
+                    $data = ["pageName" => "testimonial"];
+                    return view("testimonial", $data);
+
+                });
+                Route::get("/admin/page/117", function () {
+
+                    $data = ["pageName" => "Case Studty"];
+                    return view("case-studty", $data);
+
+                });
+                Route::get("/admin/page/118", function () {
+
+                    $data = ["pageName" => "new Testing page"];
+                    return view("new-testing-page", $data);
+
+                });
+                Route::get("/admin/page/119", function () {
+
+                    $data = ["pageName" => "FAQ"];
+                    return view("faq", $data);
+
+                });

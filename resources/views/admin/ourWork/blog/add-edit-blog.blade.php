@@ -70,7 +70,7 @@
                           <select class="form-control" style="width: 100%;" name="page_id" required>
                               <option value="">Select Inner Page</option>
                                 @foreach ($allInnerPages as $row)
-                                  <option value="{{ $row['id'] }}" @if($row['id'] == $blog['page_id']) selected @endif>{{ $row['page_name'] }}</option>
+                                  <option value="{{ $row['id'] }}" @if($row['id'] == $blog['page_id']) selected @endif>{{ $row['page_name'] }} | {{$row['page_url']}}</option>
                                 @endforeach
                           </select>
                       </div>

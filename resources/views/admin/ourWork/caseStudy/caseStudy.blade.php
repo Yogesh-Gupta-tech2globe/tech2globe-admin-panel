@@ -58,9 +58,8 @@
                 <div class="card-header">
                   <h3 class="card-title">{{ $pagename }}</h3>
                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                  <a style="max-width: 150px; float: right;" href="" class="btn btn-block btn-primary mt-2" data-toggle="modal" data-target="#add-casestudy">Add {{ $pagename }}</a>
+                  <a style="max-width: 150px; float: right;" href="/admin/add-edit-case-study" class="btn btn-block btn-primary mt-2">Link {{ $pagename }}</a>
                   @endif
-                  {{-- <a style="max-width: 150px; float: right;" href="{{ url('admin/case-study-category') }}" class="btn btn-block btn-primary mt-2 mx-2">Category</a> --}}
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -69,9 +68,10 @@
                     <tr>
                       <th>S.No</th>
                       <th>Name</th>
+                      <th>Category</th>
                       <th>Linked Page</th>
                       <th>View</th>
-                      <th>Created At</th>
+                      <th>Updated At</th>
                       <th>Action</th>
                     </tr>
                     </thead>
@@ -82,12 +82,17 @@
                               <td>{{ $i++; }}</td>
                               <td>{{ $row['name'] }}</td>
                               <td>
+                                @foreach ($category as $cat)
+                                  @if ($cat['id'] == $row['category_id']) {{$cat['name']}} @endif
+                                @endforeach
+                              </td>
+                              <td>
                                 @foreach ($allInnerPages as $page)
-                                  @if ($page['id'] == $row['page_id']) {{$page['page_name']}} @endif
+                                  @if ($page['id'] == $row['page_id']) {{$page['page_name']}} | {{$page['page_url']}} @endif
                                 @endforeach
                               </td>
                               <td><a href="/casestudy/{{ Str::slug($row['name']) }}" target="_blank">View</a></td>
-                              <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
+                              <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                               <td>
                                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                   @if ($row['status']==1)
@@ -98,7 +103,7 @@
                                   &nbsp;&nbsp;
                                   @endif
                                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                                  <a href="{{ url('admin/add-edit-case-study/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
+                                  <a href="/admin/add-edit-case-study/{{$row['id']}}"><i class="fas fa-edit"></i></a>
                                   &nbsp;&nbsp;
                                   @endif
                               </td>
@@ -121,26 +126,17 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <div class="modal fade" id="add-casestudy">
+  {{-- <div class="modal fade" id="add-casestudy">
     <div class="modal-dialog">
       <div class="modal-content bg-secondary">
         <form action="add-edit-case-study" method="post" enctype="multipart/form-data">@csrf
             <div class="modal-header">
-                <h4 class="modal-title">Add {{$pagename}}</h4>
+                <h4 class="modal-title">Link {{$pagename}}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-              {{-- <div class="form-group">
-                <label for="name">Category</label>
-                <select class="form-control" name="catid" required>
-                  <option value="">Select Case Study Category</option>
-                  @foreach ($category as $row)
-                    <option value="{{$row['id']}}">{{$row['name']}}</option>
-                  @endforeach
-                </select>
-              </div> --}}
               <div class="form-group">
                   <label>Select Page*</label>
                   <select class="form-control" style="width: 100%;" name="page_id" required>
@@ -151,16 +147,13 @@
                   </select>
               </div>
               <div class="form-group">
-                <label for="name">Case Study Name</label>
-                <input type="text" class="form-control" name="name" placeholder="Enter Case Study Name" required>
-              </div>
-              <div class="form-group">
-                  <label for="bannerImage">Banner Image</label>
-                  <input type="file" class="form-control" name="bannerImage" id="bannerImage" required>
-                  <ul>
-                    <li>Banner Size should not be greater than 100KB</li>
-                    <li>Banner Dimensions should be 573 X 226px</li>
-                  </ul>
+                  <label>Select Case study*</label>
+                  <select class="form-control" style="width: 100%;" name="casestudy_id" required>
+                      <option value="">Select Case study</option>
+                        @foreach ($nolinkcasestudy as $row)
+                          <option value="{{ $row['id'] }}">{{ $row['name'] }}</option>
+                        @endforeach
+                  </select>
               </div>
               <input type="hidden" name="section" value="1">   
             </div>
@@ -173,6 +166,6 @@
       <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-  </div>
+  </div> --}}
 
 @endsection

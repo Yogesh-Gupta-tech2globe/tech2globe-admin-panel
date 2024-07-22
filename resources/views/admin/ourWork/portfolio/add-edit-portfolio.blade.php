@@ -1,6 +1,7 @@
 @extends('admin.layout.layout')
 @section('content')
 
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -53,67 +54,33 @@
                 
                 <form name="portfolioForm" id="portfolioForm" @if(empty($portfolio['id'])) action="{{ url('admin/add-edit-portfolio') }}" @else action="{{ url('admin/add-edit-portfolio/'.$portfolio['id']) }}" @endif method="post" enctype="multipart/form-data">@csrf
                     <div class="card-body">
-                    <div class="form-group">
-                        <label for="title">Title*</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter Portfolio Title" required @if(!empty($portfolio['title'])) value="{{ $portfolio['title'] }}" @endif>
-                    </div>
-                    {{-- <div class="form-group">
-                        <label>Category*</label>
-                        <select class="form-control" style="width: 100%;" name="category_id" required id="portcat">
-                            <option value="">Select Category</option>
-                            @foreach ($portfolio_category as $row)
-                              <option value="{{ $row['id'] }}" @if($row['id'] == $portfolio['cat_id']) selected @endif>{{ $row['name'] }}</option>
-                            @endforeach
-                          
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Sub Category*</label>
-                        <select class="form-control" style="width: 100%;" name="subcategory_id" required id="portsubcat">
-                            <option value="">Select Sub Category</option>
-                            @if(!empty($portfolio_subcategory))
-                              @foreach ($portfolio_subcategory as $row)
-                                <option value="{{ $row['id'] }}" @if($row['id'] == $portfolio['sub_cat_id']) selected @endif>{{ $row['name'] }}</option>
+                      <div class="form-group">
+                          <label>Select Page*</label>
+                          <select class="form-control" style="width: 100%;" name="page_id" required>
+                              <option value="">Select Inner Page</option>
+                                @foreach ($allInnerPages as $row)
+                                  <option value="{{ $row['id'] }}" @if($row['id'] == $portfolio['page_id']) selected @endif>{{ $row['page_name'] }} | {{$row['page_url']}}</option>
+                                @endforeach
+                          </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="portfolio_id">Select Portfolio*</label>
+                        @if(empty($portfolio['id']))
+                          <select class="form-control" name="portfolio_id" required>
+                              <option value="">Select Portfolio</option>
+                              @foreach ($allPortfolio as $row)
+                                  <option value="{{ $row['id'] }}">{{ $row['title'] }}</option>
                               @endforeach
+                          </select> 
+                        @else
+                          @foreach ($allPortfolio as $row)
+                            @if ($row['id'] == $portfolio['id'])
+                              <input type="text" class="form-control" value="{{ $row['title'] }}" readonly>
+                              <input type="hidden" name="portfolio_id" value="{{ $row['id'] }}">
                             @endif
-                        </select>
-                    </div> --}}
-                    <div class="form-group">
-                        <label>Select Page*</label>
-                        <select class="form-control" style="width: 100%;" name="page_id" required>
-                            <option value="">Select Inner Page</option>
-                              @foreach ($allInnerPages as $row)
-                                <option value="{{ $row['id'] }}" @if($row['id'] == $portfolio['page_id']) selected @endif>{{ $row['page_name'] }}</option>
-                              @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="technology">Technology</label>
-                        <input type="text" class="form-control" id="technology" name="technology" placeholder="Enter Technology" @if(!empty($portfolio['technology'])) value="{{ $portfolio['technology'] }}" @endif>
-                    </div>
-                    <div class="form-group">
-                        <label for="website">Website link*</label>
-                        <input type="url" class="form-control" id="website" name="website" placeholder="Enter Website Link" required @if(!empty($portfolio['website_link'])) value="{{ $portfolio['website_link'] }}" @endif>
-                    </div>
-                    <div class="form-group">
-                        <label for="content">Short Description*</label>
-                        <textarea name="content" class="form-control" required rows="3" cols="6" id="content" placeholder="Enter Content">@if(!empty($portfolio['content'])) {{ $portfolio['content'] }} @endif</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="portfolio_image">Image*</label>
-                        <div class="input-group">
-                          <input type="file" class="form-control" id="portfolio_image" name="portfolio_image" @if(empty($portfolio['image'])) required @endif>
-                        </div>
-                        <ul>
-                          <li>Image Size should not be greater than 100KB</li>
-                          <li>Image Dimensions should be 200 X 265px</li>
-                        </ul>
-                        @if (!empty($portfolio['image']))
-                          <label>Previous Image</label><br>
-                          <img src="{{ url('admin/img/portfolio-images/'.$portfolio['image']) }}" height="100px" width="180px">
-                          <input type="hidden" name="current_image" value="{{ $portfolio['image'] }}">
+                          @endforeach
                         @endif
-                    </div>
+                      </div>
                     </div>
                     <!-- /.card-body -->
 

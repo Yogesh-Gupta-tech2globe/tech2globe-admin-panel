@@ -71,7 +71,7 @@
                             <td>{{ $i++; }}</td>
                             <td>
                                 @foreach ($allInnerPages as $item)
-                                    @if($item['id'] == $row['page_id']) {{ $item['page_name'] }} @endif
+                                    @if($item['id'] == $row['page_id']) {{ $item['page_name'] }} | {{$item['page_url']}} @endif
                                 @endforeach
                             </td>
                             <td>{{ $row['blog_id'] }}</td>

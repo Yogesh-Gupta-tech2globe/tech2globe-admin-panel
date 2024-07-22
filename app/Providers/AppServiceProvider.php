@@ -18,7 +18,10 @@ use App\Models\recaptcha;
 use App\Models\events;
 use App\Models\event_category;
 use App\Models\jobs;
-
+use App\Models\portfolio_category;
+use App\Models\casestudy_category;
+use App\Models\testimonial;
+use App\Models\faq;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -155,6 +158,34 @@ class AppServiceProvider extends ServiceProvider
             $jobs = jobs::where('status',1)->latest()->get()->toArray();
 
             $view->with(['jobs' => $jobs]);
+        });
+
+        View::composer('include.portfolio-main', function ($view) {
+
+            $category = portfolio_category::where('status',1)->latest()->get()->toArray();
+
+            $view->with(['category' => $category]);
+        });
+
+        View::composer('include.testimonial-main', function ($view) {
+
+            $testimonials = testimonial::where('r_status',1)->latest()->cursorPaginate(40);
+
+            $view->with(['testimonials' => $testimonials]);
+        });
+
+        View::composer('include.casestudy-main', function ($view) {
+
+            $category = casestudy_category::where('status',1)->get()->toArray();
+
+            $view->with(['category' => $category]);
+        });
+
+        View::composer('include.faq-main', function ($view) {
+
+            $faq = faq::where('r_status',1)->get()->toArray();
+
+            $view->with(['faq' => $faq]);
         });
     }
 }

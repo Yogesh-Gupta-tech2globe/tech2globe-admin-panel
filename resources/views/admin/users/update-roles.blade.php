@@ -26,15 +26,6 @@
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">{{ $title }}</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -346,6 +337,70 @@
                               <input type="checkbox" name="Jobs[view]" value="1" @if(isset($viewJobs)) {{ $viewJobs }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="Jobs[edit]" value="1" @if(isset($editJobs)) {{ $editJobs }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
                               {{-- <input type="checkbox" name="Jobs[full]" value="1" @if(isset($fullJobs)) {{ $fullJobs }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form>
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="seo")
+                              @if($role['view_access']==1)
+                                @php $viewseo = "checked" @endphp
+                              @else
+                                @php $viewseo = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editseo = "checked" @endphp
+                              @else
+                                @php $editseo = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullseo = "checked" @endphp
+                              @else
+                                @php $fullseo = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="seo" name="module">
+                          <div class="form-group">
+                              <label for="seo">SEO: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="seo[view]" value="1" @if(isset($viewseo)) {{ $viewseo }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="seo[edit]" value="1" @if(isset($editseo)) {{ $editseo }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              {{-- <input type="checkbox" name="seo[full]" value="1" @if(isset($fullseo)) {{ $fullseo }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
+                              <input type="submit" class="btn btn-primary" value="Submit">
+                          </div>
+                      </form>
+                      <form name="usersForm" id="usersForm" action="{{ url('admin/update-role/'.$id) }}"method="post">@csrf
+                        @if(!empty($userRoles))
+                          @foreach ($userRoles as $role)
+                            @if($role['module']=="resources")
+                              @if($role['view_access']==1)
+                                @php $viewresources = "checked" @endphp
+                              @else
+                                @php $viewresources = "" @endphp
+                              @endif
+                              @if($role['edit_access']==1)
+                                @php $editresources = "checked" @endphp
+                              @else
+                                @php $editresources = "" @endphp
+                              @endif
+                              @if($role['full_access']==1)
+                                @php $fullresources = "checked" @endphp
+                              @else
+                                @php $fullresources = "" @endphp
+                              @endif
+                            @endif
+                          @endforeach
+                          @endif
+                          <input type="hidden" value="{{$id}}" name="user_id">
+                          <input type="hidden" value="resources" name="module">
+                          <div class="form-group">
+                              <label for="resources">Resources: &nbsp;&nbsp;&nbsp;</label>
+                              <input type="checkbox" name="resources[view]" value="1" @if(isset($viewresources)) {{ $viewresources }} @endif>&nbsp;View Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="resources[edit]" value="1" @if(isset($editresources)) {{ $editresources }} @endif>&nbsp;View/Edit Access &nbsp;&nbsp;&nbsp;&nbsp;
+                              {{-- <input type="checkbox" name="resources[full]" value="1" @if(isset($fullresources)) {{ $fullresources }} @endif>&nbsp;Full Access &nbsp;&nbsp;&nbsp;&nbsp; --}}
                               <input type="submit" class="btn btn-primary" value="Submit">
                           </div>
                       </form>

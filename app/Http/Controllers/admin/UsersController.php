@@ -237,11 +237,11 @@ class UsersController extends Controller
             $role->edit_access = $edit;
             $role->full_access = $full;
             if($role->save()){
-                activity("Update")
-                ->performedOn($role)
-                ->causedBy(Auth::guard('admin')->user())
-                ->withProperties(['module' => 'Users','submodule' => 'User Permission'])
-                ->log('Permission');
+                // activity("Update")
+                // ->performedOn($role)
+                // ->causedBy(Auth::guard('admin')->user())
+                // ->withProperties(['module' => 'Users','submodule' => 'User Permission'])
+                // ->log('Permission');
 
                 $message = "User Roles updated Successfully!";
                 return redirect()->back()->with('success_message',$message);

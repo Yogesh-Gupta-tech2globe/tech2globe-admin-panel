@@ -4067,7 +4067,7 @@ foreach ($data as $key => $value) {
     <link rel="stylesheet" href="{{ url('css/responsive.css') }}" />
     <link rel="stylesheet" href="{{ url('admin/plugins/toastr/toastr.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
-  	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  	{{-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
 

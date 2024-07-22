@@ -1213,6 +1213,11 @@ $(document).ready(function () {
         $('#add-category').find('#add-category-form').attr("action","add-edit-portfolio-category/"+id);
     });
 
+    $('#portfoliocategoryaddbtn').on('click', function(){
+        $('#add-category').find('#categoryName').val('');
+        $('#add-category').find('#add-category-form').attr("action","add-edit-portfolio-category");
+    });
+
     //Update Status Portfolio Category
     $(document).on("click", ".updatePortfolioCatStatus", function () {
         var status = $(this).children("i").attr("status");
@@ -1223,7 +1228,7 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
-            url: "/admin/update-portfolio-cat-status",
+            url: "/admin/resources/update-portfolio-cat-status",
             data: { status: status, portfolio_cat_id: portfolio_cat_id },
             success: function (resp) {
                 if (resp['status'] == 0) {
@@ -1252,6 +1257,13 @@ $(document).ready(function () {
         $('#add-sub-category').find('#add-subcategory-form').attr("action","add-edit-portfolio-subcategory/"+id);
     });
 
+    $('#portfoliosubcategoryaddbtn').on('click', function(){
+
+        $("#portfoliocatid option[value='']").prop("selected", true);
+        $('#add-sub-category').find('#subcategoryName').val('');
+        $('#add-sub-category').find('#add-subcategory-form').attr("action","add-edit-portfolio-subcategory");
+    });
+
     //Update Status Portfolio Sub Category
     $(document).on("click", ".updatePortfolioSubCatStatus", function () {
         var status = $(this).children("i").attr("status");
@@ -1262,7 +1274,7 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
-            url: "/admin/update-portfolio-subcat-status",
+            url: "/admin/resources/update-portfolio-subcat-status",
             data: { status: status, portfolio_subcat_id: portfolio_subcat_id },
             success: function (resp) {
                 if (resp['status'] == 0) {
@@ -1308,6 +1320,35 @@ $(document).ready(function () {
             },
             type: "post",
             url: "/admin/update-portfolio-status",
+            data: { status: status, portfolio_id: portfolio_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#portfolio-" + portfolio_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Portfolio Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#portfolio-" + portfolio_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Portfolio Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    //Update Resource Portfolio status
+
+    $(document).on("click", ".updateRPortfolioStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var portfolio_id = $(this).attr("portfolio_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/resources/update-portfolio-status",
             data: { status: status, portfolio_id: portfolio_id },
             success: function (resp) {
                 if (resp['status'] == 0) {
@@ -1384,6 +1425,33 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on("click", ".updateRTestimonialStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var testimonial_id = $(this).attr("testimonial_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/resources/update-testimonial-status",
+            data: { status: status, testimonial_id: testimonial_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#testimonial-" + testimonial_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Testimonial Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#testimonial-" + testimonial_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Testimonial Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
     //FAQ
     // Update FAQ Status
 
@@ -1397,6 +1465,33 @@ $(document).ready(function () {
             },
             type: "post",
             url: "/admin/update-faq-status",
+            data: { status: status, faq_id: faq_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#faq-" + faq_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('FAQ Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#faq-" + faq_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('FAQ Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    $(document).on("click", ".updateRFaqStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var faq_id = $(this).attr("faq_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/resources/update-faq-status",
             data: { status: status, faq_id: faq_id },
             success: function (resp) {
                 if (resp['status'] == 0) {
@@ -1521,6 +1616,12 @@ $(document).ready(function () {
         $('#add-category').find('#add-category-form').attr("action","add-edit-casestudy-category/"+id);
     });
 
+    $('#casestudycategoryaddbtn').on('click', function(){
+       
+        $('#add-category').find('#categoryName').val('');
+        $('#add-category').find('#add-category-form').attr("action","add-edit-casestudy-category");
+    });
+
     // Update Case Study Category Status
     $(document).on("click", ".updateCasestudyCatStatus", function () {
         var status = $(this).children("i").attr("status");
@@ -1531,7 +1632,7 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "post",
-            url: "/admin/update-casestudycategory-status",
+            url: "/admin/resources/update-casestudycategory-status",
             data: { status: status, casestudy_id: casestudy_id },
             success: function (resp) {
                 if (resp['status'] == 0) {
@@ -1549,6 +1650,20 @@ $(document).ready(function () {
         });
     });
 
+    // Case Study edit
+    $('.casestudyeditbtn').on('click', function(){
+        let name = $(this).data('name');
+        let id = $(this).data('id');
+        $('#add-category').find('#categoryName').val(name);
+        $('#add-category').find('#add-category-form').attr("action","add-edit-casestudy-category/"+id);
+    });
+
+    $('#casestudycategoryaddbtn').on('click', function(){
+       
+        $('#add-category').find('#categoryName').val('');
+        $('#add-category').find('#add-category-form').attr("action","add-edit-casestudy-category");
+    });
+
     
     // Update Case Study Status
     $(document).on("click", ".updateCasestudyStatus", function () {
@@ -1561,6 +1676,33 @@ $(document).ready(function () {
             },
             type: "post",
             url: "/admin/update-casestudy-status",
+            data: { status: status, casestudy_id: casestudy_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#casestudy-" + casestudy_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Case Study Deactivated');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#casestudy-" + casestudy_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Case Study Activated');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    $(document).on("click", ".updateRCasestudyStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var casestudy_id = $(this).attr("casestudy_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/resources/update-casestudy-status",
             data: { status: status, casestudy_id: casestudy_id },
             success: function (resp) {
                 if (resp['status'] == 0) {

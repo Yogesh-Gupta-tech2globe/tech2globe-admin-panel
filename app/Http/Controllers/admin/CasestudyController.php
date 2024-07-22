@@ -22,7 +22,7 @@ class CasestudyController extends Controller
 
         $pagename = "Case Study";
 
-        $casestudy = casestudy::get()->toArray();
+        $casestudy = casestudy::where('page_id','!=',0)->get()->toArray();
         $category = casestudy_category::get()->toArray();
         $allInnerPages = tech2globe_all_pages::get()->toArray();
 
@@ -47,136 +47,45 @@ class CasestudyController extends Controller
     public function addEditCasestudy(Request $request, $id=null)
     {
         if($id==""){
-            $title = "Add Case Study";
+            $title = "Link Case Study";
             $casestudy = new casestudy();
-            $message = "Case Study added Successfully and it is live now! Proceed Further";
+            $message = "Case Study linked Successfully";
+            $allCasestudy = casestudy::where('page_id',0)->get()->toArray();
         }else{
             $title = "Edit Case Study";
             $casestudy = casestudy::find($id);
             $message = "Case Study updated Successfully";
+            $allCasestudy = casestudy::get()->toArray();
         }
 
-        $category = casestudy_category::get()->toArray();
         $allInnerPages = tech2globe_all_pages::get()->toArray();
 
         if($request->isMethod('post')){
             $data = $request->all();
 
-            if($data['section'] == "1"){
+            $rules = [
+                'page_id' => 'required',
+                'casestudy_id' => 'required',
+            ];
 
-                $rules = [
-                    // 'catid' => 'required',
-                    'page_id' => 'required',
-                    'name' => 'required|unique:casestudy,name',
-                    'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:100|dimensions:width=573,height=226',
-                ];
-    
-                $customMessages = [
-                    // 'catid.required' => 'Category is required',
-                    'page_id.required' => 'Inner Page is required',
-                    'name.required' => 'Case Study name is required',
-                    'name.unique' => 'This Case Study name is already exist! Try a different one',
-                    'bannerImage.required' => 'Banner Image is required',
-                    'bannerImage.image' => 'Valid Image is required',
-                    'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
-                    'bannerImage.max' => 'Banner Image size should not be greater than 100 KB',
-                    'bannerImage.dimensions' => 'Banner Image Dimensions should be 573x226px',
-                ];
-    
-                $this->validate($request,$rules,$customMessages);
-    
-                $slug = Str::slug($data['name']);
-    
-                if($request->hasFile('bannerImage')){
-                    $image_tmp = $request->file('bannerImage');
-                    if($image_tmp->isValid()){
-                        //Get Image Extension
-                        $extension = $image_tmp->getClientOriginalExtension();
-                        //Generate New Image Name
-                        $imageName = rand(111,98999).'.'.$extension;
-                        $image_path = 'images/casestudy/bannerImage/'.$imageName;
-                        Image::make($image_tmp)->save($image_path);
-                    }
-                }else{
-                    $imageName = "";
-                }
-    
-                $fileContent = '
-                @extends("layout.layout")
-                @section("content")
-                <?php $base_url = "/"; ?>
+            $customMessages = [
+                'page_id.required' => 'Inner Page is required',
+                'casestudy_id.required' => 'Casestudy is required',
+            ];
 
-                    <div class="case-study-banner-container">
-                        <div class="case-study-banner-overlay"></div>
-                        <img src="{{ url("images/casestudy/bannerImage/".$bannerImage."") }}" alt="Banner" class="img-fluid">
-                        <h1 class="fs-1">{{$name}}</h1>
-                    </div>
+            $this->validate($request,$rules,$customMessages);
 
-                    <main id="caseStudyContainer">
-
-                        @if(!empty($filecode))
-                            <?php echo $filecode; ?>
-                        @endif
-                        
-                    </main>
-                
-                @endsection
-                ';
-    
-                $filePath = resource_path('views/casestudy/'.$slug.'.blade.php');
-    
-                //Creating the file
-                file_put_contents($filePath, $fileContent);
-    
-                // Adding a route dynamically
-                $routeContent = '
-                Route::get("/casestudy/'.$slug.'", function () {
-
-                    $casestudy = casestudy::where("name","'.$data['name'].'")->first();
-                    return view("casestudy/'.$slug.'", $casestudy);
-
-                });';
-    
-                $routePath = base_path('routes/casestudy.php');
-                file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);    
-
-                $casestudy->category_id = 0;
-                $casestudy->page_id = $data['page_id'];
-                $casestudy->name = $data['name'];
-                $casestudy->bannerImage = $imageName;
-                if($casestudy->save()){
-                    activity($title)
-                    ->performedOn($casestudy)
-                    ->causedBy(Auth::guard('admin')->user())
-                    ->withProperties(['module' => 'Our Work','submodule' => 'Case Study'])
-                    ->log('');
-
-                    $message = "Case Study added Successfully and it is live now! Proceed Further by click on edit Button";
-                    return redirect('admin/case-study')->with('success_message',$message);
-                }
-
-                // return response()->json(['message'=>'Section One is completed and your page is live now! Proceed Further','link'=>$slug]);
-            }else if($data['section'] == "2"){
-                $filecode = $data['filecode'];
-
-                $rules = [
-                    'filecode' => 'required',
-                ];
-    
-                $customMessages = [
-                    'filecode.required' => 'File code is required',
-                ];
-    
-                $this->validate($request,$rules,$customMessages);
-
-                $casestudy->filecode = $filecode;
-                $casestudy->save();
-
-                return redirect('admin/case-study')->with('success_message',$message);
+            if(casestudy::where('id',$data['casestudy_id'])->update(['page_id'=>$data['page_id']])){
+                activity($title)
+                ->performedOn(casestudy::find($data['casestudy_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Our Work','submodule' => 'Case Study'])
+                ->log('');
             }
+            return redirect('admin/case-study')->with('success_message',$message);
         }
 
-        return view('admin.ourWork.caseStudy.add-edit-case-study2')->with(compact('title','casestudy','category','allInnerPages'));
+        return view('admin.ourWork.caseStudy.add-edit-case-study2')->with(compact('title','casestudy','allInnerPages','allCasestudy'));
     }
 
     public function createsections(Request $request)
@@ -694,7 +603,7 @@ class CasestudyController extends Controller
         $category = casestudy_category::get()->toArray();
 
         //Set Admin/Subadmins Permissions for Portfolio Module
-        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->count();
+        $portfolioModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'resources'])->count();
         $pagesModule = array();
 
         if(Auth::guard('admin')->user()->type=="admin"){
@@ -705,18 +614,20 @@ class CasestudyController extends Controller
             $message = "This feature is restricted for you!";
             return redirect('admin/dashboard')->with('error_message',$message);
         }else{
-            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'portfolio'])->first()->toArray();
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'resources'])->first()->toArray();
         }
 
-        return view('admin.ourWork.caseStudy.category')->with(compact('pagesModule','pagename','category'));
+        return view('admin.resources.caseStudy.category')->with(compact('pagesModule','pagename','category'));
     }
 
     public function addEditCasestudyCategory(Request $request, $id=null)
     {
         if($id==""){
+            $title = "Add Case study Category";
             $category = new casestudy_category;
             $message = "Case Study Category added Successfully";
         }else{
+            $title = "Edit Case study Category";
             $category = casestudy_category::find($id);
             $message = "Case Study Category updated Successfully";
         }
@@ -737,8 +648,15 @@ class CasestudyController extends Controller
             $this->validate($request,$rules,$customMessages);
 
             $category->name = $data['name'];
-            $category->save();
-            return redirect('admin/case-study-category')->with('success_message',$message);
+            if($category->save()){
+                activity($title)
+                ->performedOn($category)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Resources','submodule' => 'Case Study Category'])
+                ->log('');
+
+                return redirect('admin/resources/case-study-category')->with('success_message',$message);
+            }
         }
     }
 
@@ -753,7 +671,13 @@ class CasestudyController extends Controller
                 $status = 1;
             }
 
-            casestudy_category::where('id',$data['casestudy_id'])->update(['status'=>$status]);
+            if(casestudy_category::where('id',$data['casestudy_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(casestudy_category::find($data['casestudy_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Resources','submodule' => 'Case study Category'])
+                ->log('Status');
+            }
             return response()->json(['status'=>$status, 'casestudy_id'=>$data['casestudy_id']]);
         }
     }
@@ -779,4 +703,331 @@ class CasestudyController extends Controller
             return response()->json(['status'=>$status, 'casestudy_id'=>$data['casestudy_id']]);
         }
     }
+
+    public function index2()
+    {
+        Session::put('page','rcase_study');
+
+        $pagename = "Case Study";
+
+        $casestudy = casestudy::get()->toArray();
+        $category = casestudy_category::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
+
+        //Set Admin/Subadmins Permissions for Our Work Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'resources'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($ModuleCount==0){
+            $message = "This module is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'resources'])->first()->toArray();
+        }
+
+        return view('admin.resources.caseStudy.caseStudy')->with(compact('pagesModule','pagename','casestudy','category','allInnerPages'));
+    }
+
+    public function addCasestudy(Request $request)
+    {
+        $title = "Add Case Study";
+        $casestudy = new casestudy();
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+    
+            $rules = [
+                'catid' => 'required',
+                'name' => 'required|unique:casestudy,name',
+                'bannerImage' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:100|dimensions:width=573,height=226',
+            ];
+
+            $customMessages = [
+                'catid.required' => 'Category is required',
+                'name.required' => 'Case Study name is required',
+                'name.unique' => 'This Case Study name is already exist! Try a different one',
+                'bannerImage.required' => 'Banner Image is required',
+                'bannerImage.image' => 'Valid Image is required',
+                'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
+                'bannerImage.max' => 'Banner Image size should not be greater than 100 KB',
+                'bannerImage.dimensions' => 'Banner Image Dimensions should be 573x226px',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+
+            $slug = Str::slug($data['name']);
+
+            if($request->hasFile('bannerImage')){
+                $image_tmp = $request->file('bannerImage');
+                if($image_tmp->isValid()){
+                    //Get Image Extension
+                    $extension = $image_tmp->getClientOriginalExtension();
+                    //Generate New Image Name
+                    $imageName = rand(111,98999).'.'.$extension;
+                    $image_path = 'images/casestudy/bannerImage/'.$imageName;
+                    Image::make($image_tmp)->save($image_path);
+                }
+            }else{
+                $imageName = "";
+            }
+
+            $fileContent = '
+            @extends("layout.layout")
+            @section("content")
+            <?php $base_url = "/"; ?>
+
+                <div class="case-study-banner-container">
+                    <div class="case-study-banner-overlay"></div>
+                    <img src="{{ url("images/casestudy/bannerImage/".$bannerImage."") }}" alt="Banner" class="img-fluid">
+                    <h1 class="fs-1">{{$name}}</h1>
+                </div>
+
+                <main id="caseStudyContainer">
+
+                    @if(!empty($filecode))
+                        <?php echo $filecode; ?>
+                    @endif
+                    
+                </main>
+            
+            @endsection
+            ';
+
+            $filePath = resource_path('views/casestudy/'.$slug.'.blade.php');
+
+            //Creating the file
+            file_put_contents($filePath, $fileContent);
+
+            // Adding a route dynamically
+            $routeContent = '
+            Route::get("/casestudy/'.$slug.'", function () {
+
+                $casestudy = casestudy::where("name","'.$data['name'].'")->first();
+                return view("casestudy/'.$slug.'", $casestudy);
+
+            });';
+
+            $routePath = base_path('routes/casestudy.php');
+            file_put_contents($routePath, $routeContent,FILE_APPEND | LOCK_EX);    
+
+            $casestudy->category_id = $data['catid'];
+            $casestudy->page_id = 0;
+            $casestudy->name = $data['name'];
+            $casestudy->bannerImage = $imageName;
+            if($casestudy->save()){
+                activity($title)
+                ->performedOn($casestudy)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Resources','submodule' => 'Case Study'])
+                ->log('');
+
+                $message = "Case Study added Successfully and it is live now! Proceed Further by click on edit Button";
+                return redirect('admin/resources/case-study')->with('success_message',$message);
+            }
+        }
+    }
+
+    public function editCasestudy(Request $request, $id)
+    {
+        $title = "Edit Case Study";
+        $casestudy = casestudy::find($id);
+        $message = "Case Study updated Successfully";
+
+        $category = casestudy_category::get()->toArray();
+        $allInnerPages = tech2globe_all_pages::get()->toArray();
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            if($data['section'] == "1"){
+
+                $rules = [
+                    'catid' => 'required',
+                    'name' => 'required',
+                    'bannerImage' => 'image|mimes:jpg,png,jpeg,gif,svg|max:100|dimensions:width=573,height=226',
+                ];
+    
+                $customMessages = [
+                    'catid.required' => 'Category is required',
+                    'name.required' => 'Case Study name is required',
+                    'bannerImage.image' => 'Valid Image is required',
+                    'bannerImage.mimes' => 'Banner Image should be in jpg,jpeg,gif,svg,png format',
+                    'bannerImage.max' => 'Banner Image size should not be greater than 100 KB',
+                    'bannerImage.dimensions' => 'Banner Image Dimensions should be 573x226px',
+                ];
+    
+                $this->validate($request,$rules,$customMessages);
+    
+                $slug = Str::slug($data['name']);
+    
+                if(!empty($data['bannerImage']) && !empty($data['current_image'])){
+                       
+                    $imagePath = public_path('images/casestudy/bannerImage/'.$data['current_image']);
+    
+                    if(file_exists($imagePath)){
+                        if(unlink($imagePath)){
+                            
+                        }else{
+                            return redirect()->back()->with('error_message','There is some error on deleting Image!');
+                        }
+                    }else{
+                        return redirect()->back()->with('error_message','Image not found! Please contact Admin');
+                    }
+                }
+    
+                if($request->hasFile('bannerImage')){
+                    $image_tmp = $request->file('bannerImage');
+                    if($image_tmp->isValid()){
+                        //Get Image Extension
+                        $extension = $image_tmp->getClientOriginalExtension();
+                        //Generate New Image Name
+                        $imageName = rand(111,98999).'.'.$extension;
+                        $image_path = 'images/casestudy/bannerImage/'.$imageName;
+                        Image::make($image_tmp)->save($image_path);
+                    }
+                }else if(!empty($data['current_image'])){
+                    $imageName = $data['current_image'];
+                }else{
+                    $imageName = "";
+                }
+    
+                $casestudy->category_id = $data['catid'];
+                $casestudy->name = $data['name'];
+                $casestudy->bannerImage = $imageName;
+                if($casestudy->save()){
+                    activity($title)
+                    ->performedOn($casestudy)
+                    ->causedBy(Auth::guard('admin')->user())
+                    ->withProperties(['module' => 'Resources','submodule' => 'Case Study'])
+                    ->log('');
+
+                    return redirect('admin/resources/case-study')->with('success_message',$message);
+                }
+            }else if($data['section'] == "2"){
+                $filecode = $data['filecode'];
+
+                $rules = [
+                    'filecode' => 'required',
+                ];
+    
+                $customMessages = [
+                    'filecode.required' => 'File code is required',
+                ];
+    
+                $this->validate($request,$rules,$customMessages);
+
+                $casestudy->filecode = $filecode;
+                if($casestudy->save()){
+                    activity($title)
+                    ->performedOn($casestudy)
+                    ->causedBy(Auth::guard('admin')->user())
+                    ->withProperties(['module' => 'Resources','submodule' => 'Case Study'])
+                    ->log('');
+
+                    return redirect('admin/resources/case-study')->with('success_message',$message);
+                }
+            }else if($data['section'] == "3"){
+
+                $rules = [
+                    'description' => 'required|max:500',
+                ];
+    
+                $customMessages = [
+                    'description.required' => 'Project Description is required',
+                    'description.max' => 'In Project Description only 500 characters are allowed.',
+                ];
+    
+                $this->validate($request,$rules,$customMessages);
+
+                $casestudy->projectDescription = $data['description'];
+                $casestudy->info1 = $data['info1'];
+                $casestudy->infoval1 = $data['infoval1'];
+                $casestudy->info2 = $data['info2'];
+                $casestudy->infoval2 = $data['infoval2'];
+                $casestudy->info3 = $data['info3'];
+                $casestudy->infoval3 = $data['infoval3'];
+                if($casestudy->save()){
+                    activity($title)
+                    ->performedOn($casestudy)
+                    ->causedBy(Auth::guard('admin')->user())
+                    ->withProperties(['module' => 'Resources','submodule' => 'Case Study'])
+                    ->log('');
+
+                    return redirect('admin/resources/case-study')->with('success_message',$message);
+                }
+            }
+        }
+
+        return view('admin.resources.caseStudy.add-edit-case-study2')->with(compact('title','casestudy','category','allInnerPages'));
+    }
+
+    public function update(Request $request){
+
+        if($request->ajax()){
+            $data = $request->all();
+
+            if($data['status']=="Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+
+            if(casestudy::where('id',$data['casestudy_id'])->update(['r_status'=>$status])){
+                activity('Update')
+                ->performedOn(casestudy::find($data['casestudy_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'Resources','submodule' => 'Case study'])
+                ->log('Status');
+            }
+            return response()->json(['status'=>$status, 'casestudy_id'=>$data['casestudy_id']]);
+        }
+    }
+
+    public function getCasestudy(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+    
+            $categoryId = $data['catid'];
+            $categoryNameId = $data['categoryNameId'];
+            $categoryNameId = str_replace("#","",$categoryNameId);
+
+            $casestudy = casestudy::where('category_id',$categoryId)->where('r_status',1)->get();
+
+            $output = '
+            <div class="tab-pane active" id="'.$categoryNameId.'">
+                <div class="row">';
+                    
+                if(count($casestudy) > 0){
+                    foreach($casestudy as $row){
+                        $output .= '<div class="col-md-4 col-sm-6 col-xs-12 case-study-outer mb-4">
+                            <div class="card h-100 border rounded shadow bg-light">
+                                <div class="image-container pt-3 px-3">
+                                    <img class="lazyload rounded img-fluid"
+                                        src="/images/casestudy/bannerImage/'.$row['bannerImage'].'"
+                                        alt="'.$row['name'].'">
+                                </div>
+                                <div class="content p-4 pt-0">
+                                    <h5 class="text-danger">'.$row['name'].'</h5>
+                                    <p>'.Str::limit($row['projectDescription'], 150, ' ...').'</p>
+                                    <a href="'.url("casestudy/".Str::slug($row['name'])."").'" target="_blank" class="btn">Read More </a>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+                }else{
+                    $output .= 'No Casestudy Found';
+                }
+            $output .= '</div>
+            </div>';
+         
+            return $output;
+        }
+    }
 }
+
+
+                       
