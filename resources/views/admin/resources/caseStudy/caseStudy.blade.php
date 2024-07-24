@@ -85,7 +85,7 @@
                                   @if ($cat['id'] == $row['category_id']) {{$cat['name']}} @endif
                                 @endforeach
                               </td>
-                              <td><a href="/casestudy/{{ Str::slug($row['name']) }}" target="_blank">View</a></td>
+                              <td><a href="/case-studies/{{ Str::slug($row['name']) }}" target="_blank">View</a></td>
                               <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
                               <td>
                                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)

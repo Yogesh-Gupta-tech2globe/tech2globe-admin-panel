@@ -31,6 +31,8 @@
 
   @yield('content')
 
+  @yield('include_content')
+
  
   
 

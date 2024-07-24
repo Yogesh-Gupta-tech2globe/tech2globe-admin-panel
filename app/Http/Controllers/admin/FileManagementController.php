@@ -8,6 +8,7 @@ use Session;
 use Auth;
 use App\Models\AdminsRole;
 use App\Models\file_data;
+use App\Models\include_files;
 use Illuminate\Support\Facades\File;
 use Str;
 
@@ -205,5 +206,164 @@ class FileManagementController extends Controller
         }
 
         return view('admin.fileManagement.unlinked-files')->with(compact('pagesModule','pageName','fileData'));
+    }
+
+    public function cssFiles(Request $request)
+    {
+        Session::put('page','css_files');
+        $pageName = "CSS Files";
+
+        $filePath = public_path('css/style.css');
+        $content = File::exists($filePath) ? File::get($filePath) : '';
+
+        //Set Admin/Subadmins Permissions for File Management Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($ModuleCount==0){
+            $message = "This Module is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->first()->toArray();
+        }
+
+        if($request->isMethod('post')){
+            $filePath = public_path('css/style.css');
+            File::put($filePath, $request->fileCode);
+
+            return redirect('admin/css-files')->with('success_message', 'File updated successfully!');
+        }
+
+        return view('admin.fileManagement.css-files')->with(compact('pagesModule','pageName','content'));
+    }
+
+    public function jsFiles(Request $request)
+    {
+        Session::put('page','js_files');
+        $pageName = "JS Files";
+
+        $filePath = public_path('js/main.js');
+        $content = File::exists($filePath) ? File::get($filePath) : '';
+
+        //Set Admin/Subadmins Permissions for File Management Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($ModuleCount==0){
+            $message = "This Module is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->first()->toArray();
+        }
+
+        if($request->isMethod('post')){
+            $filePath = public_path('js/main.js');
+            File::put($filePath, $request->fileCode);
+
+            return redirect('admin/js-files')->with('success_message', 'File updated successfully!');
+        }
+
+        return view('admin.fileManagement.js-files')->with(compact('pagesModule','pageName','content'));
+    }
+
+    public function includeFiles()
+    {
+        Session::put('page','include_files');
+        $pageName = "Include Files";
+
+        //Set Admin/Subadmins Permissions for File Management Module
+        $ModuleCount = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->count();
+        $pagesModule = array();
+
+        if(Auth::guard('admin')->user()->type=="admin"){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($ModuleCount==0){
+            $message = "This Module is restricted for you!";
+            return redirect('admin/dashboard')->with('error_message',$message);
+        }else{
+            $pagesModule = AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->first()->toArray();
+        }
+
+        $fileData = include_files::get()->toArray();
+
+        return view('admin.fileManagement.include-files')->with(compact('pagesModule', 'pageName','fileData'));
+    }
+
+    public function createInclude(Request $request, $id=null)
+    {
+        if($id==""){
+            $title = "Upload New Include File";
+            $fileData = new include_files;
+            $message = "New File uploaded Successfully";
+        }else{
+            $title = "Edit Existing Include File";
+            $fileData = include_files::find($id);
+            $message = "File updated Successfully";
+        }
+
+        if($request->isMethod('post')){
+            
+            $fileCode = $request->input('fileCode');
+            $processedHtmlContent = htmlspecialchars($fileCode);
+            $fileName = $request->input('fileName');
+
+            $rules = [
+                'fileCode' => 'required',
+            ];
+
+            $customMessages = [
+                'fileCode.required' => 'File code is required',
+            ];
+
+            $this->validate($request,$rules,$customMessages);
+
+            if(empty($id)){
+                $rules = [
+                    'fileName' => 'required|unique:include_files,file_name',
+                ];
+    
+                $customMessages = [
+                    'fileName.required' => 'File Name is required',
+                    'fileName.unique' => 'This File Name is already exist! Try a different one',
+                ];
+    
+                $this->validate($request,$rules,$customMessages); 
+            }
+
+            $slug = Str::slug($fileName);
+
+            $filePath = resource_path('views/include/' . $slug . '.blade.php');
+
+            file_put_contents($filePath, $fileCode);
+           
+            //Insert Data in database
+            $fileData->file_name = $slug;
+            $fileData->file_code = $processedHtmlContent;
+            $fileData->save();
+
+            activity($title)
+                ->performedOn($fileData)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'File Management','submodule' => 'Include Files'])
+                ->log('');
+            
+            if(empty($id)){
+                return redirect('admin/include-files')->with('success_message',$message);
+            }else{
+                return redirect('admin/add-edit-include-file/'.$id.'')->with('success_message',$message);
+            }
+        }
+
+        return view('admin.fileManagement.add-edit-new-file')->with(compact('title', 'fileData'));
     }
 }

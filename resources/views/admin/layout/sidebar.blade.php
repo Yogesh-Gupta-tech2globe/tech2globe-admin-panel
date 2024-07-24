@@ -162,7 +162,7 @@ use App\Models\AdminsRole;
           </li> --}}
 
           @if(AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'fileManagement'])->count() != 0 || Auth::guard('admin')->user()->type == 'admin')
-            @if(Session::get('page')=="file_management" || Session::get('page')=="linked_files" || Session::get('page')=="unlinked_files")
+            @if(Session::get('page')=="file_management" || Session::get('page')=="linked_files" || Session::get('page')=="unlinked_files" || Session::get('page')=="css_files" || Session::get('page')=="js_files" || Session::get('page')=="include_files")
               @php $active="active" @endphp
             @else
               @php $active="" @endphp
@@ -210,6 +210,42 @@ use App\Models\AdminsRole;
                   <a href="/admin/unlinked-files" class="nav-link {{ $active}}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Unlinked Files</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="css_files")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/css-files" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>CSS File</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="js_files")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/js-files" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>JS File</p>
+                  </a>
+                </li>
+
+                @if(Session::get('page')=="include_files")
+                  @php $active="active" @endphp
+                @else
+                  @php $active="" @endphp
+                @endif
+                <li class="nav-item">
+                  <a href="/admin/include-files" class="nav-link {{ $active}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Include Files</p>
                   </a>
                 </li>
               </ul>

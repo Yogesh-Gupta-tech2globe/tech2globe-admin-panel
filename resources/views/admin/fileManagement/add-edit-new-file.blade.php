@@ -55,7 +55,13 @@
           <div class="card-header">
             <h3 class="card-title">{{ $title }}</h3>
               @if(!empty($fileData['id']))
-                <a style="max-width: 150px; float: right; display: inline-block;" href="/admin/page/{{ $fileData['id'] }}" target="_blank" class="btn btn-block btn-primary">View Page</a>
+              <a style="max-width: 150px; float: right; display: inline-block;"
+                  href="{{ $_SERVER['REQUEST_URI'] == '/admin/add-edit-file/'.$fileData['id'] ? '/admin/page/'.$fileData['id'] : '/admin/include/'.$fileData['id'] }}"
+                  target="_blank"
+                  class="btn btn-block btn-primary">
+                  View Page
+              </a>
+           
               @endif
           </div>
           <!-- /.card-header -->
@@ -103,7 +109,7 @@
                   @endif
                 </div>
                 
-                <form @if(empty($fileData['id'])) action="{{ url('admin/add-edit-file') }}" @else action="{{ url('admin/add-edit-file/'.$fileData['id']) }}" @endif method="post" enctype="multipart/form-data">@csrf
+                <form action="{{$_SERVER['REQUEST_URI']}}" method="post" enctype="multipart/form-data">@csrf
                     <div class="card-body">
                     
                       <div class="form-group">

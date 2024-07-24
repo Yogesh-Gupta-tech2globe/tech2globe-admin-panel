@@ -160,6 +160,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('linked-files', 'FileManagementController@linkedFiles');
         Route::get('unlinked-files', 'FileManagementController@unlinkedFiles');
         Route::match(['get','post'],'add-edit-file/{id?}', 'FileManagementController@create');
+        Route::match(['get','post'], 'css-files', 'FileManagementController@cssFiles');
+        Route::match(['get','post'], 'js-files', 'FileManagementController@jsFiles');
+        Route::get('include-files', 'FileManagementController@includeFiles');
+        Route::match(['get','post'],'add-edit-include-file/{id?}', 'FileManagementController@createInclude');
 
         //Extras Module
         //Contact and social

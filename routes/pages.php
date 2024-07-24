@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\RouteRegistrar;
+use App\Models\include_files;
 
 Route::get('/admin/page/1', function () {
                 return view('new-test-file');
@@ -116,5 +117,17 @@ Route::get('/admin/page/1', function () {
 
                     $data = ["pageName" => "FAQ"];
                     return view("faq", $data);
+
+                });
+                Route::get("/admin/page/120", function () {
+
+                    $data = ["pageName" => "this new file"];
+                    return view("this-new-file", $data);
+
+                });
+                Route::get("/admin/include/{id}", function ($id) {
+
+                    $data = include_files::where('id',$id)->get()->first();
+                    return view("include.preview")->with(compact('data'));
 
                 });

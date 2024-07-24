@@ -175,7 +175,7 @@ $(document).ready(function() {
     $('.case-studies-carousel').owlCarousel({
         margin: 15,
         responsiveClass: true,
-        dots:false,
+        dots:true,
         nav:true,
         responsive: {
             0: {
@@ -187,7 +187,11 @@ $(document).ready(function() {
             1000: {
                 items: 4
             }
-        }
+        },
+        autoplay: true,
+        autoplayHoverPause: true,
+        autoplayTimeout: 3000,
+        autoplaySpeed: 1500
     });
 
     $('.testimonial-carousel').owlCarousel({
@@ -408,8 +412,3 @@ $(document).ready(function() {
 
 
 });
-
-  
-
-  
-  

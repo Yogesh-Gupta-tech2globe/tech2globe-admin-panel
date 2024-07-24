@@ -30,6 +30,8 @@
     </div>
     
     @include("include.testimonial-main")
+    
+</section>
                 @include("include.portfolio")
                 @include("include.casestudy")
                 @include("include.testimonials")
