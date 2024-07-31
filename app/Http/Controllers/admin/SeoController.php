@@ -5,8 +5,16 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdminsRole;
+use App\Models\seo_dynamic;
+use App\Models\tech2globe_header_category;
+use App\Models\tech2globe_header_sub_category;
+use App\Models\tech2globe_pages_category;
+use App\Models\tech2globe_all_pages;
+use App\Models\tech2globe_footer_sub_category;
+use App\Models\seo_static;
 use Session;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class SeoController extends Controller
 {
@@ -29,8 +37,9 @@ class SeoController extends Controller
         }
 
         $pagename = "SEO";
-        // $logs = Activity::with('admins')->orderBy('id','desc')->get();
-        return view('admin.seo.seo')->with(compact('pagesModule','pagename'));
+        $seo = seo_dynamic::latest()->get();
+        $seoStatic = seo_static::where('id',1)->first();
+        return view('admin.seo.seo')->with(compact('pagesModule','pagename','seo','seoStatic'));
     }
 
     public function addEditSeo(Request $request, $id=null)
@@ -39,80 +48,124 @@ class SeoController extends Controller
 
         if($id==""){
             $title = "Add Page SEO";
-            $seo = '';
+            $seo = new seo_dynamic();
             $message = "Page SEO Details added Successfully";
         }else{
             $title = "Edit Page SEO";
-            $seo = '';
+            $seo = seo_dynamic::find($id);
             $message = "Page SEO Details updated Successfully";
         }
+
+        $pageUrl = seo_dynamic::pluck('page_url');
+
+        $allpageurl = tech2globe_header_category::select('page_url')
+            ->whereNotIn('page_url',$pageUrl)
+            ->union(
+                tech2globe_header_sub_category::select('page_url')
+                ->whereNotIn('page_url',$pageUrl)
+            )
+            ->union(
+                tech2globe_pages_category::select('page_url')
+                ->whereNotIn('page_url',$pageUrl)
+            )
+            ->union(
+                tech2globe_all_pages::select('page_url')
+                ->whereNotIn('page_url',$pageUrl)
+            )
+            ->union(
+                tech2globe_footer_sub_category::select('page_url')
+                ->whereNotIn('page_url',$pageUrl)
+            )
+            ->get()->toArray();
 
         if($request->isMethod('post')){
             $data = $request->all();
         
             $rules = [
-                'title' => 'required',
-                'industry' => 'required',
-                'designation' => 'required',
-                'country' => 'required',
-                'job_profile' => 'required',
-                'skills' => 'required',
-                'posted_on' => 'required',
-                'positions' => 'required',
-                'experience' => 'required',
-                'qualification' => 'required',
-                'salary' => 'required',
+                'page_url' => 'required',
+                'pageTitle' => 'required',
             ];
 
             $customMessages = [
-                'title.required' => 'Job Title is required',
-                'industry.required' => 'Industry is required',
-                'designation.required' => 'Designation is required',
-                'country.required' => 'Country is required',
-                'job_profile.required' => 'Job Profile is required',
-                'skills.required' => 'Skills is required',
-                'posted_on.required' => 'Posted On is required',
-                'positions.required' => 'Positions is required',
-                'experience.required' => 'Experience is required',
-                'qualification.required' => 'Qualification is required',
-                'salary.required' => 'Salary is required',
+                'page_url.required' => 'Please select Page Url',
+                'pageTitle.required' => 'Page Title is required',
             ];
 
             $this->validate($request,$rules,$customMessages);
-            
-            $country = explode('|',$data['country']);
-            if(!empty($data['state'])){
-                $state = explode('|',$data['state']);
-                $state = $state[1];
-            }else{
-                $state = '';
-            }
 
-            $job->title = $data['title'];
-            $job->industry = $data['industry'];
-            $job->designation = $data['designation'];
-            $job->country = $country[1];
-            $job->state = $state;
-            $job->city = $data['city'];
-            $job->job_profile = $data['job_profile'];
-            $job->skills = $data['skills'];
-            $job->posted_on = $data['posted_on'];
-            $job->num_of_post = $data['positions'];
-            $job->experience = $data['experience'];
-            $job->qualification = $data['qualification'];
-            $job->salary = $data['salary'];
-            if($job->save()){
+            $seo->page_url = $data['page_url'];
+            $seo->pageTitle = $data['pageTitle'];
+            $seo->description = $data['description'];
+            $seo->keywords = $data['keywords'];
+            $seo->canonicalUrl = $data['canonicalUrl'];
+            $seo->ogTitle = $data['ogTitle'];
+            $seo->ogSitename = $data['ogSitename'];
+            $seo->ogLocale = $data['ogLocale'];
+            $seo->ogUrl = $data['ogUrl'];
+            $seo->ogDescription = $data['ogDescription'];
+            $seo->ogType = $data['ogType'];
+            $seo->ogImage = $data['ogImage'];
+            $seo->twitterCard = $data['twitterCard'];
+            $seo->twitterTitle = $data['twitterTitle'];
+            $seo->twitterDescription = $data['twitterDescription'];
+            $seo->twitterImage = $data['twitterImage'];
+            $seo->organization = $data['organization'];
+            $seo->schema_page = $data['schema'];
+            if($seo->save()){
                 activity($title)
-                ->performedOn($job)
+                ->performedOn($seo)
                 ->causedBy(Auth::guard('admin')->user())
-                ->withProperties(['module' => 'Jobs','submodule' => 'Jobs'])
+                ->withProperties(['module' => 'SEO','submodule' => 'SEO'])
                 ->log('');
 
-                return redirect('admin/jobs')->with('success_message',$message);
+                // return redirect('admin/seo')->with('success_message',$message);
             }
         }
 
 
-        return view('admin.seo.add-edit-seo')->with(compact('title','seo'));
+        return view('admin.seo.add-edit-seo')->with(compact('title','seo','allpageurl'));
+    }
+
+    public function update(Request $request)
+    {
+        if($request->ajax()){
+            $data = $request->all();
+
+            if($data['status']=="Active"){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+
+            if(seo_dynamic::where('id',$data['seoPage_id'])->update(['status'=>$status])){
+                activity('Update')
+                ->performedOn(seo_dynamic::find($data['seoPage_id']))
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'SEO','submodule' => 'SEO'])
+                ->log('Status');
+            }
+            return response()->json(['status'=>$status, 'seoPage_id'=>$data['seoPage_id']]);
+        }
+    }
+
+    public function seoUpdateStatic(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            $seo = seo_static::find(1);
+
+            $seo->msvalidate = $data['msvalidate'];
+            $seo->google_site_verification = $data['google-site-verification'];
+            $seo->google_tracking_code = $data['google-tracking-code'];
+            if($seo->save()){
+                activity('Update')
+                ->performedOn($seo)
+                ->causedBy(Auth::guard('admin')->user())
+                ->withProperties(['module' => 'SEO','submodule' => 'Static Data'])
+                ->log('Google Tags');
+
+                return redirect('admin/seo')->with('success_message','Data Updated Successfully');
+            }
+        }
     }
 }

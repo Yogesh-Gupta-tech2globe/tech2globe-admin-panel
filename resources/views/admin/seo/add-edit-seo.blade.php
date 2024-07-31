@@ -1,6 +1,20 @@
 @extends('admin.layout.layout')
 @section('content')
 
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+<style>
+  body {
+      font-family: "Open Sans", sans-serif;
+      font-size: 16px;
+      line-height: 30px;
+      margin: 0;
+      background-color: #ffffff;
+      font-weight: 300;
+      color: #6a7695;
+  }
+</style>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -48,63 +62,126 @@
                     </div>
                 @endif
                 
-                <form @if(empty($seo['id'])) action="{{ url('admin/add-edit-job') }}" @else action="{{ url('admin/add-edit-job/'.$seo['id']) }}" @endif method="post">@csrf
+                <form id="seoFormSubmit">@csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="title">Job Title*</label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter Job Title" required @if(!empty($seo['title'])) value="{{ $seo['title'] }}" @endif>
+                            @if(empty($seo['id']))
+                              <label for="title">Select Page*</label>
+                              <select class="form-control selectpicker" data-show-subtext="false" data-live-search="true" name="page_url" required>
+                                <option value="" class="text-white">Select Page</option>
+                                @foreach ($allpageurl as $page)
+                                  @if($page['page_url'] != '')
+                                    <option value="{{$page['page_url']}}" class="text-white">{{$page['page_url']}}</option>
+                                  @endif
+                                @endforeach
+                              </select>
+                              <input type="hidden" value="" id="seoID">
+                            @else
+                              <label for="title">Selected Page*</label>
+                              <input type="text" class="form-control" name="page_url" value="{{$seo['page_url']}}" readonly>
+                              <input type="hidden" value="{{$seo['id']}}" id="seoID">
+                            @endif
                         </div>
                         <div class="form-group">
-                            <label for="industry">Industry*</label>
-                            <input type="text" class="form-control" name="industry" placeholder="Enter Industry" required @if(!empty($seo['industry'])) value="{{ $seo['industry'] }}" @endif>
+                            <label for="pageTitle">Page Title*</label>
+                            <input type="text" class="form-control" name="pageTitle" placeholder="Enter Page Title" required @if(!empty($seo['pageTitle'])) value="{{ $seo['pageTitle'] }}" @endif>
                         </div>
                         <div class="form-group">
-                            <label for="designation">Designation*</label>
-                            <input type="text" class="form-control" name="designation" placeholder="Enter Designation" required @if(!empty($seo['designation'])) value="{{ $seo['designation'] }}" @endif>
+                            <label for="description">Description</label>
+                            <textarea class="form-control" name="description" rows="4" placeholder="Enter Description">@if(!empty($seo['description'])) {{ $seo['description'] }} @endif</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="profile">Job Profile*</label>
-                            <textarea class="form-control" name="job_profile" required rows="6">@if(!empty($seo['job_profile'])) {{ $seo['job_profile'] }} @endif</textarea>
+                            <label for="keywords">Keywords</label>
+                            <textarea class="form-control" name="keywords" rows="4" placeholder="Enter Keywords">@if(!empty($seo['keywords'])) {{ $seo['keywords'] }} @endif</textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="skills">Skills*</label>
-                            <textarea class="form-control" name="skills" required rows="6">@if(!empty($seo['skills'])) {{ $seo['skills'] }} @endif</textarea>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="canonicalUrl">Canonical Url</label>
+                              <input type="link" class="form-control" name="canonicalUrl" placeholder="Enter Canonical Url"  @if(!empty($seo['canonicalUrl'])) value="{{ $seo['canonicalUrl'] }}" @endif>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="ogTitle">Og: Title</label>
+                              <input type="text" class="form-control" name="ogTitle" placeholder="Enter Og Title" @if(!empty($seo['ogTitle'])) value="{{ $seo['ogTitle'] }}" @endif>
+                            </div>
+                          </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="postedOn">Published On*</label>
-                                    <input type="date" class="form-control" name="posted_on" required @if(!empty($seo['posted_on'])) value="{{ $seo['posted_on'] }}" @endif>
+                                    <label for="ogSitename">Og: Site Name</label>
+                                    <input type="text" class="form-control" name="ogSitename" placeholder="Enter Og Sitename" @if(!empty($seo['ogSitename'])) value="{{ $seo['ogSitename'] }}" @endif>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="positions">Number Of Positions*</label>
-                                    <select class="form-control" name="positions" required>
-                                        
-                                    </select>
+                                    <label for="ogLocale">Og: Locale</label>
+                                    <input type="text" class="form-control" name="ogLocale" placeholder="Enter Og Locale" @if(!empty($seo['ogLocale'])) value="{{ $seo['ogLocale'] }}" @endif>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="experience">Experience*</label>
-                                    <select class="form-control" name="experience" required>
-                                        <option>Select Experience</option>
-                                        
-                                    </select>
+                                    <label for="ogUrl">Og: Url</label>
+                                    <input type="link" class="form-control" name="ogUrl" placeholder="Enter Og Url" @if(!empty($seo['ogUrl'])) value="{{ $seo['ogUrl'] }}" @endif>
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="qualification">Qualification*</label>
-                            <input type="text" class="form-control" name="qualification" placeholder="Enter Qualification" required @if(!empty($seo['qualification'])) value="{{ $seo['qualification'] }}" @endif>
+                          <label for="ogDescription">Og: Description</label>
+                          <textarea class="form-control" name="ogDescription" rows="4" placeholder="Enter Og Description">@if(!empty($seo['ogDescription'])) {{ $seo['ogDescription'] }} @endif</textarea>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="ogType">Og: Type</label>
+                              <input type="text" class="form-control" name="ogType" placeholder="Enter Og Type"  @if(!empty($seo['ogType'])) value="{{ $seo['ogType'] }}" @endif>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="ogImage">Og: Image</label>
+                              <input type="text" class="form-control" name="ogImage" placeholder="Enter Og Image" @if(!empty($seo['ogImage'])) value="{{ $seo['ogImage'] }}" @endif>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="twitterCard">Twitter: Card</label>
+                              <input type="text" class="form-control" name="twitterCard" placeholder="Enter Twitter Card"  @if(!empty($seo['twitterCard'])) value="{{ $seo['twitterCard'] }}" @endif>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="twitterTitle">Twitter: Title</label>
+                              <input type="text" class="form-control" name="twitterTitle" placeholder="Enter Twitter Title" @if(!empty($seo['twitterTitle'])) value="{{ $seo['twitterTitle'] }}" @endif>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="twitterDescription">Twitter: Description</label>
+                              <textarea class="form-control" name="twitterDescription" placeholder="Enter Twitter Description">@if(!empty($seo['twitterDescription'])) {{ $seo['twitterDescription'] }} @endif</textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="twitterImage">Twitter: Image</label>
+                              <input type="text" class="form-control" name="twitterImage" placeholder="Enter Twitter Image" @if(!empty($seo['twitterImage'])) value="{{ $seo['twitterImage'] }}" @endif>
+                            </div>
+                          </div>
                         </div>
                         <div class="form-group">
-                            <label for="salary">Salary Offered*</label>
-                            <input type="text" class="form-control" name="salary" placeholder="Rs.10,000-Rs.50,000" required @if(!empty($seo['salary'])) value="{{ $seo['salary'] }}" @endif>
+                          <label for="organization">Organization</label>
+                          <textarea class="form-control" name="organization" rows="4" placeholder="Enter Organization">@if(!empty($seo['organization'])) {{ $seo['organization'] }} @endif</textarea>
                         </div>
-        
+                        <div class="form-group">
+                            <label for="schema">Schema</label>
+                            <textarea class="form-control" name="schema" rows="4" placeholder="Enter Schema">@if(!empty($seo['schema'])) {{ $seo['schema'] }} @endif</textarea>
+                        </div>
                     </div>
                     <!-- /.card-body -->
 
@@ -129,4 +206,9 @@
   </div>
   <!-- /.content-wrapper -->
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+
 @endsection
+

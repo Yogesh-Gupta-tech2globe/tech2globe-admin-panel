@@ -131,3 +131,9 @@ Route::get('/admin/page/1', function () {
                     return view("include.preview")->with(compact('data'));
 
                 });
+                Route::get("/admin/page/121", function () {
+
+                    $data = ["pageName" => "SEO Page"];
+                    return view("seo-page", $data);
+
+                });

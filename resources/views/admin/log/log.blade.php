@@ -89,6 +89,8 @@
                                     {{$name->fname}} {{$name->lname}}
                                 @elseif($name->customer_name)
                                     {{$name->customer_name}}
+                                @elseif($name->page_url)
+                                    {{$name->page_url}}
                                 @elseif($name->question)
                                     {{ Str::limit($name->question, 20, ' ...') }}
                                 @elseif($name->blog_id)

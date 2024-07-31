@@ -540,7 +540,7 @@ use App\Models\AdminsRole;
             </li>
           @endif
 
-          @if(Auth::guard('admin')->user()->type == 'admin')
+          @if(AdminsRole::where(['admin_id'=>Auth::guard('admin')->user()->id,'module'=>'seo'])->count() != 0 || Auth::guard('admin')->user()->type == 'admin')
             @if(Session::get('page')=="seo")
               @php $active="active" @endphp
             @else

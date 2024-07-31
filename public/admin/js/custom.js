@@ -2124,6 +2124,88 @@ $(document).ready(function () {
             }
         });
     });
+
+    //SEO Status
+    // Update SEO Status
+    $(document).on("click", ".updateSeoPageStatus", function () {
+        var status = $(this).children("i").attr("status");
+        var seoPage_id = $(this).attr("seoPage_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "post",
+            url: "/admin/update-seoPage-status",
+            data: { status: status, seoPage_id: seoPage_id },
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#seoPage-" + seoPage_id).html("<i class='fas fa-toggle-off' style='color: grey' status='Inactive'></i>");
+                    toastr.success('Page Deactivated (Invisible in Google Index)');    
+                }
+                else if (resp['status'] == 1) {
+                    $("#seoPage-" + seoPage_id).html("<i class='fas fa-toggle-on' style='color: #007BFF' status='Active'></i>");
+                    toastr.success('Page Activated (Visible in Google Index)');    
+                }
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    // Add Edit SEO Form
+    $("#seoFormSubmit").submit(function (e) { 
+        e.preventDefault();
+
+         // Serialize the form data
+         var formData = new FormData(this);
+         var seoID = $("#seoID").val();
+
+        // Define the URL based on eventID
+        var url = (seoID === "" || seoID === null) ? "/admin/add-edit-seo" : "/admin/add-edit-seo/" + encodeURIComponent(seoID);
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to save it.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Save it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                 // Send AJAX request
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    processData: false,  // Prevent jQuery from processing the data
+                    contentType: false,  // Prevent jQuery from setting contentType
+                    success: function(response) {
+                        Swal.fire({
+                            title: "Saved!",
+                            text: "Your file has been saved.",
+                            icon: "success"
+                        });
+                        // toastr.success(response['message']);
+                        window.location.replace("/admin/seo");  
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        var a = JSON.parse(xhr.responseText);
+                        console.log(a);
+                        toastr.error(a.message);
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+        
+    });
     
 
     // $(function () {

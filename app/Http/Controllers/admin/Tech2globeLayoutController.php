@@ -1134,6 +1134,7 @@ class Tech2globeLayoutController extends Controller
             ->select('page_url', 'file_id')
             ->distinct()
             ->union(DB::table('tech2globe_header_sub_category')->select('page_url', 'file_id'))
+            ->union(DB::table('tech2globe_pages_category')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_all_pages')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_footer_sub_category')->select('page_url', 'file_id'))
             ->get()->toArray();
@@ -1162,7 +1163,7 @@ class Tech2globeLayoutController extends Controller
                 if($id==""){
                     $rules = [
                         'file_id' => 'required',
-                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url|unique:tech2globe_pages_category,page_url',
                     ];
         
                     $customMessages = [
@@ -1318,6 +1319,7 @@ class Tech2globeLayoutController extends Controller
             ->select('page_url', 'file_id')
             ->distinct()
             ->union(DB::table('tech2globe_header_sub_category')->select('page_url', 'file_id'))
+            ->union(DB::table('tech2globe_pages_category')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_all_pages')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_footer_sub_category')->select('page_url', 'file_id'))
             ->get()->toArray();
@@ -1347,7 +1349,7 @@ class Tech2globeLayoutController extends Controller
                 if($id==""){
                     $rules = [
                         'file_id' => 'required',
-                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url|unique:tech2globe_pages_category,page_url',
                     ];
         
                     $customMessages = [
@@ -1504,6 +1506,7 @@ class Tech2globeLayoutController extends Controller
             ->select('page_url', 'file_id')
             ->distinct()
             ->union(DB::table('tech2globe_header_sub_category')->select('page_url', 'file_id'))
+            ->union(DB::table('tech2globe_pages_category')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_all_pages')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_footer_sub_category')->select('page_url', 'file_id'))
             ->get()->toArray();
@@ -1536,7 +1539,7 @@ class Tech2globeLayoutController extends Controller
                 if($id==""){
                     $rules = [
                         'file_id' => 'required',
-                        'page_url' => 'required|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                        'page_url' => 'required|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url|unique:tech2globe_pages_category,page_url',
                     ];
         
                     $customMessages = [
@@ -1736,6 +1739,7 @@ class Tech2globeLayoutController extends Controller
             ->select('page_url', 'file_id')
             ->distinct()
             ->union(DB::table('tech2globe_header_sub_category')->select('page_url', 'file_id'))
+            ->union(DB::table('tech2globe_pages_category')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_all_pages')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_footer_sub_category')->select('page_url', 'file_id'))
             ->get()->toArray();
@@ -1766,7 +1770,7 @@ class Tech2globeLayoutController extends Controller
                 if($id==""){
                     $rules = [
                         'file_id' => 'required',
-                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url|unique:tech2globe_pages_category,page_url',
                     ];
         
                     $customMessages = [
@@ -2012,7 +2016,7 @@ class Tech2globeLayoutController extends Controller
     public function checkPageUrl(Request $request){
         $data = $request->all();
         
-        if(tech2globe_all_pages::where('page_url', $data['pageUrl'])->exists() || tech2globe_header_category::where('page_url', $data['pageUrl'])->exists() || tech2globe_header_sub_category::where('page_url', $data['pageUrl'])->exists() || layout::where('page_url', $data['pageUrl'])->exists()){
+        if(tech2globe_all_pages::where('page_url', $data['pageUrl'])->exists() || tech2globe_header_category::where('page_url', $data['pageUrl'])->exists() || tech2globe_header_sub_category::where('page_url', $data['pageUrl'])->exists() || tech2globe_pages_category::where('page_url', $data['pageUrl'])->exists() || tech2globe_footer_sub_category::where('page_url', $data['pageUrl'])->exists() || layout::where('page_url', $data['pageUrl'])->exists()){
             return false;
         }else{
             return true;
@@ -2029,6 +2033,7 @@ class Tech2globeLayoutController extends Controller
             ->select('page_url', 'file_id')
             ->distinct()
             ->union(DB::table('tech2globe_header_sub_category')->select('page_url', 'file_id'))
+            ->union(DB::table('tech2globe_pages_category')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_all_pages')->select('page_url', 'file_id'))
             ->union(DB::table('tech2globe_footer_sub_category')->select('page_url', 'file_id'))
             ->get()->toArray();
@@ -2129,7 +2134,7 @@ class Tech2globeLayoutController extends Controller
                 if($id==""){
                     $rules = [
                         'file_id' => 'required',
-                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url',
+                        'page_url' => 'required|max:35|unique:tech2globe_all_pages,page_url|unique:tech2globe_header_category,page_url|unique:tech2globe_header_sub_category,page_url|unique:tech2globe_pages_category,page_url',
                     ];
         
                     $customMessages = [

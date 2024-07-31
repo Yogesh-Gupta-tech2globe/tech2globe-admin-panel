@@ -61,45 +61,79 @@
                         <thead>
                         <tr>
                           <th>S.No</th>
-                          <th>Menu</th>
+                          <th>Page Url</th>
+                          <th>Page Title</th>
                           <th>View Page</th>
-                          <th>Created At</th>
                           <th>Updated At</th>
                           <th>Action</th>
                         </tr>
                         </thead>
-                        {{-- <tbody>
-                          <?php $i=1;?>
-                            @foreach($mainMenu as $row)
+                        <tbody>
+                            @foreach($seo as $row)
                               <tr>
-                                <td>{{ $i++; }}</td>
-                                <td>{{ $row['categoryName'] }}</td>
-                                <td>@if(!empty($row['page_url']))<a target="blank" href="/{{ $row['page_url'] }}">View Page</a>@endif</td>
-                                <td>{{ date('d-m-Y', strtotime($row['created_at'])) }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $row['page_url'] }}</td>
+                                <td>{{ $row['pageTitle'] }}</td>
+                                <td>@if(!empty($row['page_url']))<a target="blank" href="{{ url($row['page_url']) }}">View Page</a>@endif</td>
                                 <td>{{ date('d-m-Y', strtotime($row['updated_at'])) }}</td>
                                 <td>
                                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
                                     @if ($row['status']==1)
-                                      <a class="updateMainMenuStatus" id="mainMenu-{{ $row['id'] }}" mainMenu_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
+                                      <a class="updateSeoPageStatus" id="seoPage-{{ $row['id'] }}" seoPage_id="{{ $row['id'] }}" href="javascript:void(0)"><i class="fas fa-toggle-on" status="Active"></i></a>
                                     @else
-                                      <a class="updateMainMenuStatus" id="mainMenu-{{ $row['id'] }}" mainMenu_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
+                                      <a class="updateSeoPageStatus" id="seoPage-{{ $row['id'] }}" seoPage_id="{{ $row['id'] }}" style="color: grey;" href="javascript:void(0)"><i class="fas fa-toggle-off" status="Inactive"></i></a>
                                     @endif
                                     &nbsp;&nbsp;
                                   @endif
                                   @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
-                                    <a href="{{ url('admin/tech2globe-layout/add-edit-main-menu/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ url('admin/add-edit-seo/'.$row['id']) }}"><i class="fas fa-edit"></i></a>
                                     &nbsp;&nbsp;
                                   @endif
                                 </td>
                               </tr>
                             @endforeach
-                        </tbody> --}}
+                        </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
             </div> 
             
+          </div>
+
+          <div class="col-md-12">
+            <div class="card card-primary card-outline"> 
+              <div class="card-header d-flex justify-content-between">
+                <a class="d-inline-block w-100 border-0">
+                  <h4 class="card-title">
+                      Manage SEO Content same in all Pages
+                  </h4>
+                </a>
+              </div>
+              <form action="{{ url('admin/seo-update-static') }}" method="POST">@csrf
+                <div class="card-body">
+                  <table border width="100%">
+                    <tr>
+                      <td>msvalidate.01</td>
+                      <td><input type="text" class="form-control" name="msvalidate" @if(!empty($seoStatic['msvalidate'])) value="{{$seoStatic['msvalidate']}}" @endif></td>
+                    </tr>
+                    <tr>
+                      <td>Google Site Verification</td>
+                      <td><input type="text" class="form-control" name="google-site-verification" @if(!empty($seoStatic['google_site_verification'])) value="{{$seoStatic['google_site_verification']}}" @endif></td>
+                    </tr>
+                    <tr>
+                      <td>Google Analytics Tracking Code</td>
+                      <td><textarea class="form-control" rows="10" name="google-tracking-code">@if(!empty($seoStatic['google_tracking_code'])) {{$seoStatic['google_tracking_code']}} @endif</textarea></td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="card-footer">
+                  @if ($pagesModule['edit_access']==1 || $pagesModule['full_access']==1)
+                  <button class="btn btn-primary">Update</button>
+                  @endif
+                </div>
+              </form>
+            </div> 
           </div>
       </div>
       
