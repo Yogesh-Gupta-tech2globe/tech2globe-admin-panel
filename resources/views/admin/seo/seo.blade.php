@@ -125,6 +125,22 @@
                       <td>Google Analytics Tracking Code</td>
                       <td><textarea class="form-control" rows="10" name="google-tracking-code">@if(!empty($seoStatic['google_tracking_code'])) {{$seoStatic['google_tracking_code']}} @endif</textarea></td>
                     </tr>
+                    <tr>
+                      <td>Geo Region</td>
+                      <td><input type="text" class="form-control" name="geo_region" @if(!empty($seoStatic['geo_region'])) value="{{$seoStatic['geo_region']}}" @endif></td>
+                    </tr>
+                    <tr>
+                      <td>Geo Place name</td>
+                      <td><input type="text" class="form-control" name="geo_placename" @if(!empty($seoStatic['geo_placename'])) value="{{$seoStatic['geo_placename']}}" @endif></td>
+                    </tr>
+                    <tr>
+                      <td>Geo Position</td>
+                      <td><input type="text" class="form-control" name="geo_position" @if(!empty($seoStatic['geo_position'])) value="{{$seoStatic['geo_position']}}" @endif></td>
+                    </tr>
+                    <tr>
+                      <td>ICBM</td>
+                      <td><input type="text" class="form-control" name="icbm" @if(!empty($seoStatic['icbm'])) value="{{$seoStatic['icbm']}}" @endif></td>
+                    </tr>
                   </table>
                 </div>
                 <div class="card-footer">

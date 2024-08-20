@@ -183,13 +183,13 @@ class JobsController extends Controller
             $data = $request->all();
         
             $rules = [
-                'title' => 'required',
-                'industry' => 'required',
-                'designation' => 'required',
+                'title' => 'required|regex:/^[a-zA-Z]+(\s+[a-zA-Z]+)*$/',
+                'industry' => 'required|regex:/^[a-zA-Z]+(\s+[a-zA-Z]+)*$/',
+                'designation' => 'required|regex:/^[a-zA-Z]+(\s+[a-zA-Z]+)*$/',
                 'country' => 'required',
                 'job_profile' => 'required',
                 'skills' => 'required',
-                'posted_on' => 'required',
+                'posted_on' => 'required|date|after:today',
                 'positions' => 'required',
                 'experience' => 'required',
                 'qualification' => 'required',
@@ -198,12 +198,17 @@ class JobsController extends Controller
 
             $customMessages = [
                 'title.required' => 'Job Title is required',
+                'title.regex' => 'Job Title should have only Alphabetic charaters',
                 'industry.required' => 'Industry is required',
+                'industry.regex' => 'Industry should have only Alphabetic charaters',
                 'designation.required' => 'Designation is required',
+                'designation.regex' => 'Designation should have only Alphabetic charaters',
                 'country.required' => 'Country is required',
                 'job_profile.required' => 'Job Profile is required',
                 'skills.required' => 'Skills is required',
                 'posted_on.required' => 'Posted On is required',
+                'posted_on.date' => 'Published Date is not a valid date',
+                'posted_on.after' => 'Published Date should be greater than Today Date',
                 'positions.required' => 'Positions is required',
                 'experience.required' => 'Experience is required',
                 'qualification.required' => 'Qualification is required',

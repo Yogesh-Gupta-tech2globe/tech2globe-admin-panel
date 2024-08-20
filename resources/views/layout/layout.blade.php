@@ -32,6 +32,19 @@ $seoStatic = App\Models\seo_static::where('id',1)->first();
 @endphp
 
 {!! $seoStatic['google_tracking_code'] !!}
+
+@if (!empty($seoStatic['geo_region']))
+  <meta name="geo.region" content="{{$seoStatic['geo_region']}}" />
+@endif
+@if (!empty($seoStatic['geo_placename']))
+  <meta name="geo.placename" content="{{$seoStatic['geo_placename']}}" />
+@endif
+@if (!empty($seoStatic['geo_position']))
+  <meta name="geo.position" content="{{$seoStatic['geo_position']}}" />
+@endif
+@if (!empty($seoStatic['icbm']))
+  <meta name="ICBM" content="{{$seoStatic['icbm']}}" />
+@endif
   
 
   @include('layout.header')

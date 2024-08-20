@@ -144,14 +144,16 @@ class TestimonialController extends Controller
             $data = $request->all();
             
             $rules = [
-                'name' => 'required',
-                'info' => 'required',
+                'name' => 'required|regex:/^[a-zA-Z]+(\s+[a-zA-Z]+)*$/',
+                'info' => 'required|regex:/^[a-zA-Z]+(\s+[a-zA-Z]+)*$/',
                 'type' => 'required',
             ];
 
             $customMessages = [
                 'name.required' => 'Customer Name is required',
+                'name.regex' => 'Customer Name should have only Alphabetic charaters',
                 'info.required' => 'Customer Info required',
+                'info.regex' => 'Customer Info should have only Alphabetic charaters',
                 'type.required' => 'Please choose type of Testimonial',
             ];
 

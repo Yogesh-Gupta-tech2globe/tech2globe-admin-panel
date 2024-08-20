@@ -122,6 +122,7 @@
                                         @for ($i=1; $i<=5; $i++)
                                             <option value="{{$i}}" @if($i == $job['num_of_post']) selected @endif>{{$i}}</option>
                                         @endfor
+                                        <option value="{{"5+"}}" @if("5+" == $job['num_of_post']) selected @endif>{{"5+"}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -135,6 +136,7 @@
                                         @for ($i=1; $i<=10; $i++)
                                             <option value="{{$i}}" @if($i == $job['experience']) selected @endif>{{$i}}</option>
                                         @endfor
+                                        <option value="10+" @if($job['experience'] == "10+") selected @endif>10+</option>
                                     </select>
                                 </div>
                             </div>

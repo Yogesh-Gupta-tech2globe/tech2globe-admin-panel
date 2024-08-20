@@ -78,13 +78,14 @@ class EventController extends Controller
 
             if($id==""){
                 $rules = [
-                    'name' => 'required|max:30',
+                    'name' => 'required|max:30|alpha_num',
                     'image' => 'required|image|max:100',
                 ];
     
                 $customMessages = [
                     'name.required' => 'Event Category Name is required',
                     'name.max' => 'Maximum 30 characters are allowed for Name',
+                    'name.alpha_num' => 'Only Alpha Numeric characters are allowed in Event Name',
                     'image.required' => 'Image is required',
                     'image.image' => 'Only Images are allowed',
                     'image.max' => 'Image should not be greater than 100 Kb',
@@ -217,7 +218,7 @@ class EventController extends Controller
             }
         
             $rules = [
-                'title' => 'required|max:30',
+                'title' => 'required|max:30|alpha_num',
                 'category_id' => 'required',
                 'year' => 'required',
                 'cover_image' => 'image|max:100',
@@ -227,6 +228,7 @@ class EventController extends Controller
             $customMessages = [
                 'title.required' => 'Event Title is required',
                 'title.max' => 'Maximum 30 characters are allowed for Event Title',
+                'title.alpha_num' => 'Only Alpha Numeric characters are allowed in Event Title',
                 'category_id.required' => 'Event category is required',
                 'year.required' => 'Year is required',
                 'cover_image.image' => 'Only Images are allowed in cover image field',

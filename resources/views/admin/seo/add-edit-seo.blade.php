@@ -83,12 +83,12 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="pageTitle">Page Title*</label>
-                            <input type="text" class="form-control" name="pageTitle" placeholder="Enter Page Title" required @if(!empty($seo['pageTitle'])) value="{{ $seo['pageTitle'] }}" @endif>
+                            <label for="pageTitle">Page Title* <span style="opacity: 0.5">(Should Have Characters B/W 50-60)</span></label>
+                            <input type="text" class="form-control" name="pageTitle" placeholder="Enter Page Title" required maxlength="60" @if(!empty($seo['pageTitle'])) value="{{ $seo['pageTitle'] }}" @endif>
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" name="description" rows="4" placeholder="Enter Description">@if(!empty($seo['description'])) {{ $seo['description'] }} @endif</textarea>
+                            <label for="description">Description <span style="opacity: 0.5">(Should Have Characters B/W 150-160)</span></label>
+                            <textarea class="form-control" name="description" rows="4" placeholder="Enter Description" maxlength="160">@if(!empty($seo['description'])) {{ $seo['description'] }} @endif</textarea>
                         </div>
                         <div class="form-group">
                             <label for="keywords">Keywords</label>

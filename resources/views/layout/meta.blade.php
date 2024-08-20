@@ -33,7 +33,7 @@ $seoStatic = App\Models\seo_static::where('id',1)->first();
 if(!empty($data)){
 	$pageTitle = $data['pageTitle'];
 	$metaTags = $data['description'];
-	$keyWords = $data['keyWords'];
+	$keyWords = $data['keywords'];
 	$canonical_url = $data['canonicalUrl'];
 	$Ogtitles = $data['ogTitle'];
 	$Ognames = $data['ogSitename'];

@@ -83,12 +83,17 @@ class SeoController extends Controller
         
             $rules = [
                 'page_url' => 'required',
-                'pageTitle' => 'required',
+                'pageTitle' => 'required|min:50|max:60',
+                'description' => 'nullable|min:150|max:160',
             ];
 
             $customMessages = [
                 'page_url.required' => 'Please select Page Url',
                 'pageTitle.required' => 'Page Title is required',
+                'pageTitle.min' => 'Page Title should have minimum 50 characters are allowed.',
+                'pageTitle.max' => 'Page Title should have maximum 60 characters are allowed.',
+                'description.min' => 'Description should have minimum 150 characters are allowed.',
+                'description.max' => 'Description should have maximum 160 characters are allowed.',
             ];
 
             $this->validate($request,$rules,$customMessages);
@@ -157,6 +162,10 @@ class SeoController extends Controller
             $seo->msvalidate = $data['msvalidate'];
             $seo->google_site_verification = $data['google-site-verification'];
             $seo->google_tracking_code = $data['google-tracking-code'];
+            $seo->geo_region = $data['geo_region'];
+            $seo->geo_placename = $data['geo_placename'];
+            $seo->geo_position = $data['geo_position'];
+            $seo->icbm = $data['icbm'];
             if($seo->save()){
                 activity('Update')
                 ->performedOn($seo)
